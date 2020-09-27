@@ -26,7 +26,7 @@ export function iterationSuites(inputSizes: readonly number[]): readonly Benchma
       .add(
           'for ... of *generator()',
           function (this: BenchContext) {
-            for (const element of this.generator(this.data.input)) {
+            for (const element of this.data.generator()) {
               this.data.report(element);
             }
           },
@@ -34,7 +34,7 @@ export function iterationSuites(inputSizes: readonly number[]): readonly Benchma
       .add(
           'for ... of iterable()',
           function (this: BenchContext) {
-            for (const element of this.iterable(this.data.input)) {
+            for (const element of this.data.iterable()) {
               this.data.report(element);
             }
           },
@@ -49,6 +49,18 @@ export function iterationSuites(inputSizes: readonly number[]): readonly Benchma
           'itsEach(overArray([...]))',
           function (this: BenchContext) {
             itsEach(overArray(this.data.input), element => this.data.report(element));
+          },
+      )
+      .add(
+          'itsEach(*generator())',
+          function (this: BenchContext) {
+            itsEach(this.data.generator(), element => this.data.report(element));
+          },
+      )
+      .add(
+          'itsEach(iterable())',
+          function (this: BenchContext) {
+            itsEach(this.data.iterable(), element => this.data.report(element));
           },
       )
       .add(

@@ -24,27 +24,6 @@ export class BenchFactory {
 
             setup(this: BenchContext) {
               this.data = this.newData();
-              this.generator = function *(input: Iterable<string>): IterableIterator<string> {
-                for (const element of input) {
-                  yield element;
-                }
-              };
-              this.iterable = function (input: Iterable<string>): Iterable<string> {
-                return {
-
-                  [Symbol.iterator]: () => {
-
-                    const it = input[Symbol.iterator]();
-
-                    return {
-                      next() {
-                        return it.next();
-                      },
-                    };
-                  },
-
-                };
-              };
             },
 
             onCycle() {
