@@ -29,20 +29,70 @@ export interface PushIterator<T> extends IterableIterator<T> {
 }
 
 /**
- * Checks whether the given iterator implements push iteration protocol.
- *
- * @param iterator  Target iterator to check.
- *
- * @returns `true` if `iterator` has {@link PushIterator.forNext forNext} method, or `false` otherwise.
+ * @internal
  */
-export function isPushIterator<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
-  return !!(iterator as PushIterator<T>).forNext;
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export function PushIterator__next<T>(this: PushIterator<T>): IteratorResult<T> {
+
+  const result: {
+    value?: T;
+    done?: boolean;
+  } = {};
+
+  result.done = !this.forNext(element => {
+    result.value = element;
+    return false;
+  });
+
+  return result as IteratorResult<T>;
 }
 
 /**
  * @internal
  */
 const PushIterator__noneForNext = (): false => false;
+
+export const PushIterator = {
+
+  /**
+   * Checks whether the given iterator implements push iteration protocol.
+   *
+   * @param iterator  Target iterator to check.
+   *
+   * @returns `true` if `iterator` has {@link PushIterator.forNext forNext} method, or `false` otherwise.
+   */
+  is<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
+    return !!(iterator as PushIterator<T>).forNext;
+  },
+
+  /**
+   * Constructs push iterator implementation.
+   *
+   * @param forNext  A function iterating over element conforming to {@link PushIterator.forNext} requirement.
+   *
+   * @returns New push iterator instance performing iteration by `forNext` function.
+   */
+  by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
+
+    const result: PushIterator<T> = {
+      [Symbol.iterator]: () => result,
+      next: PushIterator__next,
+      forNext: accept => {
+
+        const hasMore = forNext(accept);
+
+        if (!hasMore) {
+          forNext = PushIterator__noneForNext;
+        }
+
+        return hasMore;
+      },
+    };
+
+    return result;
+  },
+
+};
 
 /**
  * Starts iteration over the given `iterable`.
@@ -56,52 +106,21 @@ export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIte
 
   const it = iterable[Symbol.iterator]();
 
-  if (isPushIterator(it)) {
+  if (PushIterator.is(it)) {
     return it;
   }
 
-  let forNext = (accept: (this: void, element: T) => boolean | void): boolean => {
+  return PushIterator.by((accept: (this: void, element: T) => boolean | void): boolean => {
     for (;;) {
 
       const res = it.next();
 
       if (res.done) {
-        forNext = PushIterator__noneForNext;
         return false;
       }
-
       if (accept(res.value) === false) {
         return true;
       }
     }
-  };
-
-  const result: PushIterator<T> = {
-
-    [Symbol.iterator]() {
-      return result;
-    },
-
-    next() {
-
-      const result: {
-        value?: T;
-        done?: boolean;
-      } = {};
-
-      result.done = !forNext(element => {
-        result.value = element;
-        return false;
-      });
-
-      return result as IteratorResult<T>;
-    },
-
-    forNext(accept): boolean {
-      return forNext(accept);
-    },
-
-  };
-
-  return result;
+  });
 }
