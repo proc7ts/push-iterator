@@ -27,9 +27,6 @@
       "import": "./dist/push-iterator.mjs"
     }
   },
-  "dependencies": {
-    "@proc7ts/primitives": "^1.2.0"
-  },
   "devDependencies": {
     "@proc7ts/eslint-config": "^2.0.5",
     "@proc7ts/rollup-helpers": "^1.0.0",
