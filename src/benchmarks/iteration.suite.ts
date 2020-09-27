@@ -1,12 +1,13 @@
 import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
+import { itsIterator } from '../push-iterator';
 import { BenchFactory } from './bench-factory';
 
 export function iterationSuites(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
       .add(
-          'for ... in [...]',
+          'for ... of [...]',
           data => {
             for (const element of data.input) {
               data.report(element);
@@ -14,9 +15,25 @@ export function iterationSuites(inputSizes: readonly number[]): readonly Benchma
           },
       )
       .add(
-          'for ... in *generator()',
+          '[...].forEach(...)',
           data => {
-            for (const element of data.values()) {
+            data.input.forEach(element => {
+              data.report(element);
+            });
+          },
+      )
+      .add(
+          'for ... of *generator()',
+          data => {
+            for (const element of data.generator()) {
+              data.report(element);
+            }
+          },
+      )
+      .add(
+          'for ... of iterable()',
+          data => {
+            for (const element of data.iterable()) {
               data.report(element);
             }
           },
@@ -34,15 +51,19 @@ export function iterationSuites(inputSizes: readonly number[]): readonly Benchma
           },
       )
       .add(
-          'for ... in overArray([...])',
+          'for ... of overArray([...])',
           data => {
-            itsEach(overArray(data.input), element => data.report(element));
+            for (const element of overArray(data.input)) {
+              data.report(element);
+            }
           },
       )
       .add(
-          'for ... in itsIterator([...])',
+          'for ... of itsIterator([...])',
           data => {
-            itsEach(overArray(data.input), element => data.report(element));
+            for (const element of itsIterator(data.input)) {
+              data.report(element);
+            }
           },
       )
       .suites('Iteration', inputSizes);
