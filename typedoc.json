@@ -1,0 +1,13 @@
+{
+  "disableAutoModuleName": true,
+  "exclude": [
+    "**/index.ts",
+    "**/*.impl.ts",
+    "**/*.spec.ts"
+  ],
+  "excludeNotExported": true,
+  "mode": "modules",
+  "name": "Push Iterator",
+  "out": "./target/typedoc",
+  "tsconfig": "tsconfig.main.json"
+}
