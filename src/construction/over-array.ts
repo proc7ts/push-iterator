@@ -6,7 +6,7 @@ import type { PushIterable } from '../push-iterable';
 import { PushIterator } from '../push-iterator';
 
 /**
- * Builds a {@link PushIterable push iterable} over elements of array-like structure.
+ * Creates a {@link PushIterable push iterable} over elements of array-like structure.
  *
  * @typeParam T  Array elements type.
  * @param array  An array-like structure. E.g. `Array`, DOM `NodeList`, etc.

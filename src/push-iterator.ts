@@ -31,25 +31,6 @@ export interface PushIterator<T> extends IterableIterator<T> {
 /**
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export function PushIterator__next<T>(this: PushIterator<T>): IteratorResult<T> {
-
-  const result: {
-    value?: T;
-    done?: boolean;
-  } = {};
-
-  result.done = !this.forNext(element => {
-    result.value = element;
-    return false;
-  });
-
-  return result as IteratorResult<T>;
-}
-
-/**
- * @internal
- */
 const PushIterator__noneForNext = (): false => false;
 
 export const PushIterator = {
@@ -74,9 +55,31 @@ export const PushIterator = {
    */
   by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
 
+    let next = (): IteratorResult<T> => {
+
+      for (; ;) {
+
+        let result: IteratorYieldResult<T> | undefined;
+        const done = !forNext(value => {
+          result = { value };
+          return false;
+        });
+
+        if (done) {
+          next = () => ({ done: true } as IteratorResult<T>);
+          if (!result) {
+            return next();
+          }
+        }
+        if (result) {
+          return result;
+        }
+      }
+    };
+
     const result: PushIterator<T> = {
       [Symbol.iterator]: () => result,
-      next: PushIterator__next,
+      next: () => next(),
       forNext: accept => {
 
         const hasMore = forNext(accept);
