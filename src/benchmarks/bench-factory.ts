@@ -65,7 +65,7 @@ export class BenchFactory {
     for (const inputSize of inputSizes) {
 
       const suite = new Benchmark.Suite(
-          `${chalk.cyan(name)} ${chalk.grey('(' + chalk.green(String(inputSize)) + ' times)')}`,
+          `${chalk.cyan(name)} ${chalk.grey('(' + chalk.green(String(inputSize)) + ' items)')}`,
       );
 
       for (const bench of this._benches) {
