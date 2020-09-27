@@ -4,6 +4,7 @@
     "module": "ES2015",
     "target": "ES2018",
     "strict": true,
+    "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
@@ -16,7 +17,8 @@
       "ES2018"
     ],
     "types": [
-      "jest"
+      "jest",
+      "node"
     ],
     "outDir": "target/js",
     "sourceMap": true,
