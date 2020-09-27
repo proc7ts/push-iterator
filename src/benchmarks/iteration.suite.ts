@@ -2,67 +2,68 @@ import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { itsIterator } from '../push-iterator';
+import type { BenchContext } from './bench-context';
 import { BenchFactory } from './bench-factory';
 
 export function iterationSuites(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
       .add(
           'for ... of [...]',
-          data => {
-            for (const element of data.input) {
-              data.report(element);
+          function (this: BenchContext) {
+            for (const element of this.data.input) {
+              this.data.report(element);
             }
           },
       )
       .add(
           '[...].forEach(...)',
-          data => {
-            data.input.forEach(element => {
-              data.report(element);
+          function (this: BenchContext) {
+            this.data.input.forEach(element => {
+              this.data.report(element);
             });
           },
       )
       .add(
           'for ... of *generator()',
-          data => {
-            for (const element of data.generator()) {
-              data.report(element);
+          function (this: BenchContext) {
+            for (const element of this.generator(this.data.input)) {
+              this.data.report(element);
             }
           },
       )
       .add(
           'for ... of iterable()',
-          data => {
-            for (const element of data.iterable()) {
-              data.report(element);
+          function (this: BenchContext) {
+            for (const element of this.iterable(this.data.input)) {
+              this.data.report(element);
             }
           },
       )
       .add(
           'itsEach([...])',
-          data => {
-            itsEach(data.input, element => data.report(element));
+          function (this: BenchContext) {
+            itsEach(this.data.input, element => this.data.report(element));
           },
       )
       .add(
           'itsEach(overArray([...]))',
-          data => {
-            itsEach(overArray(data.input), element => data.report(element));
+          function (this: BenchContext) {
+            itsEach(overArray(this.data.input), element => this.data.report(element));
           },
       )
       .add(
           'for ... of overArray([...])',
-          data => {
-            for (const element of overArray(data.input)) {
-              data.report(element);
+          function (this: BenchContext) {
+            for (const element of overArray(this.data.input)) {
+              this.data.report(element);
             }
           },
       )
       .add(
           'for ... of itsIterator([...])',
-          data => {
-            for (const element of itsIterator(data.input)) {
-              data.report(element);
+          function (this: BenchContext) {
+            for (const element of itsIterator(this.data.input)) {
+              this.data.report(element);
             }
           },
       )

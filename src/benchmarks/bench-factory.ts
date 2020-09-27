@@ -1,5 +1,6 @@
 import Benchmark from 'benchmark';
 import chalk from 'chalk';
+import type { BenchContext } from './bench-context';
 import { BenchData } from './bench-data';
 
 export class BenchFactory {
@@ -8,7 +9,7 @@ export class BenchFactory {
 
   add(
       name: string,
-      fn: (data: BenchData) => void,
+      fn: (this: BenchContext) => void,
       createData: (inputSize: number) => BenchData = inputSize => new BenchData(inputSize),
   ): this {
     this._benches.push((suite, inputSize) => {
@@ -17,17 +18,39 @@ export class BenchFactory {
 
       suite.add(
           name,
-          function (this: any) {
-            fn(this.data);
-          },
+          fn,
           {
             newData,
-            setup() {
+
+            setup(this: BenchContext) {
               this.data = this.newData();
+              this.generator = function *(input: Iterable<string>): IterableIterator<string> {
+                for (const element of input) {
+                  yield element;
+                }
+              };
+              this.iterable = function (input: Iterable<string>): Iterable<string> {
+                return {
+
+                  [Symbol.iterator]: () => {
+
+                    const it = input[Symbol.iterator]();
+
+                    return {
+                      next() {
+                        return it.next();
+                      },
+                    };
+                  },
+
+                };
+              };
             },
+
             onCycle() {
               this.data = this.newData();
             },
+
           } as any,
       );
     });

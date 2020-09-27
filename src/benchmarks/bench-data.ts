@@ -22,29 +22,6 @@ export class BenchData {
     }
   }
 
-  *generator(): IterableIterator<string> {
-    for (const element of this.input) {
-      yield element;
-    }
-  }
-
-  iterable(): Iterable<string> {
-    return {
-
-      [Symbol.iterator]: () => {
-
-        const it = this.input[Symbol.iterator]();
-
-        return {
-          next() {
-            return it.next();
-          },
-        };
-      },
-
-    };
-  }
-
   report(result: string): void {
     this.output[this._index++] = result;
   }
