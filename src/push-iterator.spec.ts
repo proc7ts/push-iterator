@@ -51,6 +51,17 @@ describe('itsIterator', () => {
 
       expect(result).toEqual(array.slice(1));
     });
+    it('does not iterate after the end', () => {
+
+      const it = itsIterator(array);
+      const result: typeof array = [];
+
+      expect(it.forNext(() => {/* noop */})).toBe(false);
+      expect(it.forNext(element => {
+        result.push(element);
+      })).toBe(false);
+      expect(result).toHaveLength(0);
+    });
   });
 
   describe('[Symbol.iterator]', () => {
