@@ -2,14 +2,14 @@ import type Benchmark from 'benchmark';
 import { iterationSuites } from './iteration.suite';
 
 const PRECISION = 2;
-const inputSizes = [10, 100];
+const INPUT_SIZES = [10, 100, 1000];
 
 run().catch((event: any) => {
   console.error('ERROR', event.target.name, event.target.error);
 });
 
 async function run(): Promise<void> {
-  await runSuites(iterationSuites(inputSizes));
+  await runSuites(iterationSuites(INPUT_SIZES));
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
@@ -22,7 +22,7 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
     const results: any[] = [];
 
     const options: Benchmark.Options = {
-      maxTime: 1,
+      initCount: 15,
     };
 
     suite.on('start', ({ currentTarget: { name } }: any) => console.log(`\n${name}`));
