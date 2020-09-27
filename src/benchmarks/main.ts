@@ -1,7 +1,7 @@
 import type Benchmark from 'benchmark';
 import { iterationSuites } from './iteration.suite';
 
-const PRECISION = 2;
+const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
 
 run().catch((event: any) => {
@@ -29,23 +29,23 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
     suite.on(
         'cycle',
         ({ target: { name, hz, stats = {} as Benchmark.Stats } }: Benchmark.Event) => results.push({
-          name: name,
-          hz: hz,
-          'margin of error': `±${Number(stats.rme).toFixed(2)}%`,
-          'runs sampled': stats.sample.length,
+          name,
+          Hz: hz,
+          MoE: `±${Number(stats.rme).toFixed(2)}%`,
+          '# sampled': stats.sample.length,
         }),
     );
     suite.on('complete', function (this: any) {
 
-      const highestHz = results.slice().sort((a, b) => b.hz - a.hz)[0].hz;
+      const highestHz = results.slice().sort((a, b) => b.Hz - a.Hz)[0].Hz;
 
       console.table(
           results
-              .sort((a, b) => b.hz - a.hz)
+              .sort((a, b) => b.Hz - a.Hz)
               .map(result => ({
                 ...result,
-                hz: Math.round(result.hz).toLocaleString(),
-                'x slower': Math.round((10 ** PRECISION * highestHz) / result.hz) / 10 ** PRECISION,
+                Hz: Math.round(result.Hz).toLocaleString(),
+                'x slower': Math.round((10 ** PRECISION * highestHz) / result.Hz) / 10 ** PRECISION,
               }))
               .sort((a, b) => a.INPUT_SIZE - b.INPUT_SIZE)
               .reduce((acc, { name, ...cur }) => ({ ...acc, [name]: cur }), {}),
