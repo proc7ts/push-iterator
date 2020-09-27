@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterable } from './push-iterable';
+import type { PushIterable } from './push-iterable';
 
 /**
  * Iterator implementing push iteration protocol.

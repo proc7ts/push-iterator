@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterable } from '../push-iterable';
-import { PushIterator } from '../push-iterator';
+import type { PushIterable } from '../push-iterable';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * @internal
@@ -18,7 +18,6 @@ const noneIterator = {
  * Returns a {@link PushIterator push iterable iterator} without elements.
  *
  * @typeParam T  Iterated elements type.
- * @typeparam T  A type of constructed iterable elements.
  *
  * @returns Empty push iterable and push iterator instance.
  */
