@@ -1,5 +1,6 @@
 import type Benchmark from 'benchmark';
 import { arrayFilterSuite, iterableFilterSuite } from './filter.suite';
+import { arrayFlatMapSuite, iterableFlatMapSuite } from './flat-map.suite';
 import { arrayIterationSuite, iterableIterationSuite } from './iteration.suite';
 import { arrayMapThenFilterSuite, iterableMapThenFilterSuite } from './map-then-filter.suite';
 import { arrayMapSuite, iterableMapSuite } from './map.suite';
@@ -34,6 +35,15 @@ async function run(): Promise<void> {
   await runSuites(iterableMapThenFilterSuite(1, 2, INPUT_SIZES));
   await runSuites(iterableMapThenFilterSuite(1, 10, INPUT_SIZES));
   await runSuites(iterableMapThenFilterSuite(9, 10, INPUT_SIZES));
+
+  await runSuites(arrayFlatMapSuite(1, INPUT_SIZES));
+  await runSuites(arrayFlatMapSuite(4, INPUT_SIZES));
+  await runSuites(arrayFlatMapSuite(32, INPUT_SIZES));
+
+  await runSuites(iterableFlatMapSuite(1, INPUT_SIZES));
+  await runSuites(iterableFlatMapSuite(4, INPUT_SIZES));
+  await runSuites(iterableFlatMapSuite(32, INPUT_SIZES));
+
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
