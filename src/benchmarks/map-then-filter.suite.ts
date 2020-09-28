@@ -66,7 +66,7 @@ export function iterableMapThenFilterSuite(
 ): readonly Benchmark.Suite[] {
   return new FilterBenchFactory(rate, outOf)
       .add(
-          'for ... of *generatorFilter(generatorMap(iterable))',
+          'for ... of *generatorFilter(*generatorMap(iterable))',
           function (this: BenchContext<FilterBenchData>) {
             for (const element of generatorFilter(
                 generatorMap(this.data.iterable(), el => el + '!'),

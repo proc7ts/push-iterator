@@ -18,7 +18,7 @@ export function arrayFlatMapSuite(itemSize: number, inputSizes: readonly number[
           },
       )
       .add(
-          'for ... of generatorFlatMap([...])',
+          'for ... of *generatorFlatMap([...])',
           function (this: BenchContext<FlatMapBenchData>) {
             for (const element of generatorFlatMap(this.data.input, el => this.data.subItems(el))) {
               this.data.report(element);
@@ -40,7 +40,7 @@ export function arrayFlatMapSuite(itemSize: number, inputSizes: readonly number[
 export function iterableFlatMapSuite(itemSize: number, inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new FlatMapBenchFactory(itemSize)
       .add(
-          'for ... of generatorFlatMap(iterable)',
+          'for ... of *generatorFlatMap(iterable)',
           function (this: BenchContext<FlatMapBenchData>) {
             for (const element of generatorFlatMap(this.data.iterable(), el => this.data.subItems(el))) {
               this.data.report(element);
