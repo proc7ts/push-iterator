@@ -33,4 +33,10 @@ describe('overArray', () => {
     })).toBe(false);
     expect(result).toEqual(array.slice(1));
   });
+
+  describe('[Symbol.iterator]', () => {
+    it('iterates over array elements', () => {
+      expect([...overArray(array)]).toEqual(array);
+    });
+  });
 });

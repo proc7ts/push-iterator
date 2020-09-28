@@ -4,7 +4,7 @@
  */
 import { arrayIterator } from './array-iterator.impl';
 import type { PushIterable } from './push-iterable';
-import { pushIteratorBy } from './push-iterator.impl';
+import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -51,7 +51,11 @@ export const PushIterator = {
    * @returns New push iterator instance performing iteration by `forNext` function.
    */
   by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
-    return pushIteratorBy(forNext);
+    return {
+      [Symbol.iterator]: PushIterator$iterator,
+      next: PushIterator$next,
+      forNext,
+    };
   },
 
 };
