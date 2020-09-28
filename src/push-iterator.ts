@@ -79,17 +79,27 @@ export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIte
     return it;
   }
 
-  return PushIterator.by((accept: (this: void, element: T) => boolean | void): boolean => {
-    for (;;) {
+  return {
 
-      const res = it.next();
+    [Symbol.iterator]: PushIterator$iterator,
 
-      if (res.done) {
-        return false;
+    next() {
+      return it.next();
+    },
+
+    forNext(accept) {
+      for (; ;) {
+
+        const res = it.next();
+
+        if (res.done) {
+          return false;
+        }
+        if (accept(res.value) === false) {
+          return true;
+        }
       }
-      if (accept(res.value) === false) {
-        return true;
-      }
-    }
-  });
+    },
+
+  };
 }
