@@ -1,6 +1,7 @@
 import type Benchmark from 'benchmark';
 import { arrayFilterSuite, iterableFilterSuite } from './filter.suite';
 import { arrayIterationSuite, iterableIterationSuite } from './iteration.suite';
+import { arrayMapSuite, iterableMapSuite } from './map.suite';
 
 const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
@@ -20,6 +21,9 @@ async function run(): Promise<void> {
   await runSuites(iterableFilterSuite(1, 2, INPUT_SIZES));
   await runSuites(iterableFilterSuite(1, 10, INPUT_SIZES));
   await runSuites(iterableFilterSuite(9, 10, INPUT_SIZES));
+
+  await runSuites(arrayMapSuite(INPUT_SIZES));
+  await runSuites(iterableMapSuite(INPUT_SIZES));
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
