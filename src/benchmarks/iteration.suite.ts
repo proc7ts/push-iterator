@@ -1,4 +1,5 @@
 import type Benchmark from 'benchmark';
+import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { itsIterator } from '../push-iterator';
 import type { BenchContext } from './bench-context';
@@ -53,6 +54,12 @@ export function iterableIterationSuite(inputSizes: readonly number[]): readonly 
           'itsEach(iterable)',
           function (this: BenchContext) {
             itsEach(this.data.iterable(), element => this.data.report(element));
+          },
+      )
+      .add(
+          'itsEach(overArray([...]))',
+          function (this: BenchContext) {
+            itsEach(overArray(this.data.input), element => this.data.report(element));
           },
       )
       .add(
