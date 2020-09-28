@@ -2,7 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { arrayIterator } from './array-iterator.impl';
 import type { PushIterable } from './push-iterable';
+import { pushIteratorBy } from './push-iterator.impl';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -28,34 +30,6 @@ export interface PushIterator<T> extends IterableIterator<T> {
 
 }
 
-/**
- * @internal
- */
-function PushIterator$iterator<T>(this: PushIterator<T>): PushIterator<T> {
-  return this;
-}
-
-/**
- * @internal
- */
-function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
-  for (; ;) {
-
-    let result: IteratorYieldResult<T> | undefined;
-    const done = !this.forNext(value => {
-      result = { value };
-      return false;
-    });
-
-    if (result) {
-      return result;
-    }
-    if (done) {
-      return { done: true } as IteratorReturnResult<T>;
-    }
-  }
-}
-
 export const PushIterator = {
 
   /**
@@ -77,11 +51,7 @@ export const PushIterator = {
    * @returns New push iterator instance performing iteration by `forNext` function.
    */
   by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
-    return {
-      [Symbol.iterator]: PushIterator$iterator,
-      next: PushIterator$next,
-      forNext,
-    };
+    return pushIteratorBy(forNext);
   },
 
 };
@@ -95,6 +65,9 @@ export const PushIterator = {
  * @return A push iterator iterating over the given iterable.
  */
 export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIterator<T> {
+  if (Array.isArray(iterable)) {
+    return arrayIterator(iterable);
+  }
 
   const it = iterable[Symbol.iterator]();
 
