@@ -1,6 +1,6 @@
 import type { BenchData } from './bench-data';
 
-export interface BenchContext {
-  data: BenchData;
-  newData(): BenchData;
+export interface BenchContext<TData extends BenchData = BenchData> {
+  data: TData;
+  newData(): TData;
 }

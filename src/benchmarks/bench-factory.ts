@@ -3,18 +3,17 @@ import chalk from 'chalk';
 import type { BenchContext } from './bench-context';
 import { BenchData } from './bench-data';
 
-export class BenchFactory {
+export class BenchFactory<TData extends BenchData = BenchData> {
 
   private readonly _benches: ((suite: Benchmark.Suite, inputSize: number) => void)[] = [];
 
-  add(
-      name: string,
-      fn: (this: BenchContext) => void,
-      createData: (inputSize: number) => BenchData = inputSize => new BenchData(inputSize),
-  ): this {
+  constructor(readonly createData: (inputSize: number) => TData = inputSize => new BenchData(inputSize) as TData) {
+  }
+
+  add(name: string, fn: (this: BenchContext<TData>) => void): this {
     this._benches.push((suite, inputSize) => {
 
-      const newData = (): BenchData => createData(inputSize);
+      const newData = (): TData => this.createData(inputSize);
 
       suite.add(
           name,
@@ -37,14 +36,25 @@ export class BenchFactory {
     return this;
   }
 
+  benchExtra(): string | undefined {
+    return;
+  }
+
   suites(name: string, inputSizes: readonly number[]): readonly Benchmark.Suite[] {
 
     const suites: Benchmark.Suite[] = [];
 
     for (const inputSize of inputSizes) {
 
+      let info = chalk.green(String(inputSize)) + ' items';
+      const extra = this.benchExtra();
+
+      if (extra) {
+        info += ', ' + extra;
+      }
+
       const suite = new Benchmark.Suite(
-          `${chalk.cyan(name)} ${chalk.grey('(' + chalk.green(String(inputSize)) + ' items)')}`,
+          `${chalk.cyan(name)} ${chalk.grey('(' + info + ')')}`,
       );
 
       for (const bench of this._benches) {

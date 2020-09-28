@@ -1,6 +1,6 @@
 import type Benchmark from 'benchmark';
-import { arrayIterationSuite } from './array-iteration.suite';
-import { iterableIterationSuite } from './iterable-iteration.suite';
+import { arrayFilterSuite, iterableFilterSuite } from './filter.suite';
+import { arrayIterationSuite, iterableIterationSuite } from './iteration.suite';
 
 const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
@@ -12,6 +12,14 @@ run().catch((event: any) => {
 async function run(): Promise<void> {
   await runSuites(arrayIterationSuite(INPUT_SIZES));
   await runSuites(iterableIterationSuite(INPUT_SIZES));
+
+  await runSuites(arrayFilterSuite(1, 2, INPUT_SIZES));
+  await runSuites(arrayFilterSuite(1, 10, INPUT_SIZES));
+  await runSuites(arrayFilterSuite(9, 10, INPUT_SIZES));
+
+  await runSuites(iterableFilterSuite(1, 2, INPUT_SIZES));
+  await runSuites(iterableFilterSuite(1, 10, INPUT_SIZES));
+  await runSuites(iterableFilterSuite(9, 10, INPUT_SIZES));
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
