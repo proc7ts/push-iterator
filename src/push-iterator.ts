@@ -31,7 +31,30 @@ export interface PushIterator<T> extends IterableIterator<T> {
 /**
  * @internal
  */
-const PushIterator__noneForNext = (): false => false;
+function PushIterator$iterator<T>(this: PushIterator<T>): PushIterator<T> {
+  return this;
+}
+
+/**
+ * @internal
+ */
+function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
+  for (; ;) {
+
+    let result: IteratorYieldResult<T> | undefined;
+    const done = !this.forNext(value => {
+      result = { value };
+      return false;
+    });
+
+    if (result) {
+      return result;
+    }
+    if (done) {
+      return { done: true } as IteratorReturnResult<T>;
+    }
+  }
+}
 
 export const PushIterator = {
 
@@ -54,45 +77,11 @@ export const PushIterator = {
    * @returns New push iterator instance performing iteration by `forNext` function.
    */
   by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
-
-    let next = (): IteratorResult<T> => {
-
-      for (; ;) {
-
-        let result: IteratorYieldResult<T> | undefined;
-        const done = !forNext(value => {
-          result = { value };
-          return false;
-        });
-
-        if (done) {
-          next = () => ({ done: true } as IteratorResult<T>);
-          if (!result) {
-            return next();
-          }
-        }
-        if (result) {
-          return result;
-        }
-      }
+    return {
+      [Symbol.iterator]: PushIterator$iterator,
+      next: PushIterator$next,
+      forNext,
     };
-
-    const result: PushIterator<T> = {
-      [Symbol.iterator]: () => result,
-      next: () => next(),
-      forNext: accept => {
-
-        const hasMore = forNext(accept);
-
-        if (!hasMore) {
-          forNext = PushIterator__noneForNext;
-        }
-
-        return hasMore;
-      },
-    };
-
-    return result;
   },
 
 };

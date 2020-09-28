@@ -1,5 +1,6 @@
 import type Benchmark from 'benchmark';
-import { iterationSuites } from './iteration.suite';
+import { arrayIterationSuite } from './array-iteration.suite';
+import { iterableIterationSuite } from './iterable-iteration.suite';
 
 const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
@@ -9,7 +10,8 @@ run().catch((event: any) => {
 });
 
 async function run(): Promise<void> {
-  await runSuites(iterationSuites(INPUT_SIZES));
+  await runSuites(arrayIterationSuite(INPUT_SIZES));
+  await runSuites(iterableIterationSuite(INPUT_SIZES));
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
