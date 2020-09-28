@@ -1,4 +1,4 @@
-import { itsIterator } from './push-iterator';
+import { itsIterator, PushIterator } from './push-iterator';
 
 describe('itsIterator', () => {
 
@@ -107,6 +107,26 @@ describe('itsIterator', () => {
       it.forNext(() => false);
 
       expect(Array.from(it)).toEqual(array.slice(1));
+    });
+    it('handles non-pushing iterations', () => {
+
+      let i = 0;
+      const it = PushIterator.by<string>(accept => {
+        ++i;
+        switch (i) {
+        case 1:
+        case 2:
+        case 4:
+          return true;
+        case 3:
+          accept('test');
+          return true;
+        default:
+          return false;
+        }
+      });
+
+      expect([...it]).toEqual(['test']);
     });
   });
 });

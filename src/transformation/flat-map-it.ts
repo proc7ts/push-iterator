@@ -58,14 +58,17 @@ export function flatMapIt<T, R>(
             }
           }
 
-          if (!cIt.forNext(element => accept(element))) {
+          let goOn: boolean | void;
+
+          if (!cIt.forNext(element => goOn = accept(element))) {
             if (lastSrc) {
               return false;
             }
             cIt = undefined;
           }
-
-          return true;
+          if (goOn === false) {
+            return true;
+          }
         }
       });
     },
