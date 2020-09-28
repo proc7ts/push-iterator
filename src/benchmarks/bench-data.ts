@@ -37,7 +37,10 @@ export class BenchData {
 
         return {
           next() {
-            return it.next();
+
+            const { done, value } = it.next();
+
+            return done ? { done: true, value: undefined } : { value };
           },
         };
       },
