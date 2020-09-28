@@ -47,11 +47,12 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
     );
     suite.on('complete', function (this: any) {
 
-      const highestHz = results.slice().sort((a, b) => b.Hz - a.Hz)[0].Hz;
+      results.sort((a, b) => b.Hz - a.Hz);
+
+      const highestHz = results[0].Hz;
 
       console.table(
           results
-              .sort((a, b) => b.Hz - a.Hz)
               .map(result => ({
                 ...result,
                 Hz: Math.round(result.Hz).toLocaleString(),
