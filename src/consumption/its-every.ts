@@ -23,7 +23,7 @@ export function itsEvery<T>(
 
   let allMatch = true;
 
-  itsIterator(iterable).forNext(element => allMatch = test(element));
+  itsIterator(iterable).forNext(element => allMatch = !!test(element));
 
   return allMatch;
 }

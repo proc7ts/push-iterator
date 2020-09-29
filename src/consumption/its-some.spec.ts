@@ -16,4 +16,13 @@ describe('itsSome', () => {
     expect(test).toHaveBeenCalledWith(2);
     expect(test).not.toHaveBeenCalledWith(3);
   });
+  it('returns `true` if match returned truthy value', () => {
+
+    const test = jest.fn(element => element > 1 ? element as unknown as boolean : false);
+
+    expect(itsSome([1, 2, 3], test)).toBe(true);
+    expect(test).toHaveBeenCalledWith(1);
+    expect(test).toHaveBeenCalledWith(2);
+    expect(test).not.toHaveBeenCalledWith(3);
+  });
 });

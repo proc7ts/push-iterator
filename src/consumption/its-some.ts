@@ -23,7 +23,7 @@ export function itsSome<T>(
 
   let someMatches = false;
 
-  itsIterator(iterable).forNext(element => !(someMatches = test(element)));
+  itsIterator(iterable).forNext(element => !(someMatches = !!test(element)));
 
   return someMatches;
 }
