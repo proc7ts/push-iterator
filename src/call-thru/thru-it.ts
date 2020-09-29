@@ -4,10 +4,8 @@
  */
 import { isNextCall, NextCall__symbol } from '@proc7ts/call-thru';
 import { overElementsOf, overOne } from '../construction';
-import { itsIterator } from '../its-iterator';
-import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { flatMapIt } from '../transformation';
 import type { IterableCallChain } from './iterable-call-chain';
 
 type Args<TReturn> = IterableCallChain.Args<TReturn>;
@@ -272,87 +270,50 @@ export function thruIt<T>(
     ...passes: ((...args: any[]) => any)[]
 ): PushIterable<any> {
 
-  let result: PushIterable<any>[] = [];
-  const chain = (index: number): IterableCallChain => {
+  const chain = (outcome: PushIterable<any>[], index: number): IterableCallChain => {
 
     const lastPass = index >= passes.length;
 
     ++index;
 
     const pass = index < passes.length ? passes[index] : () => { /* empty pass */ };
-    const handleResult = (callResult: any, arg: any): void => {
+    const handleResult = (outcome: PushIterable<any>[], callResult: any, arg: any): void => {
       if (isNextCall(callResult)) {
-        callResult[NextCall__symbol](chain(index), pass);
+        callResult[NextCall__symbol](chain(outcome, index), pass);
       } else if (lastPass) {
-        result.push(overOne(arg));
+        outcome.push(overOne(arg));
       } else {
-        chain(index).pass(pass, callResult);
+        chain(outcome, index).pass(pass, callResult);
       }
     };
 
     return ({
       call<A extends any[]>(fn: (...args: A) => any, args: A): void {
-        handleResult(fn(...args), args);
+        handleResult(outcome, fn(...args), args);
       },
       pass<A>(fn: (arg: A) => any, arg: A): void {
-        handleResult(fn(arg), arg);
+        handleResult(outcome, fn(arg), arg);
       },
       skip() {/* skip item */},
       iterate<I>(fn: (this: void, arg: I) => void, iterable: Iterable<I>): void {
-        result.push({
-          [Symbol.iterator]() {
+        outcome.push(flatMapIt(
+            iterable,
+            item => {
 
-            const it = itsIterator(iterable);
-            let lastSrc = false;
-            let newResultIt: PushIterator<any> | undefined;
+              const itemOutcome: PushIterable<any>[] = [];
 
-            return makePushIterator(accept => {
-              for (;;) {
-                while (!newResultIt) {
-                  if (!it.forNext(item => {
+              handleResult(itemOutcome, fn(item), item);
 
-                    // Record to new result then restore original one
-                    const oldResult = result;
-                    const newResult: PushIterable<any>[] = [];
-
-                    try {
-                      result = newResult;
-                      handleResult(fn(item), item);
-                    } finally {
-                      result = oldResult;
-                    }
-
-                    newResultIt = itsIterator(overElementsOf(...newResult));
-
-                    return false;
-                  })) {
-                    if (!newResultIt) {
-                      return false;
-                    }
-                    lastSrc = true;
-                  }
-                }
-
-                let goOn!: boolean | void;
-
-                if (!newResultIt.forNext(el => goOn = accept(el))) {
-                  newResultIt = undefined;
-                  if (lastSrc) {
-                    return false;
-                  }
-                }
-                if (goOn === false) {
-                  return true;
-                }
-              }
-            });
-          },
-        });
+              return overElementsOf(...itemOutcome);
+            },
+        ));
       },
     });
   };
 
-  chain(0).iterate(passes[0], it);
+  const finalOutcome: PushIterable<any>[] = [];
 
-  return overElementsOf(...result);
+  chain(finalOutcome, 0).iterate(passes[0], it);
+
+  return overElementsOf(...finalOutcome);
 }
