@@ -2,7 +2,6 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -28,21 +27,3 @@ export interface PushIterator<T> extends IterableIterator<T> {
 
 }
 
-export const PushIterator = {
-
-  /**
-   * Constructs push iterator implementation.
-   *
-   * @param forNext  A function iterating over element conforming to {@link PushIterator.forNext} requirement.
-   *
-   * @returns New push iterator instance performing iteration by `forNext` function.
-   */
-  by<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
-    return {
-      [Symbol.iterator]: PushIterator$iterator,
-      next: PushIterator$next,
-      forNext,
-    };
-  },
-
-};

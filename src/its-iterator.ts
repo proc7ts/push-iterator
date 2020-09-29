@@ -1,3 +1,7 @@
+/**
+ * @packageDocumentation
+ * @module @proc7ts/push-iterator
+ */
 import { arrayIterator } from './array-iterator.impl';
 import type { PushIterable } from './push-iterable';
 import type { PushIterator } from './push-iterator';

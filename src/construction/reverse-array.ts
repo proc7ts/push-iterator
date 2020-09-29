@@ -2,8 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import { PushIterator } from '../push-iterator';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} over elements of array-like structure in reverse order.
@@ -24,7 +25,7 @@ function reverseArrayIterator<T>(array: ArrayLike<T>): PushIterator<T> {
 
   let i = array.length - 1;
 
-  return PushIterator.by(accept => {
+  return makePushIterator(accept => {
     if (i < 0) {
       return false;
     }

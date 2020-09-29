@@ -3,8 +3,9 @@
  * @module @proc7ts/push-iterator
  */
 import { itsIterator } from '../its-iterator';
+import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import { PushIterator } from '../push-iterator';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Flattens the source iterable of iterables into new {@link PushIterable push iterable}.
@@ -45,7 +46,7 @@ export function flatMapIt<T, R>(
       let cIt: PushIterator<R> | undefined;
       let lastSrc = false;
 
-      return PushIterator.by(accept => {
+      return makePushIterator(accept => {
         for (;;) {
           while (!cIt) {
             if (!it.forNext(src => {

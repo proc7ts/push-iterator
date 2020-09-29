@@ -3,8 +3,9 @@
  * @module @proc7ts/push-iterator
  */
 import { itsIterator } from '../its-iterator';
+import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import { PushIterator } from '../push-iterator';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -27,7 +28,7 @@ export function mapIt<T, R>(
 
       const it = itsIterator(source);
 
-      return PushIterator.by(accept => it.forNext(element => accept(convert(element))));
+      return makePushIterator(accept => it.forNext(element => accept(convert(element))));
     },
   };
 }

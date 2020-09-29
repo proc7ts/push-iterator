@@ -1,5 +1,5 @@
 import { itsIterator } from './its-iterator';
-import { PushIterator } from './push-iterator';
+import { makePushIterator } from './make-push-iterator';
 
 describe('itsIterator', () => {
 
@@ -112,7 +112,7 @@ describe('itsIterator', () => {
     it('handles non-pushing iterations', () => {
 
       let i = 0;
-      const it = PushIterator.by<string>(accept => {
+      const it = makePushIterator<string>(accept => {
         ++i;
         switch (i) {
         case 1:
