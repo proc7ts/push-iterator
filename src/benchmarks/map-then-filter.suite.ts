@@ -1,5 +1,7 @@
+import { nextSkip } from '@proc7ts/call-thru';
 import type Benchmark from 'benchmark';
 import chalk from 'chalk';
+import { thruIt } from '../call-thru';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { filterIt, mapIt } from '../transformation';
@@ -56,6 +58,23 @@ export function arrayMapThenFilterSuite(
             );
           },
       )
+      .add(
+          'itsEach(thruIt([...]))',
+          function (this: BenchContext<FilterBenchData>) {
+            itsEach(
+                thruIt(
+                    this.data.input,
+                    el => {
+
+                      const converted = el + '!';
+
+                      return this.data.filter(converted) ? converted : nextSkip;
+                    },
+                ),
+                element => this.data.report(element),
+            );
+          },
+      )
       .suites('Array map then filter', inputSizes);
 }
 
@@ -106,6 +125,23 @@ export function iterableMapThenFilterSuite(
                 filterIt(
                     mapIt(this.data.iterable(), el => el + '!'),
                     el => this.data.filter(el),
+                ),
+                element => this.data.report(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(thruIt(iterable))',
+          function (this: BenchContext<FilterBenchData>) {
+            itsEach(
+                thruIt(
+                    this.data.iterable(),
+                    el => {
+
+                      const converted = el + '!';
+
+                      return this.data.filter(converted) ? converted : nextSkip;
+                    },
                 ),
                 element => this.data.report(element),
             );
