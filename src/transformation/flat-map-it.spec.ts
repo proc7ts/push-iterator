@@ -43,22 +43,25 @@ describe('flatMapIt', () => {
     expect(result).toEqual([11, 12, 22, 23, 33, 34]);
     expect([...it]).toEqual([11, 12, 22, 23, 33, 34]);
   });
-  it('flattens iterable elements without converter specified', () => {
 
-    const it = flatMapIt<number>(new Set([[11, 12], [13, 14]]));
-    const result: number[] = [];
+  describe('without converter', () => {
+    it('flattens raw iterable elements', () => {
 
-    itsEach(it, el => result.push(el));
-    expect(result).toEqual([11, 12, 13, 14]);
-    expect([...it]).toEqual([11, 12, 13, 14]);
-  });
-  it('flattens push iterable elements without converter specified', () => {
+      const it = flatMapIt<number>(new Set([[11, 12], [13, 14]]));
+      const result: number[] = [];
 
-    const it = flatMapIt<number>(overArray([[11, 12], [13, 14]]));
-    const result: number[] = [];
+      itsEach(it, el => result.push(el));
+      expect(result).toEqual([11, 12, 13, 14]);
+      expect([...it]).toEqual([11, 12, 13, 14]);
+    });
+    it('flattens push iterable elements', () => {
 
-    itsEach(it, el => result.push(el));
-    expect(result).toEqual([11, 12, 13, 14]);
-    expect([...it]).toEqual([11, 12, 13, 14]);
+      const it = flatMapIt<number>(overArray([[11, 12], [13, 14]]));
+      const result: number[] = [];
+
+      itsEach(it, el => result.push(el));
+      expect(result).toEqual([11, 12, 13, 14]);
+      expect([...it]).toEqual([11, 12, 13, 14]);
+    });
   });
 });
