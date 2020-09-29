@@ -81,6 +81,12 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#ObjectEntry" class="tsd-kind-icon">Object<wbr>Entry</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#filterIt" class="tsd-kind-icon">filter<wbr>It</a></li>
@@ -97,7 +103,9 @@
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#mapIt" class="tsd-kind-icon">map<wbr>It</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overArray" class="tsd-kind-icon">over<wbr>Array</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overElementsOf" class="tsd-kind-icon">over<wbr>Elements<wbr>Of</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overEntries" class="tsd-kind-icon">over<wbr>Entries</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overIterable" class="tsd-kind-icon">over<wbr>Iterable</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overKeys" class="tsd-kind-icon">over<wbr>Keys</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overMany" class="tsd-kind-icon">over<wbr>Many</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overNone" class="tsd-kind-icon">over<wbr>None</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="@proc7ts_push-iterator.html#overOne" class="tsd-kind-icon">over<wbr>One</a></li>
@@ -105,6 +113,44 @@
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="ObjectEntry" class="tsd-anchor"></a>
+					<h3>Object<wbr>Entry</h3>
+					<div class="tsd-signature tsd-kind-icon">Object<wbr>Entry&lt;T, K&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">K</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/objects/object-entry.ts#L13">proc7ts/push-iterator/src/objects/object-entry.ts:13</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Object property entry.</p>
+						</div>
+						<p>This is a tuple consisting of property key and value.</p>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Object type.</p>
+								</div>
+							</div>
+						</li>
+						<li>
+							<h4>K<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span> = <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A type of object property keys.</p>
+								</div>
+							</div>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -120,7 +166,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/transformation/filter-it.ts#L22">proc7ts/push-iterator/src/transformation/filter-it.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/transformation/filter-it.ts#L22">proc7ts/push-iterator/src/transformation/filter-it.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,7 +228,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/transformation/filter-it.ts#L39">proc7ts/push-iterator/src/transformation/filter-it.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/transformation/filter-it.ts#L39">proc7ts/push-iterator/src/transformation/filter-it.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -259,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/transformation/flat-map-it.ts#L25">proc7ts/push-iterator/src/transformation/flat-map-it.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/transformation/flat-map-it.ts#L25">proc7ts/push-iterator/src/transformation/flat-map-it.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -292,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/transformation/flat-map-it.ts#L38">proc7ts/push-iterator/src/transformation/flat-map-it.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/transformation/flat-map-it.ts#L38">proc7ts/push-iterator/src/transformation/flat-map-it.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,7 +413,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/is-push-iterator.ts#L14">proc7ts/push-iterator/src/is-push-iterator.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/is-push-iterator.ts#L14">proc7ts/push-iterator/src/is-push-iterator.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -405,7 +451,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-each.ts#L16">proc7ts/push-iterator/src/consumption/its-each.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-each.ts#L16">proc7ts/push-iterator/src/consumption/its-each.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -473,7 +519,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-empty.ts#L16">proc7ts/push-iterator/src/consumption/its-empty.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-empty.ts#L16">proc7ts/push-iterator/src/consumption/its-empty.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -505,7 +551,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-every.ts#L19">proc7ts/push-iterator/src/consumption/its-every.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-every.ts#L19">proc7ts/push-iterator/src/consumption/its-every.ts:19</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -575,7 +621,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-first.ts#L16">proc7ts/push-iterator/src/consumption/its-first.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-first.ts#L16">proc7ts/push-iterator/src/consumption/its-first.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -616,7 +662,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/its-iterator.ts#L18">proc7ts/push-iterator/src/its-iterator.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/its-iterator.ts#L18">proc7ts/push-iterator/src/its-iterator.ts:18</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -657,7 +703,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-reduction.ts#L21">proc7ts/push-iterator/src/consumption/its-reduction.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-reduction.ts#L21">proc7ts/push-iterator/src/consumption/its-reduction.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -742,7 +788,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/consumption/its-some.ts#L19">proc7ts/push-iterator/src/consumption/its-some.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/consumption/its-some.ts#L19">proc7ts/push-iterator/src/consumption/its-some.ts:19</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -812,7 +858,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/make-push-iterator.ts#L15">proc7ts/push-iterator/src/make-push-iterator.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/make-push-iterator.ts#L15">proc7ts/push-iterator/src/make-push-iterator.ts:15</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -850,7 +896,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/transformation/map-it.ts#L22">proc7ts/push-iterator/src/transformation/map-it.ts:22</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/transformation/map-it.ts#L22">proc7ts/push-iterator/src/transformation/map-it.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -926,7 +972,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-array.ts#L16">proc7ts/push-iterator/src/construction/over-array.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-array.ts#L16">proc7ts/push-iterator/src/construction/over-array.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -967,7 +1013,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-elements-of.ts#L20">proc7ts/push-iterator/src/construction/over-elements-of.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-elements-of.ts#L20">proc7ts/push-iterator/src/construction/over-elements-of.ts:20</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -999,6 +1045,48 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="overEntries" class="tsd-anchor"></a>
+					<h3>over<wbr>Entries</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">over<wbr>Entries&lt;T&gt;<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/@proc7ts_push-iterator.PushIterable.html" class="tsd-signature-type">PushIterable</a><span class="tsd-signature-symbol">&lt;</span><a href="@proc7ts_push-iterator.html#ObjectEntry" class="tsd-signature-type">ObjectEntry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/objects/over-entries.ts#L21">proc7ts/push-iterator/src/objects/over-entries.ts:21</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a <a href="../interfaces/@proc7ts_push-iterator.PushIterable.html">push iterable</a> over the property key/value entries of the given object.</p>
+								</div>
+								<p>A list of keys is constructed using <code>Reflect.ownKeys()</code>.</p>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+									<div class="tsd-comment tsd-typography">
+										<p>Object type.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object to select keys and values from.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/@proc7ts_push-iterator.PushIterable.html" class="tsd-signature-type">PushIterable</a><span class="tsd-signature-symbol">&lt;</span><a href="@proc7ts_push-iterator.html#ObjectEntry" class="tsd-signature-type">ObjectEntry</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>New push iterable of object property entries.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 					<a name="overIterable" class="tsd-anchor"></a>
 					<h3>over<wbr>Iterable</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
@@ -1008,7 +1096,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-iterable.ts#L17">proc7ts/push-iterator/src/construction/over-iterable.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-iterable.ts#L17">proc7ts/push-iterator/src/construction/over-iterable.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1040,6 +1128,48 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="overKeys" class="tsd-anchor"></a>
+					<h3>over<wbr>Keys</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">over<wbr>Keys&lt;T&gt;<span class="tsd-signature-symbol">(</span>source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/@proc7ts_push-iterator.PushIterable.html" class="tsd-signature-type">PushIterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/objects/over-keys.ts#L18">proc7ts/push-iterator/src/objects/over-keys.ts:18</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a <a href="../interfaces/@proc7ts_push-iterator.PushIterable.html">push iterable</a> over keys of the given object.</p>
+								</div>
+								<p>A list of keys is constructed using <code>Reflect.ownKeys()</code>.</p>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h4>
+									<div class="tsd-comment tsd-typography">
+										<p>Source object type.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>source: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object to select keys from.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/@proc7ts_push-iterator.PushIterable.html" class="tsd-signature-type">PushIterable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>New push iterable over own object keys retrieved by <code>Reflect.ownKeys()</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 					<a name="overMany" class="tsd-anchor"></a>
 					<h3>over<wbr>Many</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
@@ -1049,7 +1179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-many.ts#L18">proc7ts/push-iterator/src/construction/over-many.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-many.ts#L18">proc7ts/push-iterator/src/construction/over-many.ts:18</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1090,7 +1220,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-none.ts#L24">proc7ts/push-iterator/src/construction/over-none.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-none.ts#L24">proc7ts/push-iterator/src/construction/over-none.ts:24</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1122,7 +1252,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/over-one.ts#L17">proc7ts/push-iterator/src/construction/over-one.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/over-one.ts#L17">proc7ts/push-iterator/src/construction/over-one.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1163,7 +1293,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/ac4476d/src/construction/reverse-array.ts#L17">proc7ts/push-iterator/src/construction/reverse-array.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/f8f16b5/src/construction/reverse-array.ts#L17">proc7ts/push-iterator/src/construction/reverse-array.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1215,6 +1345,9 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="../interfaces/@proc7ts_push-iterator.PushIterable.html" class="tsd-kind-icon">Push<wbr>Iterable</a>
 					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="@proc7ts_push-iterator.html#ObjectEntry" class="tsd-kind-icon">Object<wbr>Entry</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="@proc7ts_push-iterator.html#filterIt" class="tsd-kind-icon">filter<wbr>It</a>
 					</li>
@@ -1258,7 +1391,13 @@
 						<a href="@proc7ts_push-iterator.html#overElementsOf" class="tsd-kind-icon">over<wbr>Elements<wbr>Of</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="@proc7ts_push-iterator.html#overEntries" class="tsd-kind-icon">over<wbr>Entries</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="@proc7ts_push-iterator.html#overIterable" class="tsd-kind-icon">over<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="@proc7ts_push-iterator.html#overKeys" class="tsd-kind-icon">over<wbr>Keys</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="@proc7ts_push-iterator.html#overMany" class="tsd-kind-icon">over<wbr>Many</a>
@@ -1285,6 +1424,7 @@
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
