@@ -8,6 +8,7 @@ import typescript from 'typescript';
 export default {
   input: {
     'push-iterator': './src/index.ts',
+    'push-iterator.call-thru': './src/call-thru/index.ts',
   },
   plugins: [
     commonjs(),

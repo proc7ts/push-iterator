@@ -1,0 +1,5 @@
+{
+  "main": "../dist/push-iterator.call-thru.js",
+  "module": "../dist/push-iterator.call-thru.mjs",
+  "types": "index.d.ts"
+}

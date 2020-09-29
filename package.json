@@ -25,9 +25,20 @@
     ".": {
       "require": "./dist/push-iterator.js",
       "import": "./dist/push-iterator.mjs"
+    },
+    "./call-thru": {
+      "require": "./dist/push-iterator.call-thru.js",
+      "import": "./dist/push-iterator.call-thru.mjs"
     }
   },
+  "peerDependencies": {
+    "@proc7ts/call-thru": "^4.1.0"
+  },
+  "dependencies": {
+    "@proc7ts/primitives": "^1.2.0"
+  },
   "devDependencies": {
+    "@proc7ts/call-thru": "^4.1.0",
     "@proc7ts/eslint-config": "^2.0.5",
     "@proc7ts/rollup-helpers": "^1.0.0",
     "@rollup/plugin-commonjs": "^15.1.0",
