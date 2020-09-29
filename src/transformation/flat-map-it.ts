@@ -8,6 +8,11 @@ import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
+ * @internal
+ */
+const flatMapIt$defaultConverter = <T, R>(element: T): Iterable<R> => element as unknown as Iterable<R>;
+
+/**
  * Flattens the source iterable of iterables into new {@link PushIterable push iterable}.
  *
  * Calling this function is the same as calling `flatMapIt(source, element => element)`.
@@ -37,7 +42,7 @@ export function flatMapIt<T, R>(
 
 export function flatMapIt<T, R>(
     source: Iterable<T> | PushIterable<T>,
-    convert: (this: void, element: T) => Iterable<R> | PushIterable<R> = (element: any) => element,
+    convert: (this: void, element: T) => Iterable<R> | PushIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
   return {
     [Symbol.iterator](): PushIterator<R> {

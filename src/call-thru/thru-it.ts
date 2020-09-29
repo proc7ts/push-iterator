@@ -265,10 +265,10 @@ export function thruIt<
     pass13: (this: void, ...args: TArgs13) => TReturn13,
 ): PushIterable<Out<TReturn4>>;
 
-export function thruIt<T>(
+export function thruIt<T, TReturn>(
     it: Iterable<T> | PushIterable<T>,
     ...passes: ((...args: any[]) => any)[]
-): PushIterable<any> {
+): PushIterable<TReturn> {
 
   const chain = (outcome: PushIterable<any>[], index: number): IterableCallChain => {
 
@@ -315,5 +315,5 @@ export function thruIt<T>(
 
   chain(finalOutcome, 0).iterate(passes[0], it);
 
-  return overElementsOf(...finalOutcome);
+  return overElementsOf<TReturn>(...finalOutcome);
 }

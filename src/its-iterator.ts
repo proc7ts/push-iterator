@@ -17,7 +17,7 @@ import { toPushIterator } from './push-iterator.impl';
  */
 export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIterator<T> {
   if (Array.isArray(iterable)) {
-    return arrayIterator(iterable);
+    return arrayIterator<T>(iterable);
   }
   return toPushIterator(iterable[Symbol.iterator]());
 }
