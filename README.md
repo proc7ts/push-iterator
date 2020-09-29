@@ -7,9 +7,6 @@ Push Iteration Protocol
 [![GitHub Project][github-image]][github-url]
 [![API Documentation][api-docs-image]][api-docs-url]
 
-This library allows to construct an [IoC] context, other components can request values from.
-
-An [IoC] context is an object with `get()` method implemented. This method returns a context value by its key.
 
 [npm-image]: https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm
 [npm-url]: https://www.npmjs.com/package/@proc7ts/push-iterator
