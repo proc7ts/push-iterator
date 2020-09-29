@@ -4,7 +4,7 @@
  */
 import { arrayIterator } from './array-iterator.impl';
 import type { PushIterable } from './push-iterable';
-import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
+import { isPushIterator, PushIterator$iterator, PushIterator$next, toPushIterator } from './push-iterator.impl';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -40,7 +40,7 @@ export const PushIterator = {
    * @returns `true` if `iterator` has {@link PushIterator.forNext forNext} method, or `false` otherwise.
    */
   is<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
-    return !!(iterator as PushIterator<T>).forNext;
+    return isPushIterator(iterator);
   },
 
   /**
@@ -72,34 +72,5 @@ export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIte
   if (Array.isArray(iterable)) {
     return arrayIterator(iterable);
   }
-
-  const it = iterable[Symbol.iterator]();
-
-  if (PushIterator.is(it)) {
-    return it;
-  }
-
-  return {
-
-    [Symbol.iterator]: PushIterator$iterator,
-
-    next() {
-      return it.next();
-    },
-
-    forNext(accept) {
-      for (; ;) {
-
-        const res = it.next();
-
-        if (res.done) {
-          return false;
-        }
-        if (accept(res.value) === false) {
-          return true;
-        }
-      }
-    },
-
-  };
+  return toPushIterator(iterable[Symbol.iterator]());
 }

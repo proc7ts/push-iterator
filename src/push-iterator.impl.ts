@@ -27,3 +27,43 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
     }
   }
 }
+
+/**
+ * @internal
+ */
+export function isPushIterator<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
+  return !!(iterator as PushIterator<T>).forNext;
+};
+
+/**
+ * @internal
+ */
+export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
+  if (isPushIterator(it)) {
+    return it;
+  }
+
+  return {
+
+    [Symbol.iterator]: PushIterator$iterator,
+
+    next() {
+      return it.next();
+    },
+
+    forNext(accept) {
+      for (; ;) {
+
+        const res = it.next();
+
+        if (res.done) {
+          return false;
+        }
+        if (accept(res.value) === false) {
+          return true;
+        }
+      }
+    },
+
+  };
+}
