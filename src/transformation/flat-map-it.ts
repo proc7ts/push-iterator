@@ -60,6 +60,7 @@ export function flatMapIt<T, R>(
             }
           }
 
+          // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
           let goOn: boolean | void;
 
           if (!cIt.forNext(element => goOn = accept(element))) {

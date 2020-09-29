@@ -28,6 +28,7 @@ export function overElementsOf<T>(...sources: Iterable<T>[]): PushIterable<T> {
         return makePushIterator(accept => {
           for (;;) {
 
+            // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
             let goOn: boolean | void;
 
             if (!it.forNext(element => goOn = accept(element))) {
