@@ -1,10 +1,11 @@
 import { nextArgs, nextSkip } from '@proc7ts/call-thru';
+import type { PushIterable } from '../push-iterable';
 import { thruIt } from './thru-it';
 
 describe('thruIt', () => {
   it('transforms elements', () => {
 
-    const outcome: Iterable<number> = thruIt(
+    const outcome: PushIterable<number> = thruIt(
         [1, 2, 3],
         n => n * n,
     );
@@ -13,7 +14,7 @@ describe('thruIt', () => {
   });
   it('transforms elements with multi-argument transformers', () => {
 
-    const outcome: Iterable<number> = thruIt(
+    const outcome: PushIterable<number> = thruIt(
         [[1, 2], [3, 4]],
         ([a, b]) => nextArgs(a, b),
         (a, b) => a * b,
@@ -23,7 +24,7 @@ describe('thruIt', () => {
   });
   it('transforms elements to tuples', () => {
 
-    const outcome: Iterable<[number, string]> = thruIt(
+    const outcome: PushIterable<[number, string]> = thruIt(
         [1, 2, 3],
         n => [n, new Array(n).fill(n).join('')],
     );
@@ -32,7 +33,7 @@ describe('thruIt', () => {
   });
   it('removes skipped elements', () => {
 
-    const outcome: Iterable<number> = thruIt(
+    const outcome: PushIterable<number> = thruIt(
         [1, 2, 3],
         n => n > 1 ? n : nextSkip,
         (n: number) => n * n,

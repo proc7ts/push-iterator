@@ -3,8 +3,11 @@
  * @module @proc7ts/push-iterator/call-thru
  */
 import { isNextCall, NextCall__symbol } from '@proc7ts/call-thru';
-import { overElementsOf } from '../construction';
+import { overElementsOf, overOne } from '../construction';
+import { itsIterator } from '../its-iterator';
+import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
+import type { PushIterator } from '../push-iterator';
 import type { IterableCallChain } from './iterable-call-chain';
 
 type Args<TReturn> = IterableCallChain.Args<TReturn>;
@@ -269,7 +272,7 @@ export function thruIt<T>(
     ...passes: ((...args: any[]) => any)[]
 ): PushIterable<any> {
 
-  let result: Iterable<any>[] = [];
+  let result: PushIterable<any>[] = [];
   const chain = (index: number): IterableCallChain => {
 
     const lastPass = index >= passes.length;
@@ -281,7 +284,7 @@ export function thruIt<T>(
       if (isNextCall(callResult)) {
         callResult[NextCall__symbol](chain(index), pass);
       } else if (lastPass) {
-        result.push([arg]);
+        result.push(overOne(arg));
       } else {
         chain(index).pass(pass, callResult);
       }
@@ -297,23 +300,52 @@ export function thruIt<T>(
       skip() {/* skip item */},
       iterate<I>(fn: (this: void, arg: I) => void, iterable: Iterable<I>): void {
         result.push({
-          *[Symbol.iterator]() {
-            for (const item of iterable) {
+          [Symbol.iterator]() {
 
-              const oldResult = result;
-              const newResult: Iterable<any>[] = [];
+            const it = itsIterator(iterable);
+            let lastSrc = false;
+            let newResultIt: PushIterator<any> | undefined;
 
-              try {
-                result = newResult;
-                handleResult(fn(item), item);
-              } finally {
-                result = oldResult;
+            return makePushIterator(accept => {
+              for (;;) {
+                while (!newResultIt) {
+                  if (!it.forNext(item => {
+
+                    // Record to new result then restore original one
+                    const oldResult = result;
+                    const newResult: PushIterable<any>[] = [];
+
+                    try {
+                      result = newResult;
+                      handleResult(fn(item), item);
+                    } finally {
+                      result = oldResult;
+                    }
+
+                    newResultIt = itsIterator(overElementsOf(...newResult));
+
+                    return false;
+                  })) {
+                    if (!newResultIt) {
+                      return false;
+                    }
+                    lastSrc = true;
+                  }
+                }
+
+                let goOn!: boolean | void;
+
+                if (!newResultIt.forNext(el => goOn = accept(el))) {
+                  newResultIt = undefined;
+                  if (lastSrc) {
+                    return false;
+                  }
+                }
+                if (goOn === false) {
+                  return true;
+                }
               }
-
-              for (const res of newResult) {
-                yield* res;
-              }
-            }
+            });
           },
         });
       },
@@ -322,6 +354,5 @@ export function thruIt<T>(
 
   chain(0).iterate(passes[0], it);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return overElementsOf(...result);
 }

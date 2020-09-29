@@ -63,10 +63,10 @@ export function flatMapIt<T, R>(
           let goOn: boolean | void;
 
           if (!cIt.forNext(element => goOn = accept(element))) {
+            cIt = undefined;
             if (lastSrc) {
               return false;
             }
-            cIt = undefined;
           }
           if (goOn === false) {
             return true;
