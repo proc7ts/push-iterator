@@ -2,8 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { isPushIterator } from '../is-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import { itsIterator, PushIterator } from '../push-iterator';
+import { itsIterator } from '../push-iterator';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -16,7 +17,7 @@ export function itsEmpty(iterable: Iterable<any> | PushIterable<any>): boolean {
 
   const it = iterable[Symbol.iterator]();
 
-  if (PushIterator.is(it)) {
+  if (isPushIterator(it)) {
 
     let isEmpty = true;
 

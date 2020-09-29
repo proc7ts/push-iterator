@@ -1,3 +1,4 @@
+import { isPushIterator } from './is-push-iterator';
 import type { PushIterator } from './push-iterator';
 
 /**
@@ -27,13 +28,6 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
     }
   }
 }
-
-/**
- * @internal
- */
-export function isPushIterator<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
-  return !!(iterator as PushIterator<T>).forNext;
-};
 
 /**
  * @internal

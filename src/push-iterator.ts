@@ -4,7 +4,7 @@
  */
 import { arrayIterator } from './array-iterator.impl';
 import type { PushIterable } from './push-iterable';
-import { isPushIterator, PushIterator$iterator, PushIterator$next, toPushIterator } from './push-iterator.impl';
+import { PushIterator$iterator, PushIterator$next, toPushIterator } from './push-iterator.impl';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -31,17 +31,6 @@ export interface PushIterator<T> extends IterableIterator<T> {
 }
 
 export const PushIterator = {
-
-  /**
-   * Checks whether the given iterator implements push iteration protocol.
-   *
-   * @param iterator  Target iterator to check.
-   *
-   * @returns `true` if `iterator` has {@link PushIterator.forNext forNext} method, or `false` otherwise.
-   */
-  is<T>(iterator: Iterator<T> | PushIterator<T>): iterator is PushIterator<T> {
-    return isPushIterator(iterator);
-  },
 
   /**
    * Constructs push iterator implementation.
