@@ -4,10 +4,9 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.ts',
-    '!src/benchmarks/**.ts',
-    '!src/specs.ts',
     '!src/**/*.spec.ts',
     '!src/**/index.ts',
+    '!src/benchmarks/**.ts',
     '!**/node_modules/**',
   ],
   coverageDirectory: 'target/coverage',
