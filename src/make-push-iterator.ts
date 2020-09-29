@@ -13,9 +13,9 @@ import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
  * @returns New push iterator instance performing iteration by `forNext` function.
  */
 export function makePushIterator<T>(forNext: PushIterator<T>['forNext']): PushIterator<T> {
-    return {
-        [Symbol.iterator]: PushIterator$iterator,
-        next: PushIterator$next,
-        forNext,
-    };
+  return {
+    [Symbol.iterator]: PushIterator$iterator,
+    next: PushIterator$next,
+    forNext,
+  };
 }

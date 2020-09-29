@@ -16,8 +16,8 @@ import { toPushIterator } from './push-iterator.impl';
  * @return A push iterator iterating over the given iterable.
  */
 export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIterator<T> {
-    if (Array.isArray(iterable)) {
-        return arrayIterator(iterable);
-    }
-    return toPushIterator(iterable[Symbol.iterator]());
+  if (Array.isArray(iterable)) {
+    return arrayIterator(iterable);
+  }
+  return toPushIterator(iterable[Symbol.iterator]());
 }
