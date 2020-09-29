@@ -1,7 +1,7 @@
 import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { itsIterator } from '../push-iterator';
+import { itsIterator } from '../its-iterator';
 import type { BenchContext } from './bench-context';
 import { BenchFactory } from './bench-factory';
 

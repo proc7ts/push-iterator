@@ -1,4 +1,4 @@
-import { itsIterator } from '../push-iterator';
+import { itsIterator } from '../its-iterator';
 import { overArray } from './over-array';
 
 describe('overArray', () => {

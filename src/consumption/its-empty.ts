@@ -3,8 +3,8 @@
  * @module @proc7ts/push-iterator
  */
 import { isPushIterator } from '../is-push-iterator';
+import { itsIterator } from '../its-iterator';
 import type { PushIterable } from '../push-iterable';
-import { itsIterator } from '../push-iterator';
 
 /**
  * Checks whether the given `iterable` is empty.

@@ -1,4 +1,5 @@
-import { itsIterator, PushIterator } from './push-iterator';
+import { itsIterator } from './its-iterator';
+import { PushIterator } from './push-iterator';
 
 describe('itsIterator', () => {
 

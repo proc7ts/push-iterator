@@ -2,8 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { itsIterator } from '../its-iterator';
 import type { PushIterable } from '../push-iterable';
-import { itsIterator, PushIterator } from '../push-iterator';
+import { PushIterator } from '../push-iterator';
 
 /**
  * Flattens the source iterable of iterables into new {@link PushIterable push iterable}.

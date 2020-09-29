@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { itsIterator } from '../its-iterator';
 import type { PushIterable } from '../push-iterable';
-import { itsIterator } from '../push-iterator';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
