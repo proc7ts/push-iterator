@@ -23,8 +23,8 @@ export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
  * First maps each element of the `source` iterable using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
- * @typeparam T  A type of source elements.
- * @typeparam R  A type of converted elements.
+ * @typeParam T  A type of source elements.
+ * @typeParam R  A type of converted elements.
  * @param source  A source iterable.
  * @param convert  A function that produces a new iterable, taking the source element as the only parameter.
  *

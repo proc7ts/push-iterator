@@ -13,6 +13,7 @@ import type { IterableCallChain } from './iterable-call-chain';
  * This call passes elements to the next call on demand, while the `nextEach()` one transforms them all at once,
  * and iterates over results after that.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterable  An iterable containing elements to pass down the chain.
  *
  * @returns Next call for iterable call chain.
