@@ -1,5 +1,4 @@
-import { isPushIterator } from './is-push-iterator';
-import type { PushIterator } from './push-iterator';
+import type { PushIterator, PushOrRawIterator } from './push-iterator';
 
 /**
  * @internal
@@ -32,8 +31,8 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
 /**
  * @internal
  */
-export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
-  if (isPushIterator(it)) {
+export function toPushIterator<T>(it: PushOrRawIterator<T>): PushIterator<T> {
+  if (it.forNext) {
     return it;
   }
 

@@ -2,9 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { isPushIterator } from '../is-push-iterator';
-import { itsIterator } from '../its-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushOrRawIterable } from '../push-iterable';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -13,15 +11,16 @@ import type { PushIterable } from '../push-iterable';
  *
  * @return `true` if the given iterable contains at least one element, or `false` otherwise.
  */
-export function itsEmpty(iterable: Iterable<any> | PushIterable<any>): boolean {
+export function itsEmpty(iterable: PushOrRawIterable<any>): boolean {
 
   const it = iterable[Symbol.iterator]();
+  const forNext = it.forNext;
 
-  if (isPushIterator(it)) {
+  if (forNext) {
 
     let isEmpty = true;
 
-    itsIterator(iterable).forNext(() => isEmpty = false);
+    forNext(() => isEmpty = false);
 
     return isEmpty;
   }

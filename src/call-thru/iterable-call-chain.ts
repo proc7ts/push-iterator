@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator/call-thru
  */
 import type { CallChain, NextCall, NextSkip } from '@proc7ts/call-thru';
-import type { PushIterable } from '../push-iterable';
+import type { PushOrRawIterable } from '../push-iterable';
 
 /**
  * A call chain transforming elements of iterable.
@@ -19,7 +19,7 @@ export interface IterableCallChain extends CallChain {
    * @param pass  A pass to call.
    * @param iterable  Source iterable.
    */
-  iterate<T>(pass: (this: void, arg: T) => any, iterable: Iterable<T> | PushIterable<T>): void;
+  iterate<T>(pass: (this: void, arg: T) => any, iterable: PushOrRawIterable<T>): void;
 
 }
 

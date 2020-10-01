@@ -4,7 +4,7 @@
  */
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -20,7 +20,7 @@ import type { PushIterator } from '../push-iterator';
  * will be returned.
  */
 export function filterIt<T>(
-    source: Iterable<T> | PushIterable<T>,
+    source: PushOrRawIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
 
@@ -37,12 +37,12 @@ export function filterIt<T>(
  * will be returned.
  */
 export function filterIt<T, R extends T>(
-    source: Iterable<T> | PushIterable<T>,
+    source: PushOrRawIterable<T>,
     test: (this: void, element: T) => element is R,
 ): PushIterable<R>;
 
 export function filterIt<T>(
-    source: Iterable<T> | PushIterable<T>,
+    source: PushOrRawIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
   return {

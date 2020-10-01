@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { itsIterator } from '../its-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushOrRawIterable } from '../push-iterable';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -17,7 +17,7 @@ import type { PushIterable } from '../push-iterable';
  * otherwise. Returns `false` for empty iterable.
  */
 export function itsSome<T>(
-    iterable: Iterable<T> | PushIterable<T>,
+    iterable: PushOrRawIterable<T>,
     test: (this: void, element: T) => boolean,
 ): boolean {
 

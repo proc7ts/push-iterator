@@ -4,13 +4,13 @@
  */
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
  * @internal
  */
-const flatMapIt$defaultConverter = <T, R>(element: T): Iterable<R> => element as unknown as Iterable<R>;
+const flatMapIt$defaultConverter = <T, R>(element: T): PushOrRawIterable<R> => element as unknown as Iterable<R>;
 
 /**
  * Flattens the source iterable of iterables into new {@link PushIterable push iterable}.
@@ -22,7 +22,7 @@ const flatMapIt$defaultConverter = <T, R>(element: T): Iterable<R> => element as
  *
  * @returns New push iterable with each element of `source` being the flattened.
  */
-export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
+export function flatMapIt<T>(source: PushOrRawIterable<Iterable<T>>): PushIterable<T>;
 
 /**
  * First maps each element of the `source` iterable using a mapping function, then flattens the result into new
@@ -36,13 +36,13 @@ export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
 export function flatMapIt<T, R>(
-    source: Iterable<T> | PushIterable<T>,
-    convert: (this: void, element: T) => Iterable<R> | PushIterable<R>,
+    source: PushOrRawIterable<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R>,
 ): PushIterable<R>;
 
 export function flatMapIt<T, R>(
-    source: Iterable<T> | PushIterable<T>,
-    convert: (this: void, element: T) => Iterable<R> | PushIterable<R> = flatMapIt$defaultConverter,
+    source: PushOrRawIterable<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
   return {
     [Symbol.iterator](): PushIterator<R> {

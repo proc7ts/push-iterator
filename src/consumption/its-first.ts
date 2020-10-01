@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { isPushIterator } from '../is-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushOrRawIterable } from '../push-iterable';
 
 /**
  * Extracts the first element of the given `iterable`, if any.
@@ -13,15 +12,16 @@ import type { PushIterable } from '../push-iterable';
  *
  * @return Either the first element, or `undefined` if the given `iterable` is empty.
  */
-export function itsFirst<T>(iterable: Iterable<T> | PushIterable<T>): T | undefined {
+export function itsFirst<T>(iterable: PushOrRawIterable<T>): T | undefined {
 
   const it = iterable[Symbol.iterator]();
+  const forNext = it.forNext;
 
-  if (isPushIterator(it)) {
+  if (forNext) {
 
     let first: T | undefined;
 
-    it.forNext(element => {
+    forNext(element => {
       first = element;
       return false;
     });

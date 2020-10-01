@@ -4,7 +4,7 @@
  */
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -20,7 +20,7 @@ import type { PushIterator } from '../push-iterator';
  * @returns New push iterable of transformed elements.
  */
 export function mapIt<T, R>(
-    source: Iterable<T> | PushIterable<T>,
+    source: PushOrRawIterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
   return {

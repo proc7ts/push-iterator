@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { isPushIterator } from '../is-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushOrRawIterable } from '../push-iterable';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -13,12 +12,13 @@ import type { PushIterable } from '../push-iterable';
  * @param action  An action to perform on each iterable element. This is a function accepting an element as its only
  * parameter.
  */
-export function itsEach<T>(iterable: Iterable<T> | PushIterable<T>, action: (this: void, element: T) => void): void {
+export function itsEach<T>(iterable: PushOrRawIterable<T>, action: (this: void, element: T) => void): void {
 
   const it = iterable[Symbol.iterator]();
+  const forNext = it.forNext;
 
-  if (isPushIterator(it)) {
-    it.forNext(element => {
+  if (forNext) {
+    forNext(element => {
       action(element);
     });
   } else {

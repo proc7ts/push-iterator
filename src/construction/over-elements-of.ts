@@ -4,7 +4,7 @@
  */
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
@@ -17,7 +17,7 @@ import { overNone } from './over-none';
  *
  * @returns New push iterable over elements of the given `sources`.
  */
-export function overElementsOf<T>(...sources: Iterable<T>[]): PushIterable<T> {
+export function overElementsOf<T>(...sources: readonly PushOrRawIterable<T>[]): PushIterable<T> {
   if (sources.length > 1) {
     return {
       [Symbol.iterator](): PushIterator<T> {

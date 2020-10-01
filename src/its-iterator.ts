@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { arrayIterator } from './array-iterator.impl';
-import type { PushIterable } from './push-iterable';
+import type { PushOrRawIterable } from './push-iterable';
 import type { PushIterator } from './push-iterator';
 import { toPushIterator } from './push-iterator.impl';
 
@@ -15,7 +15,7 @@ import { toPushIterator } from './push-iterator.impl';
  *
  * @return A push iterator iterating over the given iterable.
  */
-export function itsIterator<T>(iterable: Iterable<T> | PushIterable<T>): PushIterator<T> {
+export function itsIterator<T>(iterable: PushOrRawIterable<T>): PushIterator<T> {
   if (Array.isArray(iterable)) {
     return arrayIterator<T>(iterable);
   }

@@ -4,7 +4,7 @@
  */
 import { isNextCall, NextCall__symbol } from '@proc7ts/call-thru';
 import { overElementsOf, overOne } from '../construction';
-import type { PushIterable } from '../push-iterable';
+import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { flatMapIt } from '../transformation';
 import type { IterableCallChain } from './iterable-call-chain';
 
@@ -21,7 +21,7 @@ type Out<TReturn> = IterableCallChain.Out<TReturn>;
 export function thruIt<
     T, TReturn1
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
 ): PushIterable<Out<TReturn1>>;
 
@@ -29,7 +29,7 @@ export function thruIt<
     T, TReturn1,
     TArgs2 extends Args<TReturn1>, TReturn2,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
 ): PushIterable<Out<TReturn2>>;
@@ -39,7 +39,7 @@ export function thruIt<
     TArgs2 extends Args<TReturn1>, TReturn2,
     TArgs3 extends Args<TReturn2>, TReturn3,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -51,7 +51,7 @@ export function thruIt<
     TArgs3 extends Args<TReturn2>, TReturn3,
     TArgs4 extends Args<TReturn3>, TReturn4,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -65,7 +65,7 @@ export function thruIt<
     TArgs4 extends Args<TReturn3>, TReturn4,
     TArgs5 extends Args<TReturn4>, TReturn5,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -81,7 +81,7 @@ export function thruIt<
     TArgs5 extends Args<TReturn4>, TReturn5,
     TArgs6 extends Args<TReturn5>, TReturn6,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -99,7 +99,7 @@ export function thruIt<
     TArgs6 extends Args<TReturn5>, TReturn6,
     TArgs7 extends Args<TReturn6>, TReturn7,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -119,7 +119,7 @@ export function thruIt<
     TArgs7 extends Args<TReturn6>, TReturn7,
     TArgs8 extends Args<TReturn7>, TReturn8,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -141,7 +141,7 @@ export function thruIt<
     TArgs8 extends Args<TReturn7>, TReturn8,
     TArgs9 extends Args<TReturn8>, TReturn9,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -165,7 +165,7 @@ export function thruIt<
     TArgs9 extends Args<TReturn8>, TReturn9,
     TArgs10 extends Args<TReturn9>, TReturn10,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -191,7 +191,7 @@ export function thruIt<
     TArgs10 extends Args<TReturn9>, TReturn10,
     TArgs11 extends Args<TReturn10>, TReturn11,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -219,7 +219,7 @@ export function thruIt<
     TArgs11 extends Args<TReturn10>, TReturn11,
     TArgs12 extends Args<TReturn11>, TReturn12,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -249,7 +249,7 @@ export function thruIt<
     TArgs12 extends Args<TReturn11>, TReturn12,
     TArgs13 extends Args<TReturn12>, TReturn13,
     >(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
     pass2: (this: void, ...args: TArgs2) => TReturn2,
     pass3: (this: void, ...args: TArgs3) => TReturn3,
@@ -266,7 +266,7 @@ export function thruIt<
 ): PushIterable<Out<TReturn4>>;
 
 export function thruIt<T, TReturn>(
-    it: Iterable<T> | PushIterable<T>,
+    it: PushOrRawIterable<T>,
     ...passes: ((...args: any[]) => any)[]
 ): PushIterable<TReturn> {
 
@@ -295,7 +295,7 @@ export function thruIt<T, TReturn>(
         handleResult(outcome, fn(arg), arg);
       },
       skip() {/* skip item */},
-      iterate<I>(fn: (this: void, arg: I) => void, iterable: Iterable<I>): void {
+      iterate<I>(fn: (this: void, arg: I) => void, iterable: PushOrRawIterable<I>): void {
         outcome.push(flatMapIt(
             iterable,
             item => {
