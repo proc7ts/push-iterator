@@ -70,6 +70,84 @@
 					<a href="https://codecov.io/gh/proc7ts/push-iterator"><img src="https://codecov.io/gh/proc7ts/push-iterator/branch/master/graph/badge.svg" alt="codecov"></a>
 					<a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
 				<a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
+				<p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
+				<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with <code>forNext(accept: (this: void, element: T) =&gt; void | boolean): boolean</code> method.
+					The latter pushes iterated elements to <code>accept</code> function until there is no more elements, or <code>accept</code> function returns
+					<code>false</code> yo stop iteration. The <code>forNext()</code> method returns <code>true</code> if there are more elements to iterate, or <code>false</code>
+				otherwise. The former is possible only when iteration stopped, i.e. <code>accept</code> returned <code>false</code>.</p>
+				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
+					<h2>Rationale</h2>
+				</a>
+				<p><strong>Performance!</strong></p>
+				<p>Traditional <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a> implies a call to <code>next()</code> method and creation of <code>IteratorResult</code> object on each
+				iteration step. The push iteration protocol avoids that.</p>
+				<p>See <a href="https://github.com/proc7ts/push-iterator/tree/master/benchmarks">benchmarking results</a> for performance comparison.</p>
+				<p>JavaScript engines optimize native iteration heavily in some situations, especially for arrays. Still, in non-trivial
+					cases the push iteration protocol demonstrates better performance, especially when it deals with push iterators rather
+				with raw ones.</p>
+				<a href="#design-goals" id="design-goals" style="color: inherit; text-decoration: none;">
+					<h2>Design Goals</h2>
+				</a>
+				<ol>
+					<li><p><strong>Performance</strong>.</p>
+						<p>Push iterators are faster. Still, a lot of the code base relies on raw iterators and arrays. The library contains
+						performance optimizations to deal with it.</p>
+					</li>
+					<li><p><strong>Compatibility</strong>.</p>
+						<ul>
+							<li>Push iterator implements <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface.</li>
+							<li>Each function in this library handles JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> objects in addition to push iterator/push
+							iterable ones.</li>
+						</ul>
+					</li>
+					<li><p><strong>Tree shaking</strong> support.</p>
+						<p>The library API represented by functions. When tree-shaken the unused ones removed from bundles.</p>
+					</li>
+				</ol>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<p>See the full [API Documentation].</p>
+				<a href="#push-iterables-construction" id="push-iterables-construction" style="color: inherit; text-decoration: none;">
+					<h3>Push Iterables Construction</h3>
+				</a>
+				<p>Each of the following functions return a push iterable instance:</p>
+				<ul>
+					<li><code>overArray(array)</code> - Creates a push iterable over elements of array-like structure.</li>
+					<li><code>overElementsOf(...iterables)</code> - Creates a push iterable over elements of other iterables.</li>
+					<li><code>overEntries(object)</code> - Creates a push iterable over the property key/value entries of the given object.</li>
+					<li><code>overKeys(object)</code> - Creates a push iterable over keys of the given object.</li>
+					<li><code>overMany(...values)</code> - Creates a push iterable over many values.</li>
+					<li><code>overNone()</code> - Returns a push iterable iterator without elements.</li>
+					<li><code>reverseArray(array)</code> - Creates a push iterable over elements of array-like structure in reverse order.</li>
+				</ul>
+				<a href="#iterables-consumption" id="iterables-consumption" style="color: inherit; text-decoration: none;">
+					<h3>Iterables Consumption</h3>
+				</a>
+				<p>Each of the following functions accept either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
+				<ul>
+					<li><code>itsEach(iterable, action)</code> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
+					<li><code>itsEmpty(iterable): boolean</code> - Checks whether the given <code>iterable</code> is empty.</li>
+					<li><code>itsEvery(iterable, test): boolean</code> - Tests whether all elements of the given <code>iterable</code> pass the test implemented
+					by the provided function.</li>
+					<li><code>itsFirst(iterable): T | undefined</code> - Extracts the first element of the given <code>iterable</code>, if any.</li>
+					<li><code>itsReduction(iterable, reducer, initialValue): T</code> - Applies a function against an accumulator and each element
+					of the given <code>iterable</code> to reduce elements to a single value.</li>
+					<li><code>itsSome(iterable, test): boolean</code> - Tests whether at least one element of the given <code>iterable</code> passes the test
+					implemented by the provided function.</li>
+				</ul>
+				<a href="#iterables-transformation" id="iterables-transformation" style="color: inherit; text-decoration: none;">
+					<h3>Iterables Transformation</h3>
+				</a>
+				<p>Each of the following functions accept either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and return a push iterable:</p>
+				<ul>
+					<li><code>filterIt(source, test)</code> - Creates a push iterable with all <code>source</code> iterable elements that pass the test
+					implemented by the provided function.</li>
+					<li><code>flatMapIt(source, convert?)</code> - First maps each element of the <code>source</code> iterable using a mapping function,
+					then flattens the result into new push iterable.  </li>
+					<li><code>mapIt(source, convert)</code> - Creates a push iterable with the results of calling a provided function on every element
+					of the <code>source</code> iterable.</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
