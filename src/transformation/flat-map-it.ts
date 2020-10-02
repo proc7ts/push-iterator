@@ -46,44 +46,93 @@ export function flatMapIt<T, R>(
     convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
 
-  const iterate = (): PushIterator<R> => {
+  const iterateOverSource = source[PushIterator__symbol];
+  let iterate: () => PushIterator<R>;
 
-    const it = itsIterator(source);
-    let cIt: PushIterator<R> | undefined;
-    let lastSrc = false;
-
-    return makePushIterator(accept => {
-      for (;;) {
-        while (!cIt) {
-          if (!it.forNext(src => {
-            cIt = itsIterator(convert(src));
-            return false;
-          })) {
-            if (!cIt) {
-              return false;
-            }
-            lastSrc = true;
-          }
-        }
-
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-        let goOn: boolean | void;
-
-        if (!cIt.forNext(element => goOn = accept(element))) {
-          cIt = undefined;
-          if (lastSrc) {
-            return false;
-          }
-        }
-        if (goOn === false) {
-          return true;
-        }
-      }
-    });
-  };
+  if (iterateOverSource) {
+    iterate = () => flatMapPushIterator(iterateOverSource(), convert);
+  } else {
+    iterate = () => flatMapRawIterator(source[Symbol.iterator](), convert);
+  }
 
   return {
     [Symbol.iterator]: iterate,
     [PushIterator__symbol]: iterate,
   };
+}
+
+/**
+ * @internal
+ */
+function flatMapPushIterator<T, R>(
+    it: PushIterator<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R>,
+): PushIterator<R> {
+
+  let cIt: PushIterator<R> | undefined;
+  let lastSrc = false;
+
+  return makePushIterator(accept => {
+    for (;;) {
+      while (!cIt) {
+        if (!it.forNext(src => {
+          cIt = itsIterator(convert(src));
+          return false;
+        })) {
+          if (!cIt) {
+            return false;
+          }
+          lastSrc = true;
+        }
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
+
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        cIt = undefined;
+        if (lastSrc) {
+          return false;
+        }
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
+  });
+}
+
+/**
+ * @internal
+ */
+function flatMapRawIterator<T, R>(
+    it: Iterator<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R>,
+): PushIterator<R> {
+
+  let cIt: PushIterator<R> | undefined;
+
+  return makePushIterator(accept => {
+    for (;;) {
+      while (!cIt) {
+
+        const { done, value } = it.next();
+
+        if (done) {
+          return false;
+        }
+        cIt = itsIterator(convert(value));
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
+
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        cIt = undefined;
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
+  });
 }
