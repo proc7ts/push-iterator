@@ -1,4 +1,4 @@
-import type { PushIterator, PushOrRawIterator } from './push-iterator';
+import type { PushIterator } from './push-iterator';
 import { PushIterator__symbol } from './push-iterator';
 
 /**
@@ -25,7 +25,7 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
 /**
  * @internal
  */
-export function toPushIterator<T>(it: PushOrRawIterator<T>): PushIterator<T> {
+export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
 
   const iterator: PushIterator<T> = {
 
