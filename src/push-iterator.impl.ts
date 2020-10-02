@@ -26,9 +26,6 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
  * @internal
  */
 export function toPushIterator<T>(it: PushOrRawIterator<T>): PushIterator<T> {
-  if (it.forNext) {
-    return it;
-  }
 
   const iterator: PushIterator<T> = {
 

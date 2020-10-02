@@ -41,7 +41,7 @@ export interface PushIterable<T> extends Iterable<T> {
  */
 export type PushOrRawIterable<T> = PushIterable<T> | {
   [Symbol.iterator](): PushOrRawIterator<T>;
-  [PushIterator__symbol]?(this: void): PushIterator<T>;
+  [PushIterator__symbol]?: undefined;
 };
 
 /**

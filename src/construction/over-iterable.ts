@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { isPushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { PushIterator__symbol } from '../push-iterator';
 import { toPushIterator } from '../push-iterator.impl';
@@ -17,6 +18,9 @@ import { overArray } from './over-array';
  * @returns New push iterable over elements of the given `source`.
  */
 export function overIterable<T>(source: PushOrRawIterable<T>): PushIterable<T> {
+  if (isPushIterable(source)) {
+    return source;
+  }
   if (Array.isArray(source)) {
     return overArray<T>(source);
   }
