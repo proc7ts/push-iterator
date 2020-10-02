@@ -2,84 +2,84 @@ import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { mapIt } from '../transformation';
-import type { BenchContext } from './bench-context';
+import { benchArray, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
 export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
       .add(
           'for ... of [...].map(...)',
-          function (this: BenchContext) {
-            for (const element of this.data.input.map(el => el + '!')) {
-              this.data.report(element);
+          () => {
+            for (const element of benchArray.map(el => el + '!')) {
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of mapIterable([...])',
-          function (this: BenchContext) {
-            for (const element of mapIterable(this.data.input, el => el + '!')) {
-              this.data.report(element);
+          () => {
+            for (const element of mapIterable(benchArray, el => el + '!')) {
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of *generatorMap([...])',
-          function (this: BenchContext) {
-            for (const element of generatorMap(this.data.input, el => el + '!')) {
-              this.data.report(element);
+          () => {
+            for (const element of generatorMap(benchArray, el => el + '!')) {
+              benchOut(element);
             }
           },
       )
       .add(
           'itsEach(mapIt([...]))',
-          function (this: BenchContext) {
+          () => {
             itsEach(
-                mapIt(this.data.input, el => el + '!'),
-                element => this.data.report(element),
+                mapIt(benchArray, el => el + '!'),
+                element => benchOut(element),
             );
           },
       )
-      .suites('Array map', inputSizes);
+      .suites('Array map', inputSizes.map(inputSize => [inputSize]));
 }
 
 export function iterableMapSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
       .add(
           'for ... of mapIterable(iterable)',
-          function (this: BenchContext) {
-            for (const element of mapIterable(this.data.iterable(), el => el + '!')) {
-              this.data.report(element);
+          () => {
+            for (const element of mapIterable(benchIterable(), el => el + '!')) {
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of *generatorMap(iterable)',
-          function (this: BenchContext) {
-            for (const element of generatorMap(this.data.iterable(), el => el + '!')) {
-              this.data.report(element);
+          () => {
+            for (const element of generatorMap(benchIterable(), el => el + '!')) {
+              benchOut(element);
             }
           },
       )
       .add(
           'itsEach(mapIt(iterable))',
-          function (this: BenchContext) {
+          () => {
             itsEach(
-                mapIt(this.data.iterable(), el => el + '!'),
-                element => this.data.report(element),
+                mapIt(benchIterable(), el => el + '!'),
+                element => benchOut(element),
             );
           },
       )
       .add(
           'itsEach(mapIt(overArray([...])))',
-          function (this: BenchContext) {
+          () => {
             itsEach(
-                mapIt(overArray(this.data.input), (el: string) => el + '!'),
-                element => this.data.report(element),
+                mapIt(overArray(benchArray), (el: string) => el + '!'),
+                element => benchOut(element),
             );
           },
       )
-      .suites('Iterable map', inputSizes);
+      .suites('Iterable map', inputSizes.map(inputSize => [inputSize]));
 }
 
 export function *generatorMap<T, R>(source: Iterable<T>, map: (src: T) => R): IterableIterator<R> {

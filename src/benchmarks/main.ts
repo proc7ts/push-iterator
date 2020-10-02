@@ -57,6 +57,7 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
 
     const options: Benchmark.Options = {
       initCount: 15,
+      async: false,
     };
 
     suite.on('start', ({ currentTarget: { name } }: any) => console.log(`\n${name}`));

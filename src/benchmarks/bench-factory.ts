@@ -1,34 +1,28 @@
 import Benchmark from 'benchmark';
 import chalk from 'chalk';
-import type { BenchContext } from './bench-context';
-import { BenchData } from './bench-data';
+import { benchSetup } from './bench-data';
 
-export class BenchFactory<TData extends BenchData = BenchData> {
+export type BenchVariant = [inputSize: number];
 
-  private readonly _benches: ((suite: Benchmark.Suite, inputSize: number) => void)[] = [];
+export class BenchFactory<TVariant extends [inputSize: number, ...other: any[]] = BenchVariant> {
 
-  constructor(readonly createData: (inputSize: number) => TData = inputSize => new BenchData(inputSize) as TData) {
+  private readonly _benches: ((suite: Benchmark.Suite, variant: TVariant) => void)[] = [];
+
+  constructor(protected readonly _setup: (...args: TVariant) => void = benchSetup) {
   }
 
-  add(name: string, fn: (this: BenchContext<TData>) => void): this {
-    this._benches.push((suite, inputSize) => {
-
-      const newData = (): TData => this.createData(inputSize);
-
+  add(name: string, fn: () => void): this {
+    this._benches.push((suite, variant) => {
+      const setup = function (this: any): void {
+        this.benchSetup();
+      };
       suite.add(
           name,
           fn,
           {
-            newData,
-
-            setup(this: BenchContext) {
-              this.data = this.newData();
-            },
-
-            onCycle() {
-              this.data = this.newData();
-            },
-
+            benchSetup: () => this._setup(...variant),
+            setup,
+            onCycle: setup,
           } as any,
       );
     });
@@ -36,18 +30,19 @@ export class BenchFactory<TData extends BenchData = BenchData> {
     return this;
   }
 
-  benchExtra(): string | undefined {
+  benchExtra(..._variant: TVariant): string | undefined {
     return;
   }
 
-  suites(name: string, inputSizes: readonly number[]): readonly Benchmark.Suite[] {
+  suites(name: string, variants: readonly TVariant[]): readonly Benchmark.Suite[] {
 
     const suites: Benchmark.Suite[] = [];
 
-    for (const inputSize of inputSizes) {
+    for (const variant of variants) {
 
+      const [inputSize] = variant;
       let info = chalk.green(String(inputSize)) + ' items';
-      const extra = this.benchExtra();
+      const extra = this.benchExtra(...variant);
 
       if (extra) {
         info += ', ' + extra;
@@ -58,7 +53,7 @@ export class BenchFactory<TData extends BenchData = BenchData> {
       );
 
       for (const bench of this._benches) {
-        bench(suite, inputSize);
+        bench(suite, variant);
       }
 
       suites.push(suite);

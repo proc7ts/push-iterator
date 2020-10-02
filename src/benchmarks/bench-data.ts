@@ -1,60 +1,45 @@
-export class BenchData {
+export const benchArray: string[] = [];
+const benchOutput: string[] = [];
 
-  readonly input: readonly string[];
-  private _index = 0;
-  readonly output: string[];
+let benchOutputIndex = 0;
 
-  constructor(
-      readonly inputSize: number,
-      readonly outputSize = inputSize,
-  ) {
+benchOutput.length = 256;
 
-    const input: string[] = [];
-
-    for (let i = 0; i < inputSize; ++i) {
-      input[i] = Math.random().toString(36).substr(2);
-    }
-    this.input = input;
-
-    this.output = [];
-    for (let i = 0; i < outputSize; ++i) {
-      this.output[i] = '';
-    }
+export function benchSetup(inputSize: number, ..._other: readonly any[]): void {
+  benchOutputIndex = 0;
+  benchArray.length = inputSize;
+  for (let i = 0; i < inputSize; ++i) {
+    benchArray[i] = Math.random().toString(36).substr(2);
   }
+}
 
-  *generator(): IterableIterator<string> {
-    for (const element of this.input) {
-      yield element;
-    }
+export function benchOut(result: string): void {
+  benchOutput[benchOutputIndex] = result;
+  benchOutputIndex = (benchOutputIndex + 1) & 0xFF;
+}
+
+export function *benchGenerator(): IterableIterator<string> {
+  for (const element of benchArray) {
+    yield element;
   }
+}
 
-  iterable(): Iterable<string> {
-    return {
+export function benchIterable(): Iterable<string> {
+  return {
 
-      [Symbol.iterator]: () => {
+    [Symbol.iterator]: () => {
 
-        const it = this.input[Symbol.iterator]();
+      const it = benchArray[Symbol.iterator]();
 
-        return {
-          next() {
+      return {
+        next() {
 
-            const { done, value } = it.next();
+          const { done, value } = it.next();
 
-            return done ? { done: true, value: undefined } : { value };
-          },
-        };
-      },
+          return done ? { done: true, value: undefined } : { value };
+        },
+      };
+    },
 
-    };
-  }
-
-  report(result: string): void {
-    this.output[this._index++] = result;
-  }
-
-  reset(): this {
-    this._index = 0;
-    return this;
-  }
-
+  };
 }

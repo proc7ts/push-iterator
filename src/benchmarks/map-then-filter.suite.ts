@@ -1,13 +1,11 @@
 import { nextSkip } from '@proc7ts/call-thru';
 import type Benchmark from 'benchmark';
-import chalk from 'chalk';
 import { thruIt } from '../call-thru';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { filterIt, mapIt } from '../transformation';
-import type { BenchContext } from './bench-context';
-import { BenchData } from './bench-data';
-import { BenchFactory } from './bench-factory';
+import { benchArray, benchIterable, benchOut } from './bench-data';
+import { benchFilter, FilterBenchFactory, filterIterable, generatorFilter } from './filter.suite';
 import { generatorMap, mapIterable } from './map.suite';
 
 export function arrayMapThenFilterSuite(
@@ -15,67 +13,67 @@ export function arrayMapThenFilterSuite(
     outOf: number,
     inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
-  return new FilterBenchFactory(rate, outOf)
+  return new FilterBenchFactory()
       .add(
           'for ... of [...].map(...).filter(...)',
-          function (this: BenchContext<FilterBenchData>) {
-            for (const element of this.data.input.map(el => el + '!').filter(el => this.data.filter(el))) {
-              this.data.report(element);
+          () => {
+            for (const element of benchArray.map(el => el + '!').filter(el => benchFilter(el))) {
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of *generatorFilter(*generatorMap([...]))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             for (const element of generatorFilter(
-                generatorMap(this.data.input, el => el + '!'),
-                el => this.data.filter(el),
+                generatorMap(benchArray, el => el + '!'),
+                el => benchFilter(el),
             )) {
-              this.data.report(element);
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of filterIterable(mapIterable([...]))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             for (const element of filterIterable(
-                mapIterable(this.data.input, el => el + '!'),
-                el => this.data.filter(el),
+                mapIterable(benchArray, el => el + '!'),
+                el => benchFilter(el),
             )) {
-              this.data.report(element);
+              benchOut(element);
             }
           },
       )
       .add(
           'itsEach(filterIt(mapIt([...])))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             itsEach(
                 filterIt(
-                    mapIt(this.data.input, el => el + '!'),
-                    el => this.data.filter(el),
+                    mapIt(benchArray, el => el + '!'),
+                    el => benchFilter(el),
                 ),
-                element => this.data.report(element),
+                element => benchOut(element),
             );
           },
       )
       .add(
           'itsEach(thruIt([...]))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             itsEach(
                 thruIt(
-                    this.data.input,
+                    benchArray,
                     el => {
 
                       const converted = el + '!';
 
-                      return this.data.filter(converted) ? converted : nextSkip;
+                      return benchFilter(converted) ? converted : nextSkip;
                     },
                 ),
-                element => this.data.report(element),
+                element => benchOut(element),
             );
           },
       )
-      .suites('Array map then filter', inputSizes);
+      .suites('Array map then filter', inputSizes.map(inputSize => [inputSize, rate, outOf]));
 }
 
 export function iterableMapThenFilterSuite(
@@ -83,132 +81,69 @@ export function iterableMapThenFilterSuite(
     outOf: number,
     inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
-  return new FilterBenchFactory(rate, outOf)
+  return new FilterBenchFactory()
       .add(
           'for ... of *generatorFilter(*generatorMap(iterable))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             for (const element of generatorFilter(
-                generatorMap(this.data.iterable(), el => el + '!'),
-                el => this.data.filter(el),
+                generatorMap(benchIterable(), el => el + '!'),
+                el => benchFilter(el),
             )) {
-              this.data.report(element);
+              benchOut(element);
             }
           },
       )
       .add(
           'for ... of filterIterable(mapIterable(iterable))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             for (const element of filterIterable(
-                mapIterable(this.data.iterable(), el => el + '!'),
-                el => this.data.filter(el),
+                mapIterable(benchIterable(), el => el + '!'),
+                el => benchFilter(el),
             )) {
-              this.data.report(element);
+              benchOut(element);
             }
           },
       )
       .add(
           'itsEach(filterIt(mapIt(overArray([...]))))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             itsEach(
                 filterIt(
-                    mapIt(overArray(this.data.input), (el: string) => el + '!'),
-                    el => this.data.filter(el),
+                    mapIt(overArray(benchArray), (el: string) => el + '!'),
+                    el => benchFilter(el),
                 ),
-                element => this.data.report(element),
+                element => benchOut(element),
             );
           },
       )
       .add(
           'itsEach(filterIt(mapIt(iterable)))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             itsEach(
                 filterIt(
-                    mapIt(this.data.iterable(), el => el + '!'),
-                    el => this.data.filter(el),
+                    mapIt(benchIterable(), el => el + '!'),
+                    el => benchFilter(el),
                 ),
-                element => this.data.report(element),
+                element => benchOut(element),
             );
           },
       )
       .add(
           'itsEach(thruIt(iterable))',
-          function (this: BenchContext<FilterBenchData>) {
+          () => {
             itsEach(
                 thruIt(
-                    this.data.iterable(),
+                    benchIterable(),
                     el => {
 
                       const converted = el + '!';
 
-                      return this.data.filter(converted) ? converted : nextSkip;
+                      return benchFilter(converted) ? converted : nextSkip;
                     },
                 ),
-                element => this.data.report(element),
+                element => benchOut(element),
             );
           },
       )
-      .suites('Iterable map then filter', inputSizes);
-}
-
-
-export class FilterBenchData extends BenchData {
-
-  private _filterIdx = 0;
-
-  constructor(inputSize: number, readonly rate: number, readonly outOf: number) {
-    super(inputSize, inputSize - Math.floor(inputSize * outOf / rate));
-  }
-
-  filter(element: string): boolean {
-    if (++this._filterIdx > this.outOf) {
-      this._filterIdx = 1;
-    }
-    return this._filterIdx > this.rate && !!element;
-  }
-
-}
-
-export class FilterBenchFactory extends BenchFactory<FilterBenchData> {
-
-  constructor(readonly rate: number, readonly outOf: number) {
-    super((inputSize: number) => new FilterBenchData(inputSize, rate, outOf));
-  }
-
-  benchExtra(): string {
-    return chalk.green(this.rate) + '/' + chalk.green(this.outOf) + ' out';
-  }
-
-}
-
-export function *generatorFilter<T>(source: Iterable<T>, filter: (element: T) => boolean): IterableIterator<T> {
-  for (const element of source) {
-    if (filter(element)) {
-      yield element;
-    }
-  }
-}
-
-export function filterIterable<T>(source: Iterable<T>, filter: (element: T) => boolean): Iterable<T> {
-  return {
-    [Symbol.iterator]() {
-
-      const it = source[Symbol.iterator]();
-
-      return {
-        next() {
-          for (;;) {
-
-            const { done, value } = it.next();
-
-            if (done) {
-              return { done, value: undefined };
-            }
-            if (filter(value)) {
-              return { value };
-            }
-          }
-        },
-      };
-    },
-  };
+      .suites('Iterable map then filter', inputSizes.map(inputSize => [inputSize, rate, outOf]));
 }
