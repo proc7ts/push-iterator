@@ -2,34 +2,39 @@ import { overArray } from '../construction';
 import { itsEach } from './its-each';
 
 describe('itsEach', () => {
-  it('iterates over each iterable element', () => {
+  describe('over raw iterable', () => {
+    it('iterates over each element', () => {
 
-    const array = ['foo', 'bar', 'baz'];
-    const result: string[] = [];
+      const array = ['foo', 'bar', 'baz'];
+      const result: string[] = [];
 
-    itsEach(
-        new Set(array),
-        element => {
-          result.push(element);
-          return false; // To ensure the result is ignored
-        },
-    );
+      itsEach(
+          new Set(array),
+          element => {
+            result.push(element);
+            return false; // To ensure the result is ignored
+          },
+      );
 
-    expect(result).toEqual(array);
+      expect(result).toEqual(array);
+    });
   });
-  it('iterates over each push iterable element', () => {
 
-    const array = ['foo', 'bar', 'baz'];
-    const result: string[] = [];
+  describe('over push iterable', () => {
+    it('iterates over each element', () => {
 
-    itsEach(
-        overArray(array),
-        element => {
-          result.push(element);
-          return false; // To ensure the result is ignored
-        },
-    );
+      const array = ['foo', 'bar', 'baz'];
+      const result: string[] = [];
 
-    expect(result).toEqual(array);
+      itsEach(
+          overArray(array),
+          element => {
+            result.push(element);
+            return false; // To ensure the result is ignored
+          },
+      );
+
+      expect(result).toEqual(array);
+    });
   });
 });
