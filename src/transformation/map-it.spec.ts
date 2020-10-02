@@ -1,5 +1,4 @@
 import { overMany } from '../construction';
-import { PushIterator__symbol } from '../push-iterator';
 import { mapIt } from './map-it';
 
 describe('mapIt', () => {
@@ -14,7 +13,7 @@ describe('mapIt', () => {
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
         expect([...it]).toEqual(['11!', '22!', '33!']);
-        expect(it[PushIterator__symbol]()).toBe(it);
+        expect(it[Symbol.iterator]()).toBe(it);
       });
     });
 
@@ -23,7 +22,7 @@ describe('mapIt', () => {
 
         const result: string[] = [];
 
-        expect(mapIt(new Set([11, 22, 33]), element => `${element}!`)[PushIterator__symbol]().forNext(element => {
+        expect(mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]().forNext(element => {
           result.push(element);
         })).toBe(false);
         expect(result).toEqual(['11!', '22!', '33!']);
@@ -31,7 +30,7 @@ describe('mapIt', () => {
       it('resumes conversion', () => {
 
         const result: string[] = [];
-        const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[PushIterator__symbol]();
+        const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
         expect(it.forNext(() => false)).toBe(true);
         expect(it.forNext(element => {

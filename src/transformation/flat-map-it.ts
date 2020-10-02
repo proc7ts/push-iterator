@@ -2,11 +2,12 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { overNone } from '../construction';
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { isPushIterable, PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * @internal
@@ -46,18 +47,19 @@ export function flatMapIt<T, R>(
     convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
 
-  const iterateOverSource = source[PushIterator__symbol];
   let iterate: () => PushIterator<R>;
 
-  if (iterateOverSource) {
-    iterate = () => flatMapPushIterator(iterateOverSource(), convert);
+  if (isPushIterable(source)) {
+    iterate = () => flatMapPushIterator(source[Symbol.iterator](), convert);
+  } else if (Array.isArray(source)) {
+    iterate = () => flatMapArrayIterator(source, convert);
   } else {
     iterate = () => flatMapRawIterator(source[Symbol.iterator](), convert);
   }
 
   return {
+    [PushIterable__symbol]: 1,
     [Symbol.iterator]: iterate,
-    [PushIterator__symbol]: iterate,
   };
 }
 
@@ -105,6 +107,39 @@ function flatMapPushIterator<T, R>(
 /**
  * @internal
  */
+function flatMapArrayIterator<T, R>(
+    array: ArrayLike<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R>,
+): PushIterator<R> {
+  if (!array.length) {
+    return overNone();
+  }
+
+  let cIt: PushIterator<R> = itsIterator(convert(array[0]));
+  let index = 1;
+
+  return makePushIterator(accept => {
+    for (;;) {
+
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
+
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        if (index >= array.length) {
+          return false;
+        }
+        cIt = itsIterator(convert(array[index++]));
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
+  });
+}
+
+/**
+ * @internal
+ */
 function flatMapRawIterator<T, R>(
     it: Iterator<T>,
     convert: (this: void, element: T) => PushOrRawIterable<R>,
@@ -114,14 +149,14 @@ function flatMapRawIterator<T, R>(
 
   return makePushIterator(accept => {
     for (;;) {
-      while (!cIt) {
+      if (!cIt) {
 
-        const { done, value } = it.next();
+        const next = it.next();
 
-        if (done) {
+        if (next.done) {
           return false;
         }
-        cIt = itsIterator(convert(value));
+        cIt = itsIterator(convert(next.value));
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type

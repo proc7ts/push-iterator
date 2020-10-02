@@ -3,8 +3,9 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushIterable } from '../push-iterable';
+import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator__symbol } from '../push-iterator';
+import { PushIterator$iterator } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} over one value.
@@ -15,12 +16,9 @@ import { PushIterator__symbol } from '../push-iterator';
  * @returns New push iterable over the given value.
  */
 export function overOne<T>(value: T): PushIterable<T> {
-
-  const iterate = (): PushIterator<T> => oneValueIterator(value);
-
   return {
-    [Symbol.iterator]: iterate,
-    [PushIterator__symbol]: iterate,
+    [PushIterable__symbol]: 1,
+    [Symbol.iterator]: () => oneValueIterator(value),
   };
 }
 
@@ -30,9 +28,10 @@ export function overOne<T>(value: T): PushIterable<T> {
 function oneValueIterator<T>(value: T): PushIterator<T> {
 
   let done = false;
-  const iterator: PushIterator<T> = {
-    [Symbol.iterator]: () => iterator,
-    [PushIterator__symbol]: () => iterator,
+
+  return {
+    [PushIterable__symbol]: 1,
+    [Symbol.iterator]: PushIterator$iterator,
     next() {
       if (done) {
         return { done } as IteratorReturnResult<undefined>;
@@ -48,6 +47,4 @@ function oneValueIterator<T>(value: T): PushIterator<T> {
       return false;
     },
   };
-
-  return iterator;
 }

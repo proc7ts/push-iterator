@@ -1,4 +1,3 @@
-import { PushIterator__symbol } from '../push-iterator';
 import { overIterable } from './over-iterable';
 
 describe('overIterable', () => {
@@ -20,16 +19,5 @@ describe('overIterable', () => {
     const it = overIterable([1, 2, 3]);
 
     expect(overIterable(it)).toBe(it);
-  });
-
-  describe('[Symbol.iterator]', () => {
-    describe('[PushIterator__symbol]', () => {
-      it('returns iterator itself', () => {
-
-        const it = overIterable(new Set([1, 2, 3]))[Symbol.iterator]();
-
-        expect(it[PushIterator__symbol]()).toBe(it);
-      });
-    });
   });
 });

@@ -1,5 +1,4 @@
 import { itsIterator } from '../its-iterator';
-import { PushIterator__symbol } from '../push-iterator';
 import { overArray } from './over-array';
 
 describe('overArray', () => {
@@ -39,20 +38,5 @@ describe('overArray', () => {
     it('iterates over array elements', () => {
       expect([...overArray(array)]).toEqual(array);
     });
-    describe('[PushIterator__symbol]', () => {
-      it('returns iterator itself', () => {
-
-        const it = overArray(array)[Symbol.iterator]();
-
-        expect(it[PushIterator__symbol]()).toBe(it);
-      });
-    });
   });
-
-  describe('[PushIterator__symbol]', () => {
-    it('iterates over array elements', () => {
-      expect([...overArray(array)[PushIterator__symbol]()]).toEqual(array);
-    });
-  });
-
 });

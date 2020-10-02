@@ -4,8 +4,8 @@
  */
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { isPushIterable, PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements that pass the test implemented by
@@ -46,13 +46,12 @@ export function filterIt<T>(
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
 
-  const iterateOverSource = source[PushIterator__symbol];
   let iterate: () => PushIterator<T>;
 
-  if (iterateOverSource) {
+  if (isPushIterable(source)) {
     iterate = () => {
 
-      const it = iterateOverSource();
+      const it = source[Symbol.iterator]();
 
       return makePushIterator(accept => it.forNext(element => !test(element) || accept(element)));
     };
@@ -78,7 +77,7 @@ export function filterIt<T>(
   }
 
   return {
+    [PushIterable__symbol]: 1,
     [Symbol.iterator]: iterate,
-    [PushIterator__symbol]: iterate,
   };
 }

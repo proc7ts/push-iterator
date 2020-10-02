@@ -1,5 +1,4 @@
 import { itsEach } from '../consumption';
-import { PushIterator__symbol } from '../push-iterator';
 import { overElementsOf } from './over-elements-of';
 import { overMany } from './over-many';
 import { overNone } from './over-none';
@@ -36,17 +35,6 @@ describe('overElementsOf', () => {
       itsEach(it, el => result.push(el));
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
-    });
-  });
-
-  describe('[Symbol.iterator]', () => {
-    describe('[PushIterator__symbol]', () => {
-      it('returns iterator itself', () => {
-
-        const it = overElementsOf(new Set([11, 12]), new Set([13, 14]))[Symbol.iterator]();
-
-        expect(it[PushIterator__symbol]()).toBe(it);
-      });
     });
   });
 });

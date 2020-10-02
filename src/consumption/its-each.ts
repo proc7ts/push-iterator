@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushOrRawIterable } from '../push-iterable';
-import { PushIterator__symbol } from '../push-iterator';
+import { isPushIterable } from '../push-iterable';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -14,11 +14,8 @@ import { PushIterator__symbol } from '../push-iterator';
  * parameter.
  */
 export function itsEach<T>(iterable: PushOrRawIterable<T>, action: (this: void, element: T) => void): void {
-
-  const iterate = iterable[PushIterator__symbol];
-
-  if (iterate) {
-    iterate().forNext(element => {
+  if (isPushIterable(iterable)) {
+    iterable[Symbol.iterator]().forNext(element => {
       action(element);
     });
   } else {

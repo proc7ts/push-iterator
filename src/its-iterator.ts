@@ -4,8 +4,8 @@
  */
 import { arrayIterator } from './array-iterator.impl';
 import type { PushOrRawIterable } from './push-iterable';
+import { isPushIterable } from './push-iterable';
 import type { PushIterator } from './push-iterator';
-import { PushIterator__symbol } from './push-iterator';
 import { toPushIterator } from './push-iterator.impl';
 
 /**
@@ -17,11 +17,8 @@ import { toPushIterator } from './push-iterator.impl';
  * @return A push iterator iterating over the given iterable.
  */
 export function itsIterator<T>(iterable: PushOrRawIterable<T>): PushIterator<T> {
-
-  const iterate = iterable[PushIterator__symbol];
-
-  if (iterate) {
-    return iterate();
+  if (isPushIterable(iterable)) {
+    return iterable[Symbol.iterator]();
   }
   if (Array.isArray(iterable)) {
     return arrayIterator<T>(iterable);

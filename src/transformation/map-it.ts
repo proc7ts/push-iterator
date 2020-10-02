@@ -4,8 +4,9 @@
  */
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { isPushIterable, PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator__symbol } from '../push-iterator';
+import { PushIterator$iterator } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -24,36 +25,34 @@ export function mapIt<T, R>(
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
 
-  const iterateOverSource = source[PushIterator__symbol];
   let iterate: () => PushIterator<R>;
 
-  if (iterateOverSource) {
+  if (isPushIterable(source)) {
     iterate = () => {
 
-      const it = iterateOverSource();
+      const it = source[Symbol.iterator]();
 
       return makePushIterator(accept => it.forNext(element => accept(convert(element))));
     };
   } else {
-    iterate = () => mapIterator(source[Symbol.iterator](), convert);
+    iterate = () => mapRawIterator(source[Symbol.iterator](), convert);
   }
 
   return {
+    [PushIterable__symbol]: 1,
     [Symbol.iterator]: iterate,
-    [PushIterator__symbol]: iterate,
   };
 }
 
 /**
  * @internal
  */
-function mapIterator<T, R>(it: Iterator<T>, convert: (this: void, element: T) => R): PushIterator<R> {
+function mapRawIterator<T, R>(it: Iterator<T>, convert: (this: void, element: T) => R): PushIterator<R> {
+  return {
 
-  const iterator: PushIterator<R> = {
+    [PushIterable__symbol]: 1,
 
-    [Symbol.iterator]: () => iterator,
-
-    [PushIterator__symbol]: () => iterator,
+    [Symbol.iterator]: PushIterator$iterator,
 
     next() {
 
@@ -81,6 +80,4 @@ function mapIterator<T, R>(it: Iterator<T>, convert: (this: void, element: T) =>
     },
 
   };
-
-  return iterator;
 }

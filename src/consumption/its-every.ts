@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushOrRawIterable } from '../push-iterable';
-import { PushIterator__symbol } from '../push-iterator';
+import { isPushIterable } from '../push-iterable';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -21,11 +21,10 @@ export function itsEvery<T>(
     test: (this: void, element: T) => boolean,
 ): boolean {
 
-  const iterate = iterable[PushIterator__symbol];
   let allMatch = true;
 
-  if (iterate) {
-    iterate().forNext(element => allMatch = !!test(element));
+  if (isPushIterable(iterable)) {
+    iterable[Symbol.iterator]().forNext(element => allMatch = !!test(element));
   } else {
     for (const element of iterable) {
       if (!(allMatch = !!test(element))) {

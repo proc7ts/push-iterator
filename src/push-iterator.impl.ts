@@ -1,5 +1,12 @@
+import { PushIterable__symbol } from './push-iterable';
 import type { PushIterator } from './push-iterator';
-import { PushIterator__symbol } from './push-iterator';
+
+/**
+ * @internal
+ */
+export function PushIterator$iterator<T>(this: T): T {
+  return this;
+}
 
 /**
  * @internal
@@ -26,12 +33,11 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
  * @internal
  */
 export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
+  return {
 
-  const iterator: PushIterator<T> = {
+    [PushIterable__symbol]: 1,
 
-    [Symbol.iterator]: () => iterator,
-
-    [PushIterator__symbol]: () => iterator,
+    [Symbol.iterator]: PushIterator$iterator,
 
     next() {
       return it.next();
@@ -52,6 +58,4 @@ export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
     },
 
   };
-
-  return iterator;
 }

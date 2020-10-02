@@ -5,8 +5,8 @@
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator__symbol } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
 
@@ -20,34 +20,31 @@ import { overNone } from './over-none';
  */
 export function overElementsOf<T>(...sources: readonly PushOrRawIterable<T>[]): PushIterable<T> {
   if (sources.length > 1) {
-
-    const iterate = (): PushIterator<T> => {
-
-      let i = 0;
-      let it: PushIterator<T> = itsIterator(sources[0]);
-
-      return makePushIterator(accept => {
-        for (;;) {
-
-          // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-          let goOn: boolean | void;
-
-          if (!it.forNext(element => goOn = accept(element))) {
-            if (++i >= sources.length) {
-              return false;
-            }
-            it = itsIterator(sources[i]);
-          }
-          if (goOn === false) {
-            return true;
-          }
-        }
-      });
-    };
-
     return {
-      [Symbol.iterator]: iterate,
-      [PushIterator__symbol]: iterate,
+      [PushIterable__symbol]: 1,
+      [Symbol.iterator](): PushIterator<T> {
+
+        let i = 0;
+        let it: PushIterator<T> = itsIterator(sources[0]);
+
+        return makePushIterator(accept => {
+          for (; ;) {
+
+            // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+            let goOn: boolean | void;
+
+            if (!it.forNext(element => goOn = accept(element))) {
+              if (++i >= sources.length) {
+                return false;
+              }
+              it = itsIterator(sources[i]);
+            }
+            if (goOn === false) {
+              return true;
+            }
+          }
+        });
+      },
     };
   }
   if (sources.length) {
