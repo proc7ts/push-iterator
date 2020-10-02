@@ -4,12 +4,14 @@
  */
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * @internal
  */
 const noneIterator = {
   [Symbol.iterator]: () => noneIterator,
+  [PushIterator__symbol]: () => noneIterator,
   next: () => ({ done: true } as IteratorReturnResult<unknown>),
   forNext: () => false,
 };

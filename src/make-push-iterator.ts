@@ -3,7 +3,8 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushIterator } from './push-iterator';
-import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
+import { PushIterator__symbol } from './push-iterator';
+import { PushIterator$next } from './push-iterator.impl';
 
 /**
  * Creates push iterator implementation.
@@ -13,9 +14,13 @@ import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
  * @returns New push iterator instance performing iteration by `forNext` function.
  */
 export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterator<T> {
-  return {
-    [Symbol.iterator]: PushIterator$iterator,
+
+  const iterator: PushIterator<T> = {
+    [Symbol.iterator]: () => iterator,
+    [PushIterator__symbol]: () => iterator,
     next: PushIterator$next,
     forNext,
   };
+
+  return iterator;
 }

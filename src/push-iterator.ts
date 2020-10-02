@@ -2,13 +2,23 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import type { PushIterable } from './push-iterable';
+
+/**
+ * A key of {@link PushIterable} instance method creating a {@link PushIterator push iterator} to iterate over it.
+ */
+export const PushIterator__symbol = (/*#__PURE__*/ Symbol('push-iterator'));
 
 /**
  * Iterator implementing push iteration protocol.
  *
  * @typeParam T  Iterated elements type.
  */
-export interface PushIterator<T> extends IterableIterator<T> {
+export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
+
+  [Symbol.iterator](): PushIterator<T>;
+
+  [PushIterator__symbol](this: void): PushIterator<T>;
 
   /**
    * Iterates over elements of this iterator.

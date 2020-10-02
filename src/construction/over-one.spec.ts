@@ -1,11 +1,7 @@
+import { PushIterator__symbol } from '../push-iterator';
 import { overOne } from './over-one';
 
 describe('overOne', () => {
-  describe('[Symbol.iterator]', () => {
-    it('iterates over single value', () => {
-      expect([...overOne('one')]).toEqual(['one']);
-    });
-  });
   describe('forNext', () => {
     it('reports single element', () => {
 
@@ -23,4 +19,25 @@ describe('overOne', () => {
       expect(result).toEqual(['one']);
     });
   });
+
+  describe('[Symbol.iterator]', () => {
+    it('iterates over single value', () => {
+      expect([...overOne('one')]).toEqual(['one']);
+    });
+    describe('PushIterator__symbol]', () => {
+      it('returns iterator itself', () => {
+
+        const it = overOne('one')[Symbol.iterator]();
+
+        expect(it[PushIterator__symbol]()).toBe(it);
+      });
+    });
+  });
+
+  describe('[PushIterator__symbol]', () => {
+    it('iterates over single value', () => {
+      expect([...overOne('one')[PushIterator__symbol]()]).toEqual(['one']);
+    });
+  });
+
 });

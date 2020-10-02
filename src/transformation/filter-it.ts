@@ -6,6 +6,7 @@ import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements that pass the test implemented by
@@ -45,12 +46,16 @@ export function filterIt<T>(
     source: PushOrRawIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
+
+  const iterate = (): PushIterator<T> => {
+
+    const it = itsIterator(source);
+
+    return makePushIterator(accept => it.forNext(element => !test(element) || accept(element)));
+  };
+
   return {
-    [Symbol.iterator](): PushIterator<T> {
-
-      const it = itsIterator(source);
-
-      return makePushIterator(accept => it.forNext(element => !test(element) || accept(element)));
-    },
+    [Symbol.iterator]: iterate,
+    [PushIterator__symbol]: iterate,
   };
 }

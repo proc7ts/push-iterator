@@ -1,3 +1,4 @@
+import { PushIterator__symbol } from '../push-iterator';
 import { overNone } from './over-none';
 
 describe('overNone', () => {
@@ -16,6 +17,12 @@ describe('overNone', () => {
   describe('[Symbol.iterator]', () => {
     it('does not iterate', () => {
       expect([...overNone()]).toHaveLength(0);
+    });
+  });
+
+  describe('[PushIterator__symbol]', () => {
+    it('does not iterate', () => {
+      expect([...overNone()[PushIterator__symbol]()]).toHaveLength(0);
     });
   });
 });

@@ -6,6 +6,7 @@ import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { PushIterator__symbol } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
 
@@ -19,30 +20,34 @@ import { overNone } from './over-none';
  */
 export function overElementsOf<T>(...sources: readonly PushOrRawIterable<T>[]): PushIterable<T> {
   if (sources.length > 1) {
-    return {
-      [Symbol.iterator](): PushIterator<T> {
 
-        let i = 0;
-        let it: PushIterator<T> = itsIterator(sources[0]);
+    const iterate = (): PushIterator<T> => {
 
-        return makePushIterator(accept => {
-          for (;;) {
+      let i = 0;
+      let it: PushIterator<T> = itsIterator(sources[0]);
 
-            // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-            let goOn: boolean | void;
+      return makePushIterator(accept => {
+        for (;;) {
 
-            if (!it.forNext(element => goOn = accept(element))) {
-              if (++i >= sources.length) {
-                return false;
-              }
-              it = itsIterator(sources[i]);
+          // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+          let goOn: boolean | void;
+
+          if (!it.forNext(element => goOn = accept(element))) {
+            if (++i >= sources.length) {
+              return false;
             }
-            if (goOn === false) {
-              return true;
-            }
+            it = itsIterator(sources[i]);
           }
-        });
-      },
+          if (goOn === false) {
+            return true;
+          }
+        }
+      });
+    };
+
+    return {
+      [Symbol.iterator]: iterate,
+      [PushIterator__symbol]: iterate,
     };
   }
   if (sources.length) {

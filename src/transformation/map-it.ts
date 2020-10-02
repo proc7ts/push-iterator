@@ -6,6 +6,7 @@ import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -23,12 +24,16 @@ export function mapIt<T, R>(
     source: PushOrRawIterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
+
+  const iterate = (): PushIterator<R> => {
+
+    const it = itsIterator(source);
+
+    return makePushIterator(accept => it.forNext(element => accept(convert(element))));
+  };
+
   return {
-    [Symbol.iterator](): PushIterator<R> {
-
-      const it = itsIterator(source);
-
-      return makePushIterator(accept => it.forNext(element => accept(convert(element))));
-    },
+    [Symbol.iterator]: iterate,
+    [PushIterator__symbol]: iterate,
   };
 }

@@ -1,11 +1,5 @@
 import type { PushIterator, PushOrRawIterator } from './push-iterator';
-
-/**
- * @internal
- */
-export function PushIterator$iterator<T>(this: PushIterator<T>): PushIterator<T> {
-  return this;
-}
+import { PushIterator__symbol } from './push-iterator';
 
 /**
  * @internal
@@ -36,9 +30,11 @@ export function toPushIterator<T>(it: PushOrRawIterator<T>): PushIterator<T> {
     return it;
   }
 
-  return {
+  const iterator: PushIterator<T> = {
 
-    [Symbol.iterator]: PushIterator$iterator,
+    [Symbol.iterator]: () => iterator,
+
+    [PushIterator__symbol]: () => iterator,
 
     next() {
       return it.next();
@@ -59,4 +55,6 @@ export function toPushIterator<T>(it: PushOrRawIterator<T>): PushIterator<T> {
     },
 
   };
+
+  return iterator;
 }

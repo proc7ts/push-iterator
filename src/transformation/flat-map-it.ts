@@ -6,6 +6,7 @@ import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { PushIterator__symbol } from '../push-iterator';
 
 /**
  * @internal
@@ -44,41 +45,45 @@ export function flatMapIt<T, R>(
     source: PushOrRawIterable<T>,
     convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
-  return {
-    [Symbol.iterator](): PushIterator<R> {
 
-      const it = itsIterator(source);
-      let cIt: PushIterator<R> | undefined;
-      let lastSrc = false;
+  const iterate = (): PushIterator<R> => {
 
-      return makePushIterator(accept => {
-        for (;;) {
-          while (!cIt) {
-            if (!it.forNext(src => {
-              cIt = itsIterator(convert(src));
-              return false;
-            })) {
-              if (!cIt) {
-                return false;
-              }
-              lastSrc = true;
-            }
-          }
+    const it = itsIterator(source);
+    let cIt: PushIterator<R> | undefined;
+    let lastSrc = false;
 
-          // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-          let goOn: boolean | void;
-
-          if (!cIt.forNext(element => goOn = accept(element))) {
-            cIt = undefined;
-            if (lastSrc) {
+    return makePushIterator(accept => {
+      for (;;) {
+        while (!cIt) {
+          if (!it.forNext(src => {
+            cIt = itsIterator(convert(src));
+            return false;
+          })) {
+            if (!cIt) {
               return false;
             }
-          }
-          if (goOn === false) {
-            return true;
+            lastSrc = true;
           }
         }
-      });
-    },
+
+        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+        let goOn: boolean | void;
+
+        if (!cIt.forNext(element => goOn = accept(element))) {
+          cIt = undefined;
+          if (lastSrc) {
+            return false;
+          }
+        }
+        if (goOn === false) {
+          return true;
+        }
+      }
+    });
+  };
+
+  return {
+    [Symbol.iterator]: iterate,
+    [PushIterator__symbol]: iterate,
   };
 }
