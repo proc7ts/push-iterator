@@ -2,7 +2,6 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -25,15 +24,63 @@ export function mapIt<T, R>(
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
 
-  const iterate = (): PushIterator<R> => {
+  const iterateOverSource = source[PushIterator__symbol];
+  let iterate: () => PushIterator<R>;
 
-    const it = itsIterator(source);
+  if (iterateOverSource) {
+    iterate = () => {
 
-    return makePushIterator(accept => it.forNext(element => accept(convert(element))));
-  };
+      const it = iterateOverSource();
+
+      return makePushIterator(accept => it.forNext(element => accept(convert(element))));
+    };
+  } else {
+    iterate = () => mapIterator(source[Symbol.iterator](), convert);
+  }
 
   return {
     [Symbol.iterator]: iterate,
     [PushIterator__symbol]: iterate,
   };
+}
+
+/**
+ * @internal
+ */
+function mapIterator<T, R>(it: Iterator<T>, convert: (this: void, element: T) => R): PushIterator<R> {
+
+  const iterator: PushIterator<R> = {
+
+    [Symbol.iterator]: () => iterator,
+
+    [PushIterator__symbol]: () => iterator,
+
+    next() {
+
+      const next = it.next();
+
+      if (next.done) {
+        return next;
+      }
+
+      return { value: convert(next.value) };
+    },
+
+    forNext(accept) {
+      for (; ;) {
+
+        const next = it.next();
+
+        if (next.done) {
+          return false;
+        }
+        if (accept(convert(next.value)) === false) {
+          return true;
+        }
+      }
+    },
+
+  };
+
+  return iterator;
 }
