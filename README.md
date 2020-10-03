@@ -91,6 +91,9 @@ Each of the following functions returns a push iterable instance:
 Each of the following functions accepts either [Iterable] or push iterable:
 
 - `itsEach(iterable, action)` - Performs the given `action` for each element of the given `iterable`.
+- `itsElements(iterable[, convert])` - Creates a new, shallow-copied array instance containing elements of the source
+   iterable optionally converted by the given converter function. This is an `Array.from()` function analog optimized
+   for push iterables.
 - `itsEmpty(iterable): boolean` - Checks whether the given `iterable` is empty.
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
