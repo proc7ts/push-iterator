@@ -1,4 +1,5 @@
 import type Benchmark from 'benchmark';
+import { elementsSuite } from './elements.suite';
 import { arrayFilterSuite, iterableFilterSuite } from './filter.suite';
 import { arrayFlatMapSuite, iterableFlatMapSuite } from './flat-map.suite';
 import { arrayIterationSuite, iterableIterationSuite } from './iteration.suite';
@@ -16,6 +17,8 @@ async function run(): Promise<void> {
 
   await runSuites(arrayIterationSuite(INPUT_SIZES));
   await runSuites(iterableIterationSuite(INPUT_SIZES));
+
+  await runSuites(elementsSuite(INPUT_SIZES));
 
   await runSuites(arrayFilterSuite(1, 2, INPUT_SIZES));
   await runSuites(arrayFilterSuite(1, 10, INPUT_SIZES));
