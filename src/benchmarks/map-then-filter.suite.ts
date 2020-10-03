@@ -3,7 +3,7 @@ import type Benchmark from 'benchmark';
 import { thruIt } from '../call-thru';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { filterIt, mapIt } from '../transformation';
+import { filterIt, mapArray, mapIt } from '../transformation';
 import { benchArray, benchIterable, benchOut } from './bench-data';
 import { benchFilter, FilterBenchFactory, filterIterable, generatorFilter } from './filter.suite';
 import { generatorMap, mapIterable } from './map.suite';
@@ -58,6 +58,18 @@ export function arrayMapThenFilterSuite(
             itsEach(
                 filterIt(
                     mapIt(benchArray, el => el + '!'),
+                    el => benchFilter(el),
+                ),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(filterIt(mapArray([...])))',
+          () => {
+            itsEach(
+                filterIt(
+                    mapArray(benchArray, el => el + '!'),
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),

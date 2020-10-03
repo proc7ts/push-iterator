@@ -21,46 +21,46 @@ export function mapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-    if (array.length <= 1) {
-        if (!array.length) {
-            return overNone();
-        }
-        return overOne(convert(array[0]));
+  if (array.length <= 1) {
+    if (!array.length) {
+      return overNone();
     }
+    return overOne(convert(array[0]));
+  }
 
-    return {
+  return {
+    [PushIterable__symbol]: 1,
+    [Symbol.iterator]() {
+
+      let i = 0;
+
+      return {
+
         [PushIterable__symbol]: 1,
-        [Symbol.iterator]() {
 
-            let i = 0;
+        [Symbol.iterator]: PushIterator$iterator,
 
-            return {
+        next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
 
-                [PushIterable__symbol]: 1,
+        forNext(accept) {
+          if (i >= array.length) {
+            return false;
+          }
 
-                [Symbol.iterator]: PushIterator$iterator,
+          for (; ;) {
 
-                next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
+            const goOn = accept(convert(array[i++]));
 
-                forNext(accept) {
-                    if (i >= array.length) {
-                        return false;
-                    }
-
-                    for (; ;) {
-
-                        const goOn = accept(convert(array[i++]));
-
-                        if (i >= array.length) {
-                            return false;
-                        }
-                        if (goOn === false) {
-                            return true;
-                        }
-                    }
-                },
-
-            };
+            if (i >= array.length) {
+              return false;
+            }
+            if (goOn === false) {
+              return true;
+            }
+          }
         },
-    };
+
+      };
+    },
+  };
 }

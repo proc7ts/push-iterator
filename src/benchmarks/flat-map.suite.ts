@@ -2,7 +2,7 @@ import type Benchmark from 'benchmark';
 import chalk from 'chalk';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { flatMapIt } from '../transformation';
+import { flatMapArray, flatMapIt } from '../transformation';
 import { benchArray, benchIterable, benchOut, benchSetup } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
@@ -37,6 +37,15 @@ export function arrayFlatMapSuite(itemSize: number, inputSizes: readonly number[
           () => {
             itsEach(
                 flatMapIt(benchArray, el => benchSubItems(el)),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(flatMapArray([...]))',
+          () => {
+            itsEach(
+                flatMapArray(benchArray, el => benchSubItems(el)),
                 element => benchOut(element),
             );
           },
