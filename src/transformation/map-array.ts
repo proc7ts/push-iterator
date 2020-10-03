@@ -21,11 +21,11 @@ export function mapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-  if (array.length <= 1) {
-    if (!array.length) {
-      return overNone();
-    }
-    return overOne(convert(array[0]));
+
+  const length = array.length;
+
+  if (length <= 1) {
+    return length ? overOne(convert(array[0])) : overNone();
   }
 
   return {

@@ -22,6 +22,7 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
+
 /**
  * Creates a {@link PushIterable push iterable} with all `array` elements extending the given type.
  *
@@ -38,6 +39,7 @@ export function filterArray<T, R extends T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => element is R,
 ): PushIterable<R>;
+
 export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,

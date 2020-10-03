@@ -41,11 +41,11 @@ export function flatMapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
-  if (array.length <= 1) {
-    if (!array.length) {
-      return overNone();
-    }
-    return overIterable(convert(array[0]));
+
+  const length = array.length;
+
+  if (length <= 1) {
+    return length ? overIterable(convert(array[0])) : overNone();
   }
 
   return {
