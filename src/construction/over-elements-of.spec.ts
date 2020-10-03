@@ -4,16 +4,19 @@ import { overMany } from './over-many';
 import { overNone } from './over-none';
 
 describe('overElementsOf', () => {
+
   describe('without sources', () => {
     it('returns `overNone()`', () => {
       expect(overElementsOf()).toBe(overNone());
     });
   });
+
   describe('with one source', () => {
     it('iterates over single source iterable', () => {
       expect([...overElementsOf([1, 2, 3])]).toEqual([1, 2, 3]);
     });
   });
+
   describe('with many sources', () => {
     it('iterates over elements of raw iterable sources', () => {
 

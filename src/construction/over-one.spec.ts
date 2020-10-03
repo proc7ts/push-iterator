@@ -1,11 +1,6 @@
 import { overOne } from './over-one';
 
 describe('overOne', () => {
-  describe('[Symbol.iterator]', () => {
-    it('iterates over single value', () => {
-      expect([...overOne('one')]).toEqual(['one']);
-    });
-  });
   describe('forNext', () => {
     it('reports single element', () => {
 
@@ -21,6 +16,12 @@ describe('overOne', () => {
       })).toBe(false);
 
       expect(result).toEqual(['one']);
+    });
+  });
+
+  describe('[Symbol.iterator]', () => {
+    it('iterates over single value', () => {
+      expect([...overOne('one')]).toEqual(['one']);
     });
   });
 });

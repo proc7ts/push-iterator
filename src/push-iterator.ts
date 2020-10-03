@@ -2,13 +2,16 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import type { PushIterable } from './push-iterable';
 
 /**
  * Iterator implementing push iteration protocol.
  *
  * @typeParam T  Iterated elements type.
  */
-export interface PushIterator<T> extends IterableIterator<T> {
+export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
+
+  [Symbol.iterator](): PushIterator<T>;
 
   /**
    * Iterates over elements of this iterator.

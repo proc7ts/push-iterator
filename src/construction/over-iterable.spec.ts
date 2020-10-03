@@ -14,4 +14,10 @@ describe('overIterable', () => {
 
     expect([...overIterable(iterate())]).toEqual([3, 2, 1]);
   });
+  it('returns push iterable itself', () => {
+
+    const it = overIterable([1, 2, 3]);
+
+    expect(overIterable(it)).toBe(it);
+  });
 });

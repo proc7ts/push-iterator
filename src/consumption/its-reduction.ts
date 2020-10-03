@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushOrRawIterable } from '../push-iterable';
+import { isPushIterable } from '../push-iterable';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -24,23 +25,14 @@ export function itsReduction<T, R>(
 ): R {
 
   let reduced = initialValue;
-  const it = iterable[Symbol.iterator]();
-  const forNext = it.forNext;
 
-  if (forNext) {
-    forNext(element => {
+  if (isPushIterable(iterable)) {
+    iterable[Symbol.iterator]().forNext(element => {
       reduced = reducer(reduced, element);
     });
   } else {
-    for (;;) {
-
-      const res = it.next();
-
-      if (res.done) {
-        break;
-      }
-
-      reduced = reducer(reduced, res.value);
+    for (const element of iterable) {
+      reduced = reducer(reduced, element);
     }
   }
 

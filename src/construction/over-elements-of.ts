@@ -5,6 +5,7 @@
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
+import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
@@ -20,13 +21,14 @@ import { overNone } from './over-none';
 export function overElementsOf<T>(...sources: readonly PushOrRawIterable<T>[]): PushIterable<T> {
   if (sources.length > 1) {
     return {
+      [PushIterable__symbol]: 1,
       [Symbol.iterator](): PushIterator<T> {
 
         let i = 0;
         let it: PushIterator<T> = itsIterator(sources[0]);
 
         return makePushIterator(accept => {
-          for (;;) {
+          for (; ;) {
 
             // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
             let goOn: boolean | void;

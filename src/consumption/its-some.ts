@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator } from '../its-iterator';
 import type { PushOrRawIterable } from '../push-iterable';
+import { isPushIterable } from '../push-iterable';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -23,7 +23,15 @@ export function itsSome<T>(
 
   let someMatches = false;
 
-  itsIterator(iterable).forNext(element => !(someMatches = !!test(element)));
+  if (isPushIterable(iterable)) {
+    iterable[Symbol.iterator]().forNext(element => !(someMatches = !!test(element)));
+  } else {
+    for (const element of iterable) {
+      if ((someMatches = !!test(element))) {
+        break;
+      }
+    }
+  }
 
   return someMatches;
 }

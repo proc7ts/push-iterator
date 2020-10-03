@@ -1,5 +1,4 @@
 export * from './construction';
-export * from './construction/over-array';
 export * from './consumption';
 export * from './its-iterator';
 export * from './make-push-iterator';
