@@ -50,7 +50,8 @@ export type PushOrRawIterable<T> = PushIterable<T> | {
  * @typeParam T  Iterated elements type.
  * @param iterable  An iterable to check.
  *
- * @returns `true` if the given `iterable` has a {@link PushIterable__symbol} property, or `false` otherwise.
+ * @returns `true` if the given `iterable` has a {@link PushIterable__symbol} property set to truthy value,
+ * or `false` otherwise.
  */
 export function isPushIterable<T>(iterable: PushOrRawIterable<T>): iterable is PushIterable<T> {
   return !!iterable[PushIterable__symbol];
