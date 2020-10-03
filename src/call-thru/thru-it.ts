@@ -3,9 +3,9 @@
  * @module @proc7ts/push-iterator/call-thru
  */
 import { isNextCall, NextCall__symbol } from '@proc7ts/call-thru';
-import { overElementsOf, overOne } from '../construction';
+import { overOne } from '../construction';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { flatMapIt } from '../transformation';
+import { flatMapArray, flatMapIt } from '../transformation';
 import type { IterableCallChain } from './iterable-call-chain';
 
 type Args<TReturn> = IterableCallChain.Args<TReturn>;
@@ -304,7 +304,7 @@ export function thruIt<T, TReturn>(
 
               handleResult(itemOutcome, fn(item), item);
 
-              return overElementsOf(...itemOutcome);
+              return flatMapArray(itemOutcome);
             },
         ));
       },
@@ -315,5 +315,5 @@ export function thruIt<T, TReturn>(
 
   chain(finalOutcome, 0).iterate(passes[0], it);
 
-  return overElementsOf<TReturn>(...finalOutcome);
+  return flatMapArray<TReturn>(finalOutcome);
 }
