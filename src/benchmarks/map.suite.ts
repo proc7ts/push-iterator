@@ -1,7 +1,7 @@
 import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { mapIt } from '../transformation';
+import { mapArray, mapIt } from '../transformation';
 import { benchArray, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
@@ -44,6 +44,15 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
           () => {
             itsEach(
                 mapIt(benchArray, el => el + '!'),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(mapArray([...]))',
+          () => {
+            itsEach(
+                mapArray(benchArray, el => el + '!'),
                 element => benchOut(element),
             );
           },
