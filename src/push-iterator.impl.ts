@@ -1,4 +1,4 @@
-import { PushIterable__symbol } from './push-iterable';
+import { PushIterable, PushIterable__symbol } from './push-iterable';
 import type { PushIterator } from './push-iterator';
 
 /**
@@ -27,6 +27,43 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
       return { done: true } as IteratorReturnResult<T>;
     }
   }
+}
+
+/**
+ * @internal
+ */
+export const noneIterator: PushIterator<never> & PushIterable<never> = {
+  [PushIterable__symbol]: 1,
+  [Symbol.iterator]: PushIterator$iterator,
+  next: () => ({ done: true } as IteratorReturnResult<unknown>),
+  forNext: () => false,
+};
+
+/**
+ * @internal
+ */
+export function oneValueIterator<T>(value: T): PushIterator<T> {
+
+  let done = false;
+
+  return {
+    [PushIterable__symbol]: 1,
+    [Symbol.iterator]: PushIterator$iterator,
+    next() {
+      if (done) {
+        return { done } as IteratorReturnResult<undefined>;
+      }
+      done = true;
+      return { value };
+    },
+    forNext(accept) {
+      if (!done) {
+        done = true;
+        accept(value);
+      }
+      return false;
+    },
+  };
 }
 
 /**

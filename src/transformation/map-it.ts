@@ -2,10 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { overNone, overOne } from '../construction';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { isPushIterable, PushIterable__symbol } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
 import { PushIterator$iterator } from '../push-iterator.impl';
 
 /**
@@ -24,60 +24,131 @@ export function mapIt<T, R>(
     source: PushOrRawIterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-
-  let iterate: () => PushIterator<R>;
-
   if (isPushIterable(source)) {
-    iterate = () => {
+    return mapPushIterable(source, convert);
+  }
+  if (Array.isArray(source)) {
+    return mapArray(source, convert);
+  }
+  return mapRawIterable(source, convert);
+}
+
+/**
+ * @internal
+ */
+function mapPushIterable<T, R>(source: PushIterable<T>, convert: (this: void, element: T) => R): PushIterable<R> {
+  return {
+    [PushIterable__symbol]: 1,
+    [Symbol.iterator]() {
 
       const it = source[Symbol.iterator]();
 
       return makePushIterator(accept => it.forNext(element => accept(convert(element))));
-    };
-  } else {
-    iterate = () => mapRawIterator(source[Symbol.iterator](), convert);
+    },
+  };
+}
+
+/**
+ * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
+ * given `array`.
+ *
+ * @typeParam T  A type of array elements.
+ * @typeParam R  A type of converted elements.
+ * @param array  A source array-like instance.
+ * @param convert  A function that produces an element of new iterable, taking array element as the only parameter.
+ *
+ * @returns New push iterable of transformed elements.
+ */
+export function mapArray<T, R>(
+    array: ArrayLike<T>,
+    convert: (this: void, element: T) => R,
+): PushIterable<R> {
+  if (array.length <= 1) {
+    if (!array.length) {
+      return overNone();
+    }
+    return overOne(convert(array[0]));
   }
 
   return {
     [PushIterable__symbol]: 1,
-    [Symbol.iterator]: iterate,
+    [Symbol.iterator]() {
+
+      let i = 0;
+
+      return {
+
+        [PushIterable__symbol]: 1,
+
+        [Symbol.iterator]: PushIterator$iterator,
+
+        next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
+
+        forNext(accept) {
+          if (i >= array.length) {
+            return false;
+          }
+
+          for (; ;) {
+
+            const goOn = accept(convert(array[i++]));
+
+            if (i >= array.length) {
+              return false;
+            }
+            if (goOn === false) {
+              return true;
+            }
+          }
+        },
+
+      };
+    },
   };
 }
 
 /**
  * @internal
  */
-function mapRawIterator<T, R>(it: Iterator<T>, convert: (this: void, element: T) => R): PushIterator<R> {
+function mapRawIterable<T, R>(source: Iterable<T>, convert: (this: void, element: T) => R): PushIterable<R> {
   return {
-
     [PushIterable__symbol]: 1,
+    [Symbol.iterator]() {
 
-    [Symbol.iterator]: PushIterator$iterator,
+      const it = source[Symbol.iterator]();
 
-    next() {
+      return {
 
-      const next = it.next();
+        [PushIterable__symbol]: 1,
 
-      if (next.done) {
-        return next;
-      }
+        [Symbol.iterator]: PushIterator$iterator,
 
-      return { value: convert(next.value) };
+        next() {
+
+          const next = it.next();
+
+          if (next.done) {
+            return next;
+          }
+
+          return { value: convert(next.value) };
+        },
+
+        forNext(accept) {
+          for (; ;) {
+
+            const next = it.next();
+
+            if (next.done) {
+              return false;
+            }
+            if (accept(convert(next.value)) === false) {
+              return true;
+            }
+          }
+        },
+
+      };
     },
-
-    forNext(accept) {
-      for (; ;) {
-
-        const next = it.next();
-
-        if (next.done) {
-          return false;
-        }
-        if (accept(convert(next.value)) === false) {
-          return true;
-        }
-      }
-    },
-
   };
 }

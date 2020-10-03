@@ -1,6 +1,6 @@
 import { overArray, overMany, overNone } from '../construction';
 import { itsEach } from '../consumption';
-import { flatMapIt } from './flat-map-it';
+import { flatMapArray, flatMapIt } from './flat-map-it';
 
 describe('flatMapIt', () => {
   describe('over raw iterable', () => {
@@ -136,5 +136,17 @@ describe('flatMapIt', () => {
       expect(result).toEqual([11, 12]);
       expect([...it]).toEqual([11, 12]);
     });
+  });
+});
+
+describe('flatMapArray', () => {
+  it('flattens elements', () => {
+
+    const it = flatMapArray([[11, 12], [13, 14]]);
+    const result: number[] = [];
+
+    itsEach(it, el => result.push(el));
+    expect(result).toEqual([11, 12, 13, 14]);
+    expect([...it]).toEqual([11, 12, 13, 14]);
   });
 });

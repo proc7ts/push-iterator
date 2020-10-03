@@ -1,5 +1,6 @@
 import { itsIterator } from '../its-iterator';
 import { overArray } from './over-array';
+import { overNone } from './over-none';
 
 describe('overArray', () => {
 
@@ -37,6 +38,18 @@ describe('overArray', () => {
   describe('[Symbol.iterator]', () => {
     it('iterates over array elements', () => {
       expect([...overArray(array)]).toEqual(array);
+    });
+  });
+
+  describe('over empty array', () => {
+    it('returns `overNone()`', () => {
+      expect(overArray([])).toBe(overNone());
+    });
+  });
+
+  describe('over one-element array', () => {
+    it('iterates over single element', () => {
+      expect([...overArray(['one'])]).toEqual(['one']);
     });
   });
 });

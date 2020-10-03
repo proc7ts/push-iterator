@@ -19,7 +19,7 @@ const flatMapIt$defaultConverter = <T, R>(element: T): PushOrRawIterable<R> => e
  *
  * Calling this function is the same as calling `flatMapIt(source, element => element)`.
  *
- * @typeParam T  A type of source elements.
+ * @typeParam T  A type of converted elements.
  * @param source  A source iterable of iterables.
  *
  * @returns New push iterable with each element of `source` being the flattened.
@@ -107,14 +107,12 @@ function flatMapPushIterable<T, R>(
  *
  * Calling this function is the same as calling `flatMapArray(source, element => element)`.
  *
- * @typeParam T  A type of array elements.
+ * @typeParam T  A type of converted elements.
  * @param array  A source array-like instance of iterables.
  *
  * @returns New push iterable with each element of `array` being the flattened.
  */
-export function flatMapArray<T>(
-    array: ArrayLike<T>,
-): PushIterable<T>;
+export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
 
 /**
  * First maps each element of the `source` array using a mapping function, then flattens the result into new
