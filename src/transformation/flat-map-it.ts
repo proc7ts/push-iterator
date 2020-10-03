@@ -103,7 +103,7 @@ function flatMapPushIterable<T, R>(
 }
 
 /**
- * Flattens the source array of iterables into new {@link PushIterable push iterable}.
+ * Flattens the source `array` of iterables into new {@link PushIterable push iterable}.
  *
  * Calling this function is the same as calling `flatMapArray(source, element => element)`.
  *
@@ -115,7 +115,7 @@ function flatMapPushIterable<T, R>(
 export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
 
 /**
- * First maps each element of the `source` array using a mapping function, then flattens the result into new
+ * First maps each element of the source `array` using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
  * @typeParam T  A type of array elements.
