@@ -2,9 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { isPushIterable, PushIterable__symbol } from '../push-iterable';
-import { PushIterator$iterator } from '../push-iterator.impl';
+import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements that pass the test implemented by
@@ -44,99 +45,36 @@ export function filterIt<T>(
     source: PushOrRawIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return isPushIterable(source) ? filterPushIterable(source, test) : filterRawIterable(source, test);
-}
-
-/**
- * @internal
- */
-function filterPushIterable<T>(
-    source: PushIterable<T>,
-    test: (this: void, element: T) => boolean,
-): PushIterable<T> {
   return {
     [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = source[Symbol.iterator]();
+      const forNext = it.forNext;
+      let pusher: PushIterator.Pusher<T>;
 
-      return {
-
-        [PushIterable__symbol]: 1,
-        [Symbol.iterator]: PushIterator$iterator,
-
-        next() {
-          for (;;) {
-
-            let next: IteratorResult<T> | undefined;
-
-            if (!it.forNext(value => {
-              if (test(value)) {
-                next = { value };
-                return false;
-              }
-              return;
-            })) {
-              if (!next) {
-                next = { done: true } as IteratorReturnResult<T>;
-              }
-            }
-            if (next) {
-              return next;
-            }
-          }
-        },
-
-        forNext: accept => it.forNext(element => !test(element) || accept(element)),
-      };
-    },
-  };
-}
-
-/**
- * @internal
- */
-function filterRawIterable<T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => boolean,
-): PushIterable<T> {
-  return {
-    [PushIterable__symbol]: 1,
-    [Symbol.iterator]() {
-
-      const it = source[Symbol.iterator]();
-
-      return {
-
-        [PushIterable__symbol]: 1,
-        [Symbol.iterator]: PushIterator$iterator,
-
-        next() {
+      if (forNext) {
+        pusher = accept => forNext(element => !test(element) || accept(element));
+      } else {
+        pusher = accept => {
           for (; ;) {
 
             const next = it.next();
 
-            if (next.done || test(next.value)) {
-              return next;
-            }
-          }
-        },
-
-        forNext(accept) {
-          for (; ;) {
-
-            const { done, value } = it.next();
-
-            if (done) {
+            if (next.done) {
               return false;
             }
+
+            const value = next.value;
+
             if (test(value) && accept(value) === false) {
               return true;
             }
           }
-        },
+        };
+      }
 
-      };
+      return makePushIterator(pusher);
     },
   };
 }
