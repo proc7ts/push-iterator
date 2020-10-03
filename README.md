@@ -72,9 +72,10 @@ API
 
 See the full [API Documentation].
 
-### Push Iterables Construction
 
-Each of the following functions return a push iterable instance:
+### Push Iterable Construction
+
+Each of the following functions returns a push iterable instance:
 
 - `overArray(array)` - Creates a push iterable over elements of array-like structure.
 - `overElementsOf(...iterables)` - Creates a push iterable over elements of other iterables.
@@ -85,11 +86,14 @@ Each of the following functions return a push iterable instance:
 - `reverseArray(array)` - Creates a push iterable over elements of array-like structure in reverse order.
 
 
-### Iterables Consumption
+### Iterable Consumption
 
-Each of the following functions accept either [Iterable] or push iterable:
+Each of the following functions accepts either [Iterable] or push iterable:
 
 - `itsEach(iterable, action)` - Performs the given `action` for each element of the given `iterable`.
+- `itsElements(iterable[, convert])` - Creates a new, shallow-copied array instance containing elements of the source
+   iterable optionally converted by the given converter function. This is an `Array.from()` function analog optimized
+   for push iterables.
 - `itsEmpty(iterable): boolean` - Checks whether the given `iterable` is empty.
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
@@ -100,13 +104,25 @@ Each of the following functions accept either [Iterable] or push iterable:
    implemented by the provided function.
 
 
-### Iterables Transformation
+### Iterable Transformation
 
-Each of the following functions accept either [Iterable] or push iterable, and return a push iterable:
+Each of the following functions accepts either [Iterable] or push iterable, and returns a push iterable:
 
 - `filterIt(source, test)` - Creates a push iterable with all `source` iterable elements that pass the test
-  implemented by the provided function.
+  implemented by provided function.
 - `flatMapIt(source, convert?)` - First maps each element of the `source` iterable using a mapping function,
-  then flattens the result into new push iterable.  
+  then flattens the result into new push iterable.
 - `mapIt(source, convert)` - Creates a push iterable with the results of calling a provided function on every element
   of the `source` iterable.
+  
+
+### Array Transformation
+
+Each of the following functions accepts an array-like instance, and returns a push iterable:  
+
+- `filterArray(aray, test)` - Creates a push iterable with all `array` elements that pass the test implemented
+   by provided function.
+- `flatMapArray(array, convert?)` - First maps each element of the source `array` using a mapping function,
+   then flattens the result into new push iterable.
+- `mapArray(array, convert)` - Creates a push iterable with the results of calling a provided function on every element
+   of the given `array`.

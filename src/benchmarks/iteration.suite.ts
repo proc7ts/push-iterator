@@ -24,6 +24,22 @@ export function arrayIterationSuite(inputSizes: readonly number[]): readonly Ben
           },
       )
       .add(
+          'for ... of [...].slice()',
+          () => {
+            for (const element of benchArray.slice()) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
+          '[...].slice().forEach(...)',
+          () => {
+            benchArray.slice().forEach(element => {
+              benchOut(element);
+            });
+          },
+      )
+      .add(
           'itsEach([...])',
           () => {
             itsEach(benchArray, element => benchOut(element));

@@ -2,11 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { overNone, overOne } from '../construction';
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { isPushIterable, PushIterable__symbol } from '../push-iterable';
-import { PushIterator$iterator } from '../push-iterator.impl';
+import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -24,117 +23,18 @@ export function mapIt<T, R>(
     source: PushOrRawIterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-  if (isPushIterable(source)) {
-    return mapPushIterable(source, convert);
-  }
-  if (Array.isArray(source)) {
-    return mapArray(source, convert);
-  }
-  return mapRawIterable(source, convert);
-}
-
-/**
- * @internal
- */
-function mapPushIterable<T, R>(source: PushIterable<T>, convert: (this: void, element: T) => R): PushIterable<R> {
   return {
     [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = source[Symbol.iterator]();
+      const forNext = it.forNext;
+      let pusher: PushIterator.Pusher<R>;
 
-      return makePushIterator(accept => it.forNext(element => accept(convert(element))));
-    },
-  };
-}
-
-/**
- * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
- * given `array`.
- *
- * @typeParam T  A type of array elements.
- * @typeParam R  A type of converted elements.
- * @param array  A source array-like instance.
- * @param convert  A function that produces an element of new iterable, taking array element as the only parameter.
- *
- * @returns New push iterable of transformed elements.
- */
-export function mapArray<T, R>(
-    array: ArrayLike<T>,
-    convert: (this: void, element: T) => R,
-): PushIterable<R> {
-  if (array.length <= 1) {
-    if (!array.length) {
-      return overNone();
-    }
-    return overOne(convert(array[0]));
-  }
-
-  return {
-    [PushIterable__symbol]: 1,
-    [Symbol.iterator]() {
-
-      let i = 0;
-
-      return {
-
-        [PushIterable__symbol]: 1,
-
-        [Symbol.iterator]: PushIterator$iterator,
-
-        next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
-
-        forNext(accept) {
-          if (i >= array.length) {
-            return false;
-          }
-
-          for (; ;) {
-
-            const goOn = accept(convert(array[i++]));
-
-            if (i >= array.length) {
-              return false;
-            }
-            if (goOn === false) {
-              return true;
-            }
-          }
-        },
-
-      };
-    },
-  };
-}
-
-/**
- * @internal
- */
-function mapRawIterable<T, R>(source: Iterable<T>, convert: (this: void, element: T) => R): PushIterable<R> {
-  return {
-    [PushIterable__symbol]: 1,
-    [Symbol.iterator]() {
-
-      const it = source[Symbol.iterator]();
-
-      return {
-
-        [PushIterable__symbol]: 1,
-
-        [Symbol.iterator]: PushIterator$iterator,
-
-        next() {
-
-          const next = it.next();
-
-          if (next.done) {
-            return next;
-          }
-
-          return { value: convert(next.value) };
-        },
-
-        forNext(accept) {
+      if (forNext) {
+        pusher = accept => forNext(element => accept(convert(element)));
+      } else {
+        pusher = accept => {
           for (; ;) {
 
             const next = it.next();
@@ -146,9 +46,10 @@ function mapRawIterable<T, R>(source: Iterable<T>, convert: (this: void, element
               return true;
             }
           }
-        },
+        };
+      }
 
-      };
+      return makePushIterator(pusher);
     },
   };
 }

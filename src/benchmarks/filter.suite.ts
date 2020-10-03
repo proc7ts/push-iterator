@@ -2,7 +2,7 @@ import type Benchmark from 'benchmark';
 import chalk from 'chalk';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { filterIt } from '../transformation';
+import { filterArray, filterIt } from '../transformation';
 import { benchArray, benchIterable, benchOut, benchSetup } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
@@ -21,9 +21,25 @@ export function arrayFilterSuite(
           },
       )
       .add(
+          'for ... of [...].slice().filter(...)',
+          () => {
+            for (const element of benchArray.slice().filter(el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of *generatorFilter([...])',
           () => {
             for (const element of generatorFilter(benchArray, el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
+          'for ... of filterArray([...])',
+          () => {
+            for (const element of filterArray(benchArray, el => benchFilter(el))) {
               benchOut(element);
             }
           },
