@@ -3,7 +3,6 @@
  * @module @proc7ts/push-iterator
  */
 import { overNone, overOne } from '../construction';
-import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { isPushIterable, PushIterable__symbol } from '../push-iterable';
 import { PushIterator$iterator } from '../push-iterator.impl';
@@ -43,7 +42,34 @@ function mapPushIterable<T, R>(source: PushIterable<T>, convert: (this: void, el
 
       const it = source[Symbol.iterator]();
 
-      return makePushIterator(accept => it.forNext(element => accept(convert(element))));
+      return {
+
+        [PushIterable__symbol]: 1,
+        [Symbol.iterator]: PushIterator$iterator,
+
+        next() {
+          for (;;) {
+
+            let next: IteratorResult<R> | undefined;
+
+            if (!it.forNext(element => {
+              next = { value: convert(element) };
+              return false;
+            })) {
+              if (!next) {
+                next = { done: true } as IteratorReturnResult<T>;
+              }
+            }
+
+            if (next) {
+              return next;
+            }
+          }
+        },
+
+        forNext: accept => it.forNext(element => accept(convert(element))),
+
+      };
     },
   };
 }
