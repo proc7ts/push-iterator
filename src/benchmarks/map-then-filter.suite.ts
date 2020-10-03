@@ -23,6 +23,14 @@ export function arrayMapThenFilterSuite(
           },
       )
       .add(
+          'for ... of [...].slice().map(...).filter(...)',
+          () => {
+            for (const element of benchArray.slice().map(el => el + '!').filter(el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of *generatorFilter(*generatorMap([...]))',
           () => {
             for (const element of generatorFilter(

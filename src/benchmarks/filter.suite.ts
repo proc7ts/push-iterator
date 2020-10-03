@@ -21,6 +21,14 @@ export function arrayFilterSuite(
           },
       )
       .add(
+          'for ... of [...].slice().filter(...)',
+          () => {
+            for (const element of benchArray.slice().filter(el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of *generatorFilter([...])',
           () => {
             for (const element of generatorFilter(benchArray, el => benchFilter(el))) {

@@ -17,6 +17,14 @@ export function arrayFlatMapSuite(itemSize: number, inputSizes: readonly number[
           },
       )
       .add(
+          'for ... of [...].slice().flatMap(...)',
+          () => {
+            for (const element of benchArray.slice().flatMap(el => benchSubItems(el))) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of *generatorFlatMap([...])',
           () => {
             for (const element of generatorFlatMap(benchArray, el => benchSubItems(el))) {

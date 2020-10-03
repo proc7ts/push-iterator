@@ -16,6 +16,14 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
           },
       )
       .add(
+          'for ... of [...].slice().map(...)',
+          () => {
+            for (const element of benchArray.slice().map(el => el + '!')) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of mapIterable([...])',
           () => {
             for (const element of mapIterable(benchArray, el => el + '!')) {
