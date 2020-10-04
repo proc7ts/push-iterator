@@ -24,6 +24,9 @@ export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: 
   }
 }
 
+/**
+ * @internal
+ */
 function pushedEach<T>(it: PushIterator<T>, action: (this: void, element: T) => void): void {
   it.forNext(element => {
     action(element);
