@@ -35,7 +35,7 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
 export const noneIterator: PushIterator<never> & PushIterable<never> = {
   [Symbol.iterator]: PushIterator$iterator,
   next: () => ({ done: true } as IteratorReturnResult<unknown>),
-  forNext: () => false,
+  forNext: _accept /* Unused parameter to prevent deoptimization */ => false,
 };
 
 /**

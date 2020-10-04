@@ -26,7 +26,7 @@ function pushedEmpty<T>(it: PushIterator<T>): boolean {
 
   let isEmpty = true;
 
-  it.forNext(() => isEmpty = false);
+  it.forNext(_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
 
   return isEmpty;
 }
