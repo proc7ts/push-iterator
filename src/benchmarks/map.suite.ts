@@ -2,7 +2,7 @@ import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { mapArray, mapIt } from '../transformation';
-import { benchArray, benchIterable, benchOut } from './bench-data';
+import { benchArray, benchInput, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
 export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
@@ -10,15 +10,7 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
       .add(
           'for ... of [...].map(...)',
           () => {
-            for (const element of benchArray.map(el => el + '!')) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of [...].slice().map(...)',
-          () => {
-            for (const element of benchArray.slice().map(el => el + '!')) {
+            for (const element of benchInput.map(el => el + '!')) {
               benchOut(element);
             }
           },
@@ -26,7 +18,7 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
       .add(
           'for ... of mapIterable([...])',
           () => {
-            for (const element of mapIterable(benchArray, el => el + '!')) {
+            for (const element of mapIterable(benchInput, el => el + '!')) {
               benchOut(element);
             }
           },
@@ -34,7 +26,7 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
       .add(
           'for ... of *generatorMap([...])',
           () => {
-            for (const element of generatorMap(benchArray, el => el + '!')) {
+            for (const element of generatorMap(benchInput, el => el + '!')) {
               benchOut(element);
             }
           },
@@ -43,7 +35,7 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
           'itsEach(mapIt([...]))',
           () => {
             itsEach(
-                mapIt(benchArray, el => el + '!'),
+                mapIt(benchInput, el => el + '!'),
                 element => benchOut(element),
             );
           },
@@ -52,7 +44,7 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
           'itsEach(mapArray([...]))',
           () => {
             itsEach(
-                mapArray(benchArray, el => el + '!'),
+                mapArray(benchInput, el => el + '!'),
                 element => benchOut(element),
             );
           },
@@ -62,6 +54,14 @@ export function arrayMapSuite(inputSizes: readonly number[]): readonly Benchmark
 
 export function iterableMapSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
+      .add(
+          'for ... of buildArray().map(...)',
+          () => {
+            for (const element of benchArray().map(el => el + '!')) {
+              benchOut(element);
+            }
+          },
+      )
       .add(
           'for ... of mapIterable(iterable)',
           () => {
@@ -91,7 +91,7 @@ export function iterableMapSuite(inputSizes: readonly number[]): readonly Benchm
           'itsEach(mapIt(overArray([...])))',
           () => {
             itsEach(
-                mapIt(overArray(benchArray), (el: string) => el + '!'),
+                mapIt(overArray(benchInput), (el: string) => el + '!'),
                 element => benchOut(element),
             );
           },

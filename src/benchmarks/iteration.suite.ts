@@ -2,7 +2,7 @@ import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { itsIterator } from '../its-iterator';
-import { benchArray, benchIterable, benchOut } from './bench-data';
+import { benchArray, benchInput, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
 export function arrayIterationSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
@@ -10,7 +10,7 @@ export function arrayIterationSuite(inputSizes: readonly number[]): readonly Ben
       .add(
           'for ... of [...]',
           () => {
-            for (const element of benchArray) {
+            for (const element of benchInput) {
               benchOut(element);
             }
           },
@@ -18,23 +18,7 @@ export function arrayIterationSuite(inputSizes: readonly number[]): readonly Ben
       .add(
           '[...].forEach(...)',
           () => {
-            benchArray.forEach(element => {
-              benchOut(element);
-            });
-          },
-      )
-      .add(
-          'for ... of [...].slice()',
-          () => {
-            for (const element of benchArray.slice()) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          '[...].slice().forEach(...)',
-          () => {
-            benchArray.slice().forEach(element => {
+            benchInput.forEach(element => {
               benchOut(element);
             });
           },
@@ -42,13 +26,13 @@ export function arrayIterationSuite(inputSizes: readonly number[]): readonly Ben
       .add(
           'itsEach([...])',
           () => {
-            itsEach(benchArray, element => benchOut(element));
+            itsEach(benchInput, element => benchOut(element));
           },
       )
       .add(
           'for ... of itsIterator([...])',
           () => {
-            for (const element of itsIterator(benchArray)) {
+            for (const element of itsIterator(benchInput)) {
               benchOut(element);
             }
           },
@@ -58,6 +42,22 @@ export function arrayIterationSuite(inputSizes: readonly number[]): readonly Ben
 
 export function iterableIterationSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
   return new BenchFactory()
+      .add(
+          'for ... of buildArray()',
+          () => {
+            for (const element of benchArray()) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
+          'buildArray().forEach(...)',
+          () => {
+            benchArray().forEach(element => {
+              benchOut(element);
+            });
+          },
+      )
       .add(
           'for ... of iterable',
           () => {
@@ -75,7 +75,7 @@ export function iterableIterationSuite(inputSizes: readonly number[]): readonly 
       .add(
           'itsEach(overArray([...]))',
           () => {
-            itsEach(overArray(benchArray), element => benchOut(element));
+            itsEach(overArray(benchInput), element => benchOut(element));
           },
       )
       .add(

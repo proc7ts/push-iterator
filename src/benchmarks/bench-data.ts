@@ -1,4 +1,4 @@
-export const benchArray: string[] = [];
+export const benchInput: string[] = [];
 const benchOutput: string[] = [];
 
 let benchOutputIndex = 0;
@@ -7,9 +7,9 @@ benchOutput.length = 256;
 
 export function benchSetup(inputSize: number, ..._other: readonly any[]): void {
   benchOutputIndex = 0;
-  benchArray.length = inputSize;
+  benchInput.length = inputSize;
   for (let i = 0; i < inputSize; ++i) {
-    benchArray[i] = Math.random().toString(36).substr(2);
+    benchInput[i] = Math.random().toString(36).substr(2);
   }
 }
 
@@ -19,9 +19,21 @@ export function benchOut(result: string): void {
 }
 
 export function *benchGenerator(): IterableIterator<string> {
-  for (const element of benchArray) {
+  for (const element of benchInput) {
     yield element;
   }
+}
+
+export function benchArray(): string [] {
+
+  const array: string[] = [];
+
+  array.length = benchInput.length;
+  benchInput.forEach((element, index) => {
+    array[index] = element;
+  });
+
+  return array;
 }
 
 export function benchIterable(): Iterable<string> {
@@ -29,7 +41,7 @@ export function benchIterable(): Iterable<string> {
 
     [Symbol.iterator]: () => {
 
-      const it = benchArray[Symbol.iterator]();
+      const it = benchInput[Symbol.iterator]();
 
       return {
         next() {

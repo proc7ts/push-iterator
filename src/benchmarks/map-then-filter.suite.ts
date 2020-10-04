@@ -4,7 +4,7 @@ import { thruIt } from '../call-thru';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { filterIt, mapArray, mapIt } from '../transformation';
-import { benchArray, benchIterable, benchOut } from './bench-data';
+import { benchArray, benchInput, benchIterable, benchOut } from './bench-data';
 import { benchFilter, FilterBenchFactory, filterIterable, generatorFilter } from './filter.suite';
 import { generatorMap, mapIterable } from './map.suite';
 
@@ -17,15 +17,7 @@ export function arrayMapThenFilterSuite(
       .add(
           'for ... of [...].map(...).filter(...)',
           () => {
-            for (const element of benchArray.map(el => el + '!').filter(el => benchFilter(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of [...].slice().map(...).filter(...)',
-          () => {
-            for (const element of benchArray.slice().map(el => el + '!').filter(el => benchFilter(el))) {
+            for (const element of benchInput.map(el => el + '!').filter(el => benchFilter(el))) {
               benchOut(element);
             }
           },
@@ -34,7 +26,7 @@ export function arrayMapThenFilterSuite(
           'for ... of *generatorFilter(*generatorMap([...]))',
           () => {
             for (const element of generatorFilter(
-                generatorMap(benchArray, el => el + '!'),
+                generatorMap(benchInput, el => el + '!'),
                 el => benchFilter(el),
             )) {
               benchOut(element);
@@ -45,7 +37,7 @@ export function arrayMapThenFilterSuite(
           'for ... of filterIterable(mapIterable([...]))',
           () => {
             for (const element of filterIterable(
-                mapIterable(benchArray, el => el + '!'),
+                mapIterable(benchInput, el => el + '!'),
                 el => benchFilter(el),
             )) {
               benchOut(element);
@@ -57,7 +49,7 @@ export function arrayMapThenFilterSuite(
           () => {
             itsEach(
                 filterIt(
-                    mapIt(benchArray, el => el + '!'),
+                    mapIt(benchInput, el => el + '!'),
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),
@@ -69,7 +61,7 @@ export function arrayMapThenFilterSuite(
           () => {
             itsEach(
                 filterIt(
-                    mapArray(benchArray, el => el + '!'),
+                    mapArray(benchInput, el => el + '!'),
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),
@@ -81,7 +73,7 @@ export function arrayMapThenFilterSuite(
           () => {
             itsEach(
                 thruIt(
-                    benchArray,
+                    benchInput,
                     el => {
 
                       const converted = el + '!';
@@ -102,6 +94,14 @@ export function iterableMapThenFilterSuite(
     inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
   return new FilterBenchFactory()
+      .add(
+          'for ... of buildArray().map(...).filter(...)',
+          () => {
+            for (const element of benchArray().map(el => el + '!').filter(el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
       .add(
           'for ... of *generatorFilter(*generatorMap(iterable))',
           () => {
@@ -129,7 +129,7 @@ export function iterableMapThenFilterSuite(
           () => {
             itsEach(
                 filterIt(
-                    mapIt(overArray(benchArray), (el: string) => el + '!'),
+                    mapIt(overArray(benchInput), (el: string) => el + '!'),
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),

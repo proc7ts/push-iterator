@@ -1,7 +1,7 @@
 import type Benchmark from 'benchmark';
 import { overArray } from '../construction';
 import { itsElements } from '../consumption';
-import { benchArray, benchIterable, benchOut } from './bench-data';
+import { benchInput, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
 export function elementsSuite(inputSizes: readonly number[]): readonly Benchmark.Suite[] {
@@ -15,9 +15,25 @@ export function elementsSuite(inputSizes: readonly number[]): readonly Benchmark
           },
       )
       .add(
+          'for ... of [...iterable]',
+          () => {
+            for (const element of Array.from(benchIterable(), el => el + '!')) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
+          'for ... of buildArray()',
+          () => {
+            for (const element of Array.from(benchIterable(), el => el + '!')) {
+              benchOut(element);
+            }
+          },
+      )
+      .add(
           'for ... of itsElements(overArray([...]))',
           () => {
-            for (const element of itsElements(overArray(benchArray), el => el + '!')) {
+            for (const element of itsElements(overArray(benchInput), el => el + '!')) {
               benchOut(element);
             }
           },

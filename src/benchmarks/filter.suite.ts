@@ -3,7 +3,7 @@ import chalk from 'chalk';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
 import { filterArray, filterIt } from '../transformation';
-import { benchArray, benchIterable, benchOut, benchSetup } from './bench-data';
+import { benchArray, benchInput, benchIterable, benchOut, benchSetup } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
 export function arrayFilterSuite(
@@ -15,15 +15,7 @@ export function arrayFilterSuite(
       .add(
           'for ... of [...].filter(...)',
           () => {
-            for (const element of benchArray.filter(el => benchFilter(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of [...].slice().filter(...)',
-          () => {
-            for (const element of benchArray.slice().filter(el => benchFilter(el))) {
+            for (const element of benchInput.filter(el => benchFilter(el))) {
               benchOut(element);
             }
           },
@@ -31,23 +23,24 @@ export function arrayFilterSuite(
       .add(
           'for ... of *generatorFilter([...])',
           () => {
-            for (const element of generatorFilter(benchArray, el => benchFilter(el))) {
+            for (const element of generatorFilter(benchInput, el => benchFilter(el))) {
               benchOut(element);
             }
           },
       )
       .add(
-          'for ... of filterArray([...])',
+          'itsEach(filterArray([...]))',
           () => {
-            for (const element of filterArray(benchArray, el => benchFilter(el))) {
-              benchOut(element);
-            }
+            itsEach(
+                filterArray(benchInput, el => benchFilter(el)),
+                element => benchOut(element),
+            );
           },
       )
       .add(
           'for ... of filterIterable([...])',
           () => {
-            for (const element of filterIterable(benchArray, el => benchFilter(el))) {
+            for (const element of filterIterable(benchInput, el => benchFilter(el))) {
               benchOut(element);
             }
           },
@@ -57,7 +50,7 @@ export function arrayFilterSuite(
           () => {
             itsEach(
                 filterIt(
-                    benchArray,
+                    benchInput,
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),
@@ -73,6 +66,14 @@ export function iterableFilterSuite(
     inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
   return new FilterBenchFactory()
+      .add(
+          'for ... of buildArray().filter(...)',
+          () => {
+            for (const element of benchArray().filter(el => benchFilter(el))) {
+              benchOut(element);
+            }
+          },
+      )
       .add(
           'for ... of *generatorFilter(iterable)',
           () => {
@@ -94,7 +95,7 @@ export function iterableFilterSuite(
           () => {
             itsEach(
                 filterIt(
-                    overArray(benchArray),
+                    overArray(benchInput),
                     el => benchFilter(el),
                 ),
                 element => benchOut(element),
