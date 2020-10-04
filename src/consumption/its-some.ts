@@ -22,22 +22,21 @@ export function itsSome<T>(
 ): boolean {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  return forNext ? pushedSome(forNext, test) : rawSome(it, test);
+  return it.forNext ? pushedSome(it, test) : rawSome(it, test);
 }
 
 /**
  * @internal
  */
 function pushedSome<T>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     test: (this: void, element: T) => boolean,
 ): boolean {
 
   let someMatches = false;
 
-  forNext(element => !(someMatches = !!test(element)));
+  it.forNext(element => !(someMatches = !!test(element)));
 
   return someMatches;
 }

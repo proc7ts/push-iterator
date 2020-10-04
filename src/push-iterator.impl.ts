@@ -81,17 +81,21 @@ export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
     next: () => it.next(),
 
     forNext(accept) {
-      for (; ;) {
+
+      let done = 0;
+
+      do {
 
         const res = it.next();
 
         if (res.done) {
-          return false;
+          done = -1;
+        } else if (accept(res.value) === false) {
+          done = 1;
         }
-        if (accept(res.value) === false) {
-          return true;
-        }
-      }
+      } while (!done);
+
+      return done > 0;
     },
 
   };

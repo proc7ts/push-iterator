@@ -22,22 +22,21 @@ export function itsEvery<T>(
 ): boolean {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  return forNext ? pushedEvery(forNext, test) : rawEvery(it, test);
+  return it.forNext ? pushedEvery(it, test) : rawEvery(it, test);
 }
 
 /**
  * @internal
  */
 function pushedEvery<T>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     test: (this: void, element: T) => boolean,
 ): boolean {
 
   let allMatch = true;
 
-  forNext(element => allMatch = !!test(element));
+  it.forNext(element => allMatch = !!test(element));
 
   return allMatch;
 }

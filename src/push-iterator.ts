@@ -20,22 +20,20 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
    *
    * Resumes iteration on subsequent calls.
    *
-   * Note that this method does not require `this` context and can be called as a function.
-   *
    * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `false` to stop iteration.
    *
    * @returns `true` if there are more elements to iterate, or `false` otherwise. The former is possible only when
    * iteration stopped, i.e. `accept` returned `false`.
    */
-  forNext(this: void, accept: PushIterator.Acceptor<T>): boolean;
+  forNext(accept: PushIterator.Acceptor<T>): boolean;
 
 }
 
 /**
  * Either {@link PushIterator push} iterator or raw one.
  *
- * Functions of this library works with both iterator types.
+ * Functions of this library work with both iterator types.
  *
  * @typeParam T  Iterated elements type.
  */

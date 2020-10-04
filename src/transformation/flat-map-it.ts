@@ -45,9 +45,8 @@ export function flatMapIt<T, R>(
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
-      const forNext = it.forNext;
 
-      return makePushIterator(forNext ? flatMapPusher(forNext, convert) : flatMapRawPusher(it, convert));
+      return makePushIterator(it.forNext ? flatMapPusher(it, convert) : flatMapRawPusher(it, convert));
     },
   };
 }
@@ -56,7 +55,7 @@ export function flatMapIt<T, R>(
  * @internal
  */
 function flatMapPusher<T, R>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
@@ -65,11 +64,11 @@ function flatMapPusher<T, R>(
 
   return accept => {
 
-    let done: number | undefined;
+    let done = 0;
 
     do {
       while (!cIt && !done) {
-        if (!forNext(src => {
+        if (!it.forNext(src => {
           cIt = itsIterator(convert(src));
           return false;
         })) {
@@ -113,7 +112,7 @@ function flatMapRawPusher<T, R>(
 
   return accept => {
 
-    let done: number | undefined;
+    let done = 0;
 
     do {
       if (!cIt) {

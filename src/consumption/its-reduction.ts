@@ -25,9 +25,22 @@ export function itsReduction<T, R>(
 ): R {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  return forNext ? pushedReduction(forNext, reducer, initialValue) : rawReduction(it, reducer, initialValue);
+  return it.forNext ? pushedReduction(it, reducer, initialValue) : rawReduction(it, reducer, initialValue);
+}
+
+/**
+ * @internal
+ */
+function pushedReduction<T, R>(
+    it: PushIterator<T>,
+    reducer: (this: void, prev: R, element: T) => R,
+    reduced: R,
+): R {
+  it.forNext(element => {
+    reduced = reducer(reduced, element);
+  });
+  return reduced;
 }
 
 /**
@@ -50,19 +63,5 @@ function rawReduction<T, R>(
     }
   } while (!done);
 
-  return reduced;
-}
-
-/**
- * @internal
- */
-function pushedReduction<T, R>(
-    forNext: PushIterator.Pusher<T>,
-    reducer: (this: void, prev: R, element: T) => R,
-    reduced: R,
-): R {
-  forNext(element => {
-    reduced = reducer(reduced, element);
-  });
   return reduced;
 }

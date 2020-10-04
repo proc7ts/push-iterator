@@ -16,9 +16,23 @@ import type { PushIterator } from '../push-iterator';
 export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  return forNext ? pushedFirst(forNext) : rawFirst(it);
+  return it.forNext ? pushedFirst(it) : rawFirst(it);
+}
+
+/**
+ * @internal
+ */
+function pushedFirst<T>(it: PushIterator<T>): T | undefined {
+
+  let first: T | undefined;
+
+  it.forNext(element => {
+    first = element;
+    return false;
+  });
+
+  return first;
 }
 
 /**
@@ -29,19 +43,4 @@ function rawFirst<T>(it: Iterator<T>): T | undefined {
   const result = it.next();
 
   return result.done ? undefined : result.value;
-}
-
-/**
- * @internal
- */
-function pushedFirst<T>(forNext: PushIterator.Pusher<T>): T | undefined {
-
-  let first: T | undefined;
-
-  forNext(element => {
-    first = element;
-    return false;
-  });
-
-  return first;
 }

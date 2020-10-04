@@ -27,9 +27,8 @@ export function mapIt<T, R>(
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
-      const forNext = it.forNext;
 
-      return makePushIterator(forNext ? mapPusher(forNext, convert) : mapRawPusher(it, convert));
+      return makePushIterator(it.forNext ? mapPusher(it, convert) : mapRawPusher(it, convert));
     },
   };
 }
@@ -38,10 +37,10 @@ export function mapIt<T, R>(
  * @internal
  */
 function mapPusher<R, T>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     convert: (this: void, element: T) => R,
 ): PushIterator.Pusher<R> {
-  return accept => forNext(element => accept(convert(element)));
+  return accept => it.forNext(element => accept(convert(element)));
 }
 
 /**
