@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { isPushIterable } from '../push-iterable';
-import { pusherOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -18,21 +17,50 @@ import { pusherOf } from '../push-iterator.impl';
  * otherwise. Returns `false` for empty iterable.
  */
 export function itsSome<T>(
-    iterable: PushOrRawIterable<T>,
+    iterable: Iterable<T>,
+    test: (this: void, element: T) => boolean,
+): boolean {
+
+  const it = iteratorOf(iterable);
+  const forNext = it.forNext;
+
+  return forNext ? pushedSome(forNext, test) : rawSome(it, test);
+}
+
+/**
+ * @internal
+ */
+function pushedSome<T>(
+    forNext: PushIterator.Pusher<T>,
     test: (this: void, element: T) => boolean,
 ): boolean {
 
   let someMatches = false;
 
-  if (isPushIterable(iterable)) {
-    pusherOf(iterable)(element => !(someMatches = !!test(element)));
-  } else {
-    for (const element of iterable) {
-      if ((someMatches = !!test(element))) {
-        break;
-      }
+  forNext(element => !(someMatches = !!test(element)));
+
+  return someMatches;
+}
+
+/**
+ * @internal
+ */
+function rawSome<T>(
+    it: Iterator<T>,
+    test: (this: void, element: T) => boolean,
+): boolean {
+
+  let someMatches = false;
+  let done: boolean | undefined;
+
+  do {
+
+    const next = it.next();
+
+    if (!(done = next.done)) {
+      someMatches = !!test(next.value);
     }
-  }
+  } while (!someMatches && !done);
 
   return someMatches;
 }

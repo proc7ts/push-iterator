@@ -1,4 +1,4 @@
-import { overMany, overNone } from './construction';
+import { overMany } from './construction';
 import { itsIterator } from './its-iterator';
 
 describe('itsIterator', () => {
@@ -17,18 +17,6 @@ describe('itsIterator', () => {
   describe('over array', () => {
     it('iterates over elements', () => {
       expect([...itsIterator([1, 2, 3])]).toEqual([1, 2, 3]);
-    });
-  });
-
-  describe('over empty array', () => {
-    it('returns `overNone()`', () => {
-      expect(itsIterator([])).toBe(overNone());
-    });
-  });
-
-  describe('over one-element array', () => {
-    it('iterates over elements', () => {
-      expect([...itsIterator([1])]).toEqual([1]);
     });
   });
 });

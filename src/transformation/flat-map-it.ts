@@ -2,12 +2,11 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { iteratorOf } from '../iterator-of';
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { iteratorOf } from '../push-iterator.impl';
 import { flatMapIt$defaultConverter } from './transformation.impl';
 
 /**
@@ -20,7 +19,7 @@ import { flatMapIt$defaultConverter } from './transformation.impl';
  *
  * @returns New push iterable with each element of `source` being the flattened.
  */
-export function flatMapIt<T>(source: PushOrRawIterable<Iterable<T>>): PushIterable<T>;
+export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
 
 /**
  * First maps each element of the `source` iterable using a mapping function, then flattens the result into new
@@ -34,16 +33,15 @@ export function flatMapIt<T>(source: PushOrRawIterable<Iterable<T>>): PushIterab
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
 export function flatMapIt<T, R>(
-    source: PushOrRawIterable<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R>,
+    source: Iterable<T>,
+    convert: (this: void, element: T) => Iterable<R>,
 ): PushIterable<R>;
 
 export function flatMapIt<T, R>(
-    source: PushOrRawIterable<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
+    source: Iterable<T>,
+    convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
@@ -59,7 +57,7 @@ export function flatMapIt<T, R>(
  */
 function flatMapPusher<T, R>(
     forNext: PushIterator.Pusher<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R>,
+    convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
   let cIt: PushIterator<R> | undefined;
@@ -67,7 +65,7 @@ function flatMapPusher<T, R>(
 
   return accept => {
 
-    let done = 0;
+    let done: number | undefined;
 
     do {
       while (!cIt && !done) {
@@ -108,14 +106,14 @@ function flatMapPusher<T, R>(
  */
 function flatMapRawPusher<T, R>(
     it: Iterator<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R>,
+    convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
   let cIt: PushIterator<R> | undefined;
 
   return accept => {
 
-    let done = 0;
+    let done: number | undefined;
 
     do {
       if (!cIt) {

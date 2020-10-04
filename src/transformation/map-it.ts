@@ -2,11 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { iteratorOf } from '../iterator-of';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -21,11 +20,10 @@ import { iteratorOf } from '../push-iterator.impl';
  * @returns New push iterable of transformed elements.
  */
 export function mapIt<T, R>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
@@ -55,7 +53,7 @@ function mapRawPusher<R, T>(
 ): PushIterator.Pusher<R> {
   return accept => {
 
-    let done = 0;
+    let done: number | undefined;
 
     do {
 

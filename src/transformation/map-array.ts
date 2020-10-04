@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { overNone, overOne } from '../construction';
-import { PushIterable, PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import { PushIterator$iterator } from '../push-iterator.impl';
 
 /**
@@ -29,14 +29,11 @@ export function mapArray<T, R>(
   }
 
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       let i = 0;
 
       return {
-
-        [PushIterable__symbol]: 1,
 
         [Symbol.iterator]: PushIterator$iterator,
 

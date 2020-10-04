@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { isPushIterable } from '../push-iterable';
-import { pusherOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * @internal
@@ -22,7 +21,7 @@ const itsElements$defaultConverter = <T, R>(element: T): R => element as unknown
  *
  * @returns New array of `source` elements.
  */
-export function itsElements<T>(source: PushOrRawIterable<T>): T[];
+export function itsElements<T>(source: Iterable<T>): T[];
 
 /**
  * Creates a new, shallow-copied array instance containing elements of the `source` iterable converted by the given
@@ -39,21 +38,32 @@ export function itsElements<T>(source: PushOrRawIterable<T>): T[];
  *
  * @returns New array of elements converted from `source` ones.
  */
-export function itsElements<T, R>(source: PushOrRawIterable<T>, convert: (this: void, element: T) => R): R[];
+export function itsElements<T, R>(source: Iterable<T>, convert: (this: void, element: T) => R): R[];
 
 export function itsElements<T, R>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     convert: (this: void, element: T) => R = itsElements$defaultConverter,
 ): R[] {
-  if (isPushIterable(source)) {
 
-    const result: R[] = [];
+  const it = iteratorOf(source);
+  const forNext = it.forNext;
 
-    pusherOf(source)(element => {
-      result.push(convert(element));
-    });
+  return forNext ? pushedElements(forNext, convert) : Array.from(source, convert);
+}
 
-    return result;
-  }
-  return Array.from(source, convert);
+/**
+ * @internal
+ */
+function pushedElements<T, R>(
+    forNext: PushIterator.Pusher<T>,
+    convert: (this: void, element: T) => R,
+): R[] {
+
+  const result: R[] = [];
+
+  forNext(element => {
+    result.push(convert(element));
+  });
+
+  return result;
 }

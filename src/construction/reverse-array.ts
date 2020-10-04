@@ -4,7 +4,6 @@
  */
 import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -16,10 +15,7 @@ import type { PushIterator } from '../push-iterator';
  * @returns New push iterable over array elements in reverse order.
  */
 export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
-  return {
-    [PushIterable__symbol]: 1,
-    [Symbol.iterator]: () => reverseArrayIterator(array),
-  };
+  return { [Symbol.iterator]: () => reverseArrayIterator(array) };
 }
 
 /**
@@ -30,20 +26,23 @@ function reverseArrayIterator<T>(array: ArrayLike<T>): PushIterator<T> {
   let i = array.length - 1;
 
   return makePushIterator(accept => {
-    if (i < 0) {
-      return false;
+
+    let done = 0;
+
+    if (i >= 0) {
+
+      do {
+
+        const goOn = accept(array[i--]);
+
+        if (i < 0) {
+          done = -1;
+        } else if (goOn === false) {
+          done = 1;
+        }
+      } while (!done);
     }
 
-    for (; ;) {
-
-      const goOn = accept(array[i--]);
-
-      if (i < 0) {
-        return false;
-      }
-      if (goOn === false) {
-        return true;
-      }
-    }
+    return done > 0;
   });
 }

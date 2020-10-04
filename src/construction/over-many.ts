@@ -16,11 +16,9 @@ import { overOne } from './over-one';
  * @returns New push iterable over the given values.
  */
 export function overMany<T>(...values: readonly T[]): PushIterable<T> {
-  if (values.length > 1) {
-    return overArray(values);
-  }
-  if (values.length) {
-    return overOne(values[0]);
-  }
-  return overNone();
+  return values.length > 1
+      ? overArray(values)
+      : (values.length
+          ? overOne(values[0])
+          : overNone());
 }

@@ -1,5 +1,6 @@
 export * from './construction';
 export * from './consumption';
+export * from './iterator-of';
 export * from './its-iterator';
 export * from './make-push-iterator';
 export * from './objects';
