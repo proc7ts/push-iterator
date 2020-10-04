@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushOrRawIterable } from '../push-iterable';
+import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -13,7 +14,7 @@ import type { PushOrRawIterable } from '../push-iterable';
  */
 export function itsEmpty(iterable: PushOrRawIterable<any>): boolean {
 
-  const it = iterable[Symbol.iterator]();
+  const it = iteratorOf(iterable);
   const forNext = it.forNext;
 
   if (forNext) {

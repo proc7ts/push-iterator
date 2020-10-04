@@ -7,6 +7,7 @@ import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { iteratorOf } from '../push-iterator.impl';
 import { flatMapIt$defaultConverter } from './transformation.impl';
 
 /**
@@ -45,7 +46,7 @@ export function flatMapIt<T, R>(
     [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
-      const it = source[Symbol.iterator]();
+      const it = iteratorOf(source);
       const forNext = it.forNext;
 
       return makePushIterator(forNext ? flatMapPusher(forNext, convert) : flatMapRawPusher(it, convert));
@@ -65,32 +66,40 @@ function flatMapPusher<T, R>(
   let lastSrc = false;
 
   return accept => {
-    for (; ;) {
-      while (!cIt) {
+
+    let done = 0;
+
+    do {
+      while (!cIt && !done) {
         if (!forNext(src => {
           cIt = itsIterator(convert(src));
           return false;
         })) {
           if (!cIt) {
-            return false;
+            done = -1;
           }
           lastSrc = true;
         }
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      if (cIt) {
 
-      if (!cIt.forNext(element => goOn = accept(element))) {
-        cIt = undefined;
-        if (lastSrc) {
-          return false;
+        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+        let goOn: boolean | void;
+
+        if (!cIt.forNext(element => goOn = accept(element))) {
+          cIt = undefined;
+          if (lastSrc) {
+            done = -1;
+          }
+        }
+        if (goOn === false) {
+          done = 1;
         }
       }
-      if (goOn === false) {
-        return true;
-      }
-    }
+    } while (!done);
+
+    return done > 0;
   };
 }
 
@@ -105,26 +114,34 @@ function flatMapRawPusher<T, R>(
   let cIt: PushIterator<R> | undefined;
 
   return accept => {
-    for (; ;) {
+
+    let done = 0;
+
+    do {
       if (!cIt) {
 
         const next = it.next();
 
         if (next.done) {
-          return false;
+          done = -1;
+        } else {
+          cIt = itsIterator(convert(next.value));
         }
-        cIt = itsIterator(convert(next.value));
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      if (cIt) {
+        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+        let goOn: boolean | void;
 
-      if (!cIt.forNext(element => goOn = accept(element))) {
-        cIt = undefined;
+        if (!cIt.forNext(element => goOn = accept(element))) {
+          cIt = undefined;
+        }
+        if (goOn === false) {
+          done = 1;
+        }
       }
-      if (goOn === false) {
-        return true;
-      }
-    }
+    } while (!done);
+
+    return done > 0;
   };
 }

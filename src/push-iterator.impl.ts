@@ -1,5 +1,26 @@
-import { PushIterable, PushIterable__symbol } from './push-iterable';
-import type { PushIterator } from './push-iterator';
+import { PushIterable, PushIterable__symbol, PushOrRawIterable } from './push-iterable';
+import type { PushIterator, PushOrRawIterator } from './push-iterator';
+
+/**
+ * @internal
+ */
+export function iteratorOf<T>(iterable: PushOrRawIterable<T>): PushOrRawIterator<T> {
+  return iterable[Symbol.iterator]();
+}
+
+/**
+ * @internal
+ */
+export function rawIteratorOf<T>(iterable: Iterable<T>): Iterator<T> {
+  return iterable[Symbol.iterator]();
+}
+
+/**
+ * @internal
+ */
+export function pusherOf<T>(iterable: PushIterable<T>): PushIterator.Pusher<T> {
+  return iterable[Symbol.iterator]().forNext;
+}
 
 /**
  * @internal
@@ -76,9 +97,7 @@ export function toPushIterator<T>(it: Iterator<T>): PushIterator<T> {
 
     [Symbol.iterator]: PushIterator$iterator,
 
-    next() {
-      return it.next();
-    },
+    next: () => it.next(),
 
     forNext(accept) {
       for (; ;) {

@@ -44,34 +44,40 @@ export function flatMapArray<T, R>(
 
   const length = array.length;
 
-  if (length <= 1) {
-    return length ? overIterable(convert(array[0])) : overNone();
-  }
+  return length > 1
+      ? {
+        [PushIterable__symbol]: 1,
+        [Symbol.iterator]: () => makePushIterator(flatMapArrayPusher(array, convert)),
+      }
+      : (length ? overIterable(convert(array[0])) : overNone());
+}
 
-  return {
-    [PushIterable__symbol]: 1,
-    [Symbol.iterator]() {
+/**
+ * @internal
+ */
+function flatMapArrayPusher<T, R>(
+    array: ArrayLike<T>,
+    convert: (this: void, element: T) => PushOrRawIterable<R>,
+): PushIterator.Pusher<R> {
 
-      let cIt: PushIterator<R> = itsIterator(convert(array[0]));
-      let index = 1;
+  let cIt: PushIterator<R> = itsIterator(convert(array[0]));
+  let index = 1;
 
-      return makePushIterator(accept => {
-        for (; ;) {
+  return accept => {
+    for (; ;) {
 
-          // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-          let goOn: boolean | void;
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
 
-          if (!cIt.forNext(element => goOn = accept(element))) {
-            if (index >= array.length) {
-              return false;
-            }
-            cIt = itsIterator(convert(array[index++]));
-          }
-          if (goOn === false) {
-            return true;
-          }
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        if (index >= array.length) {
+          return false;
         }
-      });
-    },
+        cIt = itsIterator(convert(array[index++]));
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
   };
 }

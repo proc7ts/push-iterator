@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import type { PushOrRawIterable } from '../push-iterable';
+import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Extracts the first element of the given `iterable`, if any.
@@ -14,7 +15,7 @@ import type { PushOrRawIterable } from '../push-iterable';
  */
 export function itsFirst<T>(iterable: PushOrRawIterable<T>): T | undefined {
 
-  const it = iterable[Symbol.iterator]();
+  const it = iteratorOf(iterable);
   const forNext = it.forNext;
 
   if (forNext) {

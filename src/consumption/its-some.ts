@@ -4,6 +4,7 @@
  */
 import type { PushOrRawIterable } from '../push-iterable';
 import { isPushIterable } from '../push-iterable';
+import { pusherOf } from '../push-iterator.impl';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -24,7 +25,7 @@ export function itsSome<T>(
   let someMatches = false;
 
   if (isPushIterable(iterable)) {
-    iterable[Symbol.iterator]().forNext(element => !(someMatches = !!test(element)));
+    pusherOf(iterable)(element => !(someMatches = !!test(element)));
   } else {
     for (const element of iterable) {
       if ((someMatches = !!test(element))) {

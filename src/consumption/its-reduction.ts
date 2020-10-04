@@ -4,6 +4,7 @@
  */
 import type { PushOrRawIterable } from '../push-iterable';
 import { isPushIterable } from '../push-iterable';
+import { pusherOf } from '../push-iterator.impl';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -27,7 +28,7 @@ export function itsReduction<T, R>(
   let reduced = initialValue;
 
   if (isPushIterable(iterable)) {
-    iterable[Symbol.iterator]().forNext(element => {
+    pusherOf(iterable)(element => {
       reduced = reducer(reduced, element);
     });
   } else {

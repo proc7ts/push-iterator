@@ -6,6 +6,7 @@ import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { PushIterable__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements that pass the test implemented by
@@ -49,32 +50,48 @@ export function filterIt<T>(
     [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
-      const it = source[Symbol.iterator]();
+      const it = iteratorOf(source);
       const forNext = it.forNext;
       let pusher: PushIterator.Pusher<T>;
 
       if (forNext) {
         pusher = accept => forNext(element => !test(element) || accept(element));
       } else {
-        pusher = accept => {
-          for (; ;) {
-
-            const next = it.next();
-
-            if (next.done) {
-              return false;
-            }
-
-            const value = next.value;
-
-            if (test(value) && accept(value) === false) {
-              return true;
-            }
-          }
-        };
+        pusher = filterRawPusher(it, test);
       }
 
       return makePushIterator(pusher);
     },
+  };
+}
+
+/**
+ * @internal
+ */
+function filterRawPusher<T>(
+    it: Iterator<T>,
+    test: (this: void, element: T) => boolean,
+): PushIterator.Pusher<T> {
+  return accept => {
+
+    let done = 0;
+
+    do {
+
+      const next = it.next();
+
+      if (next.done) {
+        done = -1;
+      } else {
+
+        const value = next.value;
+
+        if (test(value) && accept(value) === false) {
+          done = 1;
+        }
+      }
+    } while (!done);
+
+    return done > 0;
   };
 }

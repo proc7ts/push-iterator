@@ -22,17 +22,20 @@ export function arrayIterator<T>(array: ArrayLike<T>): PushIterator<T> {
         return false;
       }
 
-      for (; ;) {
+      let done = 0;
+
+      do {
 
         const goOn = accept(array[i++]);
 
         if (i >= array.length) {
-          return false;
+          done = -1;
+        } else if (goOn === false) {
+          done = 1;
         }
-        if (goOn === false) {
-          return true;
-        }
-      }
+      } while (!done);
+
+      return done > 0;
     },
 
   };

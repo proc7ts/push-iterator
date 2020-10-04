@@ -4,6 +4,7 @@
  */
 import type { PushOrRawIterable } from '../push-iterable';
 import { isPushIterable } from '../push-iterable';
+import { pusherOf } from '../push-iterator.impl';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -15,7 +16,7 @@ import { isPushIterable } from '../push-iterable';
  */
 export function itsEach<T>(iterable: PushOrRawIterable<T>, action: (this: void, element: T) => void): void {
   if (isPushIterable(iterable)) {
-    iterable[Symbol.iterator]().forNext(element => {
+    pusherOf(iterable)(element => {
       action(element);
     });
   } else {

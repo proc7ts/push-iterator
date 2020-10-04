@@ -4,6 +4,7 @@
  */
 import type { PushOrRawIterable } from '../push-iterable';
 import { isPushIterable } from '../push-iterable';
+import { pusherOf } from '../push-iterator.impl';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -24,7 +25,7 @@ export function itsEvery<T>(
   let allMatch = true;
 
   if (isPushIterable(iterable)) {
-    iterable[Symbol.iterator]().forNext(element => allMatch = !!test(element));
+    pusherOf(iterable)(element => allMatch = !!test(element));
   } else {
     for (const element of iterable) {
       if (!(allMatch = !!test(element))) {

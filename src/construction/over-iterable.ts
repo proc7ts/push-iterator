@@ -4,7 +4,7 @@
  */
 import type { PushIterable, PushOrRawIterable } from '../push-iterable';
 import { isPushIterable, PushIterable__symbol } from '../push-iterable';
-import { toPushIterator } from '../push-iterator.impl';
+import { rawIteratorOf, toPushIterator } from '../push-iterator.impl';
 import { overArray } from './over-array';
 
 /**
@@ -24,6 +24,6 @@ export function overIterable<T>(source: PushOrRawIterable<T>): PushIterable<T> {
   }
   return {
     [PushIterable__symbol]: 1,
-    [Symbol.iterator]: () => toPushIterator(source[Symbol.iterator]()),
+    [Symbol.iterator]: () => toPushIterator(rawIteratorOf(source)),
   };
 }

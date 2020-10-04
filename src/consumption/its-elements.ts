@@ -4,6 +4,7 @@
  */
 import type { PushOrRawIterable } from '../push-iterable';
 import { isPushIterable } from '../push-iterable';
+import { pusherOf } from '../push-iterator.impl';
 
 /**
  * @internal
@@ -48,7 +49,7 @@ export function itsElements<T, R>(
 
     const result: R[] = [];
 
-    source[Symbol.iterator]().forNext(element => {
+    pusherOf(source)(element => {
       result.push(convert(element));
     });
 
