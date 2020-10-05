@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { isPushIterable } from '../push-iterable';
-import { pusherOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -18,21 +17,49 @@ import { pusherOf } from '../push-iterator.impl';
  * Returns `true` for empty iterable.
  */
 export function itsEvery<T>(
-    iterable: PushOrRawIterable<T>,
+    iterable: Iterable<T>,
+    test: (this: void, element: T) => boolean,
+): boolean {
+
+  const it = iteratorOf(iterable);
+
+  return it.forNext ? pushedEvery(it, test) : rawEvery(it, test);
+}
+
+/**
+ * @internal
+ */
+function pushedEvery<T>(
+    it: PushIterator<T>,
     test: (this: void, element: T) => boolean,
 ): boolean {
 
   let allMatch = true;
 
-  if (isPushIterable(iterable)) {
-    pusherOf(iterable)(element => allMatch = !!test(element));
-  } else {
-    for (const element of iterable) {
-      if (!(allMatch = !!test(element))) {
-        break;
-      }
-    }
-  }
+  it.forNext(element => allMatch = !!test(element));
 
   return allMatch;
+}
+
+/**
+ * @internal
+ */
+function rawEvery<T>(
+    it: Iterator<T>,
+    test: (this: void, element: T) => boolean,
+): boolean {
+
+  let allMatch = true;
+
+  for (; ;) {
+
+    const next = it.next();
+
+    if (next.done) {
+      return allMatch;
+    }
+    if (!(allMatch = !!test(next.value))) {
+      return false;
+    }
+  }
 }

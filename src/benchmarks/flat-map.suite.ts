@@ -107,7 +107,8 @@ function benchSubItems<T>(element: T): T[] {
 
   const result: T[] = [];
 
-  for (let i = benchItemSize - 1; i >= 0; --i) {
+  result.length = benchItemSize;
+  for (let i = 0; i < benchItemSize; ++i) {
     result[i] = element;
   }
 

@@ -3,7 +3,6 @@
  * @module @proc7ts/push-iterator/call-thru
  */
 import { NextCall, nextCall } from '@proc7ts/call-thru';
-import type { PushOrRawIterable } from '../push-iterable';
 import type { IterableCallChain } from './iterable-call-chain';
 
 /**
@@ -18,6 +17,6 @@ import type { IterableCallChain } from './iterable-call-chain';
  *
  * @returns Next call for iterable call chain.
  */
-export function nextIterate<T>(iterable: PushOrRawIterable<T>): NextCall<IterableCallChain, [T], T> {
+export function nextIterate<T>(iterable: Iterable<T>): NextCall<IterableCallChain, [T], T> {
   return nextCall((chain, pass) => chain.iterate(pass, iterable));
 }

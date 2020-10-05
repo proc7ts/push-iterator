@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { isPushIterable } from '../push-iterable';
-import { pusherOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -14,14 +13,40 @@ import { pusherOf } from '../push-iterator.impl';
  * @param action  An action to perform on each iterable element. This is a function accepting an element as its only
  * parameter.
  */
-export function itsEach<T>(iterable: PushOrRawIterable<T>, action: (this: void, element: T) => void): void {
-  if (isPushIterable(iterable)) {
-    pusherOf(iterable)(element => {
-      action(element);
-    });
+export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
+
+  const it = iteratorOf(iterable);
+
+  if (it.forNext) {
+    pushedEach(it, action);
   } else {
-    for (const element of iterable) {
-      action(element);
-    }
+    rawEach(it, action);
   }
 }
+
+/**
+ * @internal
+ */
+function pushedEach<T>(it: PushIterator<T>, action: (this: void, element: T) => void): void {
+  it.forNext(element => {
+    action(element);
+  });
+}
+
+/**
+ * @internal
+ */
+function rawEach<T>(it: Iterator<T>, action: (this: void, element: T) => void): void {
+  for (; ;) {
+
+    const next = it.next();
+
+    if (next.done) {
+      return;
+    }
+
+    action(next.value);
+  }
+}
+
+

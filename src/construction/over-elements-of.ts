@@ -4,8 +4,7 @@
  */
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
@@ -18,37 +17,38 @@ import { overNone } from './over-none';
  *
  * @returns New push iterable over elements of the given `sources`.
  */
-export function overElementsOf<T>(...sources: readonly PushOrRawIterable<T>[]): PushIterable<T> {
-  if (sources.length > 1) {
-    return {
-      [PushIterable__symbol]: 1,
-      [Symbol.iterator](): PushIterator<T> {
+export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushIterable<T> {
+  return sources.length > 1
+      ? { [Symbol.iterator]: () => makePushIterator(subElementsPusher(sources)) }
+      : (sources.length
+          ? overIterable(sources[0])
+          : overNone());
+}
 
-        let i = 0;
-        let it: PushIterator<T> = itsIterator(sources[0]);
+/**
+ * @internal
+ */
+function subElementsPusher<T>(sources: readonly Iterable<T>[]): PushIterator.Pusher<T> {
 
-        return makePushIterator(accept => {
-          for (; ;) {
+  let i = 0;
+  let it: PushIterator<T> = itsIterator(sources[0]);
 
-            // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-            let goOn: boolean | void;
+  return accept => {
+    for (; ;) {
 
-            if (!it.forNext(element => goOn = accept(element))) {
-              if (++i >= sources.length) {
-                return false;
-              }
-              it = itsIterator(sources[i]);
-            }
-            if (goOn === false) {
-              return true;
-            }
-          }
-        });
-      },
-    };
-  }
-  if (sources.length) {
-    return overIterable(sources[0]);
-  }
-  return overNone();
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
+
+      if (!it.forNext(element => goOn = accept(element))) {
+        if (++i >= sources.length) {
+          return false;
+        }
+
+        it = itsIterator(sources[i]);
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
+  };
 }

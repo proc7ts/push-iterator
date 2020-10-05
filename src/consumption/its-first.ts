@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { iteratorOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Extracts the first element of the given `iterable`, if any.
@@ -13,22 +13,32 @@ import { iteratorOf } from '../push-iterator.impl';
  *
  * @return Either the first element, or `undefined` if the given `iterable` is empty.
  */
-export function itsFirst<T>(iterable: PushOrRawIterable<T>): T | undefined {
+export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  if (forNext) {
+  return it.forNext ? pushedFirst(it) : rawFirst(it);
+}
 
-    let first: T | undefined;
+/**
+ * @internal
+ */
+function pushedFirst<T>(it: PushIterator<T>): T | undefined {
 
-    forNext(element => {
-      first = element;
-      return false;
-    });
+  let first: T | undefined;
 
-    return first;
-  }
+  it.forNext(element => {
+    first = element;
+    return false;
+  });
+
+  return first;
+}
+
+/**
+ * @internal
+ */
+function rawFirst<T>(it: Iterator<T>): T | undefined {
 
   const result = it.next();
 

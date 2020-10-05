@@ -2,11 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { iteratorOf } from '../iterator-of';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements that pass the test implemented by
@@ -21,7 +20,7 @@ import { iteratorOf } from '../push-iterator.impl';
  * will be returned.
  */
 export function filterIt<T>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
 
@@ -38,31 +37,32 @@ export function filterIt<T>(
  * will be returned.
  */
 export function filterIt<T, R extends T>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     test: (this: void, element: T) => element is R,
 ): PushIterable<R>;
 
 export function filterIt<T>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
-      const forNext = it.forNext;
-      let pusher: PushIterator.Pusher<T>;
 
-      if (forNext) {
-        pusher = accept => forNext(element => !test(element) || accept(element));
-      } else {
-        pusher = filterRawPusher(it, test);
-      }
-
-      return makePushIterator(pusher);
+      return makePushIterator(it.forNext ? filterPusher(it, test) : filterRawPusher(it, test));
     },
   };
+}
+
+/**
+ * @internal
+ */
+function filterPusher<T>(
+    it: PushIterator<T>,
+    test: (this: void, element: T) => boolean,
+): PushIterator.Pusher<T> {
+  return accept => it.forNext(element => !test(element) || accept(element));
 }
 
 /**
@@ -73,25 +73,19 @@ function filterRawPusher<T>(
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
   return accept => {
-
-    let done = 0;
-
-    do {
+    for (; ;) {
 
       const next = it.next();
 
       if (next.done) {
-        done = -1;
-      } else {
-
-        const value = next.value;
-
-        if (test(value) && accept(value) === false) {
-          done = 1;
-        }
+        return false;
       }
-    } while (!done);
 
-    return done > 0;
+      const value = next.value;
+
+      if (test(value) && accept(value) === false) {
+        return true;
+      }
+    }
   };
 }

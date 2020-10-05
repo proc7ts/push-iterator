@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { isPushIterable } from '../push-iterable';
-import { pusherOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -20,22 +19,46 @@ import { pusherOf } from '../push-iterator.impl';
  * `iterable`.
  */
 export function itsReduction<T, R>(
-    iterable: PushOrRawIterable<T>,
+    iterable: Iterable<T>,
     reducer: (this: void, prev: R, element: T) => R,
     initialValue: R,
 ): R {
 
-  let reduced = initialValue;
+  const it = iteratorOf(iterable);
 
-  if (isPushIterable(iterable)) {
-    pusherOf(iterable)(element => {
-      reduced = reducer(reduced, element);
-    });
-  } else {
-    for (const element of iterable) {
-      reduced = reducer(reduced, element);
-    }
-  }
+  return it.forNext ? pushedReduction(it, reducer, initialValue) : rawReduction(it, reducer, initialValue);
+}
 
+/**
+ * @internal
+ */
+function pushedReduction<T, R>(
+    it: PushIterator<T>,
+    reducer: (this: void, prev: R, element: T) => R,
+    reduced: R,
+): R {
+  it.forNext(element => {
+    reduced = reducer(reduced, element);
+  });
   return reduced;
+}
+
+/**
+ * @internal
+ */
+function rawReduction<T, R>(
+    it: Iterator<T>,
+    reducer: (this: void, prev: R, element: T) => R,
+    reduced: R,
+): R {
+  for (; ;) {
+
+    const next = it.next();
+
+    if (next.done) {
+      return reduced;
+    }
+
+    reduced = reducer(reduced, next.value);
+  }
 }

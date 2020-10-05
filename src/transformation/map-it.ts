@@ -2,11 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { iteratorOf } from '../iterator-of';
 import { makePushIterator } from '../make-push-iterator';
-import type { PushIterable, PushOrRawIterable } from '../push-iterable';
-import { PushIterable__symbol } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { iteratorOf } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
@@ -21,17 +20,15 @@ import { iteratorOf } from '../push-iterator.impl';
  * @returns New push iterable of transformed elements.
  */
 export function mapIt<T, R>(
-    source: PushOrRawIterable<T>,
+    source: Iterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
-      const forNext = it.forNext;
 
-      return makePushIterator(forNext ? mapPusher(forNext, convert) : mapRawPusher(it, convert));
+      return makePushIterator(it.forNext ? mapPusher(it, convert) : mapRawPusher(it, convert));
     },
   };
 }
@@ -40,10 +37,10 @@ export function mapIt<T, R>(
  * @internal
  */
 function mapPusher<R, T>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     convert: (this: void, element: T) => R,
 ): PushIterator.Pusher<R> {
-  return accept => forNext(element => accept(convert(element)));
+  return accept => it.forNext(element => accept(convert(element)));
 }
 
 /**
@@ -54,20 +51,16 @@ function mapRawPusher<R, T>(
     convert: (this: void, element: T) => R,
 ): PushIterator.Pusher<R> {
   return accept => {
-
-    let done = 0;
-
-    do {
+    for (; ;) {
 
       const next = it.next();
 
       if (next.done) {
-        done = -1;
-      } else if (accept(convert(next.value)) === false) {
-        done = 1;
+        return false;
       }
-    } while (!done);
-
-    return done > 0;
+      if (accept(convert(next.value)) === false) {
+        return true;
+      }
+    }
   };
 }

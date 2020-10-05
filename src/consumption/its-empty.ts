@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterable } from '../push-iterable';
-import { iteratorOf } from '../push-iterator.impl';
+import { iteratorOf } from '../iterator-of';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -12,19 +12,21 @@ import { iteratorOf } from '../push-iterator.impl';
  *
  * @return `true` if the given iterable contains at least one element, or `false` otherwise.
  */
-export function itsEmpty(iterable: PushOrRawIterable<any>): boolean {
+export function itsEmpty(iterable: Iterable<any>): boolean {
 
   const it = iteratorOf(iterable);
-  const forNext = it.forNext;
 
-  if (forNext) {
+  return it.forNext ? pushedEmpty(it) : !!it.next().done;
+}
 
-    let isEmpty = true;
+/**
+ * @internal
+ */
+function pushedEmpty<T>(it: PushIterator<T>): boolean {
 
-    forNext(() => isEmpty = false);
+  let isEmpty = true;
 
-    return isEmpty;
-  }
+  it.forNext(_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
 
-  return !!it.next().done;
+  return isEmpty;
 }

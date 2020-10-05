@@ -2,7 +2,6 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterable__symbol } from './push-iterable';
 import type { PushIterator } from './push-iterator';
 import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
 
@@ -15,7 +14,6 @@ import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
  */
 export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterator<T> {
   return {
-    [PushIterable__symbol]: 1,
     [Symbol.iterator]: PushIterator$iterator,
     next: PushIterator$next,
     forNext,

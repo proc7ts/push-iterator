@@ -5,7 +5,7 @@
 import { overIterable, overNone } from '../construction';
 import { itsIterator } from '../its-iterator';
 import { makePushIterator } from '../make-push-iterator';
-import { PushIterable, PushIterable__symbol, PushOrRawIterable } from '../push-iterable';
+import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
 
@@ -34,21 +34,18 @@ export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
  */
 export function flatMapArray<T, R>(
     array: ArrayLike<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R>,
+    convert: (this: void, element: T) => Iterable<R>,
 ): PushIterable<R>;
 
 export function flatMapArray<T, R>(
     array: ArrayLike<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R> = flatMapIt$defaultConverter,
+    convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
 
   const length = array.length;
 
   return length > 1
-      ? {
-        [PushIterable__symbol]: 1,
-        [Symbol.iterator]: () => makePushIterator(flatMapArrayPusher(array, convert)),
-      }
+      ? { [Symbol.iterator]: () => makePushIterator(flatMapArrayPusher(array, convert)) }
       : (length ? overIterable(convert(array[0])) : overNone());
 }
 
@@ -57,7 +54,7 @@ export function flatMapArray<T, R>(
  */
 function flatMapArrayPusher<T, R>(
     array: ArrayLike<T>,
-    convert: (this: void, element: T) => PushOrRawIterable<R>,
+    convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
   let cIt: PushIterator<R> = itsIterator(convert(array[0]));
