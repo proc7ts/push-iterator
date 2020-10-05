@@ -49,8 +49,9 @@ export function filterIt<T>(
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
+      const forNext = it.forNext;
 
-      return makePushIterator(it.forNext ? filterPusher(it, test) : filterRawPusher(it, test));
+      return makePushIterator(forNext ? filterPusher(forNext, test) : filterRawPusher(it, test));
     },
   };
 }
@@ -59,10 +60,10 @@ export function filterIt<T>(
  * @internal
  */
 function filterPusher<T>(
-    it: PushIterator<T>,
+    forNext: PushIterator.Pusher<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => it.forNext(element => !test(element) || accept(element));
+  return accept => forNext(element => !test(element) || accept(element));
 }
 
 /**

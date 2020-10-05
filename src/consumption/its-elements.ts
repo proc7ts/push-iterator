@@ -46,21 +46,22 @@ export function itsElements<T, R>(
 ): R[] {
 
   const it = iteratorOf(source);
+  const forNext = it.forNext;
 
-  return it.forNext ? pushedElements(it, convert) : Array.from(source, convert);
+  return forNext ? pushedElements(forNext, convert) : Array.from(source, convert);
 }
 
 /**
  * @internal
  */
 function pushedElements<T, R>(
-    it: PushIterator<T>,
+    forNext: PushIterator.Pusher<T>,
     convert: (this: void, element: T) => R,
 ): R[] {
 
   const result: R[] = [];
 
-  it.forNext(element => {
+  forNext(element => {
     result.push(convert(element));
   });
 

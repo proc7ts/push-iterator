@@ -31,7 +31,7 @@ export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushItera
 function subElementsPusher<T>(sources: readonly Iterable<T>[]): PushIterator.Pusher<T> {
 
   let i = 0;
-  let it: PushIterator<T> = itsIterator(sources[0]);
+  let forNext: PushIterator.Pusher<T> = itsIterator(sources[0]).forNext;
 
   return accept => {
     for (; ;) {
@@ -39,12 +39,12 @@ function subElementsPusher<T>(sources: readonly Iterable<T>[]): PushIterator.Pus
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let goOn: boolean | void;
 
-      if (!it.forNext(element => goOn = accept(element))) {
+      if (!forNext(element => goOn = accept(element))) {
         if (++i >= sources.length) {
           return false;
         }
 
-        it = itsIterator(sources[i]);
+        forNext = itsIterator(sources[i]).forNext;
       }
       if (goOn === false) {
         return true;

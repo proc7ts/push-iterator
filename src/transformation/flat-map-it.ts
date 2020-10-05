@@ -45,8 +45,9 @@ export function flatMapIt<T, R>(
     [Symbol.iterator]() {
 
       const it = iteratorOf(source);
+      const forNext = it.forNext;
 
-      return makePushIterator(it.forNext ? flatMapPusher(it, convert) : flatMapRawPusher(it, convert));
+      return makePushIterator(forNext ? flatMapPusher(forNext, convert) : flatMapRawPusher(it, convert));
     },
   };
 }
@@ -55,21 +56,21 @@ export function flatMapIt<T, R>(
  * @internal
  */
 function flatMapPusher<T, R>(
-    it: PushIterator<T>,
+    forNext: PushIterator.Pusher<T>,
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
-  let cIt: PushIterator<R> | undefined;
+  let forNextSub: PushIterator.Pusher<R> | undefined;
   let lastSrc = false;
 
   return accept => {
     for (; ;) {
-      while (!cIt) {
-        if (!it.forNext(src => {
-          cIt = itsIterator(convert(src));
+      while (!forNextSub) {
+        if (!forNext(src => {
+          forNextSub = itsIterator(convert(src)).forNext;
           return false;
         })) {
-          if (!cIt) {
+          if (!forNextSub) {
             return false;
           }
           lastSrc = true;
@@ -79,8 +80,8 @@ function flatMapPusher<T, R>(
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let goOn: boolean | void;
 
-      if (!cIt.forNext(element => goOn = accept(element))) {
-        cIt = undefined;
+      if (!forNextSub(element => goOn = accept(element))) {
+        forNextSub = undefined;
         if (lastSrc) {
           return false;
         }
@@ -100,11 +101,11 @@ function flatMapRawPusher<T, R>(
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
-  let cIt: PushIterator<R> | undefined;
+  let forNextSub: PushIterator.Pusher<R> | undefined;
 
   return accept => {
     for (; ;) {
-      if (!cIt) {
+      if (!forNextSub) {
 
         const next = it.next();
 
@@ -112,14 +113,14 @@ function flatMapRawPusher<T, R>(
           return false;
         }
 
-        cIt = itsIterator(convert(next.value));
+        forNextSub = itsIterator(convert(next.value)).forNext;
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let goOn: boolean | void;
 
-      if (!cIt.forNext(element => goOn = accept(element))) {
-        cIt = undefined;
+      if (!forNextSub(element => goOn = accept(element))) {
+        forNextSub = undefined;
       }
       if (goOn === false) {
         return true;

@@ -16,19 +16,16 @@ import type { PushIterator } from '../push-iterator';
 export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
 
   const it = iteratorOf(iterable);
+  const forNext = it.forNext;
 
-  if (it.forNext) {
-    pushedEach(it, action);
-  } else {
-    rawEach(it, action);
-  }
+  return forNext ? pushedEach(forNext, action) : rawEach(it, action);
 }
 
 /**
  * @internal
  */
-function pushedEach<T>(it: PushIterator<T>, action: (this: void, element: T) => void): void {
-  it.forNext(element => {
+function pushedEach<T>(forNext: PushIterator.Pusher<T>, action: (this: void, element: T) => void): void {
+  forNext(element => {
     action(element);
   });
 }

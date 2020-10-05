@@ -15,18 +15,19 @@ import type { PushIterator } from '../push-iterator';
 export function itsEmpty(iterable: Iterable<any>): boolean {
 
   const it = iteratorOf(iterable);
+  const forNext = it.forNext;
 
-  return it.forNext ? pushedEmpty(it) : !!it.next().done;
+  return forNext ? pushedEmpty(forNext) : !!it.next().done;
 }
 
 /**
  * @internal
  */
-function pushedEmpty<T>(it: PushIterator<T>): boolean {
+function pushedEmpty<T>(forNext: PushIterator.Pusher<T>): boolean {
 
   let isEmpty = true;
 
-  it.forNext(_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
+  forNext(_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
 
   return isEmpty;
 }
