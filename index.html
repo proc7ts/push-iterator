@@ -108,10 +108,10 @@
 					<h2>API</h2>
 				</a>
 				<p>See the full [API Documentation].</p>
-				<a href="#push-iterables-construction" id="push-iterables-construction" style="color: inherit; text-decoration: none;">
-					<h3>Push Iterables Construction</h3>
+				<a href="#push-iterable-construction" id="push-iterable-construction" style="color: inherit; text-decoration: none;">
+					<h3>Push Iterable Construction</h3>
 				</a>
-				<p>Each of the following functions return a push iterable instance:</p>
+				<p>Each of the following functions returns a push iterable instance:</p>
 				<ul>
 					<li><code>overArray(array)</code> - Creates a push iterable over elements of array-like structure.</li>
 					<li><code>overElementsOf(...iterables)</code> - Creates a push iterable over elements of other iterables.</li>
@@ -121,12 +121,15 @@
 					<li><code>overNone()</code> - Returns a push iterable iterator without elements.</li>
 					<li><code>reverseArray(array)</code> - Creates a push iterable over elements of array-like structure in reverse order.</li>
 				</ul>
-				<a href="#iterables-consumption" id="iterables-consumption" style="color: inherit; text-decoration: none;">
-					<h3>Iterables Consumption</h3>
+				<a href="#iterable-consumption" id="iterable-consumption" style="color: inherit; text-decoration: none;">
+					<h3>Iterable Consumption</h3>
 				</a>
-				<p>Each of the following functions accept either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
+				<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
 				<ul>
 					<li><code>itsEach(iterable, action)</code> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
+					<li><code>itsElements(iterable[, convert])</code> - Creates a new, shallow-copied array instance containing elements of the source
+						iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function analog optimized
+					for push iterables.</li>
 					<li><code>itsEmpty(iterable): boolean</code> - Checks whether the given <code>iterable</code> is empty.</li>
 					<li><code>itsEvery(iterable, test): boolean</code> - Tests whether all elements of the given <code>iterable</code> pass the test implemented
 					by the provided function.</li>
@@ -136,17 +139,37 @@
 					<li><code>itsSome(iterable, test): boolean</code> - Tests whether at least one element of the given <code>iterable</code> passes the test
 					implemented by the provided function.</li>
 				</ul>
-				<a href="#iterables-transformation" id="iterables-transformation" style="color: inherit; text-decoration: none;">
-					<h3>Iterables Transformation</h3>
+				<a href="#iterable-transformation" id="iterable-transformation" style="color: inherit; text-decoration: none;">
+					<h3>Iterable Transformation</h3>
 				</a>
-				<p>Each of the following functions accept either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and return a push iterable:</p>
+				<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and returns a push iterable:</p>
 				<ul>
 					<li><code>filterIt(source, test)</code> - Creates a push iterable with all <code>source</code> iterable elements that pass the test
-					implemented by the provided function.</li>
+					implemented by provided function.</li>
 					<li><code>flatMapIt(source, convert?)</code> - First maps each element of the <code>source</code> iterable using a mapping function,
-					then flattens the result into new push iterable.  </li>
+					then flattens the result into new push iterable.</li>
 					<li><code>mapIt(source, convert)</code> - Creates a push iterable with the results of calling a provided function on every element
 					of the <code>source</code> iterable.</li>
+				</ul>
+				<a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
+					<h3>Array Transformation</h3>
+				</a>
+				<p>Each of the following functions accepts an array-like instance, and returns a push iterable:  </p>
+				<ul>
+					<li><code>filterArray(aray, test)</code> - Creates a push iterable with all <code>array</code> elements that pass the test implemented
+					by provided function.</li>
+					<li><code>flatMapArray(array, convert?)</code> - First maps each element of the source <code>array</code> using a mapping function,
+					then flattens the result into new push iterable.</li>
+					<li><code>mapArray(array, convert)</code> - Creates a push iterable with the results of calling a provided function on every element
+					of the given <code>array</code>.</li>
+				</ul>
+				<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
+					<h3>Utilities</h3>
+				</a>
+				<ul>
+					<li><code>iteratorOf(iterable)</code> - Constructs iterator over elements of the given <code>iterable</code>.</li>
+					<li><code>itsIterator(iterable)</code> - Starts iteration over the given <code>iterable</code>. Always returns a push iterator.</li>
+					<li><code>makePushIterator(forNext)</code> - Creates push iterator implementation.</li>
 				</ul>
 			</div>
 		</div>
