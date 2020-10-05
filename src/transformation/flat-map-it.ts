@@ -63,40 +63,32 @@ function flatMapPusher<T, R>(
   let lastSrc = false;
 
   return accept => {
-
-    let done = 0;
-
-    do {
-      while (!cIt && !done) {
+    for (; ;) {
+      while (!cIt) {
         if (!it.forNext(src => {
           cIt = itsIterator(convert(src));
           return false;
         })) {
           if (!cIt) {
-            done = -1;
+            return false;
           }
           lastSrc = true;
         }
       }
 
-      if (cIt) {
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
 
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-        let goOn: boolean | void;
-
-        if (!cIt.forNext(element => goOn = accept(element))) {
-          cIt = undefined;
-          if (lastSrc) {
-            done = -1;
-          }
-        }
-        if (goOn === false) {
-          done = 1;
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        cIt = undefined;
+        if (lastSrc) {
+          return false;
         }
       }
-    } while (!done);
-
-    return done > 0;
+      if (goOn === false) {
+        return true;
+      }
+    }
   };
 }
 
@@ -111,34 +103,27 @@ function flatMapRawPusher<T, R>(
   let cIt: PushIterator<R> | undefined;
 
   return accept => {
-
-    let done = 0;
-
-    do {
+    for (; ;) {
       if (!cIt) {
 
         const next = it.next();
 
         if (next.done) {
-          done = -1;
-        } else {
-          cIt = itsIterator(convert(next.value));
+          return false;
         }
+
+        cIt = itsIterator(convert(next.value));
       }
 
-      if (cIt) {
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-        let goOn: boolean | void;
+      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+      let goOn: boolean | void;
 
-        if (!cIt.forNext(element => goOn = accept(element))) {
-          cIt = undefined;
-        }
-        if (goOn === false) {
-          done = 1;
-        }
+      if (!cIt.forNext(element => goOn = accept(element))) {
+        cIt = undefined;
       }
-    } while (!done);
-
-    return done > 0;
+      if (goOn === false) {
+        return true;
+      }
+    }
   };
 }

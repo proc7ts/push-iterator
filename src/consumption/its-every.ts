@@ -50,16 +50,16 @@ function rawEvery<T>(
 ): boolean {
 
   let allMatch = true;
-  let done: boolean | undefined;
 
-  do {
+  for (; ;) {
 
     const next = it.next();
 
-    if (!(done = next.done)) {
-      allMatch = !!test(next.value);
+    if (next.done) {
+      return allMatch;
     }
-  } while (allMatch && !done);
-
-  return allMatch;
+    if (!(allMatch = !!test(next.value))) {
+      return false;
+    }
+  }
 }

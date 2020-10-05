@@ -34,26 +34,21 @@ function subElementsPusher<T>(sources: readonly Iterable<T>[]): PushIterator.Pus
   let it: PushIterator<T> = itsIterator(sources[0]);
 
   return accept => {
-
-    let done: number | undefined;
-
-    do {
+    for (; ;) {
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let goOn: boolean | void;
 
       if (!it.forNext(element => goOn = accept(element))) {
         if (++i >= sources.length) {
-          done = -1;
-        } else {
-          it = itsIterator(sources[i]);
+          return false;
         }
-      }
-      if (!done && goOn === false) {
-        done = 1;
-      }
-    } while (!done);
 
-    return done > 0;
+        it = itsIterator(sources[i]);
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
   };
 }

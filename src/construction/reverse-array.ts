@@ -26,23 +26,20 @@ function reverseArrayIterator<T>(array: ArrayLike<T>): PushIterator<T> {
   let i = array.length - 1;
 
   return makePushIterator(accept => {
-
-    let done = 0;
-
-    if (i >= 0) {
-
-      do {
-
-        const goOn = accept(array[i--]);
-
-        if (i < 0) {
-          done = -1;
-        } else if (goOn === false) {
-          done = 1;
-        }
-      } while (!done);
+    if (i < 0) {
+      return false;
     }
 
-    return done > 0;
+    for (; ;) {
+
+      const goOn = accept(array[i--]);
+
+      if (i < 0) {
+        return false;
+      }
+      if (goOn === false) {
+        return true;
+      }
+    }
   });
 }

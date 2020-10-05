@@ -51,20 +51,16 @@ function mapRawPusher<R, T>(
     convert: (this: void, element: T) => R,
 ): PushIterator.Pusher<R> {
   return accept => {
-
-    let done: number | undefined;
-
-    do {
+    for (; ;) {
 
       const next = it.next();
 
       if (next.done) {
-        done = -1;
-      } else if (accept(convert(next.value)) === false) {
-        done = 1;
+        return false;
       }
-    } while (!done);
-
-    return done > 0;
+      if (accept(convert(next.value)) === false) {
+        return true;
+      }
+    }
   };
 }

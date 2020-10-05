@@ -73,25 +73,19 @@ function filterRawPusher<T>(
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
   return accept => {
-
-    let done: number | undefined;
-
-    do {
+    for (; ;) {
 
       const next = it.next();
 
       if (next.done) {
-        done = -1;
-      } else {
-
-        const value = next.value;
-
-        if (test(value) && accept(value) === false) {
-          done = 1;
-        }
+        return false;
       }
-    } while (!done);
 
-    return done > 0;
+      const value = next.value;
+
+      if (test(value) && accept(value) === false) {
+        return true;
+      }
+    }
   };
 }

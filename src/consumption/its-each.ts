@@ -37,17 +37,16 @@ function pushedEach<T>(it: PushIterator<T>, action: (this: void, element: T) => 
  * @internal
  */
 function rawEach<T>(it: Iterator<T>, action: (this: void, element: T) => void): void {
-
-  let done: boolean | undefined;
-
-  do {
+  for (; ;) {
 
     const next = it.next();
 
-    if (!(done = next.done)) {
-      action(next.value);
+    if (next.done) {
+      return;
     }
-  } while (!done);
+
+    action(next.value);
+  }
 }
 
 

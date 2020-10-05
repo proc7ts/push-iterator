@@ -50,16 +50,16 @@ function rawSome<T>(
 ): boolean {
 
   let someMatches = false;
-  let done: boolean | undefined;
 
-  do {
+  for (; ;) {
 
     const next = it.next();
 
-    if (!(done = next.done)) {
-      someMatches = !!test(next.value);
+    if (next.done) {
+      return someMatches;
     }
-  } while (!someMatches && !done);
-
-  return someMatches;
+    if ((someMatches = !!test(next.value))) {
+      return true;
+    }
+  }
 }

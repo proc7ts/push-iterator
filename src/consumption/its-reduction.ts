@@ -51,17 +51,14 @@ function rawReduction<T, R>(
     reducer: (this: void, prev: R, element: T) => R,
     reduced: R,
 ): R {
-
-  let done: boolean | undefined;
-
-  do {
+  for (; ;) {
 
     const next = it.next();
 
-    if (!(done = next.done)) {
-      reduced = reducer(reduced, next.value);
+    if (next.done) {
+      return reduced;
     }
-  } while (!done);
 
-  return reduced;
+    reduced = reducer(reduced, next.value);
+  }
 }

@@ -15,23 +15,20 @@ export const arrayIterator = <T>(array: ArrayLike<T>): PushIterator<T> => {
     next: () => i < array.length ? { value: array[i++] } : { done: true } as IteratorReturnResult<undefined>,
 
     forNext(accept) {
-
-      let done = 0;
-
-      if (i < array.length) {
-        do {
-
-          const goOn = accept(array[i++]);
-
-          if (i >= array.length) {
-            done = -1;
-          } else if (goOn === false) {
-            done = 1;
-          }
-        } while (!done);
+      if (i >= array.length) {
+        return false;
       }
+      for (; ;) {
 
-      return done > 0;
+        const goOn = accept(array[i++]);
+
+        if (i >= array.length) {
+          return false;
+        }
+        if (goOn === false) {
+          return true;
+        }
+      }
     },
 
   };
