@@ -1,5 +1,5 @@
+import { itsIterator } from '../base';
 import { overNone } from '../construction';
-import { itsIterator } from '../its-iterator';
 import { filterArray } from './filter-array';
 
 describe('filterArray', () => {

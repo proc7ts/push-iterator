@@ -2,9 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { itsIterator, makePushIterator } from '../base';
 import { overIterable, overNone } from '../construction';
-import { itsIterator } from '../its-iterator';
-import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';

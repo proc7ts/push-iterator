@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { oneValueIterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
-import { oneValueIterator } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} over one value.

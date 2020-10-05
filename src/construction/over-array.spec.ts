@@ -1,4 +1,4 @@
-import { itsIterator } from '../its-iterator';
+import { itsIterator } from '../base';
 import { overArray } from './over-array';
 import { overNone } from './over-none';
 

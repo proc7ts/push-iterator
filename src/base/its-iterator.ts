@@ -2,9 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { toPushIterator } from '../impl';
+import type { PushIterator } from '../push-iterator';
 import { iteratorOf } from './iterator-of';
-import type { PushIterator } from './push-iterator';
-import { toPushIterator } from './push-iterator.impl';
 
 /**
  * Starts iteration over the given `iterable`.

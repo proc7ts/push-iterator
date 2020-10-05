@@ -1,4 +1,4 @@
-import { itsIterator } from '../its-iterator';
+import { itsIterator } from '../base';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {

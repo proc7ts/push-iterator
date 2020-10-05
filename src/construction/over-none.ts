@@ -2,9 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { noneIterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { noneIterator } from '../push-iterator.impl';
 
 /**
  * Returns a {@link PushIterator push iterable iterator} without elements.

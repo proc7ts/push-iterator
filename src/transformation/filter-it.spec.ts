@@ -1,6 +1,5 @@
+import { itsIterator, makePushIterator } from '../base';
 import { overMany, overNone } from '../construction';
-import { itsIterator } from '../its-iterator';
-import { makePushIterator } from '../make-push-iterator';
 import type { PushIterable } from '../push-iterable';
 import { filterIt } from './filter-it';
 

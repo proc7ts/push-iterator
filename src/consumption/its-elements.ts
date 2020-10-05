@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../iterator-of';
+import { iteratorOf } from '../base';
 import type { PushIterator } from '../push-iterator';
 
 /**

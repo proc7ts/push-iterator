@@ -126,3 +126,10 @@ Each of the following functions accepts an array-like instance, and returns a pu
    then flattens the result into new push iterable.
 - `mapArray(array, convert)` - Creates a push iterable with the results of calling a provided function on every element
    of the given `array`.
+
+
+### Utilities
+
+- `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
+- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
+- `makePushIterator(forNext)` - Creates push iterator implementation.

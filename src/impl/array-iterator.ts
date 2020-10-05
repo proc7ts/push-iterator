@@ -1,4 +1,4 @@
-import type { PushIterator } from './push-iterator';
+import type { PushIterator } from '../push-iterator';
 import { PushIterator$iterator } from './push-iterator.impl';
 
 /**

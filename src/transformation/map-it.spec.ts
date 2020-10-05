@@ -1,5 +1,5 @@
+import { makePushIterator } from '../base';
 import { overMany } from '../construction';
-import { makePushIterator } from '../make-push-iterator';
 import { mapIt } from './map-it';
 
 describe('mapIt', () => {

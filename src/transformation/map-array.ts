@@ -3,8 +3,8 @@
  * @module @proc7ts/push-iterator
  */
 import { overNone, overOne } from '../construction';
+import { PushIterator$iterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
-import { PushIterator$iterator } from '../push-iterator.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the

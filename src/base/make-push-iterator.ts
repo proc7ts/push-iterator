@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushIterator } from './push-iterator';
-import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
+import { PushIterator$iterator, PushIterator$next } from '../impl';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates push iterator implementation.

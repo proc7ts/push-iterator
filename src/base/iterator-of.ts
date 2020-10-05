@@ -2,10 +2,10 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import type { PushOrRawIterator } from './push-iterator';
+import type { PushOrRawIterator } from '../push-iterator';
 
 /**
- * Constructs iterator over the given `iterable` elements.
+ * Constructs iterator over elements of the given `iterable`.
  *
  * Calls `iterable[Symbol.iterator]()` and returns its result.
  *
@@ -14,5 +14,5 @@ import type { PushOrRawIterator } from './push-iterator';
  * @returns Either push or raw iterable.
  */
 export function iteratorOf<T>(iterable: Iterable<T>): PushOrRawIterator<T> {
-    return iterable[Symbol.iterator]();
+  return iterable[Symbol.iterator]();
 }

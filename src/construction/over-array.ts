@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { arrayIterator } from '../array-iterator.impl';
+import { arrayIterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
 import { overNone } from './over-none';
 import { overOne } from './over-one';
