@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf, itsIterator, makePushIterator } from '../base';
+import { iteratorOf, itsIterator, makePushIterable, makePushIterator } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -39,15 +39,14 @@ export function flatMapIt<T, R>(
     source: Iterable<T>,
     convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
-  return {
-    [Symbol.iterator]() {
+  return makePushIterable(accept => {
 
-      const it = iteratorOf(source);
-      const forNext = it.forNext;
+    const it = iteratorOf(source);
+    const forNextSrc = it.forNext;
+    const forNext = forNextSrc ? flatMapPusher(forNextSrc, convert) : flatMapRawPusher(it, convert);
 
-      return makePushIterator(forNext ? flatMapPusher(forNext, convert) : flatMapRawPusher(it, convert));
-    },
-  };
+    return accept ? forNext(accept) : makePushIterator(forNext);
+  });
 }
 
 /**

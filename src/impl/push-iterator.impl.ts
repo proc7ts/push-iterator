@@ -28,3 +28,22 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
   }
 }
 
+/**
+ * @internal
+ */
+export function PushIterator$iterate<T>(this: PushIterator<T>): PushIterator<T>;
+
+/**
+ * @internal
+ */
+export function PushIterator$iterate<T>(this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
+
+/**
+ * @internal
+ */
+export function PushIterator$iterate<T>(
+    this: PushIterator<T>,
+    accept?: PushIterator.Acceptor<T>,
+): PushIterator<T> | boolean {
+  return accept ? this.forNext(accept) : this;
+}

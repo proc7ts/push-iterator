@@ -1,0 +1,20 @@
+/**
+ * @packageDocumentation
+ * @module @proc7ts/push-iterator
+ */
+import { PushIterable$iterator } from '../impl';
+import { PushIterable, PushIterator__symbol } from '../push-iterable';
+
+/**
+ * Creates push iterable implementation.
+ *
+ * @param iterate  A function iterating over iterable elements conforming to {@link PushIterable.Iterate} requirements.
+ *
+ * @returns New push iterable instance performing iteration by `forNext` function.
+ */
+export function makePushIterable<T>(iterate: PushIterable.RawIterate<T>): PushIterable<T> {
+  return {
+    [Symbol.iterator]: PushIterable$iterator,
+    [PushIterator__symbol]: iterate as PushIterable.Iterate<T>,
+  };
+}

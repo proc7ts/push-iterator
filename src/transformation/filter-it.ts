@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf, makePushIterator } from '../base';
+import { iteratorOf, makePushIterable, makePushIterator } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -44,15 +44,14 @@ export function filterIt<T>(
     source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return {
-    [Symbol.iterator]() {
+  return makePushIterable(accept => {
 
-      const it = iteratorOf(source);
-      const forNext = it.forNext;
+    const it = iteratorOf(source);
+    const forNextSrc = it.forNext;
+    const forNext = forNextSrc ? filterPusher(forNextSrc, test) : filterRawPusher(it, test);
 
-      return makePushIterator(forNext ? filterPusher(forNext, test) : filterRawPusher(it, test));
-    },
-  };
+    return accept ? forNext(accept) : makePushIterator(forNext);
+  });
 }
 
 /**

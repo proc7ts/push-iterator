@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { toPushIterator } from '../impl';
+import { rawIteratorPusher, toPushIterator } from '../impl';
 import type { PushIterator } from '../push-iterator';
 import { iteratorOf } from './iterator-of';
 
@@ -18,5 +18,5 @@ export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
 
   const it = iteratorOf(iterable);
 
-  return it.forNext ? it : toPushIterator(it);
+  return it.forNext ? it : toPushIterator(it, rawIteratorPusher(it));
 }
