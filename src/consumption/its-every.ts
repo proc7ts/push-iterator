@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../base';
-import type { PushIterator } from '../push-iterator';
+import { itsIterated } from './its-iterated';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -21,46 +20,9 @@ export function itsEvery<T>(
     test: (this: void, element: T) => boolean,
 ): boolean {
 
-  const it = iteratorOf(iterable);
-  const forNext = it.forNext;
-
-  return forNext ? pushedEvery(forNext, test) : rawEvery(it, test);
-}
-
-/**
- * @internal
- */
-function pushedEvery<T>(
-    forNext: PushIterator.Pusher<T>,
-    test: (this: void, element: T) => boolean,
-): boolean {
-
   let allMatch = true;
 
-  forNext(element => allMatch = !!test(element));
+  itsIterated(iterable, element => allMatch = !!test(element));
 
   return allMatch;
-}
-
-/**
- * @internal
- */
-function rawEvery<T>(
-    it: Iterator<T>,
-    test: (this: void, element: T) => boolean,
-): boolean {
-
-  let allMatch = true;
-
-  for (; ;) {
-
-    const next = it.next();
-
-    if (next.done) {
-      return allMatch;
-    }
-    if (!(allMatch = !!test(next.value))) {
-      return false;
-    }
-  }
 }

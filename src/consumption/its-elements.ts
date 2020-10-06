@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../base';
-import type { PushIterator } from '../push-iterator';
+import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import type { PushIterable } from '../push-iterable';
 
 /**
  * @internal
@@ -44,26 +44,26 @@ export function itsElements<T, R>(
     source: Iterable<T>,
     convert: (this: void, element: T) => R = itsElements$defaultConverter,
 ): R[] {
+  if (isPushIterable(source)) {
+    return pushedElements(source, convert);
+  }
 
   const it = iteratorOf(source);
-  const forNext = it.forNext;
 
-  return forNext ? pushedElements(forNext, convert) : Array.from(source, convert);
+  return isPushIterable(it) ? pushedElements(it, convert) : Array.from(source, convert);
 }
 
 /**
  * @internal
  */
 function pushedElements<T, R>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterable<T>,
     convert: (this: void, element: T) => R,
 ): R[] {
 
   const result: R[] = [];
 
-  forNext(element => {
-    result.push(convert(element));
-  });
+  pushIterated(it, element => { result.push(convert(element)); });
 
   return result;
 }

@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../base';
-import type { PushIterator } from '../push-iterator';
+import { itsIterated } from './its-iterated';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -14,36 +13,5 @@ import type { PushIterator } from '../push-iterator';
  * parameter.
  */
 export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
-
-  const it = iteratorOf(iterable);
-  const forNext = it.forNext;
-
-  return forNext ? pushedEach(forNext, action) : rawEach(it, action);
+  itsIterated(iterable, element => { action(element); });
 }
-
-/**
- * @internal
- */
-function pushedEach<T>(forNext: PushIterator.Pusher<T>, action: (this: void, element: T) => void): void {
-  forNext(element => {
-    action(element);
-  });
-}
-
-/**
- * @internal
- */
-function rawEach<T>(it: Iterator<T>, action: (this: void, element: T) => void): void {
-  for (; ;) {
-
-    const next = it.next();
-
-    if (next.done) {
-      return;
-    }
-
-    action(next.value);
-  }
-}
-
-

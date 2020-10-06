@@ -2,20 +2,72 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterator$iterator, PushIterator$next } from '../impl';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
- * Creates push iterator implementation.
+ * Creates a push iterator implementation.
  *
- * @param forNext  A function iterating over elements conforming to {@link PushIterator.forNext} requirement.
+ * @param forNext  A function iterating over elements conforming to push iteration protocol.
  *
  * @returns New push iterator instance performing iteration by `forNext` function.
  */
 export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterator<T> {
   return {
     [Symbol.iterator]: PushIterator$iterator,
+    [PushIterator__symbol]: PushIterator$iterate(forNext),
     next: PushIterator$next,
-    forNext,
   };
+}
+
+/**
+ * @internal
+ */
+export function PushIterator$iterator<T>(this: T): T {
+  return this;
+}
+
+/**
+ * @internal
+ */
+export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
+  for (; ;) {
+
+    let result: IteratorYieldResult<T> | undefined;
+    const done = !this[PushIterator__symbol](value => {
+      result = { value };
+      return false;
+    });
+
+    if (result) {
+      return result;
+    }
+    if (done) {
+      return { done: true } as IteratorReturnResult<T>;
+    }
+  }
+}
+
+/**
+ * @internal
+ */
+type PushIterator$Iterate<T> = {
+  (this: PushIterator<T>): PushIterator<T>;
+  (this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
+};
+
+/**
+ * @internal
+ */
+export function PushIterator$iterate<T>(forNext: PushIterator.Pusher<T>): PushIterator$Iterate<T> {
+
+  function iterateOverIterator(this: PushIterator<T>): PushIterator<T>;
+
+  function iterateOverIterator(this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
+
+  function iterateOverIterator(this: PushIterator<T>, accept?: PushIterator.Acceptor<T>): PushIterator<T> | boolean {
+    return accept ? forNext(accept) : this;
+  }
+
+  return iterateOverIterator;
 }

@@ -2,9 +2,12 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
+import { makePushIterable } from '../base';
+import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
 import { overNone } from '../construction';
-import { PushIterator$iterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `array` elements that pass the test implemented by
@@ -44,48 +47,51 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  if (!array.length) {
-    return overNone();
-  }
+  return array.length ? makePushIterable(iterateOverFilteredArray(array, test)) : overNone();
+}
 
-  return {
-    [Symbol.iterator]() {
+/**
+ * @internal
+ */
+function iterateOverFilteredArray<T>(
+    array: ArrayLike<T>,
+    test: (this: void, element: T) => boolean,
+): PushIterable.Iterate<T> {
+  return accept => {
 
-      let i = 0;
+    let i = 0;
+    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
+      for (; ;) {
+        if (i >= array.length) {
+          return false;
+        }
 
-      return {
+        const value = array[i++];
 
-        [Symbol.iterator]: PushIterator$iterator,
+        if (test(value) && accept(value) === false) {
+          return true;
+        }
+      }
+    };
 
-        next() {
-          for (; ;) {
-            if (i >= array.length) {
-              return { done: true } as IteratorReturnResult<T>;
+    return accept
+        ? forNext(accept)
+        : {
+          [Symbol.iterator]: PushIterator$iterator,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
+          next() {
+            for (; ;) {
+              if (i >= array.length) {
+                return { done: true } as IteratorReturnResult<T>;
+              }
+
+              const value = array[i++];
+
+              if (test(value)) {
+                return { value };
+              }
             }
-
-            const value = array[i++];
-
-            if (test(value)) {
-              return { value };
-            }
-          }
-        },
-
-        forNext(accept) {
-          for (; ;) {
-            if (i >= array.length) {
-              return false;
-            }
-
-            const value = array[i++];
-
-            if (test(value) && accept(value) === false) {
-              return true;
-            }
-          }
-        },
-
-      };
-    },
+          },
+        };
   };
 }

@@ -2,7 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator, makePushIterator } from '../base';
+import { makePushIterable, makePushIterator, pushIterated } from '../base';
+import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
@@ -18,7 +19,7 @@ import { overNone } from './over-none';
  */
 export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushIterable<T> {
   return sources.length > 1
-      ? { [Symbol.iterator]: () => makePushIterator(subElementsPusher(sources)) }
+      ? makePushIterable(iterateOverSubElements(sources))
       : (sources.length
           ? overIterable(sources[0])
           : overNone());
@@ -27,27 +28,31 @@ export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushItera
 /**
  * @internal
  */
-function subElementsPusher<T>(sources: readonly Iterable<T>[]): PushIterator.Pusher<T> {
-
-  let i = 0;
-  let forNext: PushIterator.Pusher<T> = itsIterator(sources[0]).forNext;
-
+function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
   return accept => {
-    for (; ;) {
 
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+    let i = 0;
+    let srcIt = itsIterator(sources[0]);
 
-      if (!forNext(element => goOn = accept(element))) {
-        if (++i >= sources.length) {
-          return false;
+    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
+      for (; ;) {
+
+        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+        let goOn: boolean | void;
+
+        if (!pushIterated(srcIt, element => goOn = accept(element))) {
+          if (++i >= sources.length) {
+            return false;
+          }
+
+          srcIt = itsIterator(sources[i]);
         }
+        if (goOn === false) {
+          return true;
+        }
+      }
+    };
 
-        forNext = itsIterator(sources[i]).forNext;
-      }
-      if (goOn === false) {
-        return true;
-      }
-    }
+    return accept ? forNext(accept) : makePushIterator(forNext);
   };
 }

@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf, makePushIterator } from '../base';
+import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -22,25 +22,23 @@ export function mapIt<T, R>(
     source: Iterable<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-  return {
-    [Symbol.iterator]() {
+  return makePushIterable(accept => {
 
-      const it = iteratorOf(source);
-      const forNext = it.forNext;
+    const it = iteratorOf(source);
+    const forNext = isPushIterable(it) ? mapPusher(it, convert) : mapRawPusher(it, convert);
 
-      return makePushIterator(forNext ? mapPusher(forNext, convert) : mapRawPusher(it, convert));
-    },
-  };
+    return accept ? forNext(accept) : makePushIterator(forNext);
+  });
 }
 
 /**
  * @internal
  */
 function mapPusher<R, T>(
-    forNext: PushIterator.Pusher<T>,
+    it: PushIterator<T>,
     convert: (this: void, element: T) => R,
 ): PushIterator.Pusher<R> {
-  return accept => forNext(element => accept(convert(element)));
+  return accept => pushIterated(it, element => accept(convert(element)));
 }
 
 /**

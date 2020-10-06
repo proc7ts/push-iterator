@@ -1,21 +1,30 @@
+import { iteratorOf, pushIterated } from '../base';
+import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';
 
 describe('overNone', () => {
-  describe('forNext', () => {
-    it('does not iterate', () => {
+  it('does not push elements', () => {
 
-      let iterated = false;
+    let iterated = false;
 
-      expect(overNone().forNext(() => {
-        iterated = true;
-      })).toBe(false);
-      expect(iterated).toBe(false);
+    expect(pushIterated(overNone(), () => {
+      iterated = true;
+    })).toBe(false);
+    expect(iterated).toBe(false);
+  });
+  it('does not iterate', () => {
+    expect([...overNone()]).toHaveLength(0);
+  });
+
+  describe('iterator', () => {
+    it('is itself', () => {
+      expect(iteratorOf(overNone())).toBe(overNone());
     });
   });
 
-  describe('[Symbol.iterator]', () => {
-    it('does not iterate', () => {
-      expect([...overNone()]).toHaveLength(0);
+  describe('push iterator', () => {
+    it('is itself', () => {
+      expect(overNone()[PushIterator__symbol]()).toBe(overNone());
     });
   });
 });

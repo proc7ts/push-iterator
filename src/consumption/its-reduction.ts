@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../base';
-import type { PushIterator } from '../push-iterator';
+import { itsIterated } from './its-iterated';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -24,42 +23,9 @@ export function itsReduction<T, R>(
     initialValue: R,
 ): R {
 
-  const it = iteratorOf(iterable);
-  const forNext = it.forNext;
+  let reduced = initialValue;
 
-  return forNext ? pushedReduction(forNext, reducer, initialValue) : rawReduction(it, reducer, initialValue);
-}
+  itsIterated(iterable, element => { reduced = reducer(reduced, element); });
 
-/**
- * @internal
- */
-function pushedReduction<T, R>(
-    forNext: PushIterator.Pusher<T>,
-    reducer: (this: void, prev: R, element: T) => R,
-    reduced: R,
-): R {
-  forNext(element => {
-    reduced = reducer(reduced, element);
-  });
   return reduced;
-}
-
-/**
- * @internal
- */
-function rawReduction<T, R>(
-    it: Iterator<T>,
-    reducer: (this: void, prev: R, element: T) => R,
-    reduced: R,
-): R {
-  for (; ;) {
-
-    const next = it.next();
-
-    if (next.done) {
-      return reduced;
-    }
-
-    reduced = reducer(reduced, next.value);
-  }
 }

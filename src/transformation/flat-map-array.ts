@@ -2,8 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator, makePushIterator } from '../base';
+import { makePushIterable, makePushIterator, pushIterated } from '../base';
 import { overIterable, overNone } from '../construction';
+import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -44,36 +45,38 @@ export function flatMapArray<T, R>(
   const length = array.length;
 
   return length > 1
-      ? { [Symbol.iterator]: () => makePushIterator(flatMapArrayPusher(array, convert)) }
+      ? makePushIterable(iterateOverFlattenedArray(array, convert))
       : (length ? overIterable(convert(array[0])) : overNone());
 }
 
 /**
  * @internal
  */
-function flatMapArrayPusher<T, R>(
+function iterateOverFlattenedArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => Iterable<R>,
-): PushIterator.Pusher<R> {
-
-  let cIt: PushIterator<R> = itsIterator(convert(array[0]));
-  let index = 1;
-
+): PushIterable.Iterate<R> {
   return accept => {
-    for (; ;) {
 
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+    let subIt = itsIterator(convert(array[0]));
+    let index = 1;
+    const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
+      for (; ;) {
 
-      if (!cIt.forNext(element => goOn = accept(element))) {
-        if (index >= array.length) {
-          return false;
+        let goOn: boolean | void;
+
+        if (!pushIterated(subIt, element => goOn = accept(element))) {
+          if (index >= array.length) {
+            return false;
+          }
+          subIt = itsIterator(convert(array[index++]));
         }
-        cIt = itsIterator(convert(array[index++]));
+        if (goOn === false) {
+          return true;
+        }
       }
-      if (goOn === false) {
-        return true;
-      }
-    }
+    };
+
+    return accept ? forNext(accept) : makePushIterator(forNext);
   };
 }

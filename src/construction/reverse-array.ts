@@ -2,9 +2,13 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { makePushIterator } from '../base';
+import { makePushIterable } from '../base';
+import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { overNone } from './over-none';
+import { overOne } from './over-one';
 
 /**
  * Creates a {@link PushIterable push iterable} over elements of array-like structure in reverse order.
@@ -15,31 +19,45 @@ import type { PushIterator } from '../push-iterator';
  * @returns New push iterable over array elements in reverse order.
  */
 export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
-  return { [Symbol.iterator]: () => reverseArrayIterator(array) };
+
+  const length = array.length;
+
+  return length > 1
+      ? makePushIterable(iterateOverArrayReversely(array))
+      : (length ? overOne(array[0]) : overNone());
 }
 
 /**
  * @internal
  */
-function reverseArrayIterator<T>(array: ArrayLike<T>): PushIterator<T> {
+function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
+  return accept => {
 
-  let i = array.length - 1;
-
-  return makePushIterator(accept => {
-    if (i < 0) {
-      return false;
-    }
-
-    for (; ;) {
-
-      const goOn = accept(array[i--]);
-
+    let i = array.length - 1;
+    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
       if (i < 0) {
         return false;
       }
-      if (goOn === false) {
-        return true;
+
+      for (; ;) {
+
+        const goOn = accept(array[i--]);
+
+        if (i < 0) {
+          return false;
+        }
+        if (goOn === false) {
+          return true;
+        }
       }
-    }
-  });
+    };
+
+    return accept
+        ? forNext(accept)
+        : {
+          [Symbol.iterator]: PushIterator$iterator,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
+          next: () => i < 0 ? { done: true } as IteratorReturnResult<T> : { value: array[i--] },
+        };
+  };
 }

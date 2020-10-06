@@ -1,27 +1,23 @@
+import { pushIterated } from '../base';
 import { overOne } from './over-one';
 
 describe('overOne', () => {
-  describe('forNext', () => {
-    it('reports single element', () => {
+  it('pushes single element', () => {
 
-      const result: string[] = [];
-      const it = overOne('one')[Symbol.iterator]();
+    const result: string[] = [];
+    const it = overOne('one')[Symbol.iterator]();
 
-      expect(it.forNext(element => {
-        result.push(element);
-      })).toBe(false);
-      expect([...it]).toHaveLength(0);
-      expect(it.forNext(element => {
-        result.push(element);
-      })).toBe(false);
+    expect(pushIterated(it, element => {
+      result.push(element);
+    })).toBe(false);
+    expect([...it]).toHaveLength(0);
+    expect(pushIterated(it, element => {
+      result.push(element);
+    })).toBe(false);
 
-      expect(result).toEqual(['one']);
-    });
+    expect(result).toEqual(['one']);
   });
-
-  describe('[Symbol.iterator]', () => {
-    it('iterates over single value', () => {
-      expect([...overOne('one')]).toEqual(['one']);
-    });
+  it('iterates over single value', () => {
+    expect([...overOne('one')]).toEqual(['one']);
   });
 });

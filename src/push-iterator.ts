@@ -13,42 +13,12 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
 
   [Symbol.iterator](): PushIterator<T>;
 
-  /**
-   * Iterates over elements of this iterator.
-   *
-   * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned `false`.
-   *
-   * Resumes iteration on subsequent calls.
-   *
-   * Note that this method does not require `this` context and can be called as a function.
-   *
-   * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
-   * `false` to stop iteration.
-   *
-   * @returns `true` if there are more elements to iterate, or `false` otherwise. The former is possible only when
-   * iteration stopped, i.e. `accept` returned `false`.
-   */
-  forNext(this: void, accept: PushIterator.Acceptor<T>): boolean;
-
 }
-
-/**
- * Either {@link PushIterator push} iterator or raw one.
- *
- * Functions of this library work with both iterator types.
- *
- * @typeParam T  Iterated elements type.
- */
-export type PushOrRawIterator<T> = PushIterator<T> | {
-  forNext?: undefined;
-  next(): IteratorResult<T>;
-};
 
 export namespace PushIterator {
 
   /**
-   * A signature of iterated elements pusher function conforming to {@link PushIterator.forNext push iteration
-   * protocol}.
+   * A signature of iterated elements pusher function conforming to push iteration protocol.
    *
    * @typeParam T  Iterated elements type.
    */
@@ -63,7 +33,7 @@ export namespace PushIterator {
       (this: void, accept: Acceptor<T>) => boolean;
 
   /**
-   * A signature of a function accepting {@link PushIterator.forNext iterated elements}.
+   * A signature of a function accepting iterated elements.
    *
    * It is able to prevent further iteration by returning `false`.
    *
@@ -72,7 +42,7 @@ export namespace PushIterator {
   export type Acceptor<T> = EachAcceptor<T> | StoppingAcceptor<T>;
 
   /**
-   * A signature of a function accepting each {@link PushIterator.forNext iterated element} unconditionally.
+   * A signature of a function accepting each iterated element unconditionally.
    *
    * @typeParam T  Iterated elements type.
    */
@@ -83,8 +53,7 @@ export namespace PushIterator {
       (this: void, element: T) => void;
 
   /**
-   * A signature of a function accepting {@link PushIterator.forNext iterated elements} and able to prevent further
-   * iteration.
+   * A signature of a function accepting iterated elements and able to prevent further iteration.
    *
    * @typeParam T  Iterated elements type.
    */

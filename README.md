@@ -9,10 +9,26 @@ Push Iteration Protocol
 
 Push iteration protocol is a faster alternative to traditional JavaScript [iteration protocol].
 
-It extends [Iterator] interface with `forNext(accept: (this: void, element: T) => void | boolean): boolean` method.
-The latter pushes iterated elements to `accept` function until there is no more elements, or `accept` function returns
-`false` yo stop iteration. The `forNext()` method returns `true` if there are more elements to iterate, or `false`
-otherwise. The former is possible only when iteration stopped, i.e. `accept` returned `false`.
+It extends [Iterator] interface with special method `[PushIterator__symbol](accept): boolean`, where
+`PushIterator__symbol` is a special symbol. This method pushes iterated elements to `accept` callback, until there is no
+more elements or `accept` function returns `false` to stop iteration. The method returns `true` if there are more
+elements to iterate, or `false` otherwise. The former is possible only when iteration stopped, i.e. `accept` returned
+`false`.
+
+[iteration protocol]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+[Iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol
+
+[npm-image]: https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm
+[npm-url]: https://www.npmjs.com/package/@proc7ts/push-iterator
+[build-status-img]: https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg
+[build-status-link]: https://github.com/proc7ts/push-iterator/actions?query=workflow%3ABuild
+[codecov-image]: https://codecov.io/gh/proc7ts/push-iterator/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/proc7ts/push-iterator
+[github-image]: https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational
+[github-url]: https://github.com/proc7ts/push-iterator
+[api-docs-image]: https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational
+[api-docs-url]: https://proc7ts.github.io/push-iterator/
+[IoC]: https://en.wikipedia.org/wiki/Inversion_of_control
 
 
 Rationale
@@ -28,6 +44,8 @@ See [benchmarking results] for performance comparison.
 JavaScript engines optimize native iteration heavily in some situations, especially for arrays. Still, in non-trivial
 cases the push iteration protocol demonstrates better performance, especially when it deals with push iterators rather
 with raw ones.
+
+[benchmarking results]: https://github.com/proc7ts/push-iterator/tree/master/benchmarks
 
 
 Design Goals
@@ -48,23 +66,17 @@ Design Goals
 
    The library API represented by functions. When tree-shaken the unused ones removed from bundles.
 
-
-[iteration protocol]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
-[Iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol
 [Iterable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol
-[benchmarking results]: https://github.com/proc7ts/push-iterator/tree/master/benchmarks
 
-[npm-image]: https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm
-[npm-url]: https://www.npmjs.com/package/@proc7ts/push-iterator
-[build-status-img]: https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg
-[build-status-link]: https://github.com/proc7ts/push-iterator/actions?query=workflow%3ABuild
-[codecov-image]: https://codecov.io/gh/proc7ts/push-iterator/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/proc7ts/push-iterator
-[github-image]: https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational
-[github-url]: https://github.com/proc7ts/push-iterator
-[api-docs-image]: https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational
-[api-docs-url]: https://proc7ts.github.io/push-iterator/
-[IoC]: https://en.wikipedia.org/wiki/Inversion_of_control
+
+Instant Iteration
+-----------------
+
+It is quite common to just iterate over [Iterable] instantly rather constructing its [Iterator]. The library supports
+this. For that, a `[PushIterator__symbol]` method may be defined for [Iterable] in addition to `[Symbol.iterator]` one.
+When the library function encounters such method, it uses it instead of constructing a new iterable.
+
+When the `[PushIterator__symbol]()` method called without parameter it returns a push iterator instance.
 
 
 API
@@ -98,6 +110,8 @@ Each of the following functions accepts either [Iterable] or push iterable:
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
 - `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
+- `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
+- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
 - `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
    of the given `iterable` to reduce elements to a single value.
 - `itsSome(iterable, test): boolean` - Tests whether at least one element of the given `iterable` passes the test
@@ -130,6 +144,8 @@ Each of the following functions accepts an array-like instance, and returns a pu
 
 ### Utilities
 
+- `isPushIterable(iterable)` - Checks whether the given iterable or iterator conforms to push iteration protocol.
 - `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
-- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
-- `makePushIterator(forNext)` - Creates push iterator implementation.
+- `makePushIterable(iterate)` - Creates a push iterable implementation.
+- `makePushIterator(forNext)` - Creates a push iterator implementation.
+- `pushIterated(iterable, accept): boolean` - Iterates over elements of the given push iterable.

@@ -1,3 +1,5 @@
+import { iteratorOf, pushIterated } from '../base';
+import { PushIterator__symbol } from '../push-iterable';
 import { overIterable } from './over-iterable';
 
 describe('overIterable', () => {
@@ -13,5 +15,23 @@ describe('overIterable', () => {
     }
 
     expect([...overIterable(iterate())]).toEqual([3, 2, 1]);
+  });
+  it('pushes raw iterable elements', () => {
+
+    const it = overIterable(new Set([1, 2, 3]));
+    const result: number[] = [];
+
+    pushIterated(it, el => { result.push(el); });
+
+    expect(result).toEqual([1, 2, 3]);
+  });
+
+  describe('iterator', () => {
+    it('iterates by itself', () => {
+
+      const it = iteratorOf(overIterable(new Set([1, 2, 3])));
+
+      expect(it[PushIterator__symbol]()).toBe(it);
+    });
   });
 });

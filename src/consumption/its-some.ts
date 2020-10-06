@@ -2,8 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { iteratorOf } from '../base';
-import type { PushIterator } from '../push-iterator';
+import { itsIterated } from './its-iterated';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -21,46 +20,9 @@ export function itsSome<T>(
     test: (this: void, element: T) => boolean,
 ): boolean {
 
-  const it = iteratorOf(iterable);
-  const forNext = it.forNext;
-
-  return forNext ? pushedSome(forNext, test) : rawSome(it, test);
-}
-
-/**
- * @internal
- */
-function pushedSome<T>(
-    forNext: PushIterator.Pusher<T>,
-    test: (this: void, element: T) => boolean,
-): boolean {
-
   let someMatches = false;
 
-  forNext(element => !(someMatches = !!test(element)));
+  itsIterated(iterable, element => !(someMatches = !!test(element)));
 
   return someMatches;
-}
-
-/**
- * @internal
- */
-function rawSome<T>(
-    it: Iterator<T>,
-    test: (this: void, element: T) => boolean,
-): boolean {
-
-  let someMatches = false;
-
-  for (; ;) {
-
-    const next = it.next();
-
-    if (next.done) {
-      return someMatches;
-    }
-    if ((someMatches = !!test(next.value))) {
-      return true;
-    }
-  }
 }
