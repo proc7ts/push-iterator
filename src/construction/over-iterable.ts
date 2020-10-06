@@ -24,7 +24,7 @@ export function overIterable<T>(iterable: Iterable<T>): PushIterable<T> {
 /**
  * @internal
  */
-function iterateOverRawIterable<T>(iterable: Iterable<T>): PushIterable.RawIterate<T> {
+function iterateOverRawIterable<T>(iterable: Iterable<T>): PushIterable.Iterate<T> {
   return accept => {
 
     const it = iteratorOf(iterable);

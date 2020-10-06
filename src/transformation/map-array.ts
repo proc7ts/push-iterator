@@ -38,7 +38,7 @@ export function mapArray<T, R>(
 function iterateOverMappedArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => R,
-): PushIterable.RawIterate<R> {
+): PushIterable.Iterate<R> {
   return accept => {
 
     let i = 0;

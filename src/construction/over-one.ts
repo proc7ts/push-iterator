@@ -23,7 +23,7 @@ export function overOne<T>(value: T): PushIterable<T> {
 /**
  * @internal
  */
-function iterateOverOneValue<T>(value: T): PushIterable.RawIterate<T> {
+function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
 
     let done = false;

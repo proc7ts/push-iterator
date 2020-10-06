@@ -51,11 +51,14 @@ export interface PushIterable<T> extends Iterable<T> {
 
 export namespace PushIterable {
 
-  export type Iterate<T> = {
-    (): PushIterator<T>;
-    (accept: PushIterator.Acceptor<T>): boolean;
-  };
-
-  export type RawIterate<T> = (accept?: PushIterator.Acceptor<T>) => PushIterator<T> | boolean;
+  /**
+   * A signature of function conforming to push iteration protocol.
+   *
+   * Used as `PushIterable[PushIterator__symbol]` method implementation when passed to {@link makePushIterable}
+   * function.
+   *
+   * @typeParam T  Iterated elements type.
+   */
+  export type Iterate<T> = (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T> | boolean;
 
 }

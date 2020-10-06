@@ -4,6 +4,7 @@
  */
 import { rawIteratorPusher, toPushIterator } from '../impl';
 import type { PushIterator } from '../push-iterator';
+import { isPushIterable } from './is-push-iterable';
 import { iteratorOf } from './iterator-of';
 
 /**
@@ -18,5 +19,5 @@ export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
 
   const it = iteratorOf(iterable);
 
-  return it.forNext ? it : toPushIterator(it, rawIteratorPusher(it));
+  return isPushIterable(it) ? it : toPushIterator(it, rawIteratorPusher(it));
 }

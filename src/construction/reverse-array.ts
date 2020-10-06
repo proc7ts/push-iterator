@@ -23,7 +23,7 @@ export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
 /**
  * @internal
  */
-function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.RawIterate<T> {
+function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
   return accept => {
 
     let i = array.length - 1;

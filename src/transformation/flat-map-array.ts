@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator, makePushIterable, makePushIterator } from '../base';
+import { itsIterator, makePushIterable, makePushIterator, pushIterated } from '../base';
 import { overIterable, overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -54,22 +54,21 @@ export function flatMapArray<T, R>(
 function iterateOverFlattenedArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => Iterable<R>,
-): PushIterable.RawIterate<R> {
+): PushIterable.Iterate<R> {
   return accept => {
 
-    let forNextSub = itsIterator(convert(array[0])).forNext;
+    let subIt = itsIterator(convert(array[0]));
     let index = 1;
     const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
       for (; ;) {
 
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
         let goOn: boolean | void;
 
-        if (!forNextSub(element => goOn = accept(element))) {
+        if (!pushIterated(subIt, element => goOn = accept(element))) {
           if (index >= array.length) {
             return false;
           }
-          forNextSub = itsIterator(convert(array[index++])).forNext;
+          subIt = itsIterator(convert(array[index++]));
         }
         if (goOn === false) {
           return true;

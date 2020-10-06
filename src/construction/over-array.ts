@@ -29,7 +29,7 @@ export function overArray<T>(array: ArrayLike<T>): PushIterable<T> {
 /**
  * @internal
  */
-function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.RawIterate<T> {
+function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;

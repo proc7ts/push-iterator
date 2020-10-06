@@ -56,7 +56,7 @@ export function filterArray<T>(
 function iterateOverFilteredArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
-): PushIterable.RawIterate<T> {
+): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;

@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator, makePushIterable, makePushIterator } from '../base';
+import { itsIterator, makePushIterable, makePushIterator, pushIterated } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
@@ -27,23 +27,24 @@ export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushItera
 /**
  * @internal
  */
-function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.RawIterate<T> {
+function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;
-    let forNextSub = itsIterator(sources[0]).forNext;
+    let srcIt = itsIterator(sources[0]);
+
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
       for (; ;) {
 
         // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
         let goOn: boolean | void;
 
-        if (!forNextSub(element => goOn = accept(element))) {
+        if (!pushIterated(srcIt, element => goOn = accept(element))) {
           if (++i >= sources.length) {
             return false;
           }
 
-          forNextSub = itsIterator(sources[i]).forNext;
+          srcIt = itsIterator(sources[i]);
         }
         if (goOn === false) {
           return true;

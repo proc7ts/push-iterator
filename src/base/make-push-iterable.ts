@@ -12,9 +12,9 @@ import { PushIterable, PushIterator__symbol } from '../push-iterable';
  *
  * @returns New push iterable instance performing iteration by `forNext` function.
  */
-export function makePushIterable<T>(iterate: PushIterable.RawIterate<T>): PushIterable<T> {
+export function makePushIterable<T>(iterate: PushIterable.Iterate<T>): PushIterable<T> {
   return {
     [Symbol.iterator]: PushIterable$iterator,
-    [PushIterator__symbol]: iterate as PushIterable.Iterate<T>,
-  };
+    [PushIterator__symbol]: iterate,
+  } as PushIterable<T>;
 }
