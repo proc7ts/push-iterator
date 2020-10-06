@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
-import { PushIterable$iterator } from './push-iterable.impl';
+import type { PushIterator } from '../push-iterator';
 
 /**
  * Creates a push iterable implementation.
@@ -17,4 +17,11 @@ export function makePushIterable<T>(iterate: PushIterable.Iterate<T>): PushItera
     [Symbol.iterator]: PushIterable$iterator,
     [PushIterator__symbol]: iterate,
   } as PushIterable<T>;
+}
+
+/**
+ * @internal
+ */
+function PushIterable$iterator<T>(this: PushIterable<T>): PushIterator<T> {
+  return this[PushIterator__symbol]();
 }

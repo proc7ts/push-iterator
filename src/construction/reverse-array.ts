@@ -3,8 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { PushIterator$iterate } from '../base/make-push-iterator';
-import { PushIterable$iterator } from '../base/push-iterable.impl';
+import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -49,7 +48,7 @@ function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate
     return accept
         ? forNext(accept)
         : {
-          [Symbol.iterator]: PushIterable$iterator,
+          [Symbol.iterator]: PushIterator$iterator,
           [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < 0 ? { done: true } as IteratorReturnResult<T> : { value: array[i--] },
         };
