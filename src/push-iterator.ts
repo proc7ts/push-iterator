@@ -15,18 +15,6 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
 
 }
 
-/**
- * Either {@link PushIterator push} iterator or raw one.
- *
- * Functions of this library work with both iterator types.
- *
- * @typeParam T  Iterated elements type.
- */
-export type PushOrRawIterator<T> = PushIterator<T> | {
-  forNext?: undefined;
-  next(): IteratorResult<T>;
-};
-
 export namespace PushIterator {
 
   /**
