@@ -1,11 +1,15 @@
 import { makePushIterator, pushIterated } from '../base';
 import { overMany } from '../construction';
+import { itsElements } from '../consumption';
 import { mapIt } from './map-it';
 
 describe('mapIt', () => {
   describe('over raw iterable', () => {
     it('converts elements', () => {
       expect([...mapIt(new Set([11, 22, 33]), element => `${element}!`)]).toEqual(['11!', '22!', '33!']);
+    });
+    it('pushes converted elements', () => {
+      expect(itsElements(mapIt(new Set([11, 22, 33]), element => `${element}!`))).toEqual(['11!', '22!', '33!']);
     });
 
     describe('iterator', () => {

@@ -1,10 +1,14 @@
 import { pushIterated } from '../base';
 import { overNone } from '../construction';
+import { itsElements } from '../consumption';
 import { mapArray } from './map-array';
 
 describe('mapArray', () => {
   it('converts elements', () => {
     expect([...mapArray([11, 22, 33], element => `${element}!`)]).toEqual(['11!', '22!', '33!']);
+  });
+  it('pushes converted elements', () => {
+    expect(itsElements(mapArray([11, 22, 33], element => `${element}!`))).toEqual(['11!', '22!', '33!']);
   });
 
   describe('iterator', () => {

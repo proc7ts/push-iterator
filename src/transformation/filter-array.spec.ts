@@ -1,11 +1,14 @@
 import { pushIterated } from '../base';
 import { overNone } from '../construction';
-import { itsIterator } from '../consumption';
+import { itsElements, itsIterator } from '../consumption';
 import { filterArray } from './filter-array';
 
 describe('filterArray', () => {
   it('filters elements', () => {
     expect([...filterArray([11, 22, 33], element => element > 11)]).toEqual([22, 33]);
+  });
+  it('pushes filtered elements', () => {
+    expect(itsElements(filterArray([11, 22, 33], element => element > 11))).toEqual([22, 33]);
   });
 
   describe('iterator', () => {

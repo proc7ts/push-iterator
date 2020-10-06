@@ -1,6 +1,6 @@
 import { makePushIterator, pushIterated } from '../base';
 import { overMany, overNone } from '../construction';
-import { itsIterator } from '../consumption';
+import { itsElements, itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import { filterIt } from './filter-it';
 
@@ -8,6 +8,9 @@ describe('filterIt', () => {
   describe('over raw iterable', () => {
     it('filters elements', () => {
       expect([...filterIt(new Set([11, 22, 33]), element => element > 11)]).toEqual([22, 33]);
+    });
+    it('pushes filtered elements', () => {
+      expect(itsElements(filterIt(new Set([11, 22, 33]), element => element > 11))).toEqual([22, 33]);
     });
     it('does not filter empty iterable', () => {
       expect([...filterIt(new Set(), () => true)]).toEqual([]);
