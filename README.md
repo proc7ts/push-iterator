@@ -76,6 +76,8 @@ It is quite common to just iterate over [Iterable] instantly rather constructing
 this. For that, a `[PushIterator__symbol]` method may be defined for [Iterable] in addition to `[Symbol.iterator]` one.
 When the library function encounters such method, it uses it instead of constructing a new iterable.
 
+When the `[PushIterator__symbol]()` method called without parameter it returns a push iterator instance.
+
 
 API
 ---
@@ -109,6 +111,7 @@ Each of the following functions accepts either [Iterable] or push iterable:
    by the provided function.
 - `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
 - `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
+- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
 - `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
    of the given `iterable` to reduce elements to a single value.
 - `itsSome(iterable, test): boolean` - Tests whether at least one element of the given `iterable` passes the test
@@ -143,7 +146,6 @@ Each of the following functions accepts an array-like instance, and returns a pu
 
 - `isPushIterable(iterable)` - Checks whether the given iterable or iterator conforms to push iteration protocol.
 - `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
-- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
 - `makePushIterable(iterate)` - Creates a push iterable implementation.
 - `makePushIterator(forNext)` - Creates a push iterator implementation.
 - `pushIterated(iterable, accept): boolean` - Iterates over elements of the given push iterable.

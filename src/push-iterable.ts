@@ -28,7 +28,7 @@ export interface PushIterable<T> extends Iterable<T> {
    *
    * Calling this method without arguments is the same as calling `[Symbol.iterator]()` one.
    *
-   * @returns New push iterator instance.
+   * @returns Push iterator instance.
    */
   [PushIterator__symbol](): PushIterator<T>;
 
@@ -59,6 +59,15 @@ export namespace PushIterable {
    *
    * @typeParam T  Iterated elements type.
    */
-  export type Iterate<T> = (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T> | boolean;
+  export type Iterate<T> =
+  /**
+   * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
+   * `false` to stop iteration.
+   *
+   * @returns _When `accept` parameter present_: `true` if there are more elements to iterate,
+   * or `false` otherwise. The former is possible only when iteration stopped, i.e. `accept` returned `false`.
+   * _When `accept` parameter omitted_: Push iterator instance.
+   */
+      (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T> | boolean;
 
 }
