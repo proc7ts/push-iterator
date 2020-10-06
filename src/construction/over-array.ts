@@ -19,11 +19,12 @@ import { overOne } from './over-one';
  * @returns New push iterable over array elements.
  */
 export function overArray<T>(array: ArrayLike<T>): PushIterable<T> {
-  return array.length > 1
+
+  const length = array.length;
+
+  return length > 1
       ? makePushIterable(iterateOverArray(array))
-      : (!array.length
-          ? overNone()
-          : overOne(array[0]));
+      : (!length ? overNone() : overOne(array[0]));
 }
 
 /**

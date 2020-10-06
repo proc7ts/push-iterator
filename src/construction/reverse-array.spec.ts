@@ -1,5 +1,6 @@
 import { pushIterated } from '../base';
 import { itsIterator } from '../consumption';
+import { overNone } from './over-none';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {
@@ -10,7 +11,7 @@ describe('reverseArray', () => {
 
   beforeEach(() => {
     array = ['foo', 'bar', 'baz'];
-    reversed = Array.from(array).reverse();
+    reversed = array.slice().reverse();
     result = [];
   });
 
@@ -20,20 +21,48 @@ describe('reverseArray', () => {
     })).toBe(false);
     expect(result).toEqual(reversed);
   });
-  it('does not iterate over empty array', () => {
-    expect(pushIterated(reverseArray([]), element => {
+  it('pushes array elements', () => {
+    expect(pushIterated(reverseArray(array), element => {
       result.push(element);
     })).toBe(false);
-    expect(result).toHaveLength(0);
+    expect(result).toEqual(reversed);
   });
-  it('resumes iteration', () => {
 
-    const it = itsIterator(reverseArray(array));
+  describe('iterator', () => {
+    it('iterates over elements', () => {
 
-    expect(pushIterated(it, () => false)).toBe(true);
-    expect(pushIterated(it, element => {
-      result.push(element);
-    })).toBe(false);
-    expect(result).toEqual(reversed.slice(1));
+      const it = itsIterator(reverseArray(array));
+
+      expect([...it]).toEqual(reversed);
+      expect([...it]).toHaveLength(0);
+    });
+    it('resumes iteration', () => {
+
+      const it = itsIterator(reverseArray(array));
+
+      expect(pushIterated(it, () => false)).toBe(true);
+      expect(pushIterated(it, element => {
+        result.push(element);
+      })).toBe(false);
+      expect(result).toEqual(reversed.slice(1));
+
+      expect(pushIterated(it, element => {
+        result.push(element);
+      })).toBe(false);
+      expect(result).toEqual(reversed.slice(1));
+      expect([...it]).toHaveLength(0);
+    });
+  });
+
+  describe('over empty array', () => {
+    it('returns `overNone()`', () => {
+      expect(reverseArray([])).toBe(overNone());
+    });
+  });
+
+  describe('over one-element array', () => {
+    it('iterates over single element', () => {
+      expect([...reverseArray(['one'])]).toEqual(['one']);
+    });
   });
 });
