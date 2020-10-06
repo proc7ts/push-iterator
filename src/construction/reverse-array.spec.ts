@@ -1,4 +1,5 @@
-import { itsIterator, pushIterated } from '../base';
+import { pushIterated } from '../base';
+import { itsIterator } from '../consumption';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {

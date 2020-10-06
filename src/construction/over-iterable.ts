@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { iteratorOf, makePushIterable } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../impl';
+import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { overArray } from './over-array';
 

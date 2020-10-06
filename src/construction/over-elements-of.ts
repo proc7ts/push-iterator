@@ -2,7 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { itsIterator, makePushIterable, makePushIterator, pushIterated } from '../base';
+import { makePushIterable, makePushIterator, pushIterated } from '../base';
+import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';

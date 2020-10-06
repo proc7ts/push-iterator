@@ -1,7 +1,6 @@
 import type Benchmark from 'benchmark';
-import { itsIterator } from '../base';
 import { overArray } from '../construction';
-import { itsEach } from '../consumption';
+import { itsEach, itsIterator } from '../consumption';
 import { benchArray, benchInput, benchIterable, benchOut } from './bench-data';
 import { BenchFactory } from './bench-factory';
 

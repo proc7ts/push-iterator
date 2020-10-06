@@ -1,5 +1,6 @@
-import { itsIterator, pushIterated } from '../base';
+import { pushIterated } from '../base';
 import { overNone } from '../construction';
+import { itsIterator } from '../consumption';
 import { filterArray } from './filter-array';
 
 describe('filterArray', () => {

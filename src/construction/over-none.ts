@@ -2,7 +2,7 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterator$iterator } from '../impl';
+import { PushIterator$iterator } from '../base/make-push-iterator';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';

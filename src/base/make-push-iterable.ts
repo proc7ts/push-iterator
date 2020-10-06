@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { PushIterable$iterator } from '../impl';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
+import { PushIterable$iterator } from './push-iterable.impl';
 
 /**
  * Creates a push iterable implementation.

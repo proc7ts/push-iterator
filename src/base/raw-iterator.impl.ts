@@ -1,6 +1,6 @@
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator$iterate, PushIterator$iterator } from './push-iterator.impl';
+import { PushIterator$iterate, PushIterator$iterator } from './make-push-iterator';
 
 /**
  * @internal

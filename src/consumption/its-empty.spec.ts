@@ -1,6 +1,6 @@
-import { itsIterator } from '../base';
 import { overNone } from '../construction';
 import { itsEmpty } from './its-empty';
+import { itsIterator } from './its-iterator';
 
 describe('itsEmpty', () => {
   it('returns `true` for empty array', () => {

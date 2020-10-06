@@ -1,4 +1,5 @@
-import { itsIterator, pushIterated } from '../base';
+import { pushIterated } from '../base';
+import { itsIterator } from '../consumption';
 import { overArray } from './over-array';
 import { overNone } from './over-none';
 
