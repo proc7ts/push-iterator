@@ -59,7 +59,7 @@ describe('itsIterated', () => {
       iterable = {
         [Symbol.iterator]: () => itsIterator([1, 2, 3]),
       };
-    })
+    });
 
     it('pushes elements', () => {
 
