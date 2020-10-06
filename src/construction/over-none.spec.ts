@@ -1,4 +1,5 @@
-import { pushIterated } from '../base';
+import { iteratorOf, pushIterated } from '../base';
+import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';
 
 describe('overNone', () => {
@@ -13,5 +14,17 @@ describe('overNone', () => {
   });
   it('does not iterate', () => {
     expect([...overNone()]).toHaveLength(0);
+  });
+
+  describe('iterator', () => {
+    it('is itself', () => {
+      expect(iteratorOf(overNone())).toBe(overNone());
+    });
+  });
+
+  describe('push iterator', () => {
+    it('is itself', () => {
+      expect(overNone()[PushIterator__symbol]()).toBe(overNone());
+    });
   });
 });
