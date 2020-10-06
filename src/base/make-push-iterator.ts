@@ -51,16 +51,23 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
 /**
  * @internal
  */
-type PushIterable$iterate<T> = {
-  (): PushIterator<T>;
-  (accept: PushIterator.Acceptor<T>): boolean;
+type PushIterator$Iterate<T> = {
+  (this: PushIterator<T>): PushIterator<T>;
+  (this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
 };
 
 /**
  * @internal
  */
-export function PushIterator$iterate<T>(forNext: PushIterator.Pusher<T>): PushIterable$iterate<T> {
-  return ((accept?: PushIterator.Acceptor<T>) => accept
-      ? forNext(accept)
-      : makePushIterator(forNext)) as PushIterable$iterate<T>;
+export function PushIterator$iterate<T>(forNext: PushIterator.Pusher<T>): PushIterator$Iterate<T> {
+
+  function iterateOverIterator(this: PushIterator<T>): PushIterator<T>;
+
+  function iterateOverIterator(this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
+
+  function iterateOverIterator(this: PushIterator<T>, accept?: PushIterator.Acceptor<T>): PushIterator<T> | boolean {
+    return accept ? forNext(accept) : this;
+  }
+
+  return iterateOverIterator;
 }
