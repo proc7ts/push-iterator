@@ -8,9 +8,8 @@ import { PushIterator$iterate, PushIterator$iterator } from './push-iterator.imp
 export function toPushIterator<T>(it: Iterator<T>, forNext: PushIterator.Pusher<T>): PushIterator<T> {
   return {
     [Symbol.iterator]: PushIterator$iterator,
-    [PushIterator__symbol]: PushIterator$iterate,
+    [PushIterator__symbol]: PushIterator$iterate(forNext),
     next: () => it.next(),
-    forNext,
   };
 }
 

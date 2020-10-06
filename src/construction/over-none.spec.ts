@@ -1,21 +1,17 @@
+import { pushIterated } from '../base';
 import { overNone } from './over-none';
 
 describe('overNone', () => {
-  describe('forNext', () => {
-    it('does not iterate', () => {
+  it('does not push elements', () => {
 
-      let iterated = false;
+    let iterated = false;
 
-      expect(overNone().forNext(() => {
-        iterated = true;
-      })).toBe(false);
-      expect(iterated).toBe(false);
-    });
+    expect(pushIterated(overNone(), () => {
+      iterated = true;
+    })).toBe(false);
+    expect(iterated).toBe(false);
   });
-
-  describe('[Symbol.iterator]', () => {
-    it('does not iterate', () => {
-      expect([...overNone()]).toHaveLength(0);
-    });
+  it('does not iterate', () => {
+    expect([...overNone()]).toHaveLength(0);
   });
 });

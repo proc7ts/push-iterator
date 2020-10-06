@@ -1,3 +1,5 @@
+import { makePushIterator } from '../base';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -14,7 +16,7 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
   for (; ;) {
 
     let result: IteratorYieldResult<T> | undefined;
-    const done = !this.forNext(value => {
+    const done = !this[PushIterator__symbol](value => {
       result = { value };
       return false;
     });
@@ -31,19 +33,16 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
 /**
  * @internal
  */
-export function PushIterator$iterate<T>(this: PushIterator<T>): PushIterator<T>;
+type PushIterable$iterate<T> = {
+  (): PushIterator<T>;
+  (accept: PushIterator.Acceptor<T>): boolean;
+};
 
 /**
  * @internal
  */
-export function PushIterator$iterate<T>(this: PushIterator<T>, accept: PushIterator.Acceptor<T>): boolean;
-
-/**
- * @internal
- */
-export function PushIterator$iterate<T>(
-    this: PushIterator<T>,
-    accept?: PushIterator.Acceptor<T>,
-): PushIterator<T> | boolean {
-  return accept ? this.forNext(accept) : this;
+export function PushIterator$iterate<T>(forNext: PushIterator.Pusher<T>): PushIterable$iterate<T> {
+  return ((accept?: PushIterator.Acceptor<T>) => accept
+      ? forNext(accept)
+      : makePushIterator(forNext)) as PushIterable$iterate<T>;
 }

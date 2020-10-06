@@ -49,9 +49,8 @@ function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate
         ? forNext(accept)
         : {
           [Symbol.iterator]: PushIterable$iterator,
-          [PushIterator__symbol]: PushIterator$iterate,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < 0 ? { done: true } as IteratorReturnResult<T> : { value: array[i--] },
-          forNext,
         };
   };
 }

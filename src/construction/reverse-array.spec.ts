@@ -1,4 +1,4 @@
-import { itsIterator } from '../base';
+import { itsIterator, pushIterated } from '../base';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {
@@ -14,13 +14,13 @@ describe('reverseArray', () => {
   });
 
   it('iterates over array elements', () => {
-    expect(itsIterator(reverseArray(array)).forNext(element => {
+    expect(pushIterated(reverseArray(array), element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual(reversed);
   });
   it('does not iterate over empty array', () => {
-    expect(itsIterator(reverseArray([])).forNext(element => {
+    expect(pushIterated(reverseArray([]), element => {
       result.push(element);
     })).toBe(false);
     expect(result).toHaveLength(0);
@@ -29,8 +29,8 @@ describe('reverseArray', () => {
 
     const it = itsIterator(reverseArray(array));
 
-    expect(it.forNext(() => false)).toBe(true);
-    expect(it.forNext(element => {
+    expect(pushIterated(it, () => false)).toBe(true);
+    expect(pushIterated(it, element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual(reversed.slice(1));

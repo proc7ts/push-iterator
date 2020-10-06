@@ -54,9 +54,8 @@ function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
         ? forNext(accept)
         : {
           [Symbol.iterator]: PushIterable$iterator,
-          [PushIterator__symbol]: PushIterator$iterate,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < array.length ? { value: array[i++] } : { done: true } as IteratorReturnResult<T>,
-          forNext,
         };
   };
 }

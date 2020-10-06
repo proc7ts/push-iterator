@@ -78,7 +78,7 @@ function iterateOverFilteredArray<T>(
         ? forNext(accept)
         : {
           [Symbol.iterator]: PushIterator$iterator,
-          [PushIterator__symbol]: PushIterator$iterate,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
           next() {
             for (; ;) {
               if (i >= array.length) {
@@ -92,7 +92,6 @@ function iterateOverFilteredArray<T>(
               }
             }
           },
-          forNext,
         };
   };
 }

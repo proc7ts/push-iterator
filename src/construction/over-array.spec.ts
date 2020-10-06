@@ -1,4 +1,4 @@
-import { itsIterator } from '../base';
+import { itsIterator, pushIterated } from '../base';
 import { overArray } from './over-array';
 import { overNone } from './over-none';
 
@@ -13,32 +13,23 @@ describe('overArray', () => {
   });
 
   it('iterates over array elements', () => {
-    expect(itsIterator(overArray(array)).forNext(element => {
+    expect([...overArray(array)]).toEqual(array);
+  });
+  it('pushes array elements', () => {
+    expect(pushIterated(overArray(array), element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual(array);
-  });
-  it('does not iterate over empty array', () => {
-    expect(itsIterator(overArray([])).forNext(element => {
-      result.push(element);
-    })).toBe(false);
-    expect(result).toHaveLength(0);
   });
   it('resumes iteration', () => {
 
     const it = itsIterator(overArray(array));
 
-    expect(it.forNext(() => false)).toBe(true);
-    expect(it.forNext(element => {
+    expect(pushIterated(it, () => false)).toBe(true);
+    expect(pushIterated(it, element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual(array.slice(1));
-  });
-
-  describe('[Symbol.iterator]', () => {
-    it('iterates over array elements', () => {
-      expect([...overArray(array)]).toEqual(array);
-    });
   });
 
   describe('over empty array', () => {

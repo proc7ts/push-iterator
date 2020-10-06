@@ -2,9 +2,21 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { noneIterator } from '../impl';
+import { PushIterator$iterator } from '../impl';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+
+/**
+ * @internal
+ */
+const noneIterator: PushIterator<any> & PushIterable<any> = {
+  [Symbol.iterator]: PushIterator$iterator,
+  [PushIterator__symbol](accept?: PushIterator.Acceptor<any>) {
+    return (accept ? false : this) as any;
+  },
+  next: () => ({ done: true } as IteratorReturnResult<unknown>),
+};
 
 /**
  * Returns a {@link PushIterator push iterable iterator} without elements.

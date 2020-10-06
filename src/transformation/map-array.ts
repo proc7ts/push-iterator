@@ -64,9 +64,8 @@ function iterateOverMappedArray<T, R>(
         ? forNext(accept)
         : {
           [Symbol.iterator]: PushIterator$iterator,
-          [PushIterator__symbol]: PushIterator$iterate,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
-          forNext,
         };
   };
 }

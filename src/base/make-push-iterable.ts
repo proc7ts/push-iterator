@@ -6,7 +6,7 @@ import { PushIterable$iterator } from '../impl';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 
 /**
- * Creates push iterable implementation.
+ * Creates a push iterable implementation.
  *
  * @param iterate  A function iterating over iterable elements conforming to {@link PushIterable.Iterate} requirements.
  *

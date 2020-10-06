@@ -1,6 +1,8 @@
 import { overMany } from '../construction';
+import { itsIterated } from '../consumption';
 import { itsIterator } from './its-iterator';
 import { makePushIterator } from './make-push-iterator';
+import { pushIterated } from './push-iterated';
 
 describe('itsIterator', () => {
 
@@ -28,7 +30,7 @@ describe('itsIterator', () => {
 
     const result: number[] = [];
 
-    expect(itsIterator(generate()).forNext(element => {
+    expect(itsIterated(generate(), element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual([1, 2, 3]);
@@ -43,93 +45,89 @@ describe('itsIterator', () => {
 
     const result: number[] = [];
 
-    expect(itsIterator(generate()).forNext(element => {
+    expect(itsIterated(generate(), element => {
       result.push(element);
     })).toBe(false);
     expect(result).toEqual([1, 2]);
   });
 
-  describe('forNext', () => {
-    it('iterates over all elements', () => {
+  it('pushes all elements', () => {
 
-      const it = itsIterator(iterable);
-      const result: typeof array = [];
+    const it = itsIterator(iterable);
+    const result: typeof array = [];
 
-      expect(it.forNext(element => {
-        result.push(element);
-      })).toBe(false);
+    expect(pushIterated(it, element => {
+      result.push(element);
+    })).toBe(false);
 
-      expect(result).toEqual(array);
-    });
-    it('stops iteration on `false` result', () => {
+    expect(result).toEqual(array);
+  });
+  it('stops pushing on `false` result', () => {
 
-      const it = itsIterator(iterable);
-      const result: typeof array = [];
+    const it = itsIterator(iterable);
+    const result: typeof array = [];
 
-      expect(it.forNext(element => {
-        result.push(element);
-        return false;
-      })).toBe(true);
+    expect(pushIterated(it, element => {
+      result.push(element);
+      return false;
+    })).toBe(true);
 
-      expect(result).toEqual(array.slice(0, 1));
-    });
-    it('resumes iteration', () => {
+    expect(result).toEqual(array.slice(0, 1));
+  });
+  it('resumes pushing', () => {
 
-      const it = itsIterator(iterable);
-      const result: typeof array = [];
+    const it = itsIterator(iterable);
+    const result: typeof array = [];
 
-      expect(it.forNext(() => false)).toBe(true);
-      expect(it.forNext(element => {
-        result.push(element);
-      })).toBe(false);
+    expect(pushIterated(it, () => false)).toBe(true);
+    expect(pushIterated(it, element => {
+      result.push(element);
+    })).toBe(false);
 
-      expect(result).toEqual(array.slice(1));
-    });
-    it('does not iterate after the end', () => {
+    expect(result).toEqual(array.slice(1));
+  });
+  it('does not push after the end', () => {
 
-      const it = itsIterator(iterable);
-      const result: typeof array = [];
+    const it = itsIterator(iterable);
+    const result: typeof array = [];
 
-      expect(it.forNext(() => {/* noop */})).toBe(false);
-      expect(it.forNext(element => {
-        result.push(element);
-      })).toBe(false);
-      expect(result).toHaveLength(0);
-    });
+    expect(pushIterated(it, () => {/* noop */})).toBe(false);
+    expect(pushIterated(it, element => {
+      result.push(element);
+    })).toBe(false);
+    expect(result).toHaveLength(0);
   });
 
-  describe('[Symbol.iterator]', () => {
-    it('iterates over all elements', () => {
-      expect(Array.from(itsIterator(iterable))).toEqual(array);
+  it('iterates over all elements', () => {
+    expect(Array.from(itsIterator(iterable))).toEqual(array);
+  });
+  it('iterates over the rest of elements', () => {
+
+    const it = itsIterator(iterable);
+
+    pushIterated(it, () => false);
+
+    expect(Array.from(it)).toEqual(array.slice(1));
+  });
+  it('handles non-pushing iterations', () => {
+
+    let i = 0;
+    const it = makePushIterator<string>(accept => {
+      ++i;
+      switch (i) {
+      case 1:
+      case 2:
+      case 4:
+        return true;
+      case 3:
+        accept('test');
+        return true;
+      default:
+        return false;
+      }
     });
-    it('iterates over the rest of elements', () => {
 
-      const it = itsIterator(iterable);
-
-      it.forNext(() => false);
-
-      expect(Array.from(it)).toEqual(array.slice(1));
-    });
-    it('handles non-pushing iterations', () => {
-
-      let i = 0;
-      const it = makePushIterator<string>(accept => {
-        ++i;
-        switch (i) {
-        case 1:
-        case 2:
-        case 4:
-          return true;
-        case 3:
-          accept('test');
-          return true;
-        default:
-          return false;
-        }
-      });
-
-      expect([...it]).toEqual(['test']);
-    });
+    expect([...it]).toEqual(['test']);
   });
 
   describe('over raw iterable', () => {

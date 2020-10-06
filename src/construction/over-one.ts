@@ -40,7 +40,7 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
         ? forNext(accept)
         : {
           [Symbol.iterator]: PushIterator$iterator,
-          [PushIterator__symbol]: PushIterator$iterate,
+          [PushIterator__symbol]: PushIterator$iterate(forNext),
           next() {
             if (done) {
               return { done } as IteratorReturnResult<undefined>;
@@ -50,7 +50,6 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
 
             return { value };
           },
-          forNext,
         };
   };
 }

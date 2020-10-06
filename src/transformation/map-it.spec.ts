@@ -1,4 +1,4 @@
-import { makePushIterator } from '../base';
+import { makePushIterator, pushIterated } from '../base';
 import { overMany } from '../construction';
 import { mapIt } from './map-it';
 
@@ -8,7 +8,7 @@ describe('mapIt', () => {
       expect([...mapIt(new Set([11, 22, 33]), element => `${element}!`)]).toEqual(['11!', '22!', '33!']);
     });
 
-    describe('[Symbol.iterator]', () => {
+    describe('iterator', () => {
       it('converts elements', () => {
 
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
@@ -16,14 +16,12 @@ describe('mapIt', () => {
         expect([...it]).toEqual(['11!', '22!', '33!']);
         expect(it[Symbol.iterator]()).toBe(it);
       });
-    });
-
-    describe('forNext', () => {
-      it('reports converted elements', () => {
+      it('pushes converted elements', () => {
 
         const result: string[] = [];
+        const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
-        expect(mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]().forNext(element => {
+        expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
         expect(result).toEqual(['11!', '22!', '33!']);
@@ -33,8 +31,8 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
-        expect(it.forNext(() => false)).toBe(true);
-        expect(it.forNext(element => {
+        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
         expect(result).toEqual(['22!', '33!']);
@@ -46,13 +44,34 @@ describe('mapIt', () => {
     it('converts elements', () => {
       expect([...mapIt(overMany(11, 22, 33), element => `${element}!`)]).toEqual(['11!', '22!', '33!']);
     });
+    it('handles non-pushing iterations', () => {
 
-    describe('forNext', () => {
-      it('reports converted elements', () => {
+      let i = 0;
+      const it = makePushIterator<string>(accept => {
+        ++i;
+        switch (i) {
+        case 1:
+        case 2:
+        case 4:
+          return true;
+        case 3:
+          accept('test');
+          return true;
+        default:
+          return false;
+        }
+      });
+
+      expect([...mapIt(it, element => `${element}!`)]).toEqual(['test!']);
+    });
+
+    describe('iterator', () => {
+      it('pushes converted elements', () => {
 
         const result: string[] = [];
+        const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]().forNext(element => {
+        expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
         expect(result).toEqual(['11!', '22!', '33!']);
@@ -62,31 +81,11 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(it.forNext(() => false)).toBe(true);
-        expect(it.forNext(element => {
+        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
         expect(result).toEqual(['22!', '33!']);
-      });
-      it('handles non-pushing iterations', () => {
-
-        let i = 0;
-        const it = makePushIterator<string>(accept => {
-          ++i;
-          switch (i) {
-          case 1:
-          case 2:
-          case 4:
-            return true;
-          case 3:
-            accept('test');
-            return true;
-          default:
-            return false;
-          }
-        });
-
-        expect([...mapIt(it, element => `${element}!`)]).toEqual(['test!']);
       });
     });
   });
