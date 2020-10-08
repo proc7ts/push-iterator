@@ -4,7 +4,6 @@
  */
 import { makePushIterable } from '../base';
 import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
-import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -47,7 +46,7 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return array.length ? makePushIterable(iterateOverFilteredArray(array, test)) : overNone();
+  return makePushIterable(iterateOverFilteredArray(array, test));
 }
 
 /**
@@ -92,6 +91,7 @@ function iterateOverFilteredArray<T>(
               }
             }
           },
+          isOver: () => i >= array.length,
         };
   };
 }

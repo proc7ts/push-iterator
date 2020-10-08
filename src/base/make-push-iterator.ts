@@ -13,10 +13,21 @@ import type { PushIterator } from '../push-iterator';
  * @returns New push iterator instance performing iteration by `forNext` function.
  */
 export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterator<T> {
+
+  let over = false;
+
   return {
     [Symbol.iterator]: PushIterator$iterator,
-    [PushIterator__symbol]: PushIterator$iterate(forNext),
+    [PushIterator__symbol]: PushIterator$iterate(accept => {
+
+      const hasMore = forNext(accept);
+
+      over = !hasMore;
+
+      return hasMore;
+    }),
     next: PushIterator$next,
+    isOver: () => over,
   };
 }
 

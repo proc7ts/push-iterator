@@ -1,5 +1,4 @@
-import { pushIterated } from '../base';
-import { overNone } from '../construction';
+import { iteratorOf, pushIterated } from '../base';
 import { itsElements } from '../consumption';
 import { mapArray } from './map-array';
 
@@ -49,14 +48,8 @@ describe('mapArray', () => {
   });
 
   describe('over empty array', () => {
-    it('returns `overNone()`', () => {
-      expect(mapArray([], () => 'wrong')).toBe(overNone());
-    });
-  });
-
-  describe('over one-element array', () => {
-    it('iterates over single element', () => {
-      expect([...mapArray(['one'], el => el + '!')]).toEqual(['one!']);
+    it('has iterator initially over', () => {
+      expect(iteratorOf(mapArray([], () => 'wrong')).isOver()).toBe(true);
     });
   });
 });

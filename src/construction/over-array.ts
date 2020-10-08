@@ -7,8 +7,6 @@ import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-i
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { overNone } from './over-none';
-import { overOne } from './over-one';
 
 /**
  * Creates a {@link PushIterable push iterable} over elements of array-like structure.
@@ -19,12 +17,7 @@ import { overOne } from './over-one';
  * @returns New push iterable over array elements.
  */
 export function overArray<T>(array: ArrayLike<T>): PushIterable<T> {
-
-  const length = array.length;
-
-  return length > 1
-      ? makePushIterable(iterateOverArray(array))
-      : (!length ? overNone() : overOne(array[0]));
+  return makePushIterable(iterateOverArray(array));
 }
 
 /**
@@ -57,6 +50,7 @@ function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
           [Symbol.iterator]: PushIterator$iterator,
           [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < array.length ? { value: array[i++] } : { done: true } as IteratorReturnResult<T>,
+          isOver: () => i >= array.length,
         };
   };
 }

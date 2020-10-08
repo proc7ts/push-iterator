@@ -1,5 +1,4 @@
-import { pushIterated } from '../base';
-import { overNone } from '../construction';
+import { iteratorOf, pushIterated } from '../base';
 import { itsElements, itsIterator } from '../consumption';
 import { filterArray } from './filter-array';
 
@@ -40,8 +39,8 @@ describe('filterArray', () => {
   });
 
   describe('over empty array', () => {
-    it('returns `overNone()`', () => {
-      expect(filterArray([], () => true)).toBe(overNone());
+    it('has iterator initially over', () => {
+      expect(iteratorOf(filterArray([], () => true)).isOver()).toBe(true);
     });
   });
 });

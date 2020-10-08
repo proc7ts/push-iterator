@@ -4,7 +4,6 @@
  */
 import { makePushIterable } from '../base';
 import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
-import { overNone, overOne } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -24,12 +23,7 @@ export function mapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => R,
 ): PushIterable<R> {
-
-  const length = array.length;
-
-  return length > 1
-      ? makePushIterable(iterateOverMappedArray(array, convert))
-      : (length ? overOne(convert(array[0])) : overNone());
+  return makePushIterable(iterateOverMappedArray(array, convert));
 }
 
 /**
@@ -66,6 +60,7 @@ function iterateOverMappedArray<T, R>(
           [Symbol.iterator]: PushIterator$iterator,
           [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < array.length ? { value: convert(array[i++]) } : { done: true } as IteratorReturnResult<R>,
+          isOver: () => i >= array.length,
         };
   };
 }

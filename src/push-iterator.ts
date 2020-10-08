@@ -13,6 +13,13 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
 
   [Symbol.iterator](): PushIterator<T>;
 
+  /**
+   * Checks whether iteration is over.
+   *
+   * @returns `true` is there is nothing to iterate any more, or `false` if iteration is still possible.
+   */
+  isOver(): boolean;
+
 }
 
 export namespace PushIterator {

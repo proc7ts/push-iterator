@@ -16,6 +16,7 @@ const noneIterator: PushIterator<any> & PushIterable<any> = {
     return (accept ? false : this) as any;
   },
   next: () => ({ done: true } as IteratorReturnResult<unknown>),
+  isOver: () => true,
 };
 
 /**

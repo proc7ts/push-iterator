@@ -26,10 +26,10 @@ export function overOne<T>(value: T): PushIterable<T> {
 function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
 
-    let done = false;
+    let over = false;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      if (!done) {
-        done = true;
+      if (!over) {
+        over = true;
         accept(value);
       }
 
@@ -42,14 +42,15 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
           [Symbol.iterator]: PushIterator$iterator,
           [PushIterator__symbol]: PushIterator$iterate(forNext),
           next() {
-            if (done) {
-              return { done } as IteratorReturnResult<undefined>;
+            if (over) {
+              return { done: over } as IteratorReturnResult<undefined>;
             }
 
-            done = true;
+            over = true;
 
             return { value };
           },
+          isOver: () => over,
         };
   };
 }

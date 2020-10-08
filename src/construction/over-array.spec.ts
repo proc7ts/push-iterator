@@ -1,7 +1,6 @@
-import { pushIterated } from '../base';
+import { iteratorOf, pushIterated } from '../base';
 import { itsIterator } from '../consumption';
 import { overArray } from './over-array';
-import { overNone } from './over-none';
 
 describe('overArray', () => {
 
@@ -34,14 +33,8 @@ describe('overArray', () => {
   });
 
   describe('over empty array', () => {
-    it('returns `overNone()`', () => {
-      expect(overArray([])).toBe(overNone());
-    });
-  });
-
-  describe('over one-element array', () => {
-    it('iterates over single element', () => {
-      expect([...overArray(['one'])]).toEqual(['one']);
+    it('has iterator initially over', () => {
+      expect(iteratorOf(overArray([])).isOver()).toBe(true);
     });
   });
 });

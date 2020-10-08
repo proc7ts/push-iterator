@@ -6,10 +6,28 @@ import { PushIterator$iterate, PushIterator$iterator } from './make-push-iterato
  * @internal
  */
 export function toPushIterator<T>(it: Iterator<T>, forNext: PushIterator.Pusher<T>): PushIterator<T> {
+
+  let over = false;
+
   return {
     [Symbol.iterator]: PushIterator$iterator,
-    [PushIterator__symbol]: PushIterator$iterate(forNext),
-    next: () => it.next(),
+    [PushIterator__symbol]: PushIterator$iterate(accept => {
+
+      const hasMore = forNext(accept);
+
+      over = !hasMore;
+
+      return hasMore;
+    }),
+    next() {
+
+      const next = it.next();
+
+      over = !!next.done;
+
+      return next;
+    },
+    isOver: () => over,
   };
 }
 

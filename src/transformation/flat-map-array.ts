@@ -3,7 +3,6 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable, makePushIterator, pushIterated } from '../base';
-import { overIterable, overNone } from '../construction';
 import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -41,12 +40,7 @@ export function flatMapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
-
-  const length = array.length;
-
-  return length > 1
-      ? makePushIterable(iterateOverFlattenedArray(array, convert))
-      : (length ? overIterable(convert(array[0])) : overNone());
+  return makePushIterable(iterateOverFlattenedArray(array, convert));
 }
 
 /**
@@ -58,18 +52,26 @@ function iterateOverFlattenedArray<T, R>(
 ): PushIterable.Iterate<R> {
   return accept => {
 
-    let subIt = itsIterator(convert(array[0]));
-    let index = 1;
+    let i = 0;
+    let subIt: PushIterator<R> | undefined;
+
     const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
+      if (i >= array.length) {
+        return false;
+      }
+      if (!subIt) {
+        subIt = itsIterator(convert(array[i]));
+      }
+
       for (; ;) {
 
         let goOn: boolean | void;
 
         if (!pushIterated(subIt, element => goOn = accept(element))) {
-          if (index >= array.length) {
+          if (++i >= array.length) {
             return false;
           }
-          subIt = itsIterator(convert(array[index++]));
+          subIt = itsIterator(convert(array[i]));
         }
         if (goOn === false) {
           return true;

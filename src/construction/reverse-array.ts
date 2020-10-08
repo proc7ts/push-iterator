@@ -7,8 +7,6 @@ import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-i
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { overNone } from './over-none';
-import { overOne } from './over-one';
 
 /**
  * Creates a {@link PushIterable push iterable} over elements of array-like structure in reverse order.
@@ -19,12 +17,7 @@ import { overOne } from './over-one';
  * @returns New push iterable over array elements in reverse order.
  */
 export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
-
-  const length = array.length;
-
-  return length > 1
-      ? makePushIterable(iterateOverArrayReversely(array))
-      : (length ? overOne(array[0]) : overNone());
+  return makePushIterable(iterateOverArrayReversely(array));
 }
 
 /**
@@ -58,6 +51,7 @@ function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate
           [Symbol.iterator]: PushIterator$iterator,
           [PushIterator__symbol]: PushIterator$iterate(forNext),
           next: () => i < 0 ? { done: true } as IteratorReturnResult<T> : { value: array[i--] },
+          isOver: () => i < 0,
         };
   };
 }
