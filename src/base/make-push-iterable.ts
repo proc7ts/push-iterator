@@ -16,7 +16,7 @@ export function makePushIterable<T>(iterate: PushIterable.Iterate<T>): PushItera
   return {
     [Symbol.iterator]: PushIterable$iterator,
     [PushIterator__symbol]: iterate,
-  } as PushIterable<T>;
+  };
 }
 
 /**

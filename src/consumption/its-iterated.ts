@@ -17,7 +17,7 @@ import type { PushIterator } from '../push-iterator';
  * `false` to stop iteration.
  *
  * @returns `true` if there are more elements to iterate, or `false` otherwise. The former is possible only when
- * iteration stopped, i.e. `accept` returned `false`.
+ * iteration suspended or stopped, i.e. `accept` returned `true` or `false`.
  */
 export function itsIterated<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): boolean {
   if (isPushIterable(iterable)) {
@@ -37,8 +37,11 @@ export function itsIterated<T>(iterable: Iterable<T>, accept: PushIterator.Accep
     if (next.done) {
       return false;
     }
-    if (accept(next.value) === false) {
-      return true;
+
+    const status = accept(next.value);
+
+    if (status === true || status === false) {
+      return status;
     }
   }
 }

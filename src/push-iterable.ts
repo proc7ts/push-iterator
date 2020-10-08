@@ -24,28 +24,23 @@ export interface PushIterable<T> extends Iterable<T> {
   [Symbol.iterator](): PushIterator<T>;
 
   /**
-   * Creates a {@link PushIterator push iterator} over elements of this iterable.
+   * Iterates over elements of this push iterable.
+   *
+   * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned `true`
+   * or `false`.
+   *
+   * Calling this method with `accept` parameter is a faster alternative to creating a push iterator and iterating with
+   * it.
    *
    * Calling this method without arguments is the same as calling `[Symbol.iterator]()` one.
    *
-   * @returns Push iterator instance.
-   */
-  [PushIterator__symbol](): PushIterator<T>;
-
-  /**
-   * Iterates over elements of this push iterable.
-   *
-   * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned `false`.
-   *
-   * Calling this method is a faster alternative to creating a push iterator and iterating with it.
-   *
    * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
-   * `false` to stop iteration.
+   * `true` to suspend iteration, or `false` to stop it.
    *
-   * @returns `true` if there are more elements to iterate, or `false` otherwise. The former is possible only when
-   * iteration stopped, i.e. `accept` returned `false`.
+   * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
+   * won't be possible with returned iterator.
    */
-  [PushIterator__symbol](accept: PushIterator.Acceptor<T>): boolean;
+  [PushIterator__symbol](accept?: PushIterator.Acceptor<T>): PushIterator<T>;
 
 }
 
@@ -62,12 +57,11 @@ export namespace PushIterable {
   export type Iterate<T> =
   /**
    * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
-   * `false` to stop iteration.
+   * `true` to suspend iteration, or `false` to stop it.
    *
-   * @returns _When `accept` parameter present_: `true` if there are more elements to iterate,
-   * or `false` otherwise. The former is possible only when iteration stopped, i.e. `accept` returned `false`.
-   * _When `accept` parameter omitted_: Push iterator instance.
+   * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
+   * won't be possible with returned iterator.
    */
-      (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T> | boolean;
+      (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T>;
 
 }

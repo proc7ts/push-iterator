@@ -22,7 +22,16 @@ export function itsEvery<T>(
 
   let allMatch = true;
 
-  itsIterated(iterable, element => allMatch = !!test(element));
+  itsIterated(
+      iterable,
+      element => {
+        allMatch = !!test(element);
+        if (!allMatch) {
+          return false;
+        }
+        return;
+      },
+  );
 
   return allMatch;
 }

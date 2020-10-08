@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
+import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -27,7 +28,7 @@ export function mapIt<T, R>(
     const it = iteratorOf(source);
     const forNext = isPushIterable(it) ? mapPusher(it, convert) : mapRawPusher(it, convert);
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
@@ -56,8 +57,11 @@ function mapRawPusher<R, T>(
       if (next.done) {
         return false;
       }
-      if (accept(convert(next.value)) === false) {
-        return true;
+
+      const status = accept(convert(next.value));
+
+      if (status === true || status === false) {
+        return status;
       }
     }
   };

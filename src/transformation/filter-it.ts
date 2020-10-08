@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
+import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -49,7 +50,7 @@ export function filterIt<T>(
     const it = iteratorOf(source);
     const forNext = isPushIterable(it) ? filterPusher(it, test) : filterRawPusher(it, test);
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
@@ -60,7 +61,15 @@ function filterPusher<T>(
     it: PushIterator<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => pushIterated(it, element => !test(element) || accept(element));
+  return accept => pushIterated(
+      it,
+      element => {
+        if (test(element)) {
+          return accept(element);
+        }
+        return;
+      },
+  );
 }
 
 /**
@@ -81,8 +90,13 @@ function filterRawPusher<T>(
 
       const value = next.value;
 
-      if (test(value) && accept(value) === false) {
-        return true;
+      if (test(value)) {
+
+        const status = accept(value);
+
+        if (status === true || status === false) {
+          return status;
+        }
       }
     }
   };

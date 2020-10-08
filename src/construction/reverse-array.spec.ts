@@ -1,5 +1,5 @@
 import { iteratorOf, pushIterated } from '../base';
-import { itsIterator } from '../consumption';
+import { itsElements } from '../consumption';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {
@@ -30,19 +30,22 @@ describe('reverseArray', () => {
   describe('iterator', () => {
     it('iterates over elements', () => {
 
-      const it = itsIterator(reverseArray(array));
+      const it = iteratorOf(reverseArray(array));
 
       expect([...it]).toEqual(reversed);
       expect([...it]).toHaveLength(0);
     });
     it('resumes iteration', () => {
 
-      const it = itsIterator(reverseArray(array));
+      const it = iteratorOf(reverseArray(array));
 
-      expect(pushIterated(it, () => false)).toBe(true);
+      expect(pushIterated(it, () => true)).toBe(true);
+      expect(it.isOver()).toBe(false);
+
       expect(pushIterated(it, element => {
         result.push(element);
       })).toBe(false);
+      expect(it.isOver()).toBe(true);
       expect(result).toEqual(reversed.slice(1));
 
       expect(pushIterated(it, element => {
@@ -54,8 +57,23 @@ describe('reverseArray', () => {
   });
 
   describe('over empty array', () => {
-    it('has iterator initially over', () => {
-      expect(iteratorOf(reverseArray([])).isOver()).toBe(true);
+    it('does not iterate', () => {
+
+      const it = iteratorOf(reverseArray([]));
+
+      expect(it.isOver()).toBe(false);
+
+      expect([...it]).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
+    });
+    it('does not push elements', () => {
+
+      const it = iteratorOf(reverseArray([]));
+
+      expect(it.isOver()).toBe(false);
+
+      expect(itsElements(it)).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
     });
   });
 });

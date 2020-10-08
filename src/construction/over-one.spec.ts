@@ -1,5 +1,6 @@
 import { iteratorOf, pushIterated } from '../base';
 import { itsElements } from '../consumption';
+import { PushIterator__symbol } from '../push-iterable';
 import { overOne } from './over-one';
 
 describe('overOne', () => {
@@ -23,6 +24,13 @@ describe('overOne', () => {
   });
 
   describe('iterator', () => {
+    it('iterates over itself', () => {
+
+      const it = iteratorOf(overOne('one'))[PushIterator__symbol]();
+
+      expect(iteratorOf(it)).toBe(it);
+    });
+
     describe('isOver', () => {
       it('returns `false` initially', () => {
 

@@ -1,4 +1,4 @@
-import { iteratorOf, pushIterated } from '../base';
+import { pushIterated } from '../base';
 import { itsElements, itsIterator } from '../consumption';
 import { filterArray } from './filter-array';
 
@@ -15,9 +15,12 @@ describe('filterArray', () => {
 
       const it = itsIterator(filterArray([11, 22, 33], element => element > 11));
 
-      expect(pushIterated(it, () => false)).toBe(true);
+      expect(pushIterated(it, () => true)).toBe(true);
+      expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([33]);
+      expect(it.isOver()).toBe(true);
+
       expect([...it]).toHaveLength(0);
     });
     it('resumes pushing', () => {
@@ -25,22 +28,19 @@ describe('filterArray', () => {
       const it = itsIterator(filterArray([11, 22, 33], element => element > 11));
       const result: number[] = [];
 
-      expect(pushIterated(it, () => false)).toBe(true);
+      expect(pushIterated(it, () => true)).toBe(true);
+      expect(it.isOver()).toBe(false);
+
       expect(pushIterated(it, el => {
         result.push(el);
       })).toBe(false);
+      expect(it.isOver()).toBe(true);
       expect(result).toEqual([33]);
 
       expect(pushIterated(it, el => {
         result.push(el);
       })).toBe(false);
       expect(result).toEqual([33]);
-    });
-  });
-
-  describe('over empty array', () => {
-    it('has iterator initially over', () => {
-      expect(iteratorOf(filterArray([], () => true)).isOver()).toBe(true);
     });
   });
 });

@@ -21,7 +21,7 @@ describe('filterIt', () => {
 
         const it = iteratorOf(filterIt(new Set([11, 22, 33]), element => element > 11));
 
-        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, () => true)).toBe(true);
 
         expect([...it]).toEqual([33]);
         expect([...it]).toHaveLength(0);
@@ -31,10 +31,13 @@ describe('filterIt', () => {
         const it = iteratorOf(filterIt(new Set([11, 22, 33]), element => element > 11));
         const result: number[] = [];
 
-        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, () => true)).toBe(true);
+        expect(it.isOver()).toBe(false);
+
         expect(pushIterated(it, el => {
           result.push(el);
         })).toBe(false);
+        expect(it.isOver()).toBe(true);
         expect(result).toEqual([33]);
 
         expect(pushIterated(it, el => {
@@ -86,9 +89,11 @@ describe('filterIt', () => {
 
       const it = iteratorOf(filterIt(overMany(11, 22, 33), element => element > 11));
 
-      pushIterated(it, () => false);
+      pushIterated(it, () => true);
+      expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([33]);
+      expect(it.isOver()).toBe(true);
     });
     it('iterates over all elements', () => {
       expect(Array.from(iterable)).toEqual([22, 33]);
@@ -119,9 +124,11 @@ describe('filterIt', () => {
 
         const it = iteratorOf(iterable);
 
-        pushIterated(it, () => false);
+        pushIterated(it, () => true);
+        expect(it.isOver()).toBe(false);
 
-        expect(Array.from(it)).toEqual([33]);
+        expect([...it]).toEqual([33]);
+        expect(it.isOver()).toBe(true);
       });
     });
   });

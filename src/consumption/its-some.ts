@@ -22,7 +22,16 @@ export function itsSome<T>(
 
   let someMatches = false;
 
-  itsIterated(iterable, element => !(someMatches = !!test(element)));
+  itsIterated(
+      iterable,
+      element => {
+        someMatches = !!test(element);
+        if (someMatches) {
+          return false;
+        }
+        return;
+      },
+  );
 
   return someMatches;
 }

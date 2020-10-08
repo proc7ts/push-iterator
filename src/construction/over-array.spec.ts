@@ -1,5 +1,5 @@
 import { iteratorOf, pushIterated } from '../base';
-import { itsIterator } from '../consumption';
+import { itsElements, itsIterator } from '../consumption';
 import { overArray } from './over-array';
 
 describe('overArray', () => {
@@ -25,16 +25,34 @@ describe('overArray', () => {
 
     const it = itsIterator(overArray(array));
 
-    expect(pushIterated(it, () => false)).toBe(true);
+    expect(pushIterated(it, () => true)).toBe(true);
+    expect(it.isOver()).toBe(false);
+
     expect(pushIterated(it, element => {
       result.push(element);
     })).toBe(false);
+    expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });
 
   describe('over empty array', () => {
-    it('has iterator initially over', () => {
-      expect(iteratorOf(overArray([])).isOver()).toBe(true);
+    it('does not iterate', () => {
+
+      const it = iteratorOf(overArray([]));
+
+      expect(it.isOver()).toBe(false);
+
+      expect([...it]).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
+    });
+    it('does not push elements', () => {
+
+      const it = iteratorOf(overArray([]));
+
+      expect(it.isOver()).toBe(false);
+
+      expect(itsElements(it)).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
     });
   });
 });

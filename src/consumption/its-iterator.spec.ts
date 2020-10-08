@@ -1,5 +1,4 @@
-import { makePushIterator } from '../base/make-push-iterator';
-import { pushIterated } from '../base/push-iterated';
+import { makePushIterator, pushIterated } from '../base';
 import { overMany } from '../construction';
 import { itsIterated } from './index';
 import { itsIterator } from './its-iterator';
@@ -70,8 +69,8 @@ describe('itsIterator', () => {
     expect(pushIterated(it, element => {
       result.push(element);
       return false;
-    })).toBe(true);
-
+    })).toBe(false);
+    expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(0, 1));
   });
   it('resumes pushing', () => {
@@ -79,11 +78,13 @@ describe('itsIterator', () => {
     const it = itsIterator(iterable);
     const result: typeof array = [];
 
-    expect(pushIterated(it, () => false)).toBe(true);
+    expect(pushIterated(it, () => true)).toBe(true);
+    expect(it.isOver()).toBe(false);
+
     expect(pushIterated(it, element => {
       result.push(element);
     })).toBe(false);
-
+    expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });
   it('does not push after the end', () => {
@@ -92,6 +93,7 @@ describe('itsIterator', () => {
     const result: typeof array = [];
 
     expect(pushIterated(it, () => {/* noop */})).toBe(false);
+    expect(it.isOver()).toBe(true);
     expect(pushIterated(it, element => {
       result.push(element);
     })).toBe(false);
@@ -99,15 +101,17 @@ describe('itsIterator', () => {
   });
 
   it('iterates over all elements', () => {
-    expect(Array.from(itsIterator(iterable))).toEqual(array);
+    expect([...itsIterator(iterable)]).toEqual(array);
   });
   it('iterates over the rest of elements', () => {
 
     const it = itsIterator(iterable);
 
-    pushIterated(it, () => false);
+    expect(pushIterated(it, () => true)).toBe(true);
+    expect(it.isOver()).toBe(false);
 
-    expect(Array.from(it)).toEqual(array.slice(1));
+    expect([...it]).toEqual(array.slice(1));
+    expect(it.isOver()).toBe(true);
   });
   it('handles non-pushing iterations', () => {
 

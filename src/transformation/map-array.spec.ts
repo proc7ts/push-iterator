@@ -33,10 +33,13 @@ describe('mapArray', () => {
       const result: string[] = [];
       const it = mapArray([11, 22, 33], element => `${element}!`)[Symbol.iterator]();
 
-      expect(pushIterated(it, () => false)).toBe(true);
+      expect(pushIterated(it, () => true)).toBe(true);
+      expect(it.isOver()).toBe(false);
+
       expect(pushIterated(it, element => {
         result.push(element);
       })).toBe(false);
+      expect(it.isOver()).toBe(true);
       expect(result).toEqual(['22!', '33!']);
 
       expect(pushIterated(it, element => {
@@ -48,8 +51,23 @@ describe('mapArray', () => {
   });
 
   describe('over empty array', () => {
-    it('has iterator initially over', () => {
-      expect(iteratorOf(mapArray([], () => 'wrong')).isOver()).toBe(true);
+    it('does not iterate', () => {
+
+      const it = iteratorOf(mapArray<number, number>([], n => n + 1));
+
+      expect(it.isOver()).toBe(false);
+
+      expect([...it]).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
+    });
+    it('does not push elements', () => {
+
+      const it = iteratorOf(mapArray<number, number>([], n => n + 1));
+
+      expect(it.isOver()).toBe(false);
+
+      expect(itsElements(it)).toHaveLength(0);
+      expect(it.isOver()).toBe(true);
     });
   });
 });

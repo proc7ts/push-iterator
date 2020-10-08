@@ -10,16 +10,15 @@ import type { PushIterator } from '../push-iterator';
  *
  * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned `false`.
  *
- * Calling this function is the same as calling `iterable[PushIterator__symbol](accept)`. This function may be useful
- * to limit the scope of deoptimization.
+ * Calling this function is the same as calling `!iterable[PushIterator__symbol](accept).isOver()`.
  *
  * @param iterable  A push iterable to iterate elements of.
  * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
  * `false` to stop iteration.
  *
  * @returns `true` if there are more elements to iterate, or `false` otherwise. The former is possible only when
- * iteration stopped, i.e. `accept` returned `false`.
+ * iteration suspended or stopped, i.e. `accept` returned `true` or `false`.
  */
 export function pushIterated<T>(iterable: PushIterable<T>, accept: PushIterator.Acceptor<T>): boolean {
-  return iterable[PushIterator__symbol](accept);
+  return !iterable[PushIterator__symbol](accept).isOver();
 }

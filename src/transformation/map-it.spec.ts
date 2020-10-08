@@ -35,10 +35,13 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, () => true)).toBe(true);
+        expect(it.isOver()).toBe(false);
+
         expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
+        expect(it.isOver()).toBe(true);
         expect(result).toEqual(['22!', '33!']);
       });
     });
@@ -85,10 +88,13 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, () => false)).toBe(true);
+        expect(pushIterated(it, () => true)).toBe(true);
+        expect(it.isOver()).toBe(false);
+
         expect(pushIterated(it, element => {
           result.push(element);
         })).toBe(false);
+        expect(it.isOver()).toBe(true);
         expect(result).toEqual(['22!', '33!']);
       });
     });

@@ -38,21 +38,21 @@ function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterabl
       for (; ;) {
 
         // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-        let goOn: boolean | void;
+        let status: boolean | void;
 
-        if (!pushIterated(srcIt, element => goOn = accept(element))) {
+        if (!pushIterated(srcIt, element => status = accept(element))) {
           if (++i >= sources.length) {
             return false;
           }
 
           srcIt = itsIterator(sources[i]);
         }
-        if (goOn === false) {
-          return true;
+        if (status === true || status === false) {
+          return status;
         }
       }
     };
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   };
 }

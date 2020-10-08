@@ -3,10 +3,10 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
+import { PushIterator$iterator } from '../base/make-push-iterator';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { overNone } from './over-none';
 
 /**
  * Creates a {@link PushIterable push iterable} over one value.
@@ -25,32 +25,37 @@ export function overOne<T>(value: T): PushIterable<T> {
  */
 function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
+    if (accept) {
+      accept(value);
+      return overNone();
+    }
 
     let over = false;
-    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      if (!over) {
-        over = true;
-        accept(value);
-      }
 
-      return false;
+    return {
+      [Symbol.iterator]: PushIterator$iterator,
+      [PushIterator__symbol](accept) {
+        if (over) {
+          return overNone();
+        }
+        if (accept) {
+          over = true;
+          accept(value);
+          return overNone();
+        }
+        return this;
+      },
+      next() {
+        if (over) {
+          return { done: over } as IteratorReturnResult<undefined>;
+        }
+
+        over = true;
+
+        return { value };
+      },
+      isOver: () => over,
     };
 
-    return accept
-        ? forNext(accept)
-        : {
-          [Symbol.iterator]: PushIterator$iterator,
-          [PushIterator__symbol]: PushIterator$iterate(forNext),
-          next() {
-            if (over) {
-              return { done: over } as IteratorReturnResult<undefined>;
-            }
-
-            over = true;
-
-            return { value };
-          },
-          isOver: () => over,
-        };
   };
 }

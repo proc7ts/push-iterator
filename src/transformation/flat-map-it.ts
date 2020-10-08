@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
+import { overNone } from '../construction';
 import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -45,7 +46,7 @@ export function flatMapIt<T, R>(
     const it = iteratorOf(source);
     const forNext = isPushIterable(it) ? flatMapPusher(it, convert) : flatMapRawPusher(it, convert);
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
@@ -65,7 +66,7 @@ function flatMapPusher<T, R>(
       while (!subIt) {
         if (!pushIterated(it, src => {
           subIt = itsIterator(convert(src));
-          return false;
+          return true;
         })) {
           if (!subIt) {
             return false;
@@ -75,16 +76,16 @@ function flatMapPusher<T, R>(
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      let status: boolean | void;
 
-      if (!pushIterated(subIt, element => goOn = accept(element))) {
+      if (!pushIterated(subIt, element => status = accept(element))) {
         subIt = undefined;
         if (lastSrc) {
           return false;
         }
       }
-      if (goOn === false) {
-        return true;
+      if (status === true || status === false) {
+        return status;
       }
     }
   };
@@ -114,13 +115,13 @@ function flatMapRawPusher<T, R>(
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      let status: boolean | void;
 
-      if (!pushIterated(subIt, element => goOn = accept(element))) {
+      if (!pushIterated(subIt, element => status = accept(element))) {
         subIt = undefined;
       }
-      if (goOn === false) {
-        return true;
+      if (status === true || status === false) {
+        return status;
       }
     }
   };

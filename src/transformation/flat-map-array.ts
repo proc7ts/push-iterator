@@ -3,6 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable, makePushIterator, pushIterated } from '../base';
+import { overNone } from '../construction';
 import { itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -65,20 +66,20 @@ function iterateOverFlattenedArray<T, R>(
 
       for (; ;) {
 
-        let goOn: boolean | void;
+        let status: boolean | void;
 
-        if (!pushIterated(subIt, element => goOn = accept(element))) {
+        if (!pushIterated(subIt, element => status = accept(element))) {
           if (++i >= array.length) {
             return false;
           }
           subIt = itsIterator(convert(array[i]));
         }
-        if (goOn === false) {
-          return true;
+        if (status === true || status === false) {
+          return status;
         }
       }
     };
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   };
 }
