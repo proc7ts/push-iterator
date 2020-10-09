@@ -2,8 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { makePushIterable, makePushIterator, pushIterated } from '../base';
-import { itsIterator } from '../consumption';
+import { makePushIterable, makePushIterator } from '../base';
+import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
@@ -32,21 +32,25 @@ function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterabl
   return accept => {
 
     let i = 0;
-    let srcIt = itsIterator(sources[0]);
+    let src: Iterable<T> = sources[0];
 
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
       for (; ;) {
 
         // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
         let status: boolean | void;
+        const srcTail = itsHead(src, element => status = accept(element));
 
-        if (!pushIterated(srcIt, element => status = accept(element))) {
+        if (srcTail.isOver()) {
           if (++i >= sources.length) {
             return false;
           }
 
-          srcIt = itsIterator(sources[i]);
+          src = sources[i];
+        } else {
+          src = srcTail;
         }
+
         if (status === true || status === false) {
           return status;
         }

@@ -2,9 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { makePushIterable, makePushIterator, pushIterated } from '../base';
+import { makePushIterable, makePushIterator } from '../base';
 import { overNone } from '../construction';
-import { itsIterator } from '../consumption';
+import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -54,26 +54,30 @@ function iterateOverFlattenedArray<T, R>(
   return accept => {
 
     let i = 0;
-    let subIt: PushIterator<R> | undefined;
+    let subs: Iterable<R> | undefined;
 
     const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
       if (i >= array.length) {
         return false;
       }
-      if (!subIt) {
-        subIt = itsIterator(convert(array[i]));
+      if (!subs) {
+        subs = convert(array[i]);
       }
 
       for (; ;) {
 
         let status: boolean | void;
+        const subsTail: PushIterator<R> = itsHead<R>(subs, element => status = accept(element));
 
-        if (!pushIterated(subIt, element => status = accept(element))) {
+        if (subsTail.isOver()) {
           if (++i >= array.length) {
             return false;
           }
-          subIt = itsIterator(convert(array[i]));
+          subs = convert(array[i]);
+        } else {
+          subs = subsTail;
         }
+
         if (status === true || status === false) {
           return status;
         }

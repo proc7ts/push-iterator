@@ -4,7 +4,7 @@
  */
 import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
 import { overNone } from '../construction';
-import { itsIterator } from '../consumption';
+import { itsHead, itsIterator } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -58,17 +58,17 @@ function flatMapPusher<T, R>(
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
-  let subIt: PushIterator<R> | undefined;
+  let subs: Iterable<R> | undefined;
   let lastSrc = false;
 
   return accept => {
     for (; ;) {
-      while (!subIt) {
+      while (!subs) {
         if (!pushIterated(it, src => {
-          subIt = itsIterator(convert(src));
+          subs = convert(src);
           return true;
         })) {
-          if (!subIt) {
+          if (!subs) {
             return false;
           }
           lastSrc = true;
@@ -77,13 +77,17 @@ function flatMapPusher<T, R>(
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let status: boolean | void;
+      const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
 
-      if (!pushIterated(subIt, element => status = accept(element))) {
-        subIt = undefined;
+      if (subsTail.isOver()) {
+        subs = undefined;
         if (lastSrc) {
           return false;
         }
+      } else {
+        subs = subsTail;
       }
+
       if (status === true || status === false) {
         return status;
       }
