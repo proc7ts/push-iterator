@@ -5,7 +5,7 @@ Push Iteration Protocol
 [![Build Status][build-status-img]][build-status-link]
 [![codecov][codecov-image]][codecov-url]
 [![GitHub Project][github-image]][github-url]
-[![API Documentation][api-docs-img]][API documentation]
+[![API Documentation][api-docs-image]][API documentation]
 
 Push iteration protocol is a faster alternative to traditional JavaScript [iteration protocol].
 
@@ -98,7 +98,7 @@ Each of the following functions returns a push iterable instance:
 - [`overEntries(object)`][overEntries] - Creates a push iterable over the property key/value entries of the given
   object.
 - [`overKeys(object)`][overKeys] - Creates a push iterable over keys of the given object.
-- [`overMany(...values)`[overMany] - Creates a push iterable over many values.
+- [`overMany(...values)`][overMany] - Creates a push iterable over many values.
 - [`overNone()`][overNone] - Returns a push iterable iterator without elements.
 - [`reverseArray(array)`][reverseArray] - Creates a push iterable over elements of array-like structure in reverse
   order.
@@ -121,9 +121,9 @@ Each of the following functions accepts either [Iterable] or push iterable:
    of the source iterable optionally converted by the given converter function. This is an `Array.from()` function
    analog optimized for push iterables.
 - [`itsEmpty(iterable): boolean`][itsEmpty] - Checks whether the given `iterable` is empty.
-- [`itsEvery(iterable, test): boolean`] - Tests whether all elements of the given `iterable` pass the test implemented
-   by the provided function.
-- [`itsFind(iterable, search): R | undefined`][itsFind] - Searches for the value in `iterable`.   
+- [`itsEvery(iterable, test): boolean`][itsEvery] - Tests whether all elements of the given `iterable` pass the test
+  implemented by the provided function.
+- [`itsFind(iterable, search): R | undefined`][itsFind] - Searches for the value in `iterable`.
 - [`itsFirst(iterable): T | undefined`][itsFirst] - Extracts the first element of the given `iterable`, if any.
 - [`itsHead(iterable, accept): PushIterator`][itsHead] - Iterates over the head elements of the given iterable and
   returns its tail iterator.
