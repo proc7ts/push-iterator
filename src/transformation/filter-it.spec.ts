@@ -71,6 +71,25 @@ describe('filterIt', () => {
     });
   });
 
+  describe('over raw iterable with push iterator', () => {
+
+    let iterable: Iterable<number>;
+
+    beforeEach(() => {
+
+      const src = overMany(11, 22, 33);
+
+      iterable = { [Symbol.iterator]: () => iteratorOf(src) };
+    });
+
+    it('filters elements', () => {
+      expect([...filterIt(iterable, element => element > 11)]).toEqual([22, 33]);
+    });
+    it('pushes filtered elements', () => {
+      expect(itsElements(filterIt(iterable, element => element > 11))).toEqual([22, 33]);
+    });
+  });
+
   describe('over push iterable', () => {
 
     let iterable: PushIterable<number>;
