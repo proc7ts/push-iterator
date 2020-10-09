@@ -49,6 +49,11 @@ function rawIterableHead<T>(
 ): PushIterator<T> {
 
   const it = iteratorOf(iterable);
+
+  if (isPushIterable(it)) {
+    return pushHead(it, accept);
+  }
+
   const forEach = rawIteratorPusher(it);
 
   return forEach(accept) ? toPushIterator(it, forEach) : overNone();

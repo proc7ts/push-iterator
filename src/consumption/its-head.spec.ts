@@ -1,3 +1,4 @@
+import { iteratorOf } from '../base';
 import { overMany } from '../construction';
 import { itsHead } from './its-head';
 
@@ -12,6 +13,15 @@ describe('itsHead', () => {
   describe.each([
     ['push iterable', () => overMany(1, 22, 333)],
     ['raw iterable', () => new Set([1, 22, 333])],
+    [
+      'raw iterable with push iterator',
+      () => {
+
+        const it = overMany(1, 22, 333);
+
+        return { [Symbol.iterator]: () => iteratorOf(it) };
+      },
+    ],
     ['array', () => [1, 22, 333]],
   ])('over %s', (_title: string, newIterable: () => Iterable<number>) => {
 
