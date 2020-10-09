@@ -57,13 +57,13 @@ export function filterIt<T>(
  * @internal
  */
 function filterPusher<T>(
-    it: PushIterable<T>,
+    source: PushIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
   return accept => {
 
     const tail = pushHead(
-        it,
+        source,
         element => {
           if (test(element)) {
             return accept(element);
@@ -72,7 +72,7 @@ function filterPusher<T>(
         },
     );
 
-    it = tail;
+    source = tail;
 
     return !tail.isOver();
   };
