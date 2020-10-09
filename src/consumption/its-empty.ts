@@ -12,7 +12,7 @@ import type { PushIterable } from '../push-iterable';
  *
  * @return `true` if the given iterable contains at least one element, or `false` otherwise.
  */
-export function itsEmpty(iterable: Iterable<any>): boolean {
+export function itsEmpty(iterable: Iterable<unknown>): boolean {
   if (isPushIterable(iterable)) {
     return pushedEmpty(iterable);
   }
@@ -25,7 +25,7 @@ export function itsEmpty(iterable: Iterable<any>): boolean {
 /**
  * @internal
  */
-function pushedEmpty<T>(it: PushIterable<T>): boolean {
+function pushedEmpty(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;
 

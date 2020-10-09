@@ -9,6 +9,7 @@ import { pushIterated } from './push-iterated';
 /**
  * Creates a push iterator implementation.
  *
+ * @typeParam T  Iterated elements type.
  * @param forNext  A function iterating over elements conforming to push iteration protocol.
  *
  * @returns New push iterator instance performing iteration by `forNext` function.

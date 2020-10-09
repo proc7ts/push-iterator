@@ -16,6 +16,7 @@ import type { PushIterator } from '../push-iterator';
  *
  * In contrast to {@link pushHead} function, this one accepts any iterable instance.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterable  An iterable to iterate elements of.
  * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
  * `true` to suspend iteration, or `false` to stop it.

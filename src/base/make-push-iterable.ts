@@ -8,6 +8,7 @@ import type { PushIterator } from '../push-iterator';
 /**
  * Creates a push iterable implementation.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterate  A function iterating over iterable elements conforming to {@link PushIterable.Iterate} requirements.
  *
  * @returns New push iterable instance performing iteration by `forNext` function.

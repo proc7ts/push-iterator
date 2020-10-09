@@ -27,7 +27,7 @@ export function filterIt<T>(
 /**
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements extending the given type.
  *
- * @typeParam T  A type of source elements
+ * @typeParam T  A type of source elements.
  * @typeParam R  Target type.
  * @param source  A source iterable.
  * @param test  A predicate function to test that element extends the type `R`. Returns `true` to keep the element, or

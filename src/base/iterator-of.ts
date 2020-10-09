@@ -10,6 +10,7 @@ import type { PushIterator } from '../push-iterator';
  *
  * Calls `iterable[Symbol.iterator]()` and returns its result.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterable  A push iterable to construct iterator of.
  *
  * @returns Push iterator.
@@ -21,6 +22,7 @@ export function iteratorOf<T>(iterable: PushIterable<T>): PushIterator<T>;
  *
  * Calls `iterable[Symbol.iterator]()` and returns its result.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterable  A push iterable to construct iterator of.
  *
  * @returns Iterable iterator.
@@ -32,6 +34,7 @@ export function iteratorOf<T>(iterable: { [Symbol.iterator](): IterableIterator<
  *
  * Calls `iterable[Symbol.iterator]()` and returns its result.
  *
+ * @typeParam T  Iterated elements type.
  * @param iterable  An iterable to construct iterator of.
  *
  * @returns Either push or raw iterator.

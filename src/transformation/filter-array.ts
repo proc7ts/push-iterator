@@ -29,7 +29,7 @@ export function filterArray<T>(
 /**
  * Creates a {@link PushIterable push iterable} with all `array` elements extending the given type.
  *
- * @typeParam T  A type of array elements
+ * @typeParam T  A type of array elements.
  * @typeParam R  Target type.
  * @param array  A source array.
  * @param test  A predicate function to test that element extends the type `R`. Returns `true` to keep the element, or

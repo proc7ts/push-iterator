@@ -8,7 +8,7 @@ import { itsIterated } from './its-iterated';
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
  * value.
  *
- * @typeParam T  A type of `iterable` elements.
+ * @typeParam T  Iterated elements type.
  * @typeParam R  A type of reduced value.
  * @param iterable  An iterable to reduce values of.
  * @param reducer  A function to apply the value returned from the previous `reducer` call and to each element.
