@@ -1,5 +1,5 @@
-import { overArray, overNone } from '../construction';
-import { itsEach } from '../consumption';
+import { overArray } from '../construction';
+import { itsEach, itsElements } from '../consumption';
 import { flatMapArray } from './flat-map-array';
 
 describe('flatMapArray', () => {
@@ -41,20 +41,8 @@ describe('flatMapArray', () => {
   });
 
   describe('over empty array', () => {
-    it('returns `overNone()`', () => {
-      expect(flatMapArray([])).toBe(overNone());
-    });
-  });
-
-  describe('over one-element array', () => {
-    it('maps and flattens element', () => {
-
-      const it = flatMapArray([11], element => [element, element + 1]);
-      const result: number[] = [];
-
-      itsEach(it, el => result.push(el));
-      expect(result).toEqual([11, 12]);
-      expect([...it]).toEqual([11, 12]);
+    it('does not iterate', () => {
+      expect(itsElements(flatMapArray([]))).toHaveLength(0);
     });
   });
 

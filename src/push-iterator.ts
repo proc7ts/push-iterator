@@ -13,6 +13,13 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
 
   [Symbol.iterator](): PushIterator<T>;
 
+  /**
+   * Checks whether iteration is over.
+   *
+   * @returns `true` is there is nothing to iterate any more, or `false` if iteration is still possible.
+   */
+  isOver(): boolean;
+
 }
 
 export namespace PushIterator {
@@ -35,7 +42,7 @@ export namespace PushIterator {
   /**
    * A signature of a function accepting iterated elements.
    *
-   * It is able to prevent further iteration by returning `false`.
+   * It is able to suspend iteration by returning `true`, or to stop it by returning `false`.
    *
    * @typeParam T  Iterated elements type.
    */
@@ -53,7 +60,15 @@ export namespace PushIterator {
       (this: void, element: T) => void;
 
   /**
-   * A signature of a function accepting iterated elements and able to prevent further iteration.
+   * A signature of a function accepting iterated elements and able to suspend or stop further iteration.
+   *
+   * When this function returns `true`, the iteration is suspended. I.e. the no more elements would be pushed to this
+   * function, but the iteration method (`[PushIterator__symbol]`) would return an iterator that can be used to resume
+   * iteration.
+   *
+   * When this function returns `false`, the iteration is stopped. I.e. the no more elements would be pushed to this
+   * function, and the iteration method (`[PushIterator__symbol]`) would return an empty iterator. I.e. the one with
+   * its {@link PushIterator.isOver} method always returning `true`.
    *
    * @typeParam T  Iterated elements type.
    */
@@ -61,9 +76,8 @@ export namespace PushIterator {
   /**
    * @param element  Iterated element.
    *
-   * @returns `false` to prevent further iteration. No more element will be pushed to acceptor after that.
+   * @returns `true` to suspend iteration, or `false` to stop it.
    */
       (this: void, element: T) => boolean;
 
 }
-

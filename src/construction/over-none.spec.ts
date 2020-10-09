@@ -26,5 +26,11 @@ describe('overNone', () => {
     it('is itself', () => {
       expect(overNone()[PushIterator__symbol]()).toBe(overNone());
     });
+
+    describe('isOver', () => {
+      it('returns `true`', () => {
+        expect(overNone()[PushIterator__symbol]().isOver()).toBe(true);
+      });
+    });
   });
 });

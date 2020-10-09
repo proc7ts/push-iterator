@@ -9,11 +9,16 @@ Push Iteration Protocol
 
 Push iteration protocol is a faster alternative to traditional JavaScript [iteration protocol].
 
-It extends [Iterator] interface with special method `[PushIterator__symbol](accept): boolean`, where
-`PushIterator__symbol` is a special symbol. This method pushes iterated elements to `accept` callback, until there is no
-more elements or `accept` function returns `false` to stop iteration. The method returns `true` if there are more
-elements to iterate, or `false` otherwise. The former is possible only when iteration stopped, i.e. `accept` returned
-`false`.
+It extends [Iterator] interface with special method `[PushIterator__symbol](accept?)`, where `PushIterator__symbol`
+is a special symbol. This method pushes iterated elements to `accept` callback, until there is no more elements,
+or `accept` function returns `true` (to suspend iteration) or `false` (to stop it).
+
+The method returns a push iterator instance to continue iteration with. If `accept` returned `false` then further
+iteration won't be possible with returned iterator.
+
+When called without `accept` parameter it just returns an iterator.
+
+Another method it extends [Iterator] with is `isOver()`, that checks whether iteration is over.
 
 [iteration protocol]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
 [Iterator]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol
@@ -74,9 +79,8 @@ Instant Iteration
 
 It is quite common to just iterate over [Iterable] instantly rather constructing its [Iterator]. The library supports
 this. For that, a `[PushIterator__symbol]` method may be defined for [Iterable] in addition to `[Symbol.iterator]` one.
-When the library function encounters such method, it uses it instead of constructing a new iterable.
-
-When the `[PushIterator__symbol]()` method called without parameter it returns a push iterator instance.
+When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
+iterator.
 
 
 API
@@ -110,6 +114,8 @@ Each of the following functions accepts either [Iterable] or push iterable:
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
 - `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
+- `itsHead(iterable, accept): PushIterator` - Iterates over the head elements of the given iterable and returns its tail
+  iterator.
 - `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
 - `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
 - `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
@@ -148,4 +154,6 @@ Each of the following functions accepts an array-like instance, and returns a pu
 - `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
 - `makePushIterable(iterate)` - Creates a push iterable implementation.
 - `makePushIterator(forNext)` - Creates a push iterator implementation.
+- `pushHead(iterable, accept): PushIterator` - Iterates over the head elements of the given push iterable and returns
+  its tail iterator.
 - `pushIterated(iterable, accept): boolean` - Iterates over elements of the given push iterable.

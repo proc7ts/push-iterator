@@ -2,7 +2,8 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
+import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
+import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -46,10 +47,9 @@ export function filterIt<T>(
 ): PushIterable<T> {
   return makePushIterable(accept => {
 
-    const it = iteratorOf(source);
-    const forNext = isPushIterable(it) ? filterPusher(it, test) : filterRawPusher(it, test);
+    const forNext = isPushIterable(source) ? filterPusher(source, test) : filterRawPusher(source, test);
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
@@ -57,19 +57,41 @@ export function filterIt<T>(
  * @internal
  */
 function filterPusher<T>(
-    it: PushIterator<T>,
+    source: PushIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => pushIterated(it, element => !test(element) || accept(element));
+  return accept => {
+
+    const tail = pushHead(
+        source,
+        element => {
+          if (test(element)) {
+            return accept(element);
+          }
+          return;
+        },
+    );
+
+    source = tail;
+
+    return !tail.isOver();
+  };
 }
 
 /**
  * @internal
  */
 function filterRawPusher<T>(
-    it: Iterator<T>,
+    source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
+
+  const it = iteratorOf(source);
+
+  if (isPushIterable(it)) {
+    return filterPusher(it, test);
+  }
+
   return accept => {
     for (; ;) {
 
@@ -81,8 +103,13 @@ function filterRawPusher<T>(
 
       const value = next.value;
 
-      if (test(value) && accept(value) === false) {
-        return true;
+      if (test(value)) {
+
+        const status = accept(value);
+
+        if (typeof status === 'boolean') {
+          return status;
+        }
       }
     }
   };

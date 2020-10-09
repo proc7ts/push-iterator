@@ -2,8 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushIterated } from '../base';
-import { itsIterator } from '../consumption';
+import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
+import { overNone } from '../construction';
+import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -42,10 +43,9 @@ export function flatMapIt<T, R>(
 ): PushIterable<R> {
   return makePushIterable(accept => {
 
-    const it = iteratorOf(source);
-    const forNext = isPushIterable(it) ? flatMapPusher(it, convert) : flatMapRawPusher(it, convert);
+    const forNext = isPushIterable(source) ? flatMapPusher(source, convert) : flatMapRawPusher(source, convert);
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
@@ -53,21 +53,26 @@ export function flatMapIt<T, R>(
  * @internal
  */
 function flatMapPusher<T, R>(
-    it: PushIterator<T>,
+    source: PushIterable<T>,
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
-  let subIt: PushIterator<R> | undefined;
+  let subs: Iterable<R> | undefined;
   let lastSrc = false;
 
   return accept => {
     for (; ;) {
-      while (!subIt) {
-        if (!pushIterated(it, src => {
-          subIt = itsIterator(convert(src));
-          return false;
-        })) {
-          if (!subIt) {
+      while (!subs) {
+
+        const sourceTail = pushHead(source, src => {
+          subs = convert(src);
+          return true;
+        });
+
+        source = sourceTail;
+
+        if (sourceTail.isOver()) {
+          if (!subs) {
             return false;
           }
           lastSrc = true;
@@ -75,16 +80,20 @@ function flatMapPusher<T, R>(
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      let status: boolean | void;
+      const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
 
-      if (!pushIterated(subIt, element => goOn = accept(element))) {
-        subIt = undefined;
+      if (subsTail.isOver()) {
+        subs = undefined;
         if (lastSrc) {
           return false;
         }
+      } else {
+        subs = subsTail;
       }
-      if (goOn === false) {
-        return true;
+
+      if (typeof status === 'boolean') {
+        return status;
       }
     }
   };
@@ -94,15 +103,21 @@ function flatMapPusher<T, R>(
  * @internal
  */
 function flatMapRawPusher<T, R>(
-    it: Iterator<T>,
+    source: Iterable<T>,
     convert: (this: void, element: T) => Iterable<R>,
 ): PushIterator.Pusher<R> {
 
-  let subIt: PushIterator<R> | undefined;
+  const it = iteratorOf(source);
+
+  if (isPushIterable(it)) {
+    return flatMapPusher(it, convert);
+  }
+
+  let subs: Iterable<R> | undefined;
 
   return accept => {
     for (; ;) {
-      if (!subIt) {
+      if (!subs) {
 
         const next = it.next();
 
@@ -110,17 +125,16 @@ function flatMapRawPusher<T, R>(
           return false;
         }
 
-        subIt = itsIterator(convert(next.value));
+        subs = convert(next.value);
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let goOn: boolean | void;
+      let status: boolean | void;
+      const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
 
-      if (!pushIterated(subIt, element => goOn = accept(element))) {
-        subIt = undefined;
-      }
-      if (goOn === false) {
-        return true;
+      subs = subsTail.isOver() ? undefined : subsTail;
+      if (typeof status === 'boolean') {
+        return status;
       }
     }
   };

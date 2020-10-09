@@ -33,5 +33,28 @@ describe('overIterable', () => {
 
       expect(it[PushIterator__symbol]()).toBe(it);
     });
+
+    describe('isOver', () => {
+      it('returns `false` initially', () => {
+
+        const it = iteratorOf(overIterable(new Set()));
+
+        expect(it.isOver()).toBe(false);
+      });
+      it('returns `true` when iteration complete', () => {
+
+        const it = iteratorOf(overIterable(new Set()));
+
+        expect(it.next()).toEqual({ done: true });
+        expect(it.isOver()).toBe(true);
+      });
+      it('returns `true` when last element pushed', () => {
+
+        const it = iteratorOf(overIterable(new Set()));
+
+        expect(pushIterated(it, () => true)).toBe(false);
+        expect(it.isOver()).toBe(true);
+      });
+    });
   });
 });

@@ -2,9 +2,9 @@
  * @packageDocumentation
  * @module @proc7ts/push-iterator
  */
-import { makePushIterable, makePushIterator, pushIterated } from '../base';
-import { overIterable, overNone } from '../construction';
-import { itsIterator } from '../consumption';
+import { makePushIterable, makePushIterator } from '../base';
+import { overNone } from '../construction';
+import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { flatMapIt$defaultConverter } from './transformation.impl';
@@ -41,12 +41,7 @@ export function flatMapArray<T, R>(
     array: ArrayLike<T>,
     convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
 ): PushIterable<R> {
-
-  const length = array.length;
-
-  return length > 1
-      ? makePushIterable(iterateOverFlattenedArray(array, convert))
-      : (length ? overIterable(convert(array[0])) : overNone());
+  return makePushIterable(iterateOverFlattenedArray(array, convert));
 }
 
 /**
@@ -58,25 +53,37 @@ function iterateOverFlattenedArray<T, R>(
 ): PushIterable.Iterate<R> {
   return accept => {
 
-    let subIt = itsIterator(convert(array[0]));
-    let index = 1;
+    let i = 0;
+    let subs: Iterable<R> | undefined;
+
     const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
+      if (i >= array.length) {
+        return false;
+      }
+      if (!subs) {
+        subs = convert(array[i]);
+      }
+
       for (; ;) {
 
-        let goOn: boolean | void;
+        let status: boolean | void;
+        const subsTail: PushIterator<R> = itsHead<R>(subs, element => status = accept(element));
 
-        if (!pushIterated(subIt, element => goOn = accept(element))) {
-          if (index >= array.length) {
+        if (subsTail.isOver()) {
+          if (++i >= array.length) {
             return false;
           }
-          subIt = itsIterator(convert(array[index++]));
+          subs = convert(array[i]);
+        } else {
+          subs = subsTail;
         }
-        if (goOn === false) {
-          return true;
+
+        if (typeof status === 'boolean') {
+          return status;
         }
       }
     };
 
-    return accept ? forNext(accept) : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   };
 }

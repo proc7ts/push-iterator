@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { PushIterator$iterate, PushIterator$iterator } from '../base/make-push-iterator';
+import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from '../base/make-push-iterator';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
@@ -47,7 +47,7 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return array.length ? makePushIterable(iterateOverFilteredArray(array, test)) : overNone();
+  return makePushIterable(iterateOverFilteredArray(array, test));
 }
 
 /**
@@ -68,30 +68,55 @@ function iterateOverFilteredArray<T>(
 
         const value = array[i++];
 
-        if (test(value) && accept(value) === false) {
-          return true;
+        if (test(value)) {
+
+          const status = accept(value);
+
+          if (typeof status === 'boolean') {
+            return status;
+          }
         }
       }
     };
 
-    return accept
-        ? forNext(accept)
-        : {
-          [Symbol.iterator]: PushIterator$iterator,
-          [PushIterator__symbol]: PushIterator$iterate(forNext),
-          next() {
-            for (; ;) {
-              if (i >= array.length) {
-                return { done: true } as IteratorReturnResult<T>;
-              }
+    if (accept && !forNext(accept)) {
+      return overNone();
+    }
 
-              const value = array[i++];
+    let over = false;
+    let iterate = (accept?: PushIterator.Acceptor<T>): void => {
+      if (accept && !forNext(accept)) {
+        over = true;
+        iterate = PushIterator$dontIterate;
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        next = PushIterator$noNext;
+      }
+    };
+    let next = (): IteratorResult<T> => {
+      for (; ;) {
+        if (i >= array.length) {
+          over = true;
+          iterate = PushIterator$dontIterate;
+          next = PushIterator$noNext;
+          return { done: true } as IteratorReturnResult<T>;
+        }
 
-              if (test(value)) {
-                return { value };
-              }
-            }
-          },
-        };
+        const value = array[i++];
+
+        if (test(value)) {
+          return { value };
+        }
+      }
+    };
+
+    return {
+      [Symbol.iterator]: PushIterator$iterator,
+      [PushIterator__symbol](accept) {
+        iterate(accept);
+        return this;
+      },
+      next: () => next(),
+      isOver: () => over,
+    };
   };
 }

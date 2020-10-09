@@ -6,6 +6,7 @@ import { iteratorOf, makePushIterable } from '../base';
 import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { overArray } from './over-array';
+import { overNone } from './over-none';
 
 /**
  * Creates a {@link PushIterable push iterable} over elements of the given raw iterable.
@@ -30,6 +31,6 @@ function iterateOverRawIterable<T>(iterable: Iterable<T>): PushIterable.Iterate<
     const it = iteratorOf(iterable);
     const forNext = rawIteratorPusher(it);
 
-    return accept ? forNext(accept) : toPushIterator(it, forNext);
+    return accept && !forNext(accept) ? overNone() : toPushIterator(it, forNext);
   };
 }

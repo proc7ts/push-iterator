@@ -20,7 +20,10 @@ describe('itsIterated', () => {
 
       itsIterated([1, 2, 3], el => {
         result.push(el);
-        return el < 2;
+        if (el > 1) {
+          return false;
+        }
+        return;
       });
 
       expect(result).toEqual([1, 2]);
@@ -44,7 +47,10 @@ describe('itsIterated', () => {
 
       itsIterated(overMany(1, 2, 3), el => {
         result.push(el);
-        return el < 2;
+        if (el > 1) {
+          return false;
+        }
+        return;
       });
 
       expect(result).toEqual([1, 2]);
@@ -77,7 +83,10 @@ describe('itsIterated', () => {
 
       itsIterated(iterable, el => {
         result.push(el);
-        return el < 2;
+        if (el > 1) {
+          return false;
+        }
+        return;
       });
 
       expect(result).toEqual([1, 2]);
