@@ -2,6 +2,7 @@ export * from './its-each';
 export * from './its-elements';
 export * from './its-empty';
 export * from './its-every';
+export * from './its-find';
 export * from './its-first';
 export * from './its-head';
 export * from './its-iterated';

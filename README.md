@@ -113,6 +113,7 @@ Each of the following functions accepts either [Iterable] or push iterable:
 - `itsEmpty(iterable): boolean` - Checks whether the given `iterable` is empty.
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
+- `itsFind(iterable, search): R | undefined` - Searches for the value in `iterable`.   
 - `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
 - `itsHead(iterable, accept): PushIterator` - Iterates over the head elements of the given iterable and returns its tail
   iterator.
