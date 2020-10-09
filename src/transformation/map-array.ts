@@ -46,10 +46,10 @@ function iterateOverMappedArray<T, R>(
 
         const status = accept(convert(array[i++]));
 
-        if (i >= array.length || status === false) {
+        if (i >= array.length) {
           return false;
         }
-        if (status === true) {
+        if (typeof status === 'boolean') {
           return true;
         }
       }

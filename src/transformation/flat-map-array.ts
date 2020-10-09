@@ -78,7 +78,7 @@ function iterateOverFlattenedArray<T, R>(
           subs = subsTail;
         }
 
-        if (status === true || status === false) {
+        if (typeof status === 'boolean') {
           return status;
         }
       }

@@ -56,7 +56,7 @@ export function rawIteratorPusher<T>(it: Iterator<T>): PushIterator.Pusher<T> {
 
       const status = accept(res.value);
 
-      if (status === true || status === false) {
+      if (typeof status === 'boolean') {
         return status;
       }
     }

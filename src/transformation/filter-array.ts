@@ -72,7 +72,7 @@ function iterateOverFilteredArray<T>(
 
           const status = accept(value);
 
-          if (status === true || status === false) {
+          if (typeof status === 'boolean') {
             return status;
           }
         }

@@ -37,10 +37,10 @@ function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate
 
         const status = accept(array[i--]);
 
-        if (i < 0 || status === false) {
+        if (i < 0) {
           return false;
         }
-        if (status === true) {
+        if (typeof status === 'boolean') {
           return true;
         }
       }

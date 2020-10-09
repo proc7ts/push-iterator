@@ -92,7 +92,7 @@ function flatMapPusher<T, R>(
         subs = subsTail;
       }
 
-      if (status === true || status === false) {
+      if (typeof status === 'boolean') {
         return status;
       }
     }
@@ -133,7 +133,7 @@ function flatMapRawPusher<T, R>(
       const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
 
       subs = subsTail.isOver() ? undefined : subsTail;
-      if (status === true || status === false) {
+      if (typeof status === 'boolean') {
         return status;
       }
     }

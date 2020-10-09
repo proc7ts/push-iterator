@@ -73,7 +73,7 @@ function mapRawPusher<R, T>(
 
       const status = accept(convert(next.value));
 
-      if (status === true || status === false) {
+      if (typeof status === 'boolean') {
         return status;
       }
     }

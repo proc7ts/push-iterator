@@ -51,7 +51,7 @@ function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterabl
           src = srcTail;
         }
 
-        if (status === true || status === false) {
+        if (typeof status === 'boolean') {
           return status;
         }
       }

@@ -41,7 +41,7 @@ export function itsIterated<T>(iterable: Iterable<T>, accept: PushIterator.Accep
 
     const status = accept(next.value);
 
-    if (status === true || status === false) {
+    if (typeof status === 'boolean') {
       return status;
     }
   }
