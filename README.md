@@ -93,69 +93,109 @@ See the full [API Documentation].
 
 Each of the following functions returns a push iterable instance:
 
-- `overArray(array)` - Creates a push iterable over elements of array-like structure.
-- `overElementsOf(...iterables)` - Creates a push iterable over elements of other iterables.
-- `overEntries(object)` - Creates a push iterable over the property key/value entries of the given object.
-- `overKeys(object)` - Creates a push iterable over keys of the given object.
-- `overMany(...values)` - Creates a push iterable over many values.
-- `overNone()` - Returns a push iterable iterator without elements.
-- `reverseArray(array)` - Creates a push iterable over elements of array-like structure in reverse order.
+- [`overArray(array)`][overArray] - Creates a push iterable over elements of array-like structure.
+- [`overElementsOf(...iterables)`][overElementsOf] - Creates a push iterable over elements of other iterables.
+- [`overEntries(object)`][overEntries] - Creates a push iterable over the property key/value entries of the given
+  object.
+- [`overKeys(object)`][overKeys] - Creates a push iterable over keys of the given object.
+- [`overMany(...values)`[overMany] - Creates a push iterable over many values.
+- [`overNone()`][overNone] - Returns a push iterable iterator without elements.
+- [`reverseArray(array)`][reverseArray] - Creates a push iterable over elements of array-like structure in reverse
+  order.
+
+[overArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overArray
+[overElementsOf]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overElementsOf
+[overEntries]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overEntries
+[overKeys]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overKeys
+[overMany]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overMany
+[overNone]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overNone
+[reverseArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#reverseArray
 
 
 ### Iterable Consumption
 
 Each of the following functions accepts either [Iterable] or push iterable:
 
-- `itsEach(iterable, action)` - Performs the given `action` for each element of the given `iterable`.
-- `itsElements(iterable[, convert])` - Creates a new, shallow-copied array instance containing elements of the source
-   iterable optionally converted by the given converter function. This is an `Array.from()` function analog optimized
-   for push iterables.
-- `itsEmpty(iterable): boolean` - Checks whether the given `iterable` is empty.
-- `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
+- [`itsEach(iterable, action)`][itsEach] - Performs the given `action` for each element of the given `iterable`.
+- [`itsElements(iterable[, convert])`][itsElements] - Creates a new, shallow-copied array instance containing elements
+   of the source iterable optionally converted by the given converter function. This is an `Array.from()` function
+   analog optimized for push iterables.
+- [`itsEmpty(iterable): boolean`][itsEmpty] - Checks whether the given `iterable` is empty.
+- [`itsEvery(iterable, test): boolean`] - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
-- `itsFind(iterable, search): R | undefined` - Searches for the value in `iterable`.   
-- `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
-- `itsHead(iterable, accept): PushIterator` - Iterates over the head elements of the given iterable and returns its tail
-  iterator.
-- `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
-- `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
-- `itsMatch(iterable, test): T | undefined` - Extracts the first element matching the given condition from `iterable`.
-- `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
-   of the given `iterable` to reduce elements to a single value.
-- `itsSome(iterable, test): boolean` - Tests whether at least one element of the given `iterable` passes the test
-   implemented by the provided function.
+- [`itsFind(iterable, search): R | undefined`][itsFind] - Searches for the value in `iterable`.   
+- [`itsFirst(iterable): T | undefined`][itsFirst] - Extracts the first element of the given `iterable`, if any.
+- [`itsHead(iterable, accept): PushIterator`][itsHead] - Iterates over the head elements of the given iterable and
+  returns its tail iterator.
+- [`itsIterated(iterable, accept): boolean`][itsIterated] - Iterates over elements of the given `iterable`.
+- [`itsIterator(iterable)`][itsIterator] - Starts iteration over the given `iterable`. Always returns a push iterator.
+- [`itsMatch(iterable, test): T | undefined`][itsMatch] - Extracts the first element matching the given condition from
+  `iterable`.
+- [`itsReduction(iterable, reducer, initialValue): T`][itsReduction] - Applies a function against an accumulator and
+   each element of the given `iterable` to reduce elements to a single value.
+- [`itsSome(iterable, test): boolean`][itsSome] - Tests whether at least one element of the given `iterable` passes the
+  test implemented by the provided function.
+
+[itsEach]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsEach
+[itsElements]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsElements
+[itsEmpty]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsEmpty
+[itsEvery]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsEvery
+[itsFind]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsFind
+[itsFirst]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsFirst
+[itsHead]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsHead
+[itsIterated]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsIterated
+[itsIterator]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsIterator
+[itsMatch]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsMatch
+[itsReduction]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsReduction
+[itsSome]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsSome
 
 
 ### Iterable Transformation
 
 Each of the following functions accepts either [Iterable] or push iterable, and returns a push iterable:
 
-- `filterIt(source, test)` - Creates a push iterable with all `source` iterable elements that pass the test
+- [`filterIt(source, test)`][filterIt] - Creates a push iterable with all `source` iterable elements that pass the test
   implemented by provided function.
-- `flatMapIt(source, convert?)` - First maps each element of the `source` iterable using a mapping function,
-  then flattens the result into new push iterable.
-- `mapIt(source, convert)` - Creates a push iterable with the results of calling a provided function on every element
-  of the `source` iterable.
+- [`flatMapIt(source, convert?)`][flatMapIt] - First maps each element of the `source` iterable using a mapping
+  function, then flattens the result into new push iterable.
+- [`mapIt(source, convert)`][mapIt] - Creates a push iterable with the results of calling a provided function on every
+  element of the `source` iterable.
+
+[filterIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIt
+[flatMapIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIt
+[mapIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIt
   
 
 ### Array Transformation
 
 Each of the following functions accepts an array-like instance, and returns a push iterable:  
 
-- `filterArray(aray, test)` - Creates a push iterable with all `array` elements that pass the test implemented
-   by provided function.
-- `flatMapArray(array, convert?)` - First maps each element of the source `array` using a mapping function,
-   then flattens the result into new push iterable.
-- `mapArray(array, convert)` - Creates a push iterable with the results of calling a provided function on every element
-   of the given `array`.
+- [`filterArray(aray, test)`][filterArray] - Creates a push iterable with all `array` elements that pass the test
+   implemented by provided function.
+- [`flatMapArray(array, convert?)`][flatMapArray] - First maps each element of the source `array` using a mapping
+  function, then flattens the result into new push iterable.
+- [`mapArray(array, convert)`][mapArray] - Creates a push iterable with the results of calling a provided function on
+  every element of the given `array`.
+
+[filterArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterArray
+[flatMapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapArray
+[mapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray
 
 
 ### Utilities
 
-- `isPushIterable(iterable)` - Checks whether the given iterable or iterator conforms to push iteration protocol.
-- `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
-- `makePushIterable(iterate)` - Creates a push iterable implementation.
-- `makePushIterator(forNext)` - Creates a push iterator implementation.
-- `pushHead(iterable, accept): PushIterator` - Iterates over the head elements of the given push iterable and returns
-  its tail iterator.
-- `pushIterated(iterable, accept): boolean` - Iterates over elements of the given push iterable.
+- [`isPushIterable(iterable)`][isPushIterable] - Checks whether the given iterable or iterator conforms to push
+  iteration protocol.
+- [`iteratorOf(iterable)`][iteratorOf] - Constructs iterator over elements of the given `iterable`.
+- [`makePushIterable(iterate)`][makePushIterable] - Creates a push iterable implementation.
+- [`makePushIterator(forNext)`][makePushIterator] - Creates a push iterator implementation.
+- [`pushHead(iterable, accept): PushIterator`][pushHead] - Iterates over the head elements of the given push iterable
+  and returns its tail iterator.
+- [`pushIterated(iterable, accept): boolean`][pushIterated] - Iterates over elements of the given push iterable.
+
+[isPushIterable]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#isPushIterable
+[iteratorOf]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#iteratorOf
+[makePushIterable]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#makePushIterable
+[makePushIterator]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#makePushIterator
+[pushHead]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#pushHead
+[pushIterated]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#pushIterated
