@@ -102,6 +102,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter"><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-kind-icon">Acceptor</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter"><a href="@proc7ts_push-iterator.PushIterator.html#EachAcceptor" class="tsd-kind-icon">Each<wbr>Acceptor</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter"><a href="@proc7ts_push-iterator.PushIterator.html#Iterate" class="tsd-kind-icon">Iterate</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter"><a href="@proc7ts_push-iterator.PushIterator.html#Pusher" class="tsd-kind-icon">Pusher</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter"><a href="@proc7ts_push-iterator.PushIterator.html#StoppingAcceptor" class="tsd-kind-icon">Stopping<wbr>Acceptor</a></li>
 							</ul>
@@ -109,8 +110,9 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited"><a href="@proc7ts_push-iterator.PushIterator.html#_PushIterator__symbol_" class="tsd-kind-icon">[<wbr>Push<wbr>Iterator__symbol]</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-namespace tsd-is-overwrite"><a href="@proc7ts_push-iterator.PushIterator.html#_Symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-namespace"><a href="@proc7ts_push-iterator.PushIterator.html#forNext" class="tsd-kind-icon">for<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-namespace"><a href="@proc7ts_push-iterator.PushIterator.html#isOver" class="tsd-kind-icon">is<wbr>Over</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited"><a href="@proc7ts_push-iterator.PushIterator.html#next" class="tsd-kind-icon">next</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited"><a href="@proc7ts_push-iterator.PushIterator.html#return" class="tsd-kind-icon">return</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited"><a href="@proc7ts_push-iterator.PushIterator.html#throw" class="tsd-kind-icon">throw</a></li>
@@ -127,14 +129,14 @@
 					<div class="tsd-signature tsd-kind-icon">Acceptor&lt;T&gt;<span class="tsd-signature-symbol">:</span> <a href="@proc7ts_push-iterator.PushIterator.html#EachAcceptor" class="tsd-signature-type">EachAcceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><a href="@proc7ts_push-iterator.PushIterator.html#StoppingAcceptor" class="tsd-signature-type">StoppingAcceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L72">proc7ts/push-iterator/src/push-iterator.ts:72</a></li>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L49">proc7ts/push-iterator/src/push-iterator.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A signature of a function accepting <a href="@proc7ts_push-iterator.PushIterator.html#forNext">iterated elements</a>.</p>
+							<p>A signature of a function accepting iterated elements.</p>
 						</div>
-						<p>It is able to prevent further iteration by returning <code>false</code>.</p>
+						<p>It is able to suspend iteration by returning <code>true</code>, or to stop it by returning <code>false</code>.</p>
 					</div>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
@@ -154,12 +156,12 @@
 					<div class="tsd-signature tsd-kind-icon">Each<wbr>Acceptor&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L79">proc7ts/push-iterator/src/push-iterator.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L56">proc7ts/push-iterator/src/push-iterator.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A signature of a function accepting each <a href="@proc7ts_push-iterator.PushIterator.html#forNext">iterated element</a> unconditionally.</p>
+							<p>A signature of a function accepting each iterated element unconditionally.</p>
 						</div>
 					</div>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -206,17 +208,79 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter">
+					<a name="Iterate" class="tsd-anchor"></a>
+					<h3>Iterate</h3>
+					<div class="tsd-signature tsd-kind-icon">Iterate&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, accept<span class="tsd-signature-symbol">?: </span><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterable.ts#L57">proc7ts/push-iterator/src/push-iterable.ts:57</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A signature of function conforming to push iteration protocol.</p>
+						</div>
+						<p>Used as <code>PushIterable[PushIterator__symbol]</code> method implementation when passed to <a href="@proc7ts_push-iterator.html#makePushIterable">makePushIterable</a>
+						function.</p>
+					</div>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>T</h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Iterated elements type.</p>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, accept<span class="tsd-signature-symbol">?: </span><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography">
+										</div>
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>this: <span class="tsd-signature-type">void</span></h5>
+											</li>
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> accept: <a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>A function to push iterated elements to. Accepts iterated element as its only parameter. May return
+														<code>true</code> to suspend iteration, or <code>false</code> to stop it.</p>
+													</div>
+												</div>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+										<p>A push iterator instance to continue iteration with. If <code>accept</code> returned <code>false</code> then further iteration
+										won&#39;t be possible with returned iterator.</p>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter">
 					<a name="Pusher" class="tsd-anchor"></a>
 					<h3>Pusher</h3>
 					<div class="tsd-signature tsd-kind-icon">Pusher&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, accept<span class="tsd-signature-symbol">: </span><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L55">proc7ts/push-iterator/src/push-iterator.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L32">proc7ts/push-iterator/src/push-iterator.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A signature of iterated elements pusher function conforming to <a href="@proc7ts_push-iterator.PushIterator.html#forNext">push iteration protocol</a>.</p>
+							<p>A signature of iterated elements pusher function conforming to push iteration protocol.</p>
 						</div>
 					</div>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -271,14 +335,19 @@
 					<div class="tsd-signature tsd-kind-icon">Stopping<wbr>Acceptor&lt;T&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L91">proc7ts/push-iterator/src/push-iterator.ts:91</a></li>
+							<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L75">proc7ts/push-iterator/src/push-iterator.ts:75</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A signature of a function accepting <a href="@proc7ts_push-iterator.PushIterator.html#forNext">iterated elements</a> and able to prevent further
-							iteration.</p>
+							<p>A signature of a function accepting iterated elements and able to suspend or stop further iteration.</p>
 						</div>
+						<p>When this function returns <code>true</code>, the iteration is suspended. I.e. the no more elements would be pushed to this
+							function, but the iteration method (<code>[PushIterator__symbol]</code>) would return an iterator that can be used to resume
+						iteration.</p>
+						<p>When this function returns <code>false</code>, the iteration is stopped. I.e. the no more elements would be pushed to this
+							function, and the iteration method (<code>[PushIterator__symbol]</code>) would return an empty iterator. I.e. the one with
+						its <a href="@proc7ts_push-iterator.PushIterator.html#isOver">PushIterator.isOver</a> method always returning <code>true</code>.</p>
 					</div>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
 					<ul class="tsd-type-parameters">
@@ -317,7 +386,7 @@
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-										<p><code>false</code> to prevent further iteration. No more element will be pushed to acceptor after that.</p>
+										<p><code>true</code> to suspend iteration, or <code>false</code> to stop it.</p>
 									</li>
 								</ul>
 							</li>
@@ -327,6 +396,46 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited">
+					<a name="_PushIterator__symbol_" class="tsd-anchor"></a>
+					<h3>[<wbr>Push<wbr>Iterator__symbol]</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Push<wbr>Iterator__symbol]<span class="tsd-signature-symbol">(</span>accept<span class="tsd-signature-symbol">?: </span><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="@proc7ts_push-iterator.PushIterator.html">PushIterator</a>.<a href="@proc7ts_push-iterator.PushIterator.html#_PushIterator__symbol_">[PushIterator__symbol]</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterable.ts#L43">proc7ts/push-iterator/src/push-iterable.ts:43</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Iterates over elements of this push iterable.</p>
+								</div>
+								<p>Calls <code>accept</code> method for each iterated element until there are elements to iterate, or <code>accept</code> returned either
+								<code>true</code> or <code>false</code>.</p>
+								<p>Calling this method with <code>accept</code> parameter is a faster alternative to creating a push iterator and iterating with
+								it.</p>
+								<p>Calling this method without arguments is the same as calling <code>[Symbol.iterator]()</code> one.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> accept: <a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function to push iterated elements to. Accepts iterated element as its only parameter. May return
+										<code>true</code> to suspend iteration, or <code>false</code> to stop it.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A push iterator instance to continue iteration with. If <code>accept</code> returned <code>false</code> then further iteration
+							won&#39;t be possible with returned iterator.</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-namespace tsd-is-overwrite">
 					<a name="_Symbol_iterator_" class="tsd-anchor"></a>
 					<h3>[<wbr>Symbol.iterator]</h3>
@@ -338,7 +447,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides IterableIterator.[Symbol.iterator]</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L14">proc7ts/push-iterator/src/push-iterator.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L14">proc7ts/push-iterator/src/push-iterator.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="@proc7ts_push-iterator.PushIterator.html" class="tsd-signature-type">PushIterator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -346,42 +455,25 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-namespace">
-					<a name="forNext" class="tsd-anchor"></a>
-					<h3>for<wbr>Next</h3>
+					<a name="isOver" class="tsd-anchor"></a>
+					<h3>is<wbr>Over</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-namespace">
-						<li class="tsd-signature tsd-kind-icon">for<wbr>Next<span class="tsd-signature-symbol">(</span>this<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span>, accept<span class="tsd-signature-symbol">: </span><a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Over<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/5b6682b/src/push-iterator.ts#L31">proc7ts/push-iterator/src/push-iterator.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/proc7ts/push-iterator/blob/3c453c2/src/push-iterator.ts#L21">proc7ts/push-iterator/src/push-iterator.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Iterates over elements of this iterator.</p>
+									<p>Checks whether iteration is over.</p>
 								</div>
-								<p>Calls <code>accept</code> method for each iterated element until there are elements to iterate, or <code>accept</code> returned <code>false</code>.</p>
-								<p>Resumes iteration on subsequent calls.</p>
-								<p>Note that this method does not require <code>this</code> context and can be called as a function.</p>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>this: <span class="tsd-signature-type">void</span></h5>
-								</li>
-								<li>
-									<h5>accept: <a href="@proc7ts_push-iterator.PushIterator.html#Acceptor" class="tsd-signature-type">Acceptor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A function to push iterated elements to. Accepts iterated element as its only parameter. May return
-										<code>false</code> to stop iteration.</p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p><code>true</code> if there are more elements to iterate, or <code>false</code> otherwise. The former is possible only when
-							iteration stopped, i.e. <code>accept</code> returned <code>false</code>.</p>
+							<p><code>true</code> is there is nothing to iterate any more, or <code>false</code> if iteration is still possible.</p>
 						</li>
 					</ul>
 				</section>
@@ -476,16 +568,22 @@
 						<a href="@proc7ts_push-iterator.PushIterator.html#EachAcceptor" class="tsd-kind-icon">Each<wbr>Acceptor</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter">
+						<a href="@proc7ts_push-iterator.PushIterator.html#Iterate" class="tsd-kind-icon">Iterate</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter">
 						<a href="@proc7ts_push-iterator.PushIterator.html#Pusher" class="tsd-kind-icon">Pusher</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-namespace tsd-has-type-parameter">
 						<a href="@proc7ts_push-iterator.PushIterator.html#StoppingAcceptor" class="tsd-kind-icon">Stopping<wbr>Acceptor</a>
 					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited">
+						<a href="@proc7ts_push-iterator.PushIterator.html#_PushIterator__symbol_" class="tsd-kind-icon">[<wbr>Push<wbr>Iterator__symbol]</a>
+					</li>
 					<li class=" tsd-kind-method tsd-parent-kind-namespace tsd-is-overwrite">
 						<a href="@proc7ts_push-iterator.PushIterator.html#_Symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
 					</li>
 					<li class=" tsd-kind-method tsd-parent-kind-namespace">
-						<a href="@proc7ts_push-iterator.PushIterator.html#forNext" class="tsd-kind-icon">for<wbr>Next</a>
+						<a href="@proc7ts_push-iterator.PushIterator.html#isOver" class="tsd-kind-icon">is<wbr>Over</a>
 					</li>
 					<li class=" tsd-kind-method tsd-parent-kind-namespace tsd-is-inherited">
 						<a href="@proc7ts_push-iterator.PushIterator.html#next" class="tsd-kind-icon">next</a>
@@ -507,12 +605,10 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
 	</div>

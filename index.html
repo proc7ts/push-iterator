@@ -71,10 +71,13 @@
 					<a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
 				<a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
 				<p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
-				<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with <code>forNext(accept: (this: void, element: T) =&gt; void | boolean): boolean</code> method.
-					The latter pushes iterated elements to <code>accept</code> function until there is no more elements, or <code>accept</code> function returns
-					<code>false</code> yo stop iteration. The <code>forNext()</code> method returns <code>true</code> if there are more elements to iterate, or <code>false</code>
-				otherwise. The former is possible only when iteration stopped, i.e. <code>accept</code> returned <code>false</code>.</p>
+				<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with special method <code>[PushIterator__symbol](accept?)</code>, where <code>PushIterator__symbol</code>
+					is a special symbol. This method pushes iterated elements to <code>accept</code> callback, until there is no more elements,
+				or <code>accept</code> function returns <code>true</code> (to suspend iteration) or <code>false</code> (to stop it).</p>
+				<p>The method returns a push iterator instance to continue iteration with. If <code>accept</code> returned <code>false</code> then further
+				iteration won&#39;t be possible with returned iterator.</p>
+				<p>When called without <code>accept</code> parameter it just returns an iterator.</p>
+				<p>Another method it extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> with is <code>isOver()</code>, that checks whether iteration is over.</p>
 				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
 					<h2>Rationale</h2>
 				</a>
@@ -104,6 +107,13 @@
 						<p>The library API represented by functions. When tree-shaken the unused ones removed from bundles.</p>
 					</li>
 				</ol>
+				<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
+					<h2>Instant Iteration</h2>
+				</a>
+				<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
+					this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
+					When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
+				iterator.</p>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
@@ -133,7 +143,13 @@
 					<li><code>itsEmpty(iterable): boolean</code> - Checks whether the given <code>iterable</code> is empty.</li>
 					<li><code>itsEvery(iterable, test): boolean</code> - Tests whether all elements of the given <code>iterable</code> pass the test implemented
 					by the provided function.</li>
+					<li><code>itsFind(iterable, search): R | undefined</code> - Searches for the value in <code>iterable</code>.   </li>
 					<li><code>itsFirst(iterable): T | undefined</code> - Extracts the first element of the given <code>iterable</code>, if any.</li>
+					<li><code>itsHead(iterable, accept): PushIterator</code> - Iterates over the head elements of the given iterable and returns its tail
+					iterator.</li>
+					<li><code>itsIterated(iterable, accept): boolean</code> - Iterates over elements of the given <code>iterable</code>.</li>
+					<li><code>itsIterator(iterable)</code> - Starts iteration over the given <code>iterable</code>. Always returns a push iterator.</li>
+					<li><code>itsMatch(iterable, test): T | undefined</code> - Extracts the first element matching the given condition from <code>iterable</code>.</li>
 					<li><code>itsReduction(iterable, reducer, initialValue): T</code> - Applies a function against an accumulator and each element
 					of the given <code>iterable</code> to reduce elements to a single value.</li>
 					<li><code>itsSome(iterable, test): boolean</code> - Tests whether at least one element of the given <code>iterable</code> passes the test
@@ -167,9 +183,13 @@
 					<h3>Utilities</h3>
 				</a>
 				<ul>
+					<li><code>isPushIterable(iterable)</code> - Checks whether the given iterable or iterator conforms to push iteration protocol.</li>
 					<li><code>iteratorOf(iterable)</code> - Constructs iterator over elements of the given <code>iterable</code>.</li>
-					<li><code>itsIterator(iterable)</code> - Starts iteration over the given <code>iterable</code>. Always returns a push iterator.</li>
-					<li><code>makePushIterator(forNext)</code> - Creates push iterator implementation.</li>
+					<li><code>makePushIterable(iterate)</code> - Creates a push iterable implementation.</li>
+					<li><code>makePushIterator(forNext)</code> - Creates a push iterator implementation.</li>
+					<li><code>pushHead(iterable, accept): PushIterator</code> - Iterates over the head elements of the given push iterable and returns
+					its tail iterator.</li>
+					<li><code>pushIterated(iterable, accept): boolean</code> - Iterates over elements of the given push iterable.</li>
 				</ul>
 			</div>
 		</div>
@@ -200,12 +220,10 @@
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
 				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
 	</div>
