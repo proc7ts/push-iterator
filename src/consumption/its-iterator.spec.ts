@@ -1,6 +1,6 @@
 import { makePushIterator, pushIterated } from '../base';
 import { overMany } from '../construction';
-import { itsIterated } from './index';
+import { itsIterated } from './its-iterated';
 import { itsIterator } from './its-iterator';
 
 describe('itsIterator', () => {

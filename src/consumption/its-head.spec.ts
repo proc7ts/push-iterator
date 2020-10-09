@@ -1,4 +1,4 @@
-import { iteratorOf } from '../base';
+import { iteratorOf } from '../base/iterator-of';
 import { overMany } from '../construction';
 import { itsHead } from './its-head';
 

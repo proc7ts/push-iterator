@@ -1,7 +1,11 @@
-import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from './make-push-iterator';
+import {
+  emptyPushIterator,
+  PushIterator$dontIterate,
+  PushIterator$iterator,
+  PushIterator$noNext,
+} from './make-push-iterator';
 
 /**
  * @internal
@@ -28,7 +32,7 @@ export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T
     };
 
     if (accept && !forNext(accept)) {
-      return overNone();
+      return emptyPushIterator;
     }
 
     let over = false;

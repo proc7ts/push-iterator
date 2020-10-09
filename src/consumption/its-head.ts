@@ -4,8 +4,8 @@
  */
 import { isPushIterable, iteratorOf, pushHead } from '../base';
 import { iterateOverArray } from '../base/array-iterator.impl';
+import { emptyPushIterator } from '../base/make-push-iterator';
 import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
-import { overNone } from '../construction';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -37,7 +37,7 @@ export function itsHead<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<
  * @internal
  */
 function arrayHead<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
-  return array.length ? iterateOverArray(array)(accept) : overNone();
+  return array.length ? iterateOverArray(array)(accept) : emptyPushIterator;
 }
 
 /**
@@ -56,6 +56,6 @@ function rawIterableHead<T>(
 
   const forEach = rawIteratorPusher(it);
 
-  return forEach(accept) ? toPushIterator(it, forEach) : overNone();
+  return forEach(accept) ? toPushIterator(it, forEach) : emptyPushIterator;
 }
 
