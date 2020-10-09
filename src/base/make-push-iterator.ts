@@ -94,10 +94,3 @@ export const emptyPushIterator: PushIterator<any> & PushIterable<any> = {
   next: () => ({ done: true } as IteratorReturnResult<unknown>),
   isOver: () => true,
 };
-
-/**
- * @internal
- */
-export function iterationHalt(status: any): status is boolean {
-  return typeof status === 'boolean';
-}
