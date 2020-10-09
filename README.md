@@ -118,6 +118,7 @@ Each of the following functions accepts either [Iterable] or push iterable:
   iterator.
 - `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
 - `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
+- `itsMatch(iterable, test): T | undefined` - Extracts the first element matching the given condition from `iterable`.
 - `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
    of the given `iterable` to reduce elements to a single value.
 - `itsSome(iterable, test): boolean` - Tests whether at least one element of the given `iterable` passes the test

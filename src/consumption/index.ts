@@ -6,5 +6,6 @@ export * from './its-first';
 export * from './its-head';
 export * from './its-iterated';
 export * from './its-iterator';
+export * from './its-match';
 export * from './its-reduction';
 export * from './its-some';
