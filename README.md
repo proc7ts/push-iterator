@@ -114,6 +114,8 @@ Each of the following functions accepts either [Iterable] or push iterable:
 - `itsEvery(iterable, test): boolean` - Tests whether all elements of the given `iterable` pass the test implemented
    by the provided function.
 - `itsFirst(iterable): T | undefined` - Extracts the first element of the given `iterable`, if any.
+- `itsHead(iterable, accept): PushIterator` - Iterates over the head elements of the given iterable and returns its tail
+  iterator.
 - `itsIterated(iterable, accept): boolean` - Iterates over elements of the given `iterable`.
 - `itsIterator(iterable)` - Starts iteration over the given `iterable`. Always returns a push iterator.
 - `itsReduction(iterable, reducer, initialValue): T` - Applies a function against an accumulator and each element
@@ -152,4 +154,6 @@ Each of the following functions accepts an array-like instance, and returns a pu
 - `iteratorOf(iterable)` - Constructs iterator over elements of the given `iterable`.
 - `makePushIterable(iterate)` - Creates a push iterable implementation.
 - `makePushIterator(forNext)` - Creates a push iterator implementation.
+- `pushHead(iterable, accept): PushIterator` - Iterates over the head elements of the given push iterable and returns
+  its tail iterator.
 - `pushIterated(iterable, accept): boolean` - Iterates over elements of the given push iterable.

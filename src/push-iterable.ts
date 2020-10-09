@@ -26,8 +26,8 @@ export interface PushIterable<T> extends Iterable<T> {
   /**
    * Iterates over elements of this push iterable.
    *
-   * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned `true`
-   * or `false`.
+   * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned either
+   * `true` or `false`.
    *
    * Calling this method with `accept` parameter is a faster alternative to creating a push iterator and iterating with
    * it.

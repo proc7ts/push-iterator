@@ -12,7 +12,7 @@ import type { PushIterator } from '../push-iterator';
  *
  * In contrast to {@link pushIterated} function, this one accepts any iterable instance.
  *
- * @param iterable  A push iterable to iterate elements of.
+ * @param iterable  An iterable to iterate elements of.
  * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
  * `false` to stop iteration.
  *
