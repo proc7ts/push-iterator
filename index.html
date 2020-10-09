@@ -69,7 +69,7 @@
 					<a href="https://github.com/proc7ts/push-iterator/actions?query=workflow%3ABuild"><img src="https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg" alt="Build Status"></a>
 					<a href="https://codecov.io/gh/proc7ts/push-iterator"><img src="https://codecov.io/gh/proc7ts/push-iterator/branch/master/graph/badge.svg" alt="codecov"></a>
 					<a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
-				<a href="https://proc7ts.github.io/push-iterator/">![API Documentation][api-docs-img]</a></p>
+				<a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
 				<p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
 				<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with special method <code>[PushIterator__symbol](accept?)</code>, where <code>PushIterator__symbol</code>
 					is a special symbol. This method pushes iterated elements to <code>accept</code> callback, until there is no more elements,
@@ -128,7 +128,7 @@
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overEntries"><code>overEntries(object)</code></a> - Creates a push iterable over the property key/value entries of the given
 					object.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overKeys"><code>overKeys(object)</code></a> - Creates a push iterable over keys of the given object.</li>
-					<li>[<code>overMany(...values)</code><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overMany">overMany</a> - Creates a push iterable over many values.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overMany"><code>overMany(...values)</code></a> - Creates a push iterable over many values.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overNone"><code>overNone()</code></a> - Returns a push iterable iterator without elements.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#reverseArray"><code>reverseArray(array)</code></a> - Creates a push iterable over elements of array-like structure in reverse
 					order.</li>
@@ -143,9 +143,9 @@
 						of the source iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function
 					analog optimized for push iterables.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsEmpty"><code>itsEmpty(iterable): boolean</code></a> - Checks whether the given <code>iterable</code> is empty.</li>
-					<li>[<code>itsEvery(iterable, test): boolean</code>] - Tests whether all elements of the given <code>iterable</code> pass the test implemented
-					by the provided function.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsFind"><code>itsFind(iterable, search): R | undefined</code></a> - Searches for the value in <code>iterable</code>.   </li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsEvery"><code>itsEvery(iterable, test): boolean</code></a> - Tests whether all elements of the given <code>iterable</code> pass the test
+					implemented by the provided function.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsFind"><code>itsFind(iterable, search): R | undefined</code></a> - Searches for the value in <code>iterable</code>.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsFirst"><code>itsFirst(iterable): T | undefined</code></a> - Extracts the first element of the given <code>iterable</code>, if any.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#itsHead"><code>itsHead(iterable, accept): PushIterator</code></a> - Iterates over the head elements of the given iterable and
 					returns its tail iterator.</li>
