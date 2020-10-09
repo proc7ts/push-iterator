@@ -5,7 +5,7 @@ Push Iteration Protocol
 [![Build Status][build-status-img]][build-status-link]
 [![codecov][codecov-image]][codecov-url]
 [![GitHub Project][github-image]][github-url]
-[![API Documentation][]][api-docs-url]
+[![API Documentation][api-docs-img]][API documentation]
 
 Push iteration protocol is a faster alternative to traditional JavaScript [iteration protocol].
 
@@ -32,7 +32,7 @@ Another method it extends [Iterator] with is `isOver()`, that checks whether ite
 [github-image]: https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational
 [github-url]: https://github.com/proc7ts/push-iterator
 [api-docs-image]: https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational
-[API Documentation]: https://proc7ts.github.io/push-iterator/
+[API documentation]: https://proc7ts.github.io/push-iterator/
 [IoC]: https://en.wikipedia.org/wiki/Inversion_of_control
 
 
@@ -86,7 +86,7 @@ iterator.
 API
 ---
 
-See the full [API Documentation].
+See the full [API documentation].
 
 
 ### Push Iterable Construction
