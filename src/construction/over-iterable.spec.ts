@@ -1,6 +1,7 @@
 import { iteratorOf, pushIterated } from '../base';
 import { PushIterator__symbol } from '../push-iterable';
 import { overIterable } from './over-iterable';
+import { overMany } from './over-many';
 
 describe('overIterable', () => {
   it('iterates over array', () => {
@@ -15,6 +16,13 @@ describe('overIterable', () => {
     }
 
     expect([...overIterable(iterate())]).toEqual([3, 2, 1]);
+  });
+  it('iterates over raw iterable with push iterator', () => {
+
+    const source = overMany(3, 2, 1);
+    const iterable = { [Symbol.iterator]: () => iteratorOf(source) };
+
+    expect([...overIterable(iterable)]).toEqual([3, 2, 1]);
   });
   it('pushes raw iterable elements', () => {
 

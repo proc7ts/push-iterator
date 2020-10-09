@@ -97,18 +97,25 @@ Each of the following functions returns a push iterable instance:
 - [`overElementsOf(...iterables)`][overElementsOf] - Creates a push iterable over elements of other iterables.
 - [`overEntries(object)`][overEntries] - Creates a push iterable over the property key/value entries of the given
   object.
+- [`overIterable(iterable)`][overIterable] - Creates a push iterable over elements of the given raw iterable.  
+- [`overIterator(() => Iterator)`][overIterator] - Creates a push iterable over elements of iterator created by the
+  given function. 
 - [`overKeys(object)`][overKeys] - Creates a push iterable over keys of the given object.
 - [`overMany(...values)`][overMany] - Creates a push iterable over many values.
 - [`overNone()`][overNone] - Returns a push iterable iterator without elements.
+- [`overOne(value)`][overOne] - Creates a push iterable over one value.
 - [`reverseArray(array)`][reverseArray] - Creates a push iterable over elements of array-like structure in reverse
   order.
 
 [overArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overArray
 [overElementsOf]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overElementsOf
 [overEntries]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overEntries
+[overIterable]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterable
+[overIterator]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterator
 [overKeys]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overKeys
 [overMany]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overMany
 [overNone]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overNone
+[overOne]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overOne
 [reverseArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#reverseArray
 
 
