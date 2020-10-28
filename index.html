@@ -127,6 +127,7 @@
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overElementsOf"><code>overElementsOf(...iterables)</code></a> - Creates a push iterable over elements of other iterables.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overEntries"><code>overEntries(object)</code></a> - Creates a push iterable over the property key/value entries of the given
 					object.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIndexed"><code>overIndexed(indexed)</code></a> - Creates a push iterable over items of <a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#IndexedItemList">indexed list</a>. </li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterable"><code>overIterable(iterable)</code></a> - Creates a push iterable over elements of the given raw iterable.  </li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterator"><code>overIterator(() =&gt; Iterator)</code></a> - Creates a push iterable over elements of iterator created by the
 					given function. </li>
@@ -179,12 +180,29 @@
 				</a>
 				<p>Each of the following functions accepts an array-like instance, and returns a push iterable:  </p>
 				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterArray"><code>filterArray(aray, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterArray"><code>filterArray(array, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
 					implemented by provided function.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapArray"><code>flatMapArray(array, convert?)</code></a> - First maps each element of the source <code>array</code> using a mapping
 					function, then flattens the result into new push iterable.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray"><code>mapArray(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function on
 					every element of the given <code>array</code>.</li>
+				</ul>
+				<a href="#indexed-list-transformation" id="indexed-list-transformation" style="color: inherit; text-decoration: none;">
+					<h3>Indexed List Transformation</h3>
+				</a>
+				<p>An <a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#IndexedItemList">indexed list</a> of items is an object with two properties:</p>
+				<ul>
+					<li><code>length</code> contains the length of the list,</li>
+					<li><code>item(index: number): T | null | undefined</code> returns the item value under the given index.   </li>
+				</ul>
+				<p>Each of the following functions accepts an indexed list of items, and returns a push iterable:</p>
+				<ul>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIndexed"><code>filterIndexed(indexed, test)</code></a> - Creates a push iterable with all items of the given indexed list
+					that pass the test implemented by the provided function.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIndexed"><code>flatMapIndexed(indexed, convert?)</code></a> - First maps each item of the source indexed list using
+					a mapping function, then flattens the result into new push iterable.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed"><code>mapIndexed(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function
+					on every item of the given indexed list.</li>
 				</ul>
 				<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
 					<h3>Utilities</h3>
@@ -232,6 +250,9 @@
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
 			</ul>
 		</div>
 	</div>
