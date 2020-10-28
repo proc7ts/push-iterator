@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { iterateOverIndexed } from '../base/iterate-over-indexed.impl';
+import { indexedItemOf, iterateOverIndexed } from '../base/iterate-over-indexed.impl';
 import type { PushIterable } from '../push-iterable';
 
 /**
@@ -31,16 +31,9 @@ export interface IndexedItemList<T> {
 }
 
 /**
- * @internal
- */
-export function indexedItemOf<T>(indexed: IndexedItemList<T>, index: number): T {
-  return indexed.item(index) as T; // The index is always valid.
-}
-
-/**
  * Creates a {@link PushIterable push iterable} over items of {@link IndexedItemList indexed list}.
  *
- * @typeParam T  Array elements type.
+ * @typeParam T  Indexed items type.
  * @param indexed  An indexed list of items. E.g. DOM `NodeList`.
  *
  * @returns New push iterable over list items.

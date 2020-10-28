@@ -1,58 +1,41 @@
-import type { IndexedItemList } from '../construction';
+import type { IndexedElements } from '../base/iterate-over-indexed.impl';
+import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from '../base/make-push-iterator';
+import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import {
-  emptyPushIterator,
-  PushIterator$dontIterate,
-  PushIterator$iterator,
-  PushIterator$noNext,
-} from './make-push-iterator';
 
 /**
  * @internal
  */
-export interface IndexedElements {
-
-  readonly length: number;
-
-}
-
-/**
- * @internal
- */
-export function indexedItemOf<T>(indexed: IndexedItemList<T>, index: number): T {
-  return indexed.item(index) as T; // The index is always valid.
-}
-
-/**
- * @internal
- */
-export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
+export function iterateOverFilteredIndexed<TIndexed extends IndexedElements, T>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,
+    test: (this: void, element: T) => boolean,
 ): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      if (i >= indexed.length) {
-        return false;
-      }
       for (; ;) {
-
-        const goOn = accept(elementOf(indexed, i++));
-
-        if (i >= indexed.length || goOn === false) {
+        if (i >= indexed.length) {
           return false;
         }
-        if (goOn === true) {
-          return true;
+
+        const value = elementOf(indexed, i++);
+
+        if (test(value)) {
+
+          const status = accept(value);
+
+          if (typeof status === 'boolean') {
+            return status;
+          }
         }
       }
     };
 
     if (accept && !forNext(accept)) {
-      return emptyPushIterator;
+      return overNone();
     }
 
     let over = false;
@@ -65,15 +48,20 @@ export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
       }
     };
     let next = (): IteratorResult<T> => {
-      if (i < indexed.length) {
-        return { value: elementOf(indexed, i++) };
+      for (; ;) {
+        if (i >= indexed.length) {
+          over = true;
+          iterate = PushIterator$dontIterate;
+          next = PushIterator$noNext;
+          return { done: true } as IteratorReturnResult<T>;
+        }
+
+        const value = elementOf(indexed, i++);
+
+        if (test(value)) {
+          return { value };
+        }
       }
-
-      over = true;
-      iterate = PushIterator$dontIterate;
-      next = PushIterator$noNext;
-
-      return { done: true } as IteratorReturnResult<T>;
     };
 
     return {
@@ -85,6 +73,5 @@ export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
       next: () => next(),
       isOver: () => over,
     };
-
   };
 }
