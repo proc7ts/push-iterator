@@ -21,7 +21,7 @@ import { flatMapIt$defaultConverter } from './transformation.impl';
 export function flatMapIndexed<T>(indexed: IndexedItemList<Iterable<T>>): PushIterable<T>;
 
 /**
- * First maps each element of the source `array` using a mapping function, then flattens the result into new
+ * First maps each item of the source indexed list using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
  * @typeParam TSrc  A type of indexed items.
