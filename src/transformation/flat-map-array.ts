@@ -5,7 +5,6 @@
 import { makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.impl';
-import { flatMapIt$defaultConverter } from './transformation.impl';
 
 /**
  * Flattens the source `array` of iterables into new {@link PushIterable push iterable}.
@@ -37,11 +36,23 @@ export function flatMapArray<TSrc, TConv>(
 
 export function flatMapArray<TSrc, TConv>(
     array: ArrayLike<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
+    convert?: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv> {
-  return makePushIterable(iterateOverFlattenedIndexed(
+  return makePushIterable(iterateOverFlattenedIndexed<ArrayLike<TSrc>, TConv>(
       array,
-      (array, index) => convert(array[index]),
+      convert
+          ? (array, index) => convert(array[index])
+          : flatMapArray$defaultElementOf,
   ));
+}
+
+/**
+ * @internal
+ */
+function flatMapArray$defaultElementOf<TSrc, TConv>(
+    array: ArrayLike<TSrc>,
+    index: number,
+): Iterable<TConv> {
+  return array[index] as unknown as Iterable<TConv>;
 }
 

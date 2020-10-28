@@ -7,7 +7,6 @@ import { overNone } from '../construction';
 import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { flatMapIt$defaultConverter } from './transformation.impl';
 
 /**
  * Flattens the source iterable of iterables into new {@link PushIterable push iterable}.
@@ -139,3 +138,13 @@ function flatMapRawPusher<TSrc, TConv>(
     }
   };
 }
+
+/**
+ * @internal
+ */
+function flatMapIt$defaultConverter<T, TConv>(
+    element: T,
+): Iterable<TConv> {
+  return element as unknown as Iterable<TConv>;
+}
+
