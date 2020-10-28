@@ -8,7 +8,7 @@ import { itsIterated } from './its-iterated';
  * Searches for the value in `iterable`.
  *
  * @typeParam T  Iterated elements type.
- * @typeParam R  Value type.
+ * @typeParam TFound  Found value type.
  * @param iterable  An iterable to extract element from.
  * @param search  A function extracting the value from elements. It is called for each iterated element until the value
  * found. Accepts element as the only parameter, and returns extracted value. If returns `false` or `undefined` the
@@ -16,12 +16,12 @@ import { itsIterated } from './its-iterated';
  *
  * @return Either found value or `undefined`.
  */
-export function itsFind<T, R>(
+export function itsFind<T, TFound>(
     iterable: Iterable<T>,
-    search: (this: void, element: T) => R | false | undefined,
-): R | undefined {
+    search: (this: void, element: T) => TFound | false | undefined,
+): TFound | undefined {
 
-  let find: R | undefined;
+  let find: TFound | undefined;
 
   itsIterated(
       iterable,

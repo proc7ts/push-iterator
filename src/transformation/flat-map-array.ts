@@ -25,38 +25,38 @@ export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
  * First maps each element of the source `array` using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
- * @typeParam T  A type of array elements.
- * @typeParam R  A type of converted elements.
+ * @typeParam TSrc  A type of array elements.
+ * @typeParam TConv  A type of converted elements.
  * @param array  A source array-like instance of iterables.
  * @param convert  A function that produces new iterable, taking array element as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
-export function flatMapArray<T, R>(
-    array: ArrayLike<T>,
-    convert: (this: void, element: T) => Iterable<R>,
-): PushIterable<R>;
+export function flatMapArray<TSrc, TConv>(
+    array: ArrayLike<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv>,
+): PushIterable<TConv>;
 
-export function flatMapArray<T, R>(
-    array: ArrayLike<T>,
-    convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
-): PushIterable<R> {
+export function flatMapArray<TSrc, TConv>(
+    array: ArrayLike<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
+): PushIterable<TConv> {
   return makePushIterable(iterateOverFlattenedArray(array, convert));
 }
 
 /**
  * @internal
  */
-function iterateOverFlattenedArray<T, R>(
-    array: ArrayLike<T>,
-    convert: (this: void, element: T) => Iterable<R>,
-): PushIterable.Iterate<R> {
+function iterateOverFlattenedArray<TSrc, TConv>(
+    array: ArrayLike<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv>,
+): PushIterable.Iterate<TConv> {
   return accept => {
 
     let i = 0;
-    let subs: Iterable<R> | undefined;
+    let subs: Iterable<TConv> | undefined;
 
-    const forNext = (accept: PushIterator.Acceptor<R>): boolean => {
+    const forNext = (accept: PushIterator.Acceptor<TConv>): boolean => {
       if (i >= array.length) {
         return false;
       }
@@ -67,7 +67,7 @@ function iterateOverFlattenedArray<T, R>(
       for (; ;) {
 
         let status: boolean | void;
-        const subsTail: PushIterator<R> = itsHead<R>(subs, element => status = accept(element));
+        const subsTail: PushIterator<TConv> = itsHead<TConv>(subs, element => status = accept(element));
 
         if (subsTail.isOver()) {
           if (++i >= array.length) {

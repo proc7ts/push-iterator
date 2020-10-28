@@ -25,22 +25,22 @@ export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
  * First maps each element of the `source` iterable using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
- * @typeParam T  A type of source elements.
- * @typeParam R  A type of converted elements.
+ * @typeParam TSrc  A type of source elements.
+ * @typeParam TConv  A type of converted elements.
  * @param source  A source iterable of iterables.
  * @param convert  A function that produces new iterable, taking the source element as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
-export function flatMapIt<T, R>(
-    source: Iterable<T>,
-    convert: (this: void, element: T) => Iterable<R>,
-): PushIterable<R>;
+export function flatMapIt<TSrc, TConv>(
+    source: Iterable<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv>,
+): PushIterable<TConv>;
 
-export function flatMapIt<T, R>(
-    source: Iterable<T>,
-    convert: (this: void, element: T) => Iterable<R> = flatMapIt$defaultConverter,
-): PushIterable<R> {
+export function flatMapIt<TSrc, TConv>(
+    source: Iterable<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
+): PushIterable<TConv> {
   return makePushIterable(accept => {
 
     const forNext = isPushIterable(source) ? flatMapPusher(source, convert) : flatMapRawPusher(source, convert);
@@ -52,12 +52,12 @@ export function flatMapIt<T, R>(
 /**
  * @internal
  */
-function flatMapPusher<T, R>(
-    source: PushIterable<T>,
-    convert: (this: void, element: T) => Iterable<R>,
-): PushIterator.Pusher<R> {
+function flatMapPusher<TSrc, TConv>(
+    source: PushIterable<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv>,
+): PushIterator.Pusher<TConv> {
 
-  let subs: Iterable<R> | undefined;
+  let subs: Iterable<TConv> | undefined;
   let lastSrc = false;
 
   return accept => {
@@ -81,7 +81,7 @@ function flatMapPusher<T, R>(
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let status: boolean | void;
-      const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
+      const subsTail: PushIterator<TConv> = itsHead(subs, element => status = accept(element));
 
       if (subsTail.isOver()) {
         subs = undefined;
@@ -102,10 +102,10 @@ function flatMapPusher<T, R>(
 /**
  * @internal
  */
-function flatMapRawPusher<T, R>(
-    source: Iterable<T>,
-    convert: (this: void, element: T) => Iterable<R>,
-): PushIterator.Pusher<R> {
+function flatMapRawPusher<TSrc, TConv>(
+    source: Iterable<TSrc>,
+    convert: (this: void, element: TSrc) => Iterable<TConv>,
+): PushIterator.Pusher<TConv> {
 
   const it = iteratorOf(source);
 
@@ -113,7 +113,7 @@ function flatMapRawPusher<T, R>(
     return flatMapPusher(it, convert);
   }
 
-  let subs: Iterable<R> | undefined;
+  let subs: Iterable<TConv> | undefined;
 
   return accept => {
     for (; ;) {
@@ -130,7 +130,7 @@ function flatMapRawPusher<T, R>(
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let status: boolean | void;
-      const subsTail: PushIterator<R> = itsHead(subs, element => status = accept(element));
+      const subsTail: PushIterator<TConv> = itsHead(subs, element => status = accept(element));
 
       subs = subsTail.isOver() ? undefined : subsTail;
       if (typeof status === 'boolean') {

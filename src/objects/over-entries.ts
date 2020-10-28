@@ -12,13 +12,13 @@ import { overKeys } from './over-keys';
  *
  * A list of keys is constructed using `Reflect.ownKeys()`.
  *
- * @typeParam T  Object type.
+ * @typeParam TObj  Object type.
  *
  * @param source  An object to select keys and values from.
  *
  * @returns New push iterable of object property entries.
  */
-export function overEntries<T extends object>(source: T): PushIterable<ObjectEntry<T>> {
+export function overEntries<TObj extends object>(source: TObj): PushIterable<ObjectEntry<TObj>> {
   return mapIt(
       overKeys(source),
       key => [key, source[key]],
