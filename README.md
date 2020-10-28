@@ -207,7 +207,7 @@ Each of the following functions accepts an indexed list of items, and returns a 
 - [`mapIndexed(array, convert)`][mapIndexed] - Creates a push iterable with the results of calling a provided function
   on every item of the given indexed list.
 
-[indexed list]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#IndexedItemList 
+[indexed list]: https://proc7ts.github.io/push-iterator/interfaces/@proc7ts_push-iterator.IndexedItemList.html
 [filterIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIndexed
 [flatMapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIndexed
 [mapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed
