@@ -97,6 +97,7 @@ Each of the following functions returns a push iterable instance:
 - [`overElementsOf(...iterables)`][overElementsOf] - Creates a push iterable over elements of other iterables.
 - [`overEntries(object)`][overEntries] - Creates a push iterable over the property key/value entries of the given
   object.
+- [`overIndexed(indexed)`][overIndexed] - Creates a push iterable over items of [indexed list]. 
 - [`overIterable(iterable)`][overIterable] - Creates a push iterable over elements of the given raw iterable.  
 - [`overIterator(() => Iterator)`][overIterator] - Creates a push iterable over elements of iterator created by the
   given function. 
@@ -110,6 +111,7 @@ Each of the following functions returns a push iterable instance:
 [overArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overArray
 [overElementsOf]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overElementsOf
 [overEntries]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overEntries
+[overIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIndexed
 [overIterable]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterable
 [overIterator]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overIterator
 [overKeys]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#overKeys
@@ -177,8 +179,8 @@ Each of the following functions accepts either [Iterable] or push iterable, and 
 
 Each of the following functions accepts an array-like instance, and returns a push iterable:  
 
-- [`filterArray(aray, test)`][filterArray] - Creates a push iterable with all `array` elements that pass the test
-   implemented by provided function.
+- [`filterArray(array, test)`][filterArray] - Creates a push iterable with all `array` elements that pass the test
+  implemented by provided function.
 - [`flatMapArray(array, convert?)`][flatMapArray] - First maps each element of the source `array` using a mapping
   function, then flattens the result into new push iterable.
 - [`mapArray(array, convert)`][mapArray] - Creates a push iterable with the results of calling a provided function on
@@ -187,6 +189,28 @@ Each of the following functions accepts an array-like instance, and returns a pu
 [filterArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterArray
 [flatMapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapArray
 [mapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray
+
+
+### Indexed List Transformation
+
+An [indexed list] of items is an object with two properties:
+
+- `length` contains the length of the list,
+- `item(index: number): T | null | undefined` returns the item value under the given index.   
+
+Each of the following functions accepts an indexed list of items, and returns a push iterable:
+
+- [`filterIndexed(indexed, test)`][filterIndexed] - Creates a push iterable with all items of the given indexed list
+  that pass the test implemented by the provided function.
+- [`flatMapIndexed(indexed, convert?)`][flatMapIndexed] - First maps each item of the source indexed list using
+  a mapping function, then flattens the result into new push iterable.
+- [`mapIndexed(array, convert)`][mapIndexed] - Creates a push iterable with the results of calling a provided function
+  on every item of the given indexed list.
+
+[indexed list]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#IndexedItemList 
+[filterIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIndexed
+[flatMapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIndexed
+[mapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed
 
 
 ### Utilities

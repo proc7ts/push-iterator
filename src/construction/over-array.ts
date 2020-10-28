@@ -3,7 +3,7 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { iterateOverArray } from '../base/array-iterator.impl';
+import { iterateOverArray } from '../base/iterate-over-array.impl';
 import type { PushIterable } from '../push-iterable';
 
 /**

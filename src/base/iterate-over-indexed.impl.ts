@@ -1,3 +1,4 @@
+import type { IndexedItemList } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import {
@@ -10,19 +11,38 @@ import {
 /**
  * @internal
  */
-export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
+export interface IndexedElements {
+
+  readonly length: number;
+
+}
+
+/**
+ * @internal
+ */
+export function indexedItemOf<T>(indexed: IndexedItemList<T>, index: number): T {
+  return indexed.item(index) as T; // The index is always valid.
+}
+
+/**
+ * @internal
+ */
+export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
+    indexed: TIndexed,
+    elementOf: (indexed: TIndexed, index: number) => T,
+): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      if (i >= array.length) {
+      if (i >= indexed.length) {
         return false;
       }
       for (; ;) {
 
-        const goOn = accept(array[i++]);
+        const goOn = accept(elementOf(indexed, i++));
 
-        if (i >= array.length || goOn === false) {
+        if (i >= indexed.length || goOn === false) {
           return false;
         }
         if (goOn === true) {
@@ -45,8 +65,8 @@ export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T
       }
     };
     let next = (): IteratorResult<T> => {
-      if (i < array.length) {
-        return { value: array[i++] };
+      if (i < indexed.length) {
+        return { value: elementOf(indexed, i++) };
       }
 
       over = true;

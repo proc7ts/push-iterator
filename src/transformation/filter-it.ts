@@ -28,18 +28,18 @@ export function filterIt<T>(
  * Creates a {@link PushIterable push iterable} with all `source` iterable elements extending the given type.
  *
  * @typeParam T  A type of source elements.
- * @typeParam R  Target type.
+ * @typeParam TTarget  Target type.
  * @param source  A source iterable.
- * @param test  A predicate function to test that element extends the type `R`. Returns `true` to keep the element, or
- * `false` otherwise. It accepts the tested element as the only parameter.
+ * @param test  A predicate function to test that element extends the type `TTarget`. Returns `true` to keep the
+ * element, or`false` otherwise. It accepts the tested element as the only parameter.
  *
  * @return New push iterable with the elements that pass the test. If no elements passed the test, an empty iterable
  * will be returned.
  */
-export function filterIt<T, R extends T>(
+export function filterIt<T, TTarget extends T>(
     source: Iterable<T>,
-    test: (this: void, element: T) => element is R,
-): PushIterable<R>;
+    test: (this: void, element: T) => element is TTarget,
+): PushIterable<TTarget>;
 
 export function filterIt<T>(
     source: Iterable<T>,

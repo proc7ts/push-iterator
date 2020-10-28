@@ -31,19 +31,19 @@ export function itsElements<T>(source: Iterable<T>): T[];
  * {@link PushIterable push iterables}.
  *
  * @typeParam T  Iterated elements type.
- * @typeParam R  Resulting array elements type.
+ * @typeParam TConv  Resulting array elements type.
  * @param source  A source iterable to convert elements from.
  * @param convert  A function that produces an element of result array, taking element of `source` iterable as the only
  * parameter.
  *
  * @returns New array of elements converted from `source` ones.
  */
-export function itsElements<T, R>(source: Iterable<T>, convert: (this: void, element: T) => R): R[];
+export function itsElements<T, TConv>(source: Iterable<T>, convert: (this: void, element: T) => TConv): TConv[];
 
-export function itsElements<T, R>(
+export function itsElements<T, TConv>(
     source: Iterable<T>,
-    convert: (this: void, element: T) => R = itsElements$defaultConverter,
-): R[] {
+    convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
+): TConv[] {
   if (isPushIterable(source)) {
     return pushedElements(source, convert);
   }
@@ -56,12 +56,12 @@ export function itsElements<T, R>(
 /**
  * @internal
  */
-function pushedElements<T, R>(
+function pushedElements<T, TConv>(
     it: PushIterable<T>,
-    convert: (this: void, element: T) => R,
-): R[] {
+    convert: (this: void, element: T) => TConv,
+): TConv[] {
 
-  const result: R[] = [];
+  const result: TConv[] = [];
 
   pushIterated(it, element => { result.push(convert(element)); });
 

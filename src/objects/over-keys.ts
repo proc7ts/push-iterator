@@ -10,11 +10,11 @@ import type { PushIterable } from '../push-iterable';
  *
  * A list of keys is constructed using `Reflect.ownKeys()`.
  *
- * @typeParam T  Source object type.
+ * @typeParam TObj  Source object type.
  * @param source  An object to select keys from.
  *
  * @returns New push iterable over own object keys retrieved by `Reflect.ownKeys()`.
  */
-export function overKeys<T extends object>(source: T): PushIterable<keyof T> {
-  return overArray(Reflect.ownKeys(source) as (keyof T)[]);
+export function overKeys<TObj extends object>(source: TObj): PushIterable<keyof TObj> {
+  return overArray(Reflect.ownKeys(source) as (keyof TObj)[]);
 }

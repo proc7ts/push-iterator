@@ -1,5 +1,6 @@
 export * from './over-array';
 export * from './over-elements-of';
+export * from './over-indexed';
 export * from './over-iterable';
 export * from './over-iterator';
 export * from './over-many';
