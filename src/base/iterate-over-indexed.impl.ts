@@ -10,19 +10,23 @@ import {
 /**
  * @internal
  */
-export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
+export function iterateOverIndexed<TIndexed, TItem>(
+    indexed: TIndexed,
+    elementOf: (indexed: TIndexed, index: number) => TItem,
+    lengthOf: (indexed: TIndexed) => number,
+): PushIterable.Iterate<TItem> {
   return accept => {
 
     let i = 0;
-    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      if (i >= array.length) {
+    const forNext = (accept: PushIterator.Acceptor<TItem>): boolean => {
+      if (i >= lengthOf(indexed)) {
         return false;
       }
       for (; ;) {
 
-        const goOn = accept(array[i++]);
+        const goOn = accept(elementOf(indexed, i++));
 
-        if (i >= array.length || goOn === false) {
+        if (i >= lengthOf(indexed) || goOn === false) {
           return false;
         }
         if (goOn === true) {
@@ -36,7 +40,7 @@ export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T
     }
 
     let over = false;
-    let iterate = (accept?: PushIterator.Acceptor<T>): void => {
+    let iterate = (accept?: PushIterator.Acceptor<TItem>): void => {
       if (accept && !forNext(accept)) {
         over = true;
         iterate = PushIterator$dontIterate;
@@ -44,16 +48,16 @@ export function iterateOverArray<T>(array: ArrayLike<T>): PushIterable.Iterate<T
         next = PushIterator$noNext;
       }
     };
-    let next = (): IteratorResult<T> => {
-      if (i < array.length) {
-        return { value: array[i++] };
+    let next = (): IteratorResult<TItem> => {
+      if (i < lengthOf(indexed)) {
+        return { value: elementOf(indexed, i++) };
       }
 
       over = true;
       iterate = PushIterator$dontIterate;
       next = PushIterator$noNext;
 
-      return { done: true } as IteratorReturnResult<T>;
+      return { done: true } as IteratorReturnResult<TItem>;
     };
 
     return {
