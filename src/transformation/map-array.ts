@@ -3,7 +3,6 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
-import { lengthOfArray } from '../base/iterate-over-array.impl';
 import { iterateOverIndexed } from '../base/iterate-over-indexed.impl';
 import type { PushIterable } from '../push-iterable';
 
@@ -25,6 +24,5 @@ export function mapArray<T, R>(
   return makePushIterable(iterateOverIndexed(
       array,
       (array, index) => convert(array[index]),
-      lengthOfArray,
   ));
 }

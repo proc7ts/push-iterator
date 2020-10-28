@@ -10,23 +10,31 @@ import {
 /**
  * @internal
  */
-export function iterateOverIndexed<TIndexed, TItem>(
+export interface Indexed {
+
+  readonly length: number;
+
+}
+
+/**
+ * @internal
+ */
+export function iterateOverIndexed<TIndexed extends Indexed, T>(
     indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => TItem,
-    lengthOf: (indexed: TIndexed) => number,
-): PushIterable.Iterate<TItem> {
+    elementOf: (indexed: TIndexed, index: number) => T,
+): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;
-    const forNext = (accept: PushIterator.Acceptor<TItem>): boolean => {
-      if (i >= lengthOf(indexed)) {
+    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
+      if (i >= indexed.length) {
         return false;
       }
       for (; ;) {
 
         const goOn = accept(elementOf(indexed, i++));
 
-        if (i >= lengthOf(indexed) || goOn === false) {
+        if (i >= indexed.length || goOn === false) {
           return false;
         }
         if (goOn === true) {
@@ -40,7 +48,7 @@ export function iterateOverIndexed<TIndexed, TItem>(
     }
 
     let over = false;
-    let iterate = (accept?: PushIterator.Acceptor<TItem>): void => {
+    let iterate = (accept?: PushIterator.Acceptor<T>): void => {
       if (accept && !forNext(accept)) {
         over = true;
         iterate = PushIterator$dontIterate;
@@ -48,8 +56,8 @@ export function iterateOverIndexed<TIndexed, TItem>(
         next = PushIterator$noNext;
       }
     };
-    let next = (): IteratorResult<TItem> => {
-      if (i < lengthOf(indexed)) {
+    let next = (): IteratorResult<T> => {
+      if (i < indexed.length) {
         return { value: elementOf(indexed, i++) };
       }
 
@@ -57,7 +65,7 @@ export function iterateOverIndexed<TIndexed, TItem>(
       iterate = PushIterator$dontIterate;
       next = PushIterator$noNext;
 
-      return { done: true } as IteratorReturnResult<TItem>;
+      return { done: true } as IteratorReturnResult<T>;
     };
 
     return {
