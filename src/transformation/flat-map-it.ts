@@ -17,7 +17,7 @@ import { flatMapIt$defaultConverter } from './transformation.impl';
  * @typeParam T  A type of converted elements.
  * @param source  A source iterable of iterables.
  *
- * @returns New push iterable with each element of `source` being the flattened.
+ * @returns New push iterable with each element of `source` being flattened.
  */
 export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
 
@@ -27,7 +27,7 @@ export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
  *
  * @typeParam TSrc  A type of source elements.
  * @typeParam TConv  A type of converted elements.
- * @param source  A source iterable of iterables.
+ * @param source  A source iterable of elements to convert.
  * @param convert  A function that produces new iterable, taking the source element as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.

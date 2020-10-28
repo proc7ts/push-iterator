@@ -3,45 +3,46 @@
  * @module @proc7ts/push-iterator
  */
 import { makePushIterable } from '../base';
+import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.impl';
 import { flatMapIt$defaultConverter } from './transformation.impl';
 
 /**
- * Flattens the source `array` of iterables into new {@link PushIterable push iterable}.
+ * Flattens the source list of indexed iterables into new {@link PushIterable push iterable}.
  *
- * Calling this function is the same as calling `flatMapArray(source, element => element)`.
+ * Calling this function is the same as calling `flatMapIndexed(source, element => element)`.
  *
  * @typeParam T  A type of converted elements.
- * @param array  A source array-like instance of iterables.
+ * @param indexed  A source list of indexed iterables.
  *
- * @returns New push iterable with each element of `array` being flattened.
+ * @returns New push iterable with each element of indexed list being flattened.
  */
-export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
+export function flatMapIndexed<T>(indexed: IndexedItemList<Iterable<T>>): PushIterable<T>;
 
 /**
  * First maps each element of the source `array` using a mapping function, then flattens the result into new
  * {@link PushIterable push iterable}.
  *
- * @typeParam TSrc  A type of array elements.
+ * @typeParam TSrc  A type of indexed items.
  * @typeParam TConv  A type of converted elements.
- * @param array  A source array-like instance of elements to convert.
- * @param convert  A function that produces new iterable, taking array element as the only parameter.
+ * @param indexed  A source list of indexed items to convert.
+ * @param convert  A function that produces new iterable, taking the list item as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
-export function flatMapArray<TSrc, TConv>(
-    array: ArrayLike<TSrc>,
+export function flatMapIndexed<TSrc, TConv>(
+    indexed: IndexedItemList<TSrc>,
     convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv>;
 
-export function flatMapArray<TSrc, TConv>(
-    array: ArrayLike<TSrc>,
+export function flatMapIndexed<TSrc, TConv>(
+    indexed: IndexedItemList<TSrc>,
     convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
 ): PushIterable<TConv> {
   return makePushIterable(iterateOverFlattenedIndexed(
-      array,
-      (array, index) => convert(array[index]),
+      indexed,
+      (indexed, index) => convert(indexed.item(index) as TSrc),
   ));
 }
 
