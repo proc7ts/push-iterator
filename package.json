@@ -18,17 +18,18 @@
   "bugs": {
     "url": "https://github.com/proc7ts/push-iterator/issues"
   },
-  "main": "dist/push-iterator.js",
-  "module": "dist/push-iterator.mjs",
+  "type": "module",
+  "main": "dist/push-iterator.cjs",
+  "module": "dist/push-iterator.js",
   "types": "index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/push-iterator.js",
-      "import": "./dist/push-iterator.mjs"
+      "require": "./dist/push-iterator.cjs",
+      "import": "./dist/push-iterator.js"
     },
     "./call-thru": {
-      "require": "./dist/push-iterator.call-thru.js",
-      "import": "./dist/push-iterator.call-thru.mjs"
+      "require": "./dist/push-iterator.call-thru.cjs",
+      "import": "./dist/push-iterator.call-thru.js"
     }
   },
   "peerDependencies": {
@@ -69,7 +70,7 @@
   },
   "scripts": {
     "all": "run-z build,lint,test",
-    "benchmark": "run-z benchmark:build --then node --no-warnings --enable-source-maps ./target/benchmark.mjs",
+    "benchmark": "run-z benchmark:build --then node --no-warnings --enable-source-maps ./target/benchmark.js",
     "benchmark:build": "run-z --then rollup --config ./rollup.benchmark.config.js",
     "benchmark:record": "run-z benchmark:build benchmark:record:node12 benchmark:record:node14",
     "benchmark:record:node12": "LANG=C FORCE_COLOR=0 npx -q node@12 ./target/benchmark.mjs > ./benchmarks/node12.txt",

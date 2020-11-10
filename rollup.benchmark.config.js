@@ -22,6 +22,6 @@ export default {
   output: {
     format: 'esm',
     sourcemap: true,
-    file: './target/benchmark.mjs',
+    file: './target/benchmark.js',
   },
 };

@@ -17,14 +17,14 @@ node_modules
 # Source files
 /src
 
-# Build scripts
-/build
+# Benchmarks
+/benchmarks
 
 # Build configurations
 /.*
+/*.cjs
 /*.js
-/ts*.json
-/typedoc.json
+/*.json
 
 # Package lock
 /yarn.lock
