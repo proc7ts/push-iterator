@@ -35,7 +35,7 @@
     "@proc7ts/call-thru": "^4.1.0"
   },
   "dependencies": {
-    "@proc7ts/primitives": "^1.3.2"
+    "@proc7ts/primitives": "^1.4.0"
   },
   "devDependencies": {
     "@proc7ts/call-thru": "^4.1.0",
@@ -46,8 +46,8 @@
     "@types/benchmark": "^2.1.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.12.62",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "benchmark": "^2.1.4",
     "chalk": "^4.1.0",
     "codecov": "^3.8.1",
