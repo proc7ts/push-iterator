@@ -12,7 +12,7 @@ import { itsIterated } from './its-iterated';
  * @param test  A predicate function to test elements. Returns truthy value for matching one. It accepts the tested
  * element as the only parameter.
  *
- * @return Either the matching element, or `undefined` if no elements match.
+ * @returns Either the matching element, or `undefined` if no elements match.
  */
 export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T) => boolean): T | undefined {
 

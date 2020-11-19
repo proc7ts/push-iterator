@@ -17,7 +17,7 @@ import { iterateOverFilteredIndexed } from './iterate-over-filtered-indexed.impl
  * @param test  A predicate function to test each item. Returns `true` to keep the item, or `false` otherwise.
  * It accepts the tested item as the only parameter.
  *
- * @return New push iterable with the items that pass the test. If no items passed the test, an empty iterable
+ * @returns New push iterable with the items that pass the test. If no items passed the test, an empty iterable
  * will be returned.
  */
 export function filterIndexed<T>(
@@ -34,7 +34,7 @@ export function filterIndexed<T>(
  * @param test  A predicate function to test that item extends the type `TTarget`. Returns `true` to keep the element,
  * or `false` otherwise. It accepts the tested item as the only parameter.
  *
- * @return New push iterable with the elements that pass the test. If no elements passed the test, an empty iterable
+ * @returns New push iterable with the elements that pass the test. If no elements passed the test, an empty iterable
  * will be returned.
  */
 export function filterIndexed<T, TTarget extends T>(

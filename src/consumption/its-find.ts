@@ -14,7 +14,7 @@ import { itsIterated } from './its-iterated';
  * found. Accepts element as the only parameter, and returns extracted value. If returns `false` or `undefined` the
  * search continues from the next element.
  *
- * @return Either found value or `undefined`.
+ * @returns Either found value or `undefined`.
  */
 export function itsFind<T, TFound>(
     iterable: Iterable<T>,

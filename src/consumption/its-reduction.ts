@@ -14,7 +14,7 @@ import { itsIterated } from './its-iterated';
  * @param reducer  A function to apply the value returned from the previous `reducer` call and to each element.
  * @param initialValue  Initial value passed to the first `reducer` call.
  *
- * @return Reduced value returned from the last `reducer` call, or `initialValue` if there is no elements in the given
+ * @returns Reduced value returned from the last `reducer` call, or `initialValue` if there is no elements in the given
  * `iterable`.
  */
 export function itsReduction<T, TResult>(

@@ -12,7 +12,7 @@ import type { PushIterator } from '../push-iterator';
  * @typeParam T  Iterated elements type.
  * @param iterable  An iterable or push iterable to iterate over.
  *
- * @return A push iterator iterating over the given iterable.
+ * @returns A push iterator iterating over the given iterable.
  */
 export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
 

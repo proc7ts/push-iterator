@@ -10,7 +10,7 @@ import type { PushIterable } from '../push-iterable';
  *
  * @param iterable  An iterable or push iterable to check for elements.
  *
- * @return `true` if the given iterable contains at least one element, or `false` otherwise.
+ * @returns `true` if the given iterable contains at least one element, or `false` otherwise.
  */
 export function itsEmpty(iterable: Iterable<unknown>): boolean {
   if (isPushIterable(iterable)) {

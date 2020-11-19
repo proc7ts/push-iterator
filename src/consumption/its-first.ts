@@ -11,7 +11,7 @@ import type { PushIterable } from '../push-iterable';
  * @typeParam T  Iterated elements type.
  * @param iterable  An iterable to extract element from.
  *
- * @return Either the first element, or `undefined` if the given `iterable` is empty.
+ * @returns Either the first element, or `undefined` if the given `iterable` is empty.
  */
 export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
   if (isPushIterable(iterable)) {
