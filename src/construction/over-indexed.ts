@@ -9,7 +9,7 @@ import type { PushIterable } from '../push-iterable';
 /**
  * An indexed list of items.
  *
- * @typeParam T  Indexed item value.
+ * @typeParam T - Indexed item value.
  */
 export interface IndexedItemList<T> {
 
@@ -21,20 +21,20 @@ export interface IndexedItemList<T> {
   /**
    * Retrieves an item under the given index.
    *
-   * @param index  Item index.
+   * @param index - Item index.
    *
    * @returns Either item value, or `null`/`undefined` if there is no item with such index, i.e. if the index is not
-   * an integer value, is negative, or greater or equal to the [length].
+   * an integer value, is negative, or greater or equal to the {@link length}.
    */
   item(index: number): T | null | undefined;
 
 }
 
 /**
- * Creates a {@link PushIterable push iterable} over items of {@link IndexedItemList indexed list}.
+ * Creates a {@link PushIterable | push iterable} over items of {@link IndexedItemList | indexed list}.
  *
- * @typeParam T  Indexed items type.
- * @param indexed  An indexed list of items. E.g. DOM `NodeList`.
+ * @typeParam T - Indexed items type.
+ * @param indexed - An indexed list of items. E.g. DOM `NodeList`.
  *
  * @returns New push iterable over list items.
  */

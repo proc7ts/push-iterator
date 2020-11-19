@@ -8,8 +8,8 @@ import type { PushIterable } from '../push-iterable';
 /**
  * Extracts the first element of the given `iterable`, if any.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  An iterable to extract element from.
+ * @typeParam T - Iterated elements type.
+ * @param iterable - An iterable to extract element from.
  *
  * @returns Either the first element, or `undefined` if the given `iterable` is empty.
  */

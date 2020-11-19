@@ -16,8 +16,8 @@ const itsElements$defaultConverter = <T, R>(element: T): R => element as unknown
  * Calling this function result to the same result as calling `Array.from(source)`, except it is optimized for
  * {@link PushIterable push iterables}.
  *
- * @typeParam T  Iterated elements type.
- * @param source  A source iterable to copy elements from.
+ * @typeParam T - Iterated elements type.
+ * @param source - A source iterable to copy elements from.
  *
  * @returns New array of `source` elements.
  */
@@ -30,10 +30,10 @@ export function itsElements<T>(source: Iterable<T>): T[];
  * Calling this function result to the same result as calling `Array.from(source, convert)`, except it is optimized for
  * {@link PushIterable push iterables}.
  *
- * @typeParam T  Iterated elements type.
- * @typeParam TConv  Resulting array elements type.
- * @param source  A source iterable to convert elements from.
- * @param convert  A function that produces an element of result array, taking element of `source` iterable as the only
+ * @typeParam T - Iterated elements type.
+ * @typeParam TConv - Resulting array elements type.
+ * @param source - A source iterable to convert elements from.
+ * @param convert - A function that produces an element of result array, taking element of `source` iterable as the only
  * parameter.
  *
  * @returns New array of elements converted from `source` ones.

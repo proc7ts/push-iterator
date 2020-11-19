@@ -8,13 +8,13 @@ import type { ObjectEntry } from './object-entry';
 import { overKeys } from './over-keys';
 
 /**
- * Creates a {@link PushIterable push iterable} over the property key/value entries of the given object.
+ * Creates a {@link PushIterable | push iterable} over the property key/value entries of the given object.
  *
  * A list of keys is constructed using `Reflect.ownKeys()`.
  *
- * @typeParam TObj  Object type.
+ * @typeParam TObj - Object type.
  *
- * @param source  An object to select keys and values from.
+ * @param source - An object to select keys and values from.
  *
  * @returns New push iterable of object property entries.
  */

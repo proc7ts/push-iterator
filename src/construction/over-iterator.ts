@@ -9,10 +9,10 @@ import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';
 
 /**
- * Creates a {@link PushIterable push iterable} over elements of iterator created by the given function.
+ * Creates a {@link PushIterable | push iterable} over elements of iterator created by the given function.
  *
- * @typeParam T  Iterated elements type.
- * @param iterate  A function creating new iterator.
+ * @typeParam T - Iterated elements type.
+ * @param iterate - A function creating new iterator.
  *
  * @returns New push iterable over elements of created iterator.
  */

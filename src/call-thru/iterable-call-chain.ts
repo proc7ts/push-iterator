@@ -14,9 +14,9 @@ export interface IterableCallChain extends CallChain {
   /**
    * Calls a pass in this chain with each element of the given iterable.
    *
-   * @typeParam T  Iterated elements type.
-   * @param pass  A pass to call.
-   * @param iterable  Source iterable.
+   * @typeParam T - Iterated elements type.
+   * @param pass - A pass to call.
+   * @param iterable - Source iterable.
    */
   iterate<T>(pass: (this: void, arg: T) => any, iterable: Iterable<T>): void;
 

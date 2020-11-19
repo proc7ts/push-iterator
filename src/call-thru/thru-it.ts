@@ -12,7 +12,7 @@ type Args<TReturn> = IterableCallChain.Args<TReturn>;
 type Out<TReturn> = IterableCallChain.Out<TReturn>;
 
 /**
- * Passes each element of the given iterable trough the {@link IterableCallChain chain of transformation passes}.
+ * Passes each element of the given iterable trough the {@link IterableCallChain | chain of transformation passes}.
  *
  * The passes are preformed by `@proc7ts/call-thru`.
  *

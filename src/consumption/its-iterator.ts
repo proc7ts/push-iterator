@@ -9,8 +9,8 @@ import type { PushIterator } from '../push-iterator';
 /**
  * Starts iteration over the given `iterable`.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  An iterable or push iterable to iterate over.
+ * @typeParam T - Iterated elements type.
+ * @param iterable - An iterable or push iterable to iterate over.
  *
  * @returns A push iterator iterating over the given iterable.
  */

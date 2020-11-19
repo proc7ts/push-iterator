@@ -8,13 +8,13 @@ import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
- * Creates a {@link PushIterable push iterable} with the results of calling a provided function on every element of the
- * `source` iterable.
+ * Creates a {@link PushIterable | push iterable} with the results of calling a provided function on every element
+ * of the `source` iterable.
  *
- * @typeParam TSrc  A type of source elements.
- * @typeParam TConv  A type of converted elements.
- * @param source  A source iterable.
- * @param convert  A function that produces an element of the new iterable, taking the source element as the only
+ * @typeParam TSrc - A type of source elements.
+ * @typeParam TConv - A type of converted elements.
+ * @param source - A source iterable.
+ * @param convert - A function that produces an element of the new iterable, taking the source element as the only
  * parameter.
  *
  * @returns New push iterable of transformed elements.

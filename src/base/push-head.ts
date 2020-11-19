@@ -13,9 +13,9 @@ import type { PushIterator } from '../push-iterator';
  *
  * Calling this function is the same as calling `iterable[PushIterator__symbol](accept)`.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  A push iterable to iterate elements of.
- * @param accept  A function to push iterated elements to. Accepts iterated element as its only parameter. May return
+ * @typeParam T - Iterated elements type.
+ * @param iterable - A push iterable to iterate elements of.
+ * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
  * `true` to suspend iteration, or `false` to stop it.
  *
  * @returns A push iterator instance representing the tail of the given iterable. This iterator can be used to continue

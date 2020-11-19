@@ -10,10 +10,10 @@ import type { PushIterator } from '../push-iterator';
 import { overNone } from './over-none';
 
 /**
- * Creates a {@link PushIterable push iterable} over elements of array-like structure in reverse order.
+ * Creates a {@link PushIterable | push iterable} over elements of array-like structure in reverse order.
  *
- * @typeParam T  Array elements type.
- * @param array  An array-like structure. E.g. `Array`, DOM `NodeList`, etc.
+ * @typeParam T - Array elements type.
+ * @param array - An array-like structure. E.g. `Array`, DOM `NodeList`, etc.
  *
  * @returns New push iterable over array elements in reverse order.
  */

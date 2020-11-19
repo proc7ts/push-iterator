@@ -9,12 +9,12 @@ import type { PushIterable } from '../push-iterable';
 import { iterateOverFilteredIndexed } from './iterate-over-filtered-indexed.impl';
 
 /**
- * Creates a {@link PushIterable push iterable} with all items of the given indexed list that pass the test implemented
- * by the provided function.
+ * Creates a {@link PushIterable | push iterable} with all items of the given indexed list that pass the test
+ * implemented by the provided function.
  *
- * @typeParam T  Indexed items type.
- * @param indexed  A source indexed items list.
- * @param test  A predicate function to test each item. Returns `true` to keep the item, or `false` otherwise.
+ * @typeParam T - Indexed items type.
+ * @param indexed - A source indexed items list.
+ * @param test - A predicate function to test each item. Returns `true` to keep the item, or `false` otherwise.
  * It accepts the tested item as the only parameter.
  *
  * @returns New push iterable with the items that pass the test. If no items passed the test, an empty iterable
@@ -26,12 +26,12 @@ export function filterIndexed<T>(
 ): PushIterable<T>;
 
 /**
- * Creates a {@link PushIterable push iterable} with all items of the given indexed list that extend the given type.
+ * Creates a {@link PushIterable | push iterable} with all items of the given indexed list that extend the given type.
  *
- * @typeParam TS  Indexed items type.
- * @typeParam TTarget  Target type.
- * @param indexed  A source array.
- * @param test  A predicate function to test that item extends the type `TTarget`. Returns `true` to keep the element,
+ * @typeParam T - Indexed items type.
+ * @typeParam TTarget - Target type.
+ * @param indexed - A source array.
+ * @param test - A predicate function to test that item extends the type `TTarget`. Returns `true` to keep the element,
  * or `false` otherwise. It accepts the tested item as the only parameter.
  *
  * @returns New push iterable with the elements that pass the test. If no elements passed the test, an empty iterable

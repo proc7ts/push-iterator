@@ -8,10 +8,10 @@ import { overArray } from './over-array';
 import { overIterator } from './over-iterator';
 
 /**
- * Creates a {@link PushIterable push iterable} over elements of the given raw iterable.
+ * Creates a {@link PushIterable | push iterable} over elements of the given raw iterable.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  An iterable to iterate over elements of.
+ * @typeParam T - Iterated elements type.
+ * @param iterable - An iterable to iterate over elements of.
  *
  * @returns New push iterable over elements of the given `iterable`.
  */

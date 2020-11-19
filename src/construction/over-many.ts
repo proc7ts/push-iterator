@@ -8,10 +8,10 @@ import { overNone } from './over-none';
 import { overOne } from './over-one';
 
 /**
- * Creates a {@link PushIterable push iterable} over many values.
+ * Creates a {@link PushIterable | push iterable} over many values.
  *
- * @typeParam T  Iterated elements value type.
- * @param values  Values to iterate over.
+ * @typeParam T - Iterated elements value type.
+ * @param values - Values to iterate over.
  *
  * @returns New push iterable over the given values.
  */

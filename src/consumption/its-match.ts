@@ -7,9 +7,9 @@ import { itsIterated } from './its-iterated';
 /**
  * Extracts the first element matching the given condition from `iterable`.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  An iterable to extract element from.
- * @param test  A predicate function to test elements. Returns truthy value for matching one. It accepts the tested
+ * @typeParam T - Iterated elements type.
+ * @param iterable - An iterable to extract element from.
+ * @param test - A predicate function to test elements. Returns truthy value for matching one. It accepts the tested
  * element as the only parameter.
  *
  * @returns Either the matching element, or `undefined` if no elements match.

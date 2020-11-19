@@ -7,10 +7,10 @@ import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
- * Checks whether the given iterable conforms to {@link PushIterable push iteration protocol}.
+ * Checks whether the given iterable conforms to {@link PushIterable | push iteration protocol}.
  *
- * @typeParam T  Iterated elements type.
- * @param iterable  An iterable to check.
+ * @typeParam T - Iterated elements type.
+ * @param iterable - An iterable to check.
  *
  * @returns `true` if the given `iterable` has a {@link PushIterator__symbol [PushIterator__symbol]} property,
  * or `false` otherwise.
@@ -18,12 +18,12 @@ import type { PushIterator } from '../push-iterator';
 export function isPushIterable<T>(iterable: Iterable<T>): iterable is PushIterable<T>;
 
 /**
- * Checks whether the given iterator conforms to {@link PushIterable push iteration protocol}.
+ * Checks whether the given iterator conforms to {@link PushIterable | push iteration protocol}.
  *
- * @typeParam T  Iterated elements type.
- * @param iterator  An iterator to check.
+ * @typeParam T - Iterated elements type.
+ * @param iterator - An iterator to check.
  *
- * @returns `true` if the given `iterator` has a {@link PushIterator__symbol [PushIterator__symbol]} property,
+ * @returns `true` if the given `iterator` has a {@link PushIterator__symbol | [PushIterator__symbol]} property,
  * or `false` otherwise.
  */
 export function isPushIterable<T>(iterator: Iterator<T>): iterator is PushIterator<T>;

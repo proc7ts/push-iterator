@@ -10,10 +10,10 @@ import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
 
 /**
- * Creates a {@link PushIterable push iterable} over elements of other iterables.
+ * Creates a {@link PushIterable | push iterable} over elements of other iterables.
  *
- * @typeParam T  Iterated elements type.
- * @param sources  Source iterables to iterate over elements of.
+ * @typeParam T - Iterated elements type.
+ * @param sources - Source iterables to iterate over elements of.
  *
  * @returns New push iterable over elements of the given `sources`.
  */
