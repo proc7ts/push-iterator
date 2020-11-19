@@ -35,9 +35,6 @@
   "peerDependencies": {
     "@proc7ts/call-thru": "^4.2.0"
   },
-  "dependencies": {
-    "@proc7ts/primitives": "^1.4.0"
-  },
   "devDependencies": {
     "@proc7ts/call-thru": "^4.2.0",
     "@proc7ts/eslint-config": "^2.0.5",

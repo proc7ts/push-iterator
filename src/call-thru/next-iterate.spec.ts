@@ -1,5 +1,4 @@
 import { nextArgs, nextSkip } from '@proc7ts/call-thru';
-import { asis } from '@proc7ts/primitives';
 import { nextIterate } from './next-iterate';
 import { thruIt } from './thru-it';
 
@@ -19,7 +18,7 @@ describe('nextIterate', () => {
     const result: Iterable<[number]> = thruIt(
         [1, 2, 3],
         n => nextIterate([nextArgs(n * 2)]),
-        asis,
+        v => v,
     );
 
     expect([...result]).toEqual([[2], [4], [6]]);
