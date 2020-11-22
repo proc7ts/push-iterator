@@ -1,4 +1,5 @@
 import { externalModules } from '@proc7ts/rollup-helpers';
+import flatDts from '@proc7ts/rollup-plugin-flat-dts';
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import path from 'path';
@@ -35,16 +36,23 @@ export default {
       sourcemap: true,
       dir: './dist',
       entryFileNames: '[name].cjs',
-      chunkFileNames: `_[name].cjs`,
+      chunkFileNames: '_[name].cjs',
       hoistTransitiveImports: false,
     },
     {
       format: 'esm',
       sourcemap: true,
-      dir: './dist',
-      entryFileNames: '[name].js',
-      chunkFileNames: `_[name].js`,
+      dir: '.',
+      entryFileNames: 'dist/[name].js',
+      chunkFileNames: 'dist/_[name].js',
+      assetFileNames: `[name].[ext]`,
       hoistTransitiveImports: false,
+      plugins: [
+        flatDts({
+          tsconfig: 'tsconfig.main.json',
+          entries: ['call-thru'],
+        }),
+      ],
     },
   ],
 };
