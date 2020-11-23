@@ -18,7 +18,6 @@ export default {
       typescript,
       tsconfig: 'tsconfig.main.json',
       cacheRoot: 'target/.rts2_cache',
-      useTsconfigDeclarationDir: true,
     }),
     nodeResolve(),
     sourcemaps(),
@@ -45,7 +44,6 @@ export default {
       dir: '.',
       entryFileNames: 'dist/[name].js',
       chunkFileNames: 'dist/_[name].js',
-      assetFileNames: `[name].[ext]`,
       hoistTransitiveImports: false,
       plugins: [
         flatDts({
