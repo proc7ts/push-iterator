@@ -48,7 +48,7 @@ export default {
       plugins: [
         flatDts({
           tsconfig: 'tsconfig.main.json',
-          entries: ['call-thru'],
+          entries: [{ name: 'call-thru', file: 'call-thru/index.d.ts' }],
         }),
       ],
     },
