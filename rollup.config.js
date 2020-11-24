@@ -24,7 +24,7 @@ export default {
   ],
   external: externalModules(),
   manualChunks(id) {
-    if (id.startsWith(path.join(__dirname, 'src', 'call-thru') + path.sep)) {
+    if (id.startsWith(path.resolve('src', 'call-thru') + path.sep)) {
       return 'push-iterator.call-thru';
     }
     return 'push-iterator';
