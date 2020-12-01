@@ -29,5 +29,5 @@ export function isPushIterable<T>(iterable: Iterable<T>): iterable is PushIterab
 export function isPushIterable<T>(iterator: Iterator<T>): iterator is PushIterator<T>;
 
 export function isPushIterable<T>(iterable: Iterable<T> | Iterator<T>): iterable is PushIterator<T> {
-  return !!(iterable as any)[PushIterator__symbol];
+  return !!(iterable as Partial<PushIterable<T>>)[PushIterator__symbol];
 }

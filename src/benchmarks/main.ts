@@ -9,7 +9,7 @@ import { arrayMapSuite, iterableMapSuite } from './map.suite';
 const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
 
-run().catch((event: any) => {
+run().catch((event: Benchmark.Event & { target: { error?: any } }) => {
   console.error('ERROR', event.target.name, event.target.error);
 });
 
@@ -56,7 +56,7 @@ function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
 function runSuite(suite: Benchmark.Suite): Promise<void> {
   return new Promise<void>((resolve, reject) => {
 
-    const results: any[] = [];
+    const results: Result[] = [];
 
     const options: Benchmark.Options = {
       initCount: 15,
@@ -68,7 +68,7 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
         'cycle',
         ({ target: { name, hz, stats = {} as Benchmark.Stats } }: Benchmark.Event) => results.push({
           name,
-          Hz: hz,
+          Hz: hz!,
           MoE: `±${Number(stats.rme).toFixed(2)}%`,
           '# sampled': stats.sample.length,
         }),
@@ -86,8 +86,8 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
                 Hz: Math.round(result.Hz).toLocaleString(),
                 'x slower': Math.round((10 ** PRECISION * highestHz) / result.Hz) / 10 ** PRECISION,
               }))
-              .sort((a, b) => a.INPUT_SIZE - b.INPUT_SIZE)
-              .reduce((acc, { name, ...cur }) => ({ ...acc, [name]: cur }), {}),
+              .sort((a, b) => a.INPUT_SIZE! - b.INPUT_SIZE!)
+              .reduce<AccResult>((acc, { name, ...cur }) => ({ ...acc, [name!]: cur }), {}),
       );
 
       console.log('Fastest is', this.filter('fastest').map('name'));
@@ -99,4 +99,21 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
 
     suite.run(options);
   });
+}
+
+interface Result {
+  name?: string;
+  Hz: number;
+  MoE: string;
+  '# sampled': number;
+  INPUT_SIZE?: number;
+}
+
+interface AccResult {
+  [name: string]: {
+    Hz: string;
+    MoE: string;
+    '# sampled': number;
+    'x slower': number;
+  };
 }
