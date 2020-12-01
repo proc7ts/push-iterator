@@ -73,7 +73,7 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
           '# sampled': stats.sample.length,
         }),
     );
-    suite.on('complete', function (this: any) {
+    suite.on('complete', function (this: Benchmark.Suite) {
 
       results.sort((a, b) => b.Hz - a.Hz);
 

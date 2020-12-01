@@ -13,9 +13,11 @@ export class BenchFactory<TVariant extends [inputSize: number, ...other: any[]] 
 
   add(name: string, fn: () => void): this {
     this._benches.push((suite, variant) => {
-      const setup = function (this: any): void {
+
+      const setup = function (this: BenchContext): void {
         this.benchSetup();
       };
+
       suite.add(
           name,
           fn,
@@ -23,7 +25,7 @@ export class BenchFactory<TVariant extends [inputSize: number, ...other: any[]] 
             benchSetup: () => this._setup(...variant),
             setup,
             onCycle: setup,
-          } as any,
+          } as Benchmark.Options & BenchContext,
       );
     });
 
@@ -62,4 +64,8 @@ export class BenchFactory<TVariant extends [inputSize: number, ...other: any[]] 
     return suites;
   }
 
+}
+
+interface BenchContext {
+  benchSetup(): void;
 }
