@@ -19,9 +19,9 @@
     "url": "https://github.com/proc7ts/push-iterator/issues"
   },
   "type": "module",
-  "main": "dist/push-iterator.cjs",
-  "module": "dist/push-iterator.js",
-  "types": "index.d.ts",
+  "main": "./dist/push-iterator.cjs",
+  "module": "./dist/push-iterator.js",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/push-iterator.cjs",
@@ -34,6 +34,11 @@
   },
   "peerDependencies": {
     "@proc7ts/call-thru": "^4.3.1"
+  },
+  "peerDependenciesMeta": {
+    "@proc7ts/call-thru": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@proc7ts/call-thru": "^4.3.1",
