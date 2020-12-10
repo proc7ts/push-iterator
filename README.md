@@ -36,6 +36,15 @@ Another method it extends [Iterator] with is `isOver()`, that checks whether ite
 [IoC]: https://en.wikipedia.org/wiki/Inversion_of_control
 
 
+Instant Iteration
+-----------------
+
+It is quite common to just iterate over [Iterable] instantly rather constructing its [Iterator]. The library supports
+this. For that, a `[PushIterator__symbol]` method may be defined for [Iterable] in addition to `[Symbol.iterator]` one.
+When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
+iterator.
+
+
 Rationale
 ---------
 
@@ -72,15 +81,6 @@ Design Goals
    The library API represented by functions. When tree-shaken the unused ones removed from bundles.
 
 [Iterable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol
-
-
-Instant Iteration
------------------
-
-It is quite common to just iterate over [Iterable] instantly rather constructing its [Iterator]. The library supports
-this. For that, a `[PushIterator__symbol]` method may be defined for [Iterable] in addition to `[Symbol.iterator]` one.
-When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
-iterator.
 
 
 API
@@ -169,10 +169,13 @@ Each of the following functions accepts either [Iterable] or push iterable, and 
   function, then flattens the result into new push iterable.
 - [`mapIt(source, convert)`][mapIt] - Creates a push iterable with the results of calling a provided function on every
   element of the `source` iterable.
+- [`valueIt(source, valueOf)`][valueIt] - Creates a push iterable with the values of elements of the `source` iterable.
+  A more effective combination of [mapIt]/[filterIt]. 
 
 [filterIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIt
 [flatMapIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIt
 [mapIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIt
+[valueIt]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueIt
   
 
 ### Array Transformation
@@ -185,10 +188,13 @@ Each of the following functions accepts an array-like instance, and returns a pu
   function, then flattens the result into new push iterable.
 - [`mapArray(array, convert)`][mapArray] - Creates a push iterable with the results of calling a provided function on
   every element of the given `array`.
+- [`valueArray(array, valueOf)`][valueArray] - Creates a push iterable with the values of elements of the given `array`.
+  A more effective combination of [mapArray]/[filterIt].
 
 [filterArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterArray
 [flatMapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapArray
 [mapArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray
+[valueArray]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueArray
 
 
 ### Indexed List Transformation
@@ -206,11 +212,14 @@ Each of the following functions accepts an indexed list of items, and returns a 
   a mapping function, then flattens the result into new push iterable.
 - [`mapIndexed(array, convert)`][mapIndexed] - Creates a push iterable with the results of calling a provided function
   on every item of the given indexed list.
+- [`valueIndexed(array, convert)`][valueIndexed] - Creates a push iterable with the values of items of the given indexed
+  list. A more effective combination of [mapIndexed]/[filterIt].
 
 [indexed list]: https://proc7ts.github.io/push-iterator/interfaces/@proc7ts_push-iterator.IndexedItemList.html
 [filterIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIndexed
 [flatMapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#flatMapIndexed
 [mapIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed
+[valueIndexed]: https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueIndexed
 
 
 ### Utilities
