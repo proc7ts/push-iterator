@@ -78,6 +78,13 @@
 				iteration won&#39;t be possible with returned iterator.</p>
 				<p>When called without <code>accept</code> parameter it just returns an iterator.</p>
 				<p>Another method it extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> with is <code>isOver()</code>, that checks whether iteration is over.</p>
+				<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
+					<h2>Instant Iteration</h2>
+				</a>
+				<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
+					this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
+					When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
+				iterator.</p>
 				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
 					<h2>Rationale</h2>
 				</a>
@@ -107,13 +114,6 @@
 						<p>The library API represented by functions. When tree-shaken the unused ones removed from bundles.</p>
 					</li>
 				</ol>
-				<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
-					<h2>Instant Iteration</h2>
-				</a>
-				<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
-					this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
-					When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
-				iterator.</p>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
@@ -174,6 +174,8 @@
 					function, then flattens the result into new push iterable.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIt"><code>mapIt(source, convert)</code></a> - Creates a push iterable with the results of calling a provided function on every
 					element of the <code>source</code> iterable.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueIt"><code>valueIt(source, valueOf)</code></a> - Creates a push iterable with the values of elements of the <code>source</code> iterable.
+					A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIt">mapIt</a>/<a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIt">filterIt</a>. </li>
 				</ul>
 				<a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
 					<h3>Array Transformation</h3>
@@ -186,6 +188,8 @@
 					function, then flattens the result into new push iterable.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray"><code>mapArray(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function on
 					every element of the given <code>array</code>.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueArray"><code>valueArray(array, valueOf)</code></a> - Creates a push iterable with the values of elements of the given <code>array</code>.
+					A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapArray">mapArray</a>/<a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIt">filterIt</a>.</li>
 				</ul>
 				<a href="#indexed-list-transformation" id="indexed-list-transformation" style="color: inherit; text-decoration: none;">
 					<h3>Indexed List Transformation</h3>
@@ -203,6 +207,8 @@
 					a mapping function, then flattens the result into new push iterable.</li>
 					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed"><code>mapIndexed(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function
 					on every item of the given indexed list.</li>
+					<li><a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#valueIndexed"><code>valueIndexed(array, convert)</code></a> - Creates a push iterable with the values of items of the given indexed
+					list. A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#mapIndexed">mapIndexed</a>/<a href="https://proc7ts.github.io/push-iterator/modules/@proc7ts_push-iterator.html#filterIt">filterIt</a>.</li>
 				</ul>
 				<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
 					<h3>Utilities</h3>
