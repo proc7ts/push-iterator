@@ -3,7 +3,7 @@ import type Benchmark from 'benchmark';
 import { thruIt } from '../call-thru';
 import { overArray } from '../construction';
 import { itsEach } from '../consumption';
-import { filterIt, mapArray, mapIt } from '../transformation';
+import { filterIt, mapArray, mapIt, valueArray, valueIt } from '../transformation';
 import { benchArray, benchInput, benchIterable, benchOut } from './bench-data';
 import { benchFilter, FilterBenchFactory, filterIterable, generatorFilter } from './filter.suite';
 import { generatorMap, mapIterable } from './map.suite';
@@ -57,6 +57,15 @@ export function arrayMapThenFilterSuite(
           },
       )
       .add(
+          'itsEach(valueIt([...]))',
+          () => {
+            itsEach(
+                valueIt(benchInput, el => benchFilter(el) && el + '!'),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
           'itsEach(filterIt(mapArray([...])))',
           () => {
             itsEach(
@@ -64,6 +73,15 @@ export function arrayMapThenFilterSuite(
                     mapArray(benchInput, el => el + '!'),
                     el => benchFilter(el),
                 ),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(valueArray([...]))',
+          () => {
+            itsEach(
+                valueArray(benchInput, el => benchFilter(el) && el + '!'),
                 element => benchOut(element),
             );
           },
@@ -137,12 +155,36 @@ export function iterableMapThenFilterSuite(
           },
       )
       .add(
+          'itsEach(valueIt(overArray([...])))',
+          () => {
+            itsEach(
+                valueIt(
+                    overArray(benchInput),
+                    (el: string) => benchFilter(el) && el + '!',
+                ),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
           'itsEach(filterIt(mapIt(iterable)))',
           () => {
             itsEach(
                 filterIt(
                     mapIt(benchIterable(), el => el + '!'),
                     el => benchFilter(el),
+                ),
+                element => benchOut(element),
+            );
+          },
+      )
+      .add(
+          'itsEach(valueIt(iterable))',
+          () => {
+            itsEach(
+                valueIt(
+                    benchIterable(),
+                    el => benchFilter(el) && el + '!',
                 ),
                 element => benchOut(element),
             );

@@ -19,9 +19,9 @@
     "url": "https://github.com/proc7ts/push-iterator/issues"
   },
   "type": "module",
-  "main": "dist/push-iterator.cjs",
-  "module": "dist/push-iterator.js",
-  "types": "index.d.ts",
+  "main": "./dist/push-iterator.cjs",
+  "module": "./dist/push-iterator.js",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/push-iterator.cjs",
@@ -34,6 +34,11 @@
   },
   "peerDependencies": {
     "@proc7ts/call-thru": "^4.3.1"
+  },
+  "peerDependenciesMeta": {
+    "@proc7ts/call-thru": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@proc7ts/call-thru": "^4.3.1",
@@ -71,8 +76,8 @@
     "benchmark": "run-z benchmark:build --then node --no-warnings --enable-source-maps ./target/benchmark.js",
     "benchmark:build": "run-z --then rollup --config ./rollup.benchmark.config.js",
     "benchmark:record": "run-z benchmark:build benchmark:record:node12 benchmark:record:node14",
-    "benchmark:record:node12": "LANG=C FORCE_COLOR=0 npx -q node@12 ./target/benchmark.mjs > ./benchmarks/node12.txt",
-    "benchmark:record:node14": "LANG=C FORCE_COLOR=0 npx -q node@14 ./target/benchmark.mjs > ./benchmarks/node14.txt",
+    "benchmark:record:node12": "LANG=C FORCE_COLOR=0 npx -q node@12 ./target/benchmark.js > ./benchmarks/node12.txt",
+    "benchmark:record:node14": "LANG=C FORCE_COLOR=0 npx -q node@14 ./target/benchmark.js > ./benchmarks/node14.txt",
     "bootstrap": "rollup --config ./rollup.config.js",
     "build": "run-z +z bootstrap",
     "ci:all": "run-z all +test/--ci/--runInBand",
