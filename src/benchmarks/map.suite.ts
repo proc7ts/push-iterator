@@ -99,13 +99,13 @@ export function iterableMapSuite(inputSizes: readonly number[]): readonly Benchm
       .suites('Iterable map', inputSizes.map(inputSize => [inputSize]));
 }
 
-export function *generatorMap<T, R>(source: Iterable<T>, map: (src: T) => R): IterableIterator<R> {
+export function *generatorMap<T, TResult>(source: Iterable<T>, map: (src: T) => TResult): IterableIterator<TResult> {
   for (const src of source) {
     yield map(src);
   }
 }
 
-export function mapIterable<T, R>(source: Iterable<T>, map: (src: T) => R): Iterable<R> {
+export function mapIterable<T, TResult>(source: Iterable<T>, map: (src: T) => TResult): Iterable<TResult> {
   return {
     [Symbol.iterator]() {
 
@@ -116,7 +116,7 @@ export function mapIterable<T, R>(source: Iterable<T>, map: (src: T) => R): Iter
 
           const next = it.next();
 
-          return next.done ? { done: true } as IteratorReturnResult<R> : { value: map(next.value) };
+          return next.done ? { done: true } as IteratorReturnResult<TResult> : { value: map(next.value) };
         },
       };
     },

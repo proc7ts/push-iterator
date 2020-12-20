@@ -8,7 +8,7 @@ import type { PushIterable } from '../push-iterable';
 /**
  * @internal
  */
-const itsElements$defaultConverter = <T, R>(element: T): R => element as unknown as R;
+const itsElements$defaultConverter = <T, TConv>(element: T): TConv => element as unknown as TConv;
 
 /**
  * Creates a new, shallow-copied array instance containing elements of the `source` iterable.

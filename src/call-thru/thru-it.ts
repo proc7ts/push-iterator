@@ -288,14 +288,14 @@ export function thruIt<T, TReturn>(
     };
 
     return ({
-      call<A extends any[]>(fn: (...args: A) => any, args: A): void {
+      call<TArgs extends any[]>(fn: (...args: TArgs) => any, args: TArgs): void {
         handleResult(outcome, fn(...args), args);
       },
-      pass<A>(fn: (arg: A) => any, arg: A): void {
+      pass<TArgs>(fn: (arg: TArgs) => any, arg: TArgs): void {
         handleResult(outcome, fn(arg), arg);
       },
       skip() {/* skip item */},
-      iterate<I>(fn: (this: void, arg: I) => void, iterable: Iterable<I>): void {
+      iterate<TElement>(fn: (this: void, arg: TElement) => void, iterable: Iterable<TElement>): void {
         outcome.push(flatMapIt(
             iterable,
             item => {

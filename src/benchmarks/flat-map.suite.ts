@@ -115,7 +115,7 @@ function benchSubItems<T>(element: T): T[] {
   return result;
 }
 
-function *generatorFlatMap<T, R>(source: Iterable<T>, flatMap: (src: T) => Iterable<R>): Iterable<R> {
+function *generatorFlatMap<T, TResult>(source: Iterable<T>, flatMap: (src: T) => Iterable<TResult>): Iterable<TResult> {
   for (const src of source) {
     yield* flatMap(src);
   }
