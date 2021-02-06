@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator
- */
 import type { PushIterable } from './push-iterable';
 
 /**

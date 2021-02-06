@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator/call-thru
- */
 import { NextCall, nextCall } from '@proc7ts/call-thru';
 import type { IterableCallChain } from './iterable-call-chain';
 

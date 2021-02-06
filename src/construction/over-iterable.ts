@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator
- */
 import { iteratorOf } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { overArray } from './over-array';

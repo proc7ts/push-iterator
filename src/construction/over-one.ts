@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator
- */
 import { makePushIterable } from '../base';
 import { PushIterator$iterator } from '../base/make-push-iterator';
 import type { PushIterable } from '../push-iterable';

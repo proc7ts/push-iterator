@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator
- */
 import type { PushIterable } from '../push-iterable';
 import { mapIt } from '../transformation';
 import type { ObjectEntry } from './object-entry';

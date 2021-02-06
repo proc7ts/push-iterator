@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator/call-thru
- */
 import type { CallChain, NextCall, NextSkip } from '@proc7ts/call-thru';
 
 /**

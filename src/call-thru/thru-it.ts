@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator/call-thru
- */
 import { isNextCall, NextCall__symbol } from '@proc7ts/call-thru';
 import { overOne } from '../construction';
 import type { PushIterable } from '../push-iterable';

@@ -1,7 +1,3 @@
-/**
- * @packageDocumentation
- * @module @proc7ts/push-iterator
- */
 import { makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.impl';
