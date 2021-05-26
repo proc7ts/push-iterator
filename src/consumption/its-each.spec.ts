@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { overArray } from '../construction';
 import { itsEach } from './its-each';
 

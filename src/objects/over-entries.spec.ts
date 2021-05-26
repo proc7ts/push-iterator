@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { overEntries } from './over-entries';
 
 describe('overEntries', () => {

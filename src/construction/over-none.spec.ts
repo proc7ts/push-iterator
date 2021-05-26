@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { iteratorOf, pushIterated } from '../base';
 import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';

@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals';
 import { overArray } from '../construction';
 import { itsEvery } from './its-every';
 
@@ -14,7 +15,7 @@ describe('itsEvery', () => {
     });
     it('return `false` if some element does not match', () => {
 
-      const test = jest.fn(element => element < 2);
+      const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery([1, 2, 3], test)).toBe(false);
       expect(test).toHaveBeenCalledWith(1);
@@ -35,7 +36,7 @@ describe('itsEvery', () => {
     });
     it('return `false` if some element does not match', () => {
 
-      const test = jest.fn(element => element < 2);
+      const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery(overArray([1, 2, 3]), test)).toBe(false);
       expect(test).toHaveBeenCalledWith(1);

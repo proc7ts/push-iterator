@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { iteratorOf, pushIterated } from '../base';
 import type { IndexedItemList } from '../construction';
 import { itsElements } from '../consumption';

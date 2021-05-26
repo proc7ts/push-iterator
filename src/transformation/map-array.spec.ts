@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { iteratorOf, pushIterated } from '../base';
 import { itsElements } from '../consumption';
 import { mapArray } from './map-array';

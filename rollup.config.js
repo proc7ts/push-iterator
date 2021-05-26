@@ -29,36 +29,26 @@ export default {
     }
     return 'push-iterator';
   },
-  output: [
-    {
-      format: 'cjs',
-      sourcemap: true,
-      dir: './dist',
-      entryFileNames: '[name].cjs',
-      chunkFileNames: '_[name].cjs',
-      hoistTransitiveImports: false,
-    },
-    {
-      format: 'esm',
-      sourcemap: true,
-      dir: '.',
-      entryFileNames: 'dist/[name].js',
-      chunkFileNames: 'dist/_[name].js',
-      hoistTransitiveImports: false,
-      plugins: [
-        flatDts({
-          tsconfig: 'tsconfig.main.json',
-          lib: true,
-          compilerOptions: {
-            declarationMap: true,
+  output: {
+    format: 'esm',
+    sourcemap: true,
+    dir: '.',
+    entryFileNames: 'dist/[name].js',
+    chunkFileNames: 'dist/_[name].js',
+    hoistTransitiveImports: false,
+    plugins: [
+      flatDts({
+        tsconfig: 'tsconfig.main.json',
+        lib: true,
+        compilerOptions: {
+          declarationMap: true,
+        },
+        entries: {
+          'call-thru': {
+            file: 'call-thru/index.d.ts',
           },
-          entries: {
-            'call-thru': {
-              file: 'call-thru/index.d.ts',
-            },
-          },
-        }),
-      ],
-    },
-  ],
+        },
+      }),
+    ],
+  },
 };

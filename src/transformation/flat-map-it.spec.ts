@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { iteratorOf, makePushIterator } from '../base';
 import { overArray, overMany } from '../construction';
 import { itsEach } from '../consumption';

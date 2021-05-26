@@ -1,4 +1,5 @@
-import { iteratorOf } from '../base/iterator-of';
+import { beforeEach, describe, expect, it } from '@jest/globals';
+import { iteratorOf } from '../base';
 import { overMany } from '../construction';
 import { itsHead } from './its-head';
 
