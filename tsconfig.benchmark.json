@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "files": [
-    "src/benchmarks/main.ts"
-  ]
+    "./src/benchmarks/main.ts"
+  ],
+  "include": []
 }

@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { itsEach } from '../consumption';
 import { overElementsOf } from './over-elements-of';
 import { overMany } from './over-many';

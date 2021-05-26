@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { nextArgs, nextSkip } from '@proc7ts/call-thru';
 import type { PushIterable } from '../push-iterable';
 import { thruIt } from './thru-it';

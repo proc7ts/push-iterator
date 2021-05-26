@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { IndexedItemList, overArray } from '../construction';
 import { itsEach, itsElements } from '../consumption';
 import { flatMapIndexed } from './flat-map-indexed';

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { iteratorOf, pushIterated } from '../base';
 import { itsElements, itsIterator } from '../consumption';
 import { overArray } from './over-array';

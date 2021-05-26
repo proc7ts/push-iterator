@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { itsFind } from './its-find';
 
 describe('itsFind', () => {

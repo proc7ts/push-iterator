@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { iteratorOf } from '../base';
 import { overNone, overOne } from '../construction';
 import { itsEmpty } from './its-empty';
