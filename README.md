@@ -30,7 +30,6 @@ Another method it extends [Iterator] with is `isOver()`, that checks whether ite
 [github-url]: https://github.com/proc7ts/push-iterator
 [api-docs-image]: https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational
 [API documentation]: https://proc7ts.github.io/push-iterator/
-[IoC]: https://en.wikipedia.org/wiki/Inversion_of_control
 
 
 Instant Iteration
