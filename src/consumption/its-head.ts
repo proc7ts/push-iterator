@@ -55,4 +55,3 @@ function rawIterableHead<T>(
 
   return forEach(accept) ? toPushIterator(it, forEach) : emptyPushIterator;
 }
-

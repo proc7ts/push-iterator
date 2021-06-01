@@ -143,4 +143,3 @@ function flatMapIt$defaultConverter<T, TConv>(
 ): Iterable<TConv> {
   return element as unknown as Iterable<TConv>;
 }
-

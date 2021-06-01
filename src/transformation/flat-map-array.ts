@@ -51,4 +51,3 @@ function flatMapArray$defaultElementOf<TSrc, TConv>(
 ): Iterable<TConv> {
   return array[index] as unknown as Iterable<TConv>;
 }
-

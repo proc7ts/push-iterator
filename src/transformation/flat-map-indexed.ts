@@ -52,4 +52,3 @@ function flatMapIndexed$defaultElementOf<TSrc, TConv>(
 ): Iterable<TConv> {
   return indexed.item(index) as unknown as Iterable<TConv>;
 }
-
