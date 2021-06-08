@@ -1,11 +1,12 @@
 import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import { externalModules } from '@run-z/rollup-helpers';
+import { defineConfig } from 'rollup';
 import sourcemaps from 'rollup-plugin-sourcemaps';
 import ts from 'rollup-plugin-typescript2';
 import typescript from 'typescript';
 
-export default {
+export default defineConfig({
   input: './src/benchmarks/main.ts',
   plugins: [
     commonjs(),
@@ -24,4 +25,4 @@ export default {
     sourcemap: true,
     file: './target/benchmark.js',
   },
-};
+});
