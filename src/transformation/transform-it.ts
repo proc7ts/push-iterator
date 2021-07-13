@@ -24,11 +24,11 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
       (push, state = [iterable]): boolean | void => {
 
         // eslint-disable-next-line prefer-const
-        let [source, transformerState, reTransform, src] = state;
+        let [source, transformerState, reTransform, reSrc] = state;
 
         if (reTransform) {
 
-          const transformResult = transformNext(src!);
+          const transformResult = transformNext(reSrc!);
 
           if (transformResult != null) {
             return transformResult;
@@ -45,7 +45,6 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
         source = state[0] = tail;
 
         function transformNext(src: TSrc): boolean | void {
-          reTransform = 0;
           for (; ;) {
 
             let pushResult!: boolean | void;
@@ -60,17 +59,20 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
             );
 
             if (pushResult === false || transformResult === false) {
+              // Abort transformation.
               return false;
             }
 
             if (transformResult === true) {
-              reTransform = state[2] = 1;
-              state[3] = src;
+              // Transformation the same element.
+              state[2 /* reTransform */] = 1;
+              state[3 /* reSrc */] = src;
+              if (pushResult != null) {
+                return pushResult;
+              }
             } else {
+              // Transform next element.
               state[2] = state[3] = undefined;
-            }
-
-            if (pushResult != null || !reTransform) {
               return pushResult;
             }
           }
@@ -80,4 +82,9 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
   ));
 }
 
-type PushIterator$Transform<TSrc, TState> = [Iterable<TSrc>, TState?, (0 | 1)?, TSrc?];
+type PushIterator$Transform<TSrc, TState> = [
+  source: Iterable<TSrc>,
+  transformerState?: TState,
+  reTransform?: 0 | 1,
+  reSrc?: TSrc,
+];
