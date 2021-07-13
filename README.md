@@ -110,17 +110,17 @@ Each of the following functions returns a push iterable instance:
 - [`reverseArray(array)`][reverseArray] - Creates a push iterable over elements of array-like structure in reverse
   order.
 
-[overArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overArray
-[overElementsOf]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overElementsOf
-[overEntries]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overEntries
-[overIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overIndexed
-[overIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overIterable
-[overIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overIterator
-[overKeys]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overKeys
-[overMany]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overMany
-[overNone]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overNone
-[overOne]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#overOne
-[reverseArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#reverseArray
+[overArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overArray
+[overElementsOf]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overElementsOf
+[overEntries]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overEntries
+[overIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIndexed
+[overIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIterable
+[overIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIterator
+[overKeys]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overKeys
+[overMany]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overMany
+[overNone]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overNone
+[overOne]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overOne
+[reverseArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#reverseArray
 
 
 ### Iterable Consumption
@@ -147,18 +147,18 @@ Each of the following functions accepts either [Iterable] or push iterable:
 - [`itsSome(iterable, test): boolean`][itsSome] - Tests whether at least one element of the given `iterable` passes the
   test implemented by the provided function.
 
-[itsEach]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsEach
-[itsElements]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsElements
-[itsEmpty]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsEmpty
-[itsEvery]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsEvery
-[itsFind]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsFind
-[itsFirst]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsFirst
-[itsHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsHead
-[itsIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsIterated
-[itsIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsIterator
-[itsMatch]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsMatch
-[itsReduction]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsReduction
-[itsSome]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#itsSome
+[itsEach]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEach
+[itsElements]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsElements
+[itsEmpty]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEmpty
+[itsEvery]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEvery
+[itsFind]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFind
+[itsFirst]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFirst
+[itsHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsHead
+[itsIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsIterated
+[itsIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsIterator
+[itsMatch]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsMatch
+[itsReduction]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsReduction
+[itsSome]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsSome
 
 
 ### Iterable Transformation
@@ -174,10 +174,10 @@ Each of the following functions accepts either [Iterable] or push iterable, and 
 - [`valueIt(source, valueOf)`][valueIt] - Creates a push iterable with the values of elements of the `source` iterable.
   A more effective combination of [mapIt]/[filterIt]. 
 
-[filterIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#filterIt
-[flatMapIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#flatMapIt
-[mapIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#mapIt
-[valueIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#valueIt
+[filterIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIt
+[flatMapIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapIt
+[mapIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIt
+[valueIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueIt
   
 
 ### Array Transformation
@@ -194,9 +194,9 @@ Each of the following functions accepts an array-like instance, and returns a pu
   A more effective combination of [mapArray]/[filterIt].
 
 [filterArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterArray
-[flatMapArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#flatMapArray
-[mapArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#mapArray
-[valueArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#valueArray
+[flatMapArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapArray
+[mapArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapArray
+[valueArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueArray
 
 
 ### Indexed List Transformation
@@ -218,10 +218,10 @@ Each of the following functions accepts an indexed list of items, and returns a 
   list. A more effective combination of [mapIndexed]/[filterIt].
 
 [indexed list]: https://proc7ts.github.io/push-iterator/interfaces/@proc7ts_push-iterator.IndexedItemList.html
-[filterIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#filterIndexed
-[flatMapIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#flatMapIndexed
-[mapIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#mapIndexed
-[valueIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#valueIndexed
+[filterIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIndexed
+[flatMapIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapIndexed
+[mapIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIndexed
+[valueIndexed]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueIndexed
 
 
 ### Utilities
@@ -235,9 +235,9 @@ Each of the following functions accepts an indexed list of items, and returns a 
   and returns its tail iterator.
 - [`pushIterated(iterable, accept): boolean`][pushIterated] - Iterates over elements of the given push iterable.
 
-[isPushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#isPushIterable
-[iteratorOf]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#iteratorOf
-[makePushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#makePushIterable
-[makePushIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#makePushIterator
-[pushHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#pushHead
-[pushIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push-iterator.html#pushIterated
+[isPushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#isPushIterable
+[iteratorOf]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iteratorOf
+[makePushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterable
+[makePushIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterator
+[pushHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#pushHead
+[pushIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#pushIterated
