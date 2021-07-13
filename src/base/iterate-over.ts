@@ -29,32 +29,29 @@ export function iterateOver<T, TState>(
 
     let pushed = false;
     let push = (next: T, newState?: TState | null): boolean => {
-      pushed = true;
-      if (newState == null) {
-        state = undefined;
-        over = true;
-        doIterate = PushIterator$dontIterate;
-        push = PushIterator$dontPush;
-      } else {
-        state = newState;
-      }
 
       const result = accept(next);
 
-      if (over) {
-        return false;
-      }
-      if (typeof result === 'boolean') {
-        if (!result) {
-          state = undefined;
-          over = true;
-          doIterate = PushIterator$dontIterate;
-          push = PushIterator$dontPush;
-        }
+      pushed = true;
+
+      if (newState == null || result === false) {
+        // Stop iteration.
+        state = undefined;
+        over = true;
+        doIterate = PushIterator$dontIterate;
+        accept = push = PushIterator$reject;
 
         return false;
       }
 
+      state = newState;
+
+      if (result === true) {
+        // Suspend iteration.
+        return false;
+      }
+
+      // Continue iteration.
       return true;
     };
 
@@ -103,6 +100,6 @@ export function iterateOver<T, TState>(
   };
 }
 
-function PushIterator$dontPush<T, TState>(_next: T, _newState?: TState): boolean {
+function PushIterator$reject<T, TState>(_next: T, _newState?: TState): boolean {
   return false;
 }
