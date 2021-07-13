@@ -1,8 +1,5 @@
-import { isPushIterable, makePushIterable } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
+import { iterateOver, makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
-import { PushIterator__symbol } from '../push-iterable';
-import { overNone } from './over-none';
 
 /**
  * Creates a {@link PushIterable | push iterable} over elements of iterator created by the given function.
@@ -13,20 +10,36 @@ import { overNone } from './over-none';
  * @returns New push iterable over elements of created iterator.
  */
 export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable<T> {
-  return makePushIterable(iterateOverRawIterator(iterate));
+  return makePushIterable(accept => iterateOver<T, [Iterator<T>, IteratorResult<T>]>(
+      (push, state = overIterator$start(iterate)) => {
+
+        const [iterator] = state;
+        let [, current] = state;
+
+        if (!current.done) {
+          for (; ;) {
+
+            const next = iterator.next();
+
+            if (next.done) {
+              push(current.value);
+              break;
+            }
+            state[1] = next;
+            if (!push(current.value, state)) {
+              break;
+            }
+            current = next;
+          }
+        }
+      },
+      accept,
+  ));
 }
 
-function iterateOverRawIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
-  return accept => {
+function overIterator$start<T>(iterate: (this: void) => Iterator<T>): [Iterator<T>, IteratorResult<T>] {
 
-    const it = iterate();
+  const iterator = iterate();
 
-    if (isPushIterable(it)) {
-      return it[PushIterator__symbol](accept);
-    }
-
-    const forNext = rawIteratorPusher(it);
-
-    return accept && !forNext(accept) ? overNone() : toPushIterator(it, forNext);
-  };
+  return [iterator, iterator.next()];
 }
