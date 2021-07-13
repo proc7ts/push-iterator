@@ -1,5 +1,5 @@
 import type { IndexedElements } from '../base/iterate-over-indexed.impl';
-import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from '../base/make-push-iterator';
+import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from '../base/push-iterator.impl';
 import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';

@@ -21,19 +21,42 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
 export namespace PushIterator {
 
   /**
+   * Iterated elements generator signature.
+   *
+   * Generator instance is passed to {@link iterateOver} method.
+   *
+   * Generator has to push generated elements with provided `push` function until there are no more elements, or the
+   * `push` function call returned `false`. The second `push` function parameter is an updated internal state instance,
+   * which is required to continue generation.
+   *
+   * The internal `state` is specific to generator. It is `undefined` initially. It has to be updated on each `push`
+   * call by passing an updated state as second parameter. Updating to `null` or `undefined` stops generation.
+   *
+   * If generator did not `push` any elements, generation stops.
+   *
+   * @typeParam T - Iterated elements type.
+   * @typeParam TState - Internal state of generator.
+   * @param push - Pushes the next generated value and a new generator state. Returns `true` if more elements accepted,
+   * or `false` otherwise.
+   * @param state - Either previous generator state, or `undefined` if generation just started.
+   */
+  export type Generator<T, TState> = (
+      this: void,
+      push: (this: void, next: T, newState?: TState | null) => boolean,
+      state?: TState,
+  ) => void;
+
+  /**
    * A signature of iterated elements pusher function conforming to push iteration protocol.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type Pusher<T> =
-  /**
    * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `false` to stop iteration.
    *
    * @returns `true` if further iteration is possible, or `false` if there is no more elements left to iterate.
    * The former is possible only when iteration stopped, i.e. `accept` returned `false`.
    */
-      (this: void, accept: Acceptor<T>) => boolean;
+  export type Pusher<T> = (this: void, accept: Acceptor<T>) => boolean;
 
   /**
    * A signature of a function accepting iterated elements.
@@ -48,12 +71,9 @@ export namespace PushIterator {
    * A signature of a function accepting each iterated element unconditionally.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type EachAcceptor<T> =
-  /**
    * @param element - Iterated element.
    */
-      (this: void, element: T) => void;
+  export type EachAcceptor<T> = (this: void, element: T) => void;
 
   /**
    * A signature of a function accepting iterated elements and able to suspend or stop further iteration.
@@ -67,13 +87,10 @@ export namespace PushIterator {
    * its {@link PushIterator.isOver} method always returning `true`.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type StoppingAcceptor<T> =
-  /**
    * @param element - Iterated element.
    *
    * @returns `true` to suspend iteration, or `false` to stop it.
    */
-      (this: void, element: T) => boolean;
+  export type StoppingAcceptor<T> = (this: void, element: T) => boolean;
 
 }

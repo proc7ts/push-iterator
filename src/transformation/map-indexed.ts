@@ -18,8 +18,9 @@ export function mapIndexed<TSrc, TConv>(
     indexed: IndexedItemList<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(iterateOverIndexed(
+  return makePushIterable(accept => iterateOverIndexed(
       indexed,
       (list, index) => convert(list.item(index) as TSrc /* The index is always valid */),
+      accept,
   ));
 }

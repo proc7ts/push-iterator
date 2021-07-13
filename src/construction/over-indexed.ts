@@ -35,5 +35,5 @@ export interface IndexedItemList<T> {
  * @returns New push iterable over list items.
  */
 export function overIndexed<T>(indexed: IndexedItemList<T>): PushIterable<T> {
-  return makePushIterable(iterateOverIndexed(indexed, indexedItemOf));
+  return makePushIterable(accept => iterateOverIndexed(indexed, indexedItemOf, accept));
 }

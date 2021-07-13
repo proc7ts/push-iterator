@@ -17,8 +17,9 @@ export function mapArray<TSrc, TConv>(
     array: ArrayLike<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(iterateOverIndexed(
+  return makePushIterable(accept => iterateOverIndexed(
       array,
       (array, index) => convert(array[index]),
+      accept,
   ));
 }

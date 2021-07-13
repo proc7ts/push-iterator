@@ -1,6 +1,6 @@
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from './make-push-iterator';
+import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from './push-iterator.impl';
 
 export function toPushIterator<T>(it: Iterator<T>, forNext: PushIterator.Pusher<T>): PushIterator<T> {
 
