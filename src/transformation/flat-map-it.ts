@@ -44,9 +44,6 @@ export function flatMapIt<TSrc, TConv>(
   });
 }
 
-/**
- * @internal
- */
 function flatMapPusher<TSrc, TConv>(
     source: PushIterable<TSrc>,
     convert: (this: void, element: TSrc) => Iterable<TConv>,
@@ -94,9 +91,6 @@ function flatMapPusher<TSrc, TConv>(
   };
 }
 
-/**
- * @internal
- */
 function flatMapRawPusher<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => Iterable<TConv>,
@@ -135,9 +129,6 @@ function flatMapRawPusher<TSrc, TConv>(
   };
 }
 
-/**
- * @internal
- */
 function flatMapIt$defaultConverter<T, TConv>(
     element: T,
 ): Iterable<TConv> {

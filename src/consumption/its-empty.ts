@@ -18,9 +18,6 @@ export function itsEmpty(iterable: Iterable<unknown>): boolean {
   return isPushIterable(it) ? pushedEmpty(it) : !!it.next().done;
 }
 
-/**
- * @internal
- */
 function pushedEmpty(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;

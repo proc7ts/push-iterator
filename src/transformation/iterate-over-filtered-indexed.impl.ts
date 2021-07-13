@@ -4,9 +4,6 @@ import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
-/**
- * @internal
- */
 export function iterateOverFilteredIndexed<TIndexed extends IndexedElements, T>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,

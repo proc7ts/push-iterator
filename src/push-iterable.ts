@@ -49,15 +49,12 @@ export namespace PushIterable {
    * function.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type Iterate<T> =
-  /**
    * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `true` to suspend iteration, or `false` to stop it.
    *
    * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
    * won't be possible with returned iterator.
    */
-      (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T>;
+  export type Iterate<T> = (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T>;
 
 }

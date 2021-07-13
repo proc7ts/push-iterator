@@ -16,9 +16,6 @@ export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushItera
   return makePushIterable(iterateOverRawIterator(iterate));
 }
 
-/**
- * @internal
- */
 function iterateOverRawIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
   return accept => {
 

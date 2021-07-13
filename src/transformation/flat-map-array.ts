@@ -42,9 +42,6 @@ export function flatMapArray<TSrc, TConv>(
   ));
 }
 
-/**
- * @internal
- */
 function flatMapArray$defaultElementOf<TSrc, TConv>(
     array: ArrayLike<TSrc>,
     index: number,

@@ -49,9 +49,6 @@ export function filterIt<T>(
   });
 }
 
-/**
- * @internal
- */
 function filterPusher<T>(
     source: PushIterable<T>,
     test: (this: void, element: T) => boolean,
@@ -74,9 +71,6 @@ function filterPusher<T>(
   };
 }
 
-/**
- * @internal
- */
 function filterRawPusher<T>(
     source: Iterable<T>,
     test: (this: void, element: T) => boolean,

@@ -16,9 +16,6 @@ export function overOne<T>(value: T): PushIterable<T> {
   return makePushIterable(iterateOverOneValue(value));
 }
 
-/**
- * @internal
- */
 function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
     if (accept) {

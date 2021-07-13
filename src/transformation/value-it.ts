@@ -31,9 +31,6 @@ export function valueIt<T, TValue>(
   });
 }
 
-/**
- * @internal
- */
 function valuePusher<T, TValue>(
     source: PushIterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
@@ -59,9 +56,6 @@ function valuePusher<T, TValue>(
   };
 }
 
-/**
- * @internal
- */
 function valueRawPusher<T, TValue>(
     source: Iterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,

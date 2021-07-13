@@ -19,9 +19,6 @@ export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
   return isPushIterable(it) ? pushedFirst(it) : rawFirst(it);
 }
 
-/**
- * @internal
- */
 function pushedFirst<T>(it: PushIterable<T>): T | undefined {
 
   let first: T | undefined;
@@ -37,9 +34,6 @@ function pushedFirst<T>(it: PushIterable<T>): T | undefined {
   return first;
 }
 
-/**
- * @internal
- */
 function rawFirst<T>(it: Iterator<T>): T | undefined {
 
   const result = it.next();

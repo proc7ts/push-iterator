@@ -30,16 +30,10 @@ export function itsHead<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<
   return rawIterableHead(iterable, accept);
 }
 
-/**
- * @internal
- */
 function arrayHead<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
   return array.length ? iterateOverArray(array)(accept) : emptyPushIterator;
 }
 
-/**
- * @internal
- */
 function rawIterableHead<T>(
     iterable: Iterable<T>,
     accept: PushIterator.Acceptor<T>,

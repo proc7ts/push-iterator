@@ -1,9 +1,6 @@
 import { isPushIterable, iteratorOf, pushIterated } from '../base';
 import type { PushIterable } from '../push-iterable';
 
-/**
- * @internal
- */
 const itsElements$defaultConverter = <T, TConv>(element: T): TConv => element as unknown as TConv;
 
 /**
@@ -49,9 +46,6 @@ export function itsElements<T, TConv>(
   return isPushIterable(it) ? pushedElements(it, convert) : Array.from(source, convert);
 }
 
-/**
- * @internal
- */
 function pushedElements<T, TConv>(
     it: PushIterable<T>,
     convert: (this: void, element: T) => TConv,

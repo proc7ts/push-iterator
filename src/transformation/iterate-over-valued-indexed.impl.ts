@@ -4,9 +4,6 @@ import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
-/**
- * @internal
- */
 export function iterateOverValuedIndexed<TIndexed extends IndexedElements, T, TValue>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,

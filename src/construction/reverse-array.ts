@@ -17,9 +17,6 @@ export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
   return makePushIterable(iterateOverArrayReversely(array));
 }
 
-/**
- * @internal
- */
 function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
   return accept => {
 

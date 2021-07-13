@@ -16,9 +16,6 @@ export function makePushIterable<T>(iterate: PushIterable.Iterate<T>): PushItera
   };
 }
 
-/**
- * @internal
- */
 function PushIterable$iterator<T>(this: PushIterable<T>): PushIterator<T> {
   return this[PushIterator__symbol]();
 }

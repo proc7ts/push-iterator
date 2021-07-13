@@ -47,6 +47,7 @@ export default defineConfig({
             file: 'call-thru/index.d.ts',
           },
         },
+        internal: ['**/impl/**', '**/*.impl'],
       }),
     ],
   },

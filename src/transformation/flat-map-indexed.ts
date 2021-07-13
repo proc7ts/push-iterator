@@ -43,9 +43,6 @@ export function flatMapIndexed<TSrc, TConv>(
   ));
 }
 
-/**
- * @internal
- */
 function flatMapIndexed$defaultElementOf<TSrc, TConv>(
     indexed: IndexedItemList<TSrc>,
     index: number,

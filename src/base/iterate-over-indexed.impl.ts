@@ -8,25 +8,16 @@ import {
   PushIterator$noNext,
 } from './make-push-iterator';
 
-/**
- * @internal
- */
 export interface IndexedElements {
 
   readonly length: number;
 
 }
 
-/**
- * @internal
- */
 export function indexedItemOf<T>(indexed: IndexedItemList<T>, index: number): T {
   return indexed.item(index) as T; // The index is always valid.
 }
 
-/**
- * @internal
- */
 export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,

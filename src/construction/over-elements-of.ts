@@ -21,9 +21,6 @@ export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushItera
           : overNone());
 }
 
-/**
- * @internal
- */
 function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
   return accept => {
 

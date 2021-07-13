@@ -5,9 +5,6 @@ import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
-/**
- * @internal
- */
 export function iterateOverFlattenedIndexed<TIndexed extends IndexedElements, T>(
     indexed: TIndexed,
     elementsOf: (indexed: TIndexed, index: number) => Iterable<T>,

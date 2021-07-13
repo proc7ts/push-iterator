@@ -27,9 +27,6 @@ export function mapIt<TSrc, TConv>(
   });
 }
 
-/**
- * @internal
- */
 function mapPusher<TSrc, TConv>(
     source: PushIterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
@@ -44,9 +41,6 @@ function mapPusher<TSrc, TConv>(
   };
 }
 
-/**
- * @internal
- */
 function mapRawPusher<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
