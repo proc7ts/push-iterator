@@ -20,7 +20,7 @@ export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
   return iterateOver<T, number>(
       (push, i = 0) => {
         if (i < indexed.length) {
-          while (push(elementOf(indexed, i), ++i < indexed.length ? i : null)) {
+          while (push(elementOf(indexed, i), ++i < indexed.length ? i : null) == null) {
             // Iterate while needed or possible
           }
         }

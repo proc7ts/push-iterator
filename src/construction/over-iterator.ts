@@ -26,7 +26,7 @@ export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushItera
               break;
             }
             state[1] = next;
-            if (!push(current.value, state)) {
+            if (push(current.value, state) != null) {
               break;
             }
             current = next;

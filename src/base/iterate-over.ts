@@ -28,7 +28,7 @@ export function iterateOver<T, TState>(
   let doIterate = (accept: PushIterator.Acceptor<T>): void => {
 
     let pushed = false;
-    let push = (next: T, newState?: TState | null): boolean => {
+    let push = (next: T, newState?: TState | null): boolean | void => {
 
       const result = accept(next);
 
@@ -48,11 +48,10 @@ export function iterateOver<T, TState>(
 
       if (result === true) {
         // Suspend iteration.
-        return false;
+        return true;
       }
 
       // Continue iteration.
-      return true;
     };
 
     generator(push, state);

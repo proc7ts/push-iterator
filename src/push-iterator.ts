@@ -26,8 +26,8 @@ export namespace PushIterator {
    * Generator instance is passed to {@link iterateOver} method.
    *
    * Generator has to push generated elements with provided `push` function until there are no more elements, or the
-   * `push` function call returned `false`. The second `push` function parameter is an updated internal state instance,
-   * which is required to continue generation.
+   * `push` function call returned `true` or `false`. The second `push` function parameter is an updated internal state
+   * instance, which is required to continue generation.
    *
    * The internal `state` is specific to generator. It is `undefined` initially. It has to be updated on each `push`
    * call by passing an updated state as second parameter. Updating to `null` or `undefined` stops generation.
@@ -36,13 +36,13 @@ export namespace PushIterator {
    *
    * @typeParam T - Iterated elements type.
    * @typeParam TState - Internal state of generator.
-   * @param push - Pushes the next generated value and a new generator state. Returns `true` if more elements accepted,
-   * or `false` otherwise.
+   * @param push - Pushes the next generated value and a new generator state. Returns `undefined` if more elements
+   * accepted, `true` to suspend generation, or `false` to stop it.
    * @param state - Either previous generator state, or `undefined` if generation just started.
    */
   export type Generator<T, TState> = (
       this: void,
-      push: (this: void, next: T, newState?: TState | null) => boolean,
+      push: (this: void, next: T, newState?: TState | null) => boolean | void,
       state?: TState,
   ) => void;
 
