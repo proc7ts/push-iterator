@@ -1,4 +1,4 @@
-import { makePushIterable, makePushIterator } from '../base';
+import { iterateOver, makePushIterable } from '../base';
 import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
@@ -15,41 +15,45 @@ import { overNone } from './over-none';
  */
 export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushIterable<T> {
   return sources.length > 1
-      ? makePushIterable(iterateOverSubElements(sources))
+      ? makePushIterable(accept => overElementsOf$iterate(sources, accept))
       : (sources.length
           ? overIterable(sources[0])
           : overNone());
 }
 
-function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
-  return accept => {
+function overElementsOf$iterate<T>(
+    sources: readonly Iterable<T>[],
+    accept?: PushIterator.Acceptor<T>,
+): PushIterator<T> {
+  return iterateOver<T, [number, Iterable<T>]>(
+      (push, state = overElementsOf$first(sources)) => {
 
-    let i = 0;
-    let src: Iterable<T> = sources[0];
+        let [index, source] = state;
 
-    const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      for (; ;) {
+        if (index < sources.length) {
+          for (; ;) {
 
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-        let status: boolean | void;
-        const srcTail = itsHead(src, element => status = accept(element));
+            let result: boolean | void;
+            const tail = itsHead(source, (element: T): boolean | void => result = push(element, state));
 
-        if (srcTail.isOver()) {
-          if (++i >= sources.length) {
-            return false;
+            if (tail.isOver()) {
+              if ((state[0] = ++index) >= sources.length) {
+                break;
+              }
+              state[1] = source = sources[index];
+            } else {
+              state[1] = source = tail;
+            }
+            if (result != null) {
+              break;
+            }
           }
-
-          src = sources[i];
-        } else {
-          src = srcTail;
         }
+      },
+      accept,
+  );
+}
 
-        if (typeof status === 'boolean') {
-          return status;
-        }
-      }
-    };
-
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  };
+function overElementsOf$first<T>([first]: readonly Iterable<T>[]): [number, Iterable<T>] {
+  return [0, first];
 }
