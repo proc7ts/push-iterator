@@ -16,22 +16,26 @@ export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushItera
         const [iterator] = state;
         let [, current] = state;
 
-        if (!current.done) {
-          for (; ;) {
+        while (!current.done) {
 
-            const next = iterator.next();
+          const next = iterator.next();
 
-            if (next.done) {
-              push(current.value);
-              break;
-            }
-            state[1] = next;
-            if (push(current.value, state) != null) {
-              break;
-            }
-            current = next;
+          if (next.done) {
+            push(current.value);
+            break;
           }
+          state[1] = next;
+
+          const result = push(current.value, state);
+
+          if (result != null) {
+            return result;
+          }
+
+          current = next;
         }
+
+        return false;
       },
       accept,
   ));

@@ -1,7 +1,5 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
-import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { transformIt } from './transform-it';
 
 /**
  * Creates a {@link PushIterable | push iterable} with the results of calling a provided function on every element
@@ -19,53 +17,12 @@ export function mapIt<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => {
-
-    const forNext = isPushIterable(source) ? mapPusher(source, convert) : mapRawPusher(source, convert);
-
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  });
-}
-
-function mapPusher<TSrc, TConv>(
-    source: PushIterable<TSrc>,
-    convert: (this: void, element: TSrc) => TConv,
-): PushIterator.Pusher<TConv> {
-  return accept => {
-
-    const tail = pushHead(source, element => accept(convert(element)));
-
-    source = tail;
-
-    return !tail.isOver();
-  };
-}
-
-function mapRawPusher<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => TConv,
-): PushIterator.Pusher<TConv> {
-
-  const it = iteratorOf(source);
-
-  if (isPushIterable(it)) {
-    return mapPusher(it, convert);
-  }
-
-  return accept => {
-    for (; ;) {
-
-      const next = it.next();
-
-      if (next.done) {
-        return false;
-      }
-
-      const status = accept(convert(next.value));
-
-      if (typeof status === 'boolean') {
-        return status;
-      }
-    }
-  };
+  return transformIt(
+      source,
+      (push, src): boolean | void => {
+        if (push(convert(src)) === false) {
+          return false;
+        }
+      },
+  );
 }

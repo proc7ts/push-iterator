@@ -1,7 +1,5 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
-import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { transformIt } from './transform-it';
 
 /**
  * Creates a {@link PushIterable | push iterable} with all `source` iterable elements extending the given type.
@@ -41,66 +39,12 @@ export function filterIt<T>(
     source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(accept => {
-
-    const forNext = isPushIterable(source) ? filterPusher(source, test) : filterRawPusher(source, test);
-
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  });
-}
-
-function filterPusher<T>(
-    source: PushIterable<T>,
-    test: (this: void, element: T) => boolean,
-): PushIterator.Pusher<T> {
-  return accept => {
-
-    const tail = pushHead(
-        source,
-        element => {
-          if (test(element)) {
-            return accept(element);
-          }
-          return;
-        },
-    );
-
-    source = tail;
-
-    return !tail.isOver();
-  };
-}
-
-function filterRawPusher<T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => boolean,
-): PushIterator.Pusher<T> {
-
-  const it = iteratorOf(source);
-
-  if (isPushIterable(it)) {
-    return filterPusher(it, test);
-  }
-
-  return accept => {
-    for (; ;) {
-
-      const next = it.next();
-
-      if (next.done) {
-        return false;
-      }
-
-      const value = next.value;
-
-      if (test(value)) {
-
-        const status = accept(value);
-
-        if (typeof status === 'boolean') {
-          return status;
+  return transformIt(
+      source,
+      (push, src): boolean | void => {
+        if (test(src) && push(src) === false) {
+          return false;
         }
-      }
-    }
-  };
+      },
+  );
 }

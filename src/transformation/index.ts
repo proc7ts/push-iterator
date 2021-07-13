@@ -7,6 +7,7 @@ export * from './flat-map-it';
 export * from './map-array';
 export * from './map-indexed';
 export * from './map-it';
+export * from './transform-it';
 export * from './value-array';
 export * from './value-indexed';
 export * from './value-it';

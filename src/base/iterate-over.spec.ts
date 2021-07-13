@@ -14,6 +14,7 @@ describe('iterateOver', () => {
         },
         element => {
           result.push(element);
+          return false;
         },
     );
 

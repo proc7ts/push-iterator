@@ -19,11 +19,16 @@ export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
 ): PushIterator<T> {
   return iterateOver<T, number>(
       (push, i = 0) => {
-        if (i < indexed.length) {
-          while (push(elementOf(indexed, i), ++i < indexed.length ? i : null) == null) {
-            // Iterate while needed or possible
+        while (i < indexed.length) {
+
+          const result = push(elementOf(indexed, i), ++i);
+
+          if (result != null) {
+            return result;
           }
         }
+
+        return false;
       },
       accept,
   );

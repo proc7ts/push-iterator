@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, makePushIterator, pushIterated } from '../base';
+import { iteratorOf, pushIterated } from '../base';
 import { overMany, overNone } from '../construction';
 import { itsElements } from '../consumption';
 import type { PushIterable } from '../push-iterable';
@@ -115,28 +115,21 @@ describe('filterIt', () => {
       expect([...it]).toEqual([33]);
       expect(it.isOver()).toBe(true);
     });
+    it('aborts filtering', () => {
+
+      const it = iteratorOf(filterIt(overMany(11, 22, 33), element => element > 11));
+      const result: number[] = [];
+
+      pushIterated(it, el => {
+        result.push(el);
+        return false;
+      });
+      expect(it.isOver()).toBe(true);
+
+      expect(result).toEqual([22]);
+    });
     it('iterates over all elements', () => {
       expect(Array.from(iterable)).toEqual([22, 33]);
-    });
-    it('handles non-pushing iterations', () => {
-
-      let i = 0;
-      const it = makePushIterator<string>(accept => {
-        ++i;
-        switch (i) {
-        case 1:
-        case 2:
-        case 4:
-          return true;
-        case 3:
-          accept('test');
-          return true;
-        default:
-          return false;
-        }
-      });
-
-      expect([...filterIt(it, () => true)]).toEqual(['test']);
     });
 
     describe('iterator', () => {
