@@ -1,5 +1,5 @@
-import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
+import { flatMap$transformer } from './flat-map.transformer.impl';
 import { transformIt } from './transform-it';
 
 /**
@@ -32,45 +32,7 @@ export function flatMapIt<TSrc, TConv>(
 
 export function flatMapIt<TSrc, TConv>(
     source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
+    convert?: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv> {
-  return transformIt<TSrc, TConv, PushIterator$FlatMap<TConv>>(
-      source,
-      (push, srcElement, state = []): boolean | typeof transformIt | void => {
-
-        const [src = convert(srcElement)] = state;
-        let pushResult!: boolean | void;
-
-        const srcTail = itsHead(src, element => pushResult = push(element, state));
-
-        if (pushResult === false) {
-          // Abort processing.
-          state = undefined;
-          return false;
-        }
-
-        if (srcTail.isOver()) {
-          // No more elements to process.
-          // Continue from next src.
-          state[0] = undefined;
-          return pushResult ? true : undefined;
-        }
-
-        // More elements to process.
-        state[0/* src */] = srcTail;
-
-        // Re-process the same element.
-        return transformIt;
-      },
-  );
-}
-
-type PushIterator$FlatMap<TConv> = [
-  src?: Iterable<TConv>,
-];
-
-function flatMapIt$defaultConverter<T, TConv>(
-    element: T,
-): Iterable<TConv> {
-  return element as unknown as Iterable<TConv>;
+  return transformIt(source, flatMap$transformer(convert));
 }

@@ -112,16 +112,45 @@ describe('flatMapIt', () => {
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
     });
-    it('aborts iteration', () => {
+  });
 
-      const it = flatMapIt<number>(overArray([[11, 12], [13, 14]]));
+  describe('iterator', () => {
+    it('resumes processing', () => {
+
+      const it = iteratorOf(flatMapIt<number>(overArray([[11, 12], [13, 14]])));
       const result: number[] = [];
 
       itsHead(it, el => {
         result.push(el);
-        return false;
+        if (result.length > 2) {
+          return true;
+        }
+        return;
       });
-      expect(result).toEqual([11]);
+
+      expect(result).toEqual([11, 12, 13]);
+      expect(it.isOver()).toBe(false);
+
+      expect([...it]).toEqual([14]);
+      expect(it.isOver()).toBe(true);
+      expect([...it]).toHaveLength(0);
+    });
+    it('aborts processing', () => {
+
+      const it = iteratorOf(flatMapIt<number>(overArray([[11, 12], [13, 14]])));
+      const result: number[] = [];
+
+      itsHead(it, el => {
+        result.push(el);
+        if (result.length > 2) {
+          return false;
+        }
+        return;
+      });
+
+      expect(result).toEqual([11, 12, 13]);
+      expect(it.isOver()).toBe(true);
+      expect([...it]).toHaveLength(0);
     });
   });
 });
