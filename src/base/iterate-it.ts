@@ -2,9 +2,9 @@ import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { isPushIterable } from './is-push-iterable';
 import { iterateArray } from './iterate-array.impl';
+import { iterateRaw } from './iterate-raw.impl';
 import { iteratorOf } from './iterator-of';
 import { PushIterator$empty } from './push-iterator.empty.impl';
-import { rawIteratorPusher, toPushIterator } from './raw-iterator.impl';
 
 /**
  * Iterates over elements of the given iterable.
@@ -42,7 +42,5 @@ function iterateIt$raw<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T
     return it[PushIterator__symbol](accept);
   }
 
-  const forEach = rawIteratorPusher(it);
-
-  return forEach(accept) ? toPushIterator(it, forEach) : PushIterator$empty;
+  return iterateRaw(() => it, accept);
 }

@@ -34,16 +34,20 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
           }
         }
 
-        const tail = iterateIt(source, (src: TSrc): boolean | void => transformNext(src));
+        let transformResult!: boolean | void;
+        const tail = iterateIt(source, (src: TSrc): boolean | void => transformResult = transformNext(src));
 
-        if (tail.isOver()) {
+        if (transformResult === false || (!reTransform && tail.isOver())) {
           state = undefined;
           return false;
         }
 
         source = state[0] = tail;
 
+        return transformResult;
+
         function transformNext(src: TSrc): boolean | void {
+          reTransform = 0;
           for (; ;) {
 
             let pushResult!: boolean | void;
@@ -64,7 +68,7 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
 
             if (transformResult === transformIt) {
               // Transformation the same element.
-              state[2 /* reTransform */] = 1;
+              state[2 /* reTransform */] = reTransform = 1;
               state[3 /* reSrc */] = src;
             } else {
               // Transform next element.

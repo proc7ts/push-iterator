@@ -80,18 +80,6 @@ export namespace PushIterator {
   ) => boolean | typeof transformIt | void;
 
   /**
-   * A signature of iterated elements pusher function conforming to push iteration protocol.
-   *
-   * @typeParam T - Iterated elements type.
-   * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
-   * `false` to stop iteration.
-   *
-   * @returns `true` if further iteration is possible, or `false` if there is no more elements left to iterate.
-   * The former is possible only when iteration stopped, i.e. `accept` returned `false`.
-   */
-  export type Pusher<T> = (this: void, accept: Acceptor<T>) => boolean;
-
-  /**
    * A signature of a function accepting iterated elements.
    *
    * It is able to suspend iteration by returning `true`, or to stop it by returning `false`.

@@ -1,5 +1,5 @@
 import { isPushIterable, iteratorOf } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
+import { iterateRaw } from '../base/iterate-raw.impl';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -14,5 +14,5 @@ export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
 
   const it = iteratorOf(iterable);
 
-  return isPushIterable(it) ? it : toPushIterator(it, rawIteratorPusher(it));
+  return isPushIterable(it) ? it : iterateRaw(() => it);
 }
