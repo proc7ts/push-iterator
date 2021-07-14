@@ -1,4 +1,5 @@
 import type { PushIterable } from './push-iterable';
+import type { transformIt } from './transformation';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -68,15 +69,15 @@ export namespace PushIterator {
    * elements accepted, `true` to suspend generation, or `false` to stop it.
    * @param state - Either previous transformer state, or `undefined` if transformation just started.
    *
-   * @returns `false` to stop transformation, `true` to transform the same element again, or anything else for continue
-   * transformation from the next element.
+   * @returns `false` to stop transformation, special value {@link transformIt} to transform the same element again,
+   * or anything else for continue transformation from the next element.
    */
   export type Transformer<TSrc, TConv = TSrc, TState = void> = (
       this: void,
       push: (this: void, next: TConv, state?: TState) => boolean | void,
       src: TSrc,
       state?: TState,
-  ) => boolean | void;
+  ) => boolean | typeof transformIt | void;
 
   /**
    * A signature of iterated elements pusher function conforming to push iteration protocol.

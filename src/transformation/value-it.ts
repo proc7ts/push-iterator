@@ -27,8 +27,8 @@ export function valueIt<T, TValue>(
 
         const value = valueOf(src);
 
-        if (value != null && value !== false && push(value) === false) {
-          return false;
+        if (value != null && value !== false) {
+          return push(value);
         }
       },
   );

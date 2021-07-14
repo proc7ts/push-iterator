@@ -19,10 +19,6 @@ export function mapIt<TSrc, TConv>(
 ): PushIterable<TConv> {
   return transformIt(
       source,
-      (push, src): boolean | void => {
-        if (push(convert(src)) === false) {
-          return false;
-        }
-      },
+      (push, src): boolean | void => push(convert(src)),
   );
 }

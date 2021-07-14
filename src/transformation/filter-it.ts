@@ -42,8 +42,8 @@ export function filterIt<T>(
   return transformIt(
       source,
       (push, src): boolean | void => {
-        if (test(src) && push(src) === false) {
-          return false;
+        if (test(src)) {
+          return push(src);
         }
       },
   );

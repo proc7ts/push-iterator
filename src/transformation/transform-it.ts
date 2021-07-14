@@ -63,18 +63,17 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
               return false;
             }
 
-            if (transformResult === true) {
+            if (transformResult === transformIt) {
               // Transformation the same element.
               state[2 /* reTransform */] = 1;
               state[3 /* reSrc */] = src;
-              if (pushResult != null) {
-                return pushResult;
-              }
             } else {
               // Transform next element.
               state[2] = state[3] = undefined;
-              return pushResult;
             }
+
+            // Continue transformation.
+            return pushResult;
           }
         }
       },
