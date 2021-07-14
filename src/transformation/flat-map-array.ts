@@ -8,7 +8,7 @@ import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.im
  * Calling this function is the same as calling `flatMapArray(source, element => element)`.
  *
  * @typeParam T - A type of converted elements.
- * @param array - A source array-like instance of iterables.
+ * @param array - Source array-like instance of iterables.
  *
  * @returns New push iterable with each element of `array` being flattened.
  */
@@ -20,8 +20,8 @@ export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
  *
  * @typeParam TSrc - A type of array elements.
  * @typeParam TConv - A type of converted elements.
- * @param array - A source array-like instance of elements to convert.
- * @param convert - A function that produces new iterable, taking array element as the only parameter.
+ * @param array - Source array-like instance of elements to convert.
+ * @param convert - Function that produces new iterable, taking array element as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */

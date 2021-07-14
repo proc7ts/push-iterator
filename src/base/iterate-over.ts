@@ -55,7 +55,10 @@ export function iterateOver<T, TState>(
     };
 
     if (generator(push, state) === false || !pushed) {
+      state = undefined;
       over = true;
+      doIterate = PushIterator$dontIterate;
+      accept = push = PushIterator$reject;
     }
   };
 

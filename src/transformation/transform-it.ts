@@ -9,7 +9,7 @@ import type { PushIterator } from '../push-iterator';
  * @typeParam TSrc - A type of source elements.
  * @typeParam TConv - A type of converted elements.
  * @typeParam TState - Transformer's internal state type.
- * @param source - A source iterable.
+ * @param source - Source iterable to transform.
  * @param transform - Source elements transformer.
  *
  * @returns Transformed push iterable.

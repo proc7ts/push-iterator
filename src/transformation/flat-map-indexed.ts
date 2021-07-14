@@ -9,7 +9,7 @@ import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.im
  * Calling this function is the same as calling `flatMapIndexed(source, element => element)`.
  *
  * @typeParam T - A type of converted elements.
- * @param indexed - A source list of indexed iterables.
+ * @param indexed - Source list of indexed iterables to flatten.
  *
  * @returns New push iterable with each element of indexed list being flattened.
  */
@@ -21,8 +21,8 @@ export function flatMapIndexed<T>(indexed: IndexedItemList<Iterable<T>>): PushIt
  *
  * @typeParam TSrc - A type of indexed items.
  * @typeParam TConv - A type of converted elements.
- * @param indexed - A source list of indexed items to convert.
- * @param convert - A function that produces new iterable, taking the list item as the only parameter.
+ * @param indexed - Source list of indexed items to convert.
+ * @param convert - Converter function that produces new iterable, taking the list item as the only parameter.
  *
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */

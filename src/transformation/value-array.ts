@@ -1,7 +1,5 @@
-import { makePushIterable } from '../base';
-import { arrayElementOf } from '../base/iterate-over-array.impl';
 import type { PushIterable } from '../push-iterable';
-import { iterateOverValuedIndexed } from './iterate-over-valued-indexed.impl';
+import { transformArray } from './transform-array';
 
 /**
  * Creates a {@link PushIterable | push iterable} with the values of elements of the given `array`.
@@ -13,8 +11,8 @@ import { iterateOverValuedIndexed } from './iterate-over-valued-indexed.impl';
  *
  * @typeParam T - A type of array elements.
  * @typeParam TValue - A type of array element values.
- * @param array - A source array.
- * @param valueOf - A function that values elements, taking the source element as the only parameter, and returning
+ * @param array - Source array.
+ * @param valueOf - Function that values elements, taking the source element as the only parameter, and returning
  * either its value, or `false`/`null`/`undefined` to filter it out.
  *
  * @returns New push iterable with array element values.
@@ -23,5 +21,15 @@ export function valueArray<T, TValue>(
     array: ArrayLike<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable(iterateOverValuedIndexed(array, arrayElementOf, valueOf));
+  return transformArray(
+      array,
+      (push, src): boolean | void => {
+
+        const value = valueOf(src);
+
+        if (value != null && value !== false) {
+          return push(value);
+        }
+      },
+  );
 }
