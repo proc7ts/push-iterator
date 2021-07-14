@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { makePushIterator, pushIterated } from '../base';
+import { pushIterated } from '../base';
 import { overMany } from '../construction';
 import { itsIterated } from './its-iterated';
 import { itsIterator } from './its-iterator';
@@ -113,26 +113,6 @@ describe('itsIterator', () => {
 
     expect([...it]).toEqual(array.slice(1));
     expect(it.isOver()).toBe(true);
-  });
-  it('handles non-pushing iterations', () => {
-
-    let i = 0;
-    const it = makePushIterator<string>(accept => {
-      ++i;
-      switch (i) {
-      case 1:
-      case 2:
-      case 4:
-        return true;
-      case 3:
-        accept('test');
-        return true;
-      default:
-        return false;
-      }
-    });
-
-    expect([...it]).toEqual(['test']);
   });
 
   describe('over raw iterable', () => {

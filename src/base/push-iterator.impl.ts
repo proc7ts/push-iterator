@@ -9,7 +9,8 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
   for (; ;) {
 
     let result: IteratorYieldResult<T> | undefined;
-    const over = !pushIterated(
+
+    pushIterated(
         this,
         value => {
           result = { value };
@@ -20,9 +21,8 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
     if (result) {
       return result;
     }
-    if (over) {
-      return { done: true } as IteratorReturnResult<T>;
-    }
+
+    return { done: true } as IteratorReturnResult<T>;
   }
 }
 
