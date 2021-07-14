@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf } from '../base';
 import { overMany } from '../construction';
-import { itsHead } from './its-head';
+import { iterateIt } from './iterate-it';
+import { iteratorOf } from './iterator-of';
 
-describe('itsHead', () => {
+describe('iterateIt', () => {
 
   let result: number[];
 
@@ -34,14 +34,14 @@ describe('itsHead', () => {
 
     it('iterates over all elements', () => {
 
-      const tail = itsHead(iterable, el => { result.push(el); });
+      const tail = iterateIt(iterable, el => { result.push(el); });
 
       expect(result).toEqual([1, 22, 333]);
       expect(tail.isOver()).toBe(true);
     });
     it('iterates over head only', () => {
 
-      const tail = itsHead(
+      const tail = iterateIt(
           iterable,
           el => {
             result.push(el);
@@ -54,7 +54,7 @@ describe('itsHead', () => {
     });
     it('iterates over head and returns tail', () => {
 
-      const tail = itsHead(
+      const tail = iterateIt(
           iterable,
           el => {
             result.push(el);
@@ -73,7 +73,7 @@ describe('itsHead', () => {
   describe('over empty array', () => {
     it('does not iterate', () => {
 
-      const tail = itsHead([], el => { result.push(el); });
+      const tail = iterateIt([], el => { result.push(el); });
 
       expect(result).toHaveLength(0);
       expect(tail.isOver()).toBe(true);

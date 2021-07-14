@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { iterateOverIndexed } from '../base/iterate-over-indexed.impl';
+import { iterateIndexed } from '../base/iterate-indexed.impl';
 import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
 
@@ -18,7 +18,7 @@ export function mapIndexed<TSrc, TConv>(
     indexed: IndexedItemList<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => iterateOverIndexed(
+  return makePushIterable(accept => iterateIndexed(
       indexed,
       (list, index) => convert(list.item(index) as TSrc /* The index is always valid */),
       accept,

@@ -1,8 +1,10 @@
-import { isPushIterable, iteratorOf, pushHead } from '../base';
-import { iterateOverArray } from '../base/iterate-over-array.impl';
-import { PushIterator$empty } from '../base/push-iterator.empty.impl';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
 import type { PushIterator } from '../push-iterator';
+import { isPushIterable } from './is-push-iterable';
+import { iterateArray } from './iterate-array.impl';
+import { iteratorOf } from './iterator-of';
+import { pushHead } from './push-head';
+import { PushIterator$empty } from './push-iterator.empty.impl';
+import { rawIteratorPusher, toPushIterator } from './raw-iterator.impl';
 
 /**
  * Iterates over elements of the given iterable.
@@ -20,7 +22,7 @@ import type { PushIterator } from '../push-iterator';
  * @returns A push iterator instance representing the tail of the given iterable. This iterator can be used to continue
  * iteration with, unless `accept` returned `false`. In the latter case the further iteration won't be possible.
  */
-export function itsHead<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
+export function iterateIt<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
   if (isPushIterable(iterable)) {
     return pushHead(iterable, accept);
   }
@@ -31,7 +33,7 @@ export function itsHead<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<
 }
 
 function arrayHead<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
-  return array.length ? iterateOverArray(array, accept) : PushIterator$empty;
+  return array.length ? iterateArray(array, accept) : PushIterator$empty;
 }
 
 function rawIterableHead<T>(

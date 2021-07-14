@@ -1,5 +1,4 @@
-import { iterateOver, makePushIterable } from '../base';
-import { itsHead } from '../consumption';
+import { iterateGenerated, iterateIt, makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -20,7 +19,7 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
     source: Iterable<TSrc>,
     transform: PushIterator.Transformer<TSrc, TConv, TState>,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => iterateOver<TConv, PushIterator$Transform<TSrc, TState>>(
+  return makePushIterable(accept => iterateGenerated<TConv, PushIterator$Transform<TSrc, TState>>(
       (push, state = [source]): boolean | void => {
 
         // eslint-disable-next-line prefer-const
@@ -35,7 +34,7 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
           }
         }
 
-        const tail = itsHead(source, (src: TSrc): boolean | void => transformNext(src));
+        const tail = iterateIt(source, (src: TSrc): boolean | void => transformNext(src));
 
         if (tail.isOver()) {
           state = undefined;

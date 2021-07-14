@@ -18,7 +18,7 @@ import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } 
  *
  * @see {@link PushIterator.Generator} for iteration algorithm description.
  */
-export function iterateOver<T, TState>(
+export function iterateGenerated<T, TState>(
     generator: PushIterator.Generator<T, TState>,
     accept?: PushIterator.Acceptor<T>,
 ): PushIterator<T> {

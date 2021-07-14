@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
+import { iterateIt } from '../base';
 import { IndexedItemList, overArray } from '../construction';
-import { itsEach, itsElements, itsHead } from '../consumption';
+import { itsEach, itsElements } from '../consumption';
 import { flatMapIndexed } from './flat-map-indexed';
 
 describe('flatMapIndexed', () => {
@@ -51,7 +52,7 @@ describe('flatMapIndexed', () => {
     it('resumes processing', () => {
 
       const result: number[] = [];
-      const it = itsHead(
+      const it = iterateIt(
           flatMapIndexed(list, element => overArray([element, element + 1])),
           element => {
             result.push(element);
@@ -72,7 +73,7 @@ describe('flatMapIndexed', () => {
     it('aborts processing', () => {
 
       const result: number[] = [];
-      const it = itsHead(
+      const it = iterateIt(
           flatMapIndexed(list, element => overArray([element, element + 1])),
           element => {
             result.push(element);

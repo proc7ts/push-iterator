@@ -1,4 +1,4 @@
-import { arrayElementOf } from '../base/iterate-over-array.impl';
+import { arrayElementOf } from '../base/iterate-array.impl';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { transformIndexedElements } from './transform-indexed-elements.impl';

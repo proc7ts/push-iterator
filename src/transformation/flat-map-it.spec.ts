@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { overArray, overMany } from '../construction';
-import { itsEach, itsHead } from '../consumption';
+import { itsEach } from '../consumption';
 import { flatMapIt } from './flat-map-it';
 
 describe('flatMapIt', () => {
@@ -120,7 +120,7 @@ describe('flatMapIt', () => {
       const it = iteratorOf(flatMapIt<number>(overArray([[11, 12], [13, 14]])));
       const result: number[] = [];
 
-      itsHead(it, el => {
+      iterateIt(it, el => {
         result.push(el);
         if (result.length > 2) {
           return true;
@@ -140,7 +140,7 @@ describe('flatMapIt', () => {
       const it = iteratorOf(flatMapIt<number>(overArray([[11, 12], [13, 14]])));
       const result: number[] = [];
 
-      itsHead(it, el => {
+      iterateIt(it, el => {
         result.push(el);
         if (result.length > 2) {
           return false;

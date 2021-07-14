@@ -4,7 +4,6 @@ export * from './its-empty';
 export * from './its-every';
 export * from './its-find';
 export * from './its-first';
-export * from './its-head';
 export * from './its-iterated';
 export * from './its-iterator';
 export * from './its-match';

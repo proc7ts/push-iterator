@@ -1,12 +1,12 @@
 import { describe, expect, it } from '@jest/globals';
-import { iterateOver } from './index';
+import { iterateGenerated } from './index';
 
 describe('iterateOver', () => {
   it('ignores excessive pushes', () => {
 
     const result: number[] = [];
 
-    iterateOver<number, number>(
+    iterateGenerated<number, number>(
         (push, _state) => {
           push(1);
           push(2);

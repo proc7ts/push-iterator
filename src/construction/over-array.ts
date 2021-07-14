@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { iterateOverArray } from '../base/iterate-over-array.impl';
+import { iterateArray } from '../base/iterate-array.impl';
 import type { PushIterable } from '../push-iterable';
 
 /**
@@ -11,5 +11,5 @@ import type { PushIterable } from '../push-iterable';
  * @returns New push iterable over array elements.
  */
 export function overArray<T>(array: ArrayLike<T>): PushIterable<T> {
-  return makePushIterable<T>(accept => iterateOverArray(array, accept));
+  return makePushIterable<T>(accept => iterateArray(array, accept));
 }

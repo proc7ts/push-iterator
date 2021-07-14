@@ -1,4 +1,4 @@
-import { itsHead } from '../consumption';
+import { iterateIt } from '../base';
 import type { PushIterator } from '../push-iterator';
 import { transformIt } from './transform-it';
 
@@ -14,7 +14,7 @@ export function flatMap$transformer<TSrc, TConv>(
     const [src = convert(srcElement)] = state;
     let pushResult!: boolean | void;
 
-    const srcTail = itsHead(src, element => pushResult = push(element, state));
+    const srcTail = iterateIt(src, element => pushResult = push(element, state));
 
     if (pushResult === false) {
       // Abort processing.

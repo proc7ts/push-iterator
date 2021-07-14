@@ -1,5 +1,5 @@
-import { iterateOver, makePushIterable } from '../base';
-import type { IndexedElements } from '../base/iterate-over-indexed.impl';
+import { iterateGenerated, makePushIterable } from '../base';
+import type { IndexedElements } from '../base/iterate-indexed.impl';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { transformIt } from './transform-it';
@@ -9,7 +9,7 @@ export function transformIndexedElements<TIndexed extends IndexedElements, TSrc,
     elementOf: (indexed: TIndexed, index: number) => TSrc,
     transform: PushIterator.Transformer<TSrc, TConv, TState>,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => iterateOver<TConv, IndexedElements$Transform<TState>>(
+  return makePushIterable(accept => iterateGenerated<TConv, IndexedElements$Transform<TState>>(
       (push, state = [0]): boolean | void => {
 
         let [index, transformerState] = state;

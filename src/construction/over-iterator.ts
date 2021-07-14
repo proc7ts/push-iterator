@@ -1,4 +1,4 @@
-import { iterateOver, makePushIterable } from '../base';
+import { iterateGenerated, makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 
 /**
@@ -10,7 +10,7 @@ import type { PushIterable } from '../push-iterable';
  * @returns New push iterable over elements of created iterator.
  */
 export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable<T> {
-  return makePushIterable(accept => iterateOver<T, [Iterator<T>, IteratorResult<T>]>(
+  return makePushIterable(accept => iterateGenerated<T, [Iterator<T>, IteratorResult<T>]>(
       (push, state = overIterator$start(iterate)) => {
 
         const [iterator] = state;

@@ -1,4 +1,4 @@
-import { indexedItemOf } from '../base/iterate-over-indexed.impl';
+import { indexedItemOf } from '../base/iterate-indexed.impl';
 import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';

@@ -1,5 +1,4 @@
-import { iterateOver, makePushIterable } from '../base';
-import { itsHead } from '../consumption';
+import { iterateGenerated, iterateIt, makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
@@ -25,7 +24,7 @@ function overElementsOf$iterate<T>(
     sources: readonly Iterable<T>[],
     accept?: PushIterator.Acceptor<T>,
 ): PushIterator<T> {
-  return iterateOver<T, [number, Iterable<T>]>(
+  return iterateGenerated<T, [number, Iterable<T>]>(
       (push, state = overElementsOf$first(sources)): boolean | void => {
 
         let [index, source] = state;
@@ -33,7 +32,7 @@ function overElementsOf$iterate<T>(
         for (; ;) {
 
           let pushResult: boolean | void;
-          const tail = itsHead(
+          const tail = iterateIt(
               source,
               (element: T): boolean | void => pushResult = push(element, state),
           );
