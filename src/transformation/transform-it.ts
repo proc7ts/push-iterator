@@ -4,12 +4,12 @@ import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
- * Creates a {@link PushIterable | push iterable} iterating over transformed elements of original `iterable`.
+ * Creates a {@link PushIterable | push iterable} iterating over transformed elements of `source` iterable.
  *
  * @typeParam TSrc - A type of source elements.
  * @typeParam TConv - A type of converted elements.
  * @typeParam TState - Transformer's internal state type.
- * @param iterable - A source iterable.
+ * @param source - A source iterable.
  * @param transform - Source elements transformer.
  *
  * @returns Transformed push iterable.
@@ -17,11 +17,11 @@ import type { PushIterator } from '../push-iterator';
  * @see {@link PushIterator.Transformer} for transformation algorithm description.
  */
 export function transformIt<TSrc, TConv = TSrc, TState = void>(
-    iterable: Iterable<TSrc>,
+    source: Iterable<TSrc>,
     transform: PushIterator.Transformer<TSrc, TConv, TState>,
 ): PushIterable<TConv> {
   return makePushIterable(accept => iterateOver<TConv, PushIterator$Transform<TSrc, TState>>(
-      (push, state = [iterable]): boolean | void => {
+      (push, state = [source]): boolean | void => {
 
         // eslint-disable-next-line prefer-const
         let [source, transformerState, reTransform, reSrc] = state;
