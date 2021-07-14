@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { pushIterated } from '../base';
+import { iterateIt } from '../base';
 import { overMany } from '../construction';
-import { itsIterated } from './its-iterated';
 import { itsIterator } from './its-iterator';
 
 describe('itsIterator', () => {
@@ -30,9 +29,9 @@ describe('itsIterator', () => {
 
     const result: number[] = [];
 
-    expect(itsIterated(generate(), element => {
+    expect(iterateIt(generate(), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual([1, 2, 3]);
   });
   it('ignores generator return', () => {
@@ -45,9 +44,9 @@ describe('itsIterator', () => {
 
     const result: number[] = [];
 
-    expect(itsIterated(generate(), element => {
+    expect(iterateIt(generate(), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual([1, 2]);
   });
 
@@ -56,9 +55,9 @@ describe('itsIterator', () => {
     const it = itsIterator(iterable);
     const result: typeof array = [];
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
 
     expect(result).toEqual(array);
   });
@@ -67,10 +66,10 @@ describe('itsIterator', () => {
     const it = itsIterator(iterable);
     const result: typeof array = [];
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
       return false;
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(0, 1));
   });
@@ -79,12 +78,12 @@ describe('itsIterator', () => {
     const it = itsIterator(iterable);
     const result: typeof array = [];
 
-    expect(pushIterated(it, () => true)).toBe(true);
+    expect(iterateIt(it, () => true).isOver()).toBe(false);
     expect(it.isOver()).toBe(false);
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });
@@ -93,11 +92,11 @@ describe('itsIterator', () => {
     const it = itsIterator(iterable);
     const result: typeof array = [];
 
-    expect(pushIterated(it, () => {/* noop */})).toBe(false);
+    expect(iterateIt(it, () => {/* noop */}).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toHaveLength(0);
   });
 
@@ -108,7 +107,7 @@ describe('itsIterator', () => {
 
     const it = itsIterator(iterable);
 
-    expect(pushIterated(it, () => true)).toBe(true);
+    expect(iterateIt(it, () => true).isOver()).toBe(false);
     expect(it.isOver()).toBe(false);
 
     expect([...it]).toEqual(array.slice(1));

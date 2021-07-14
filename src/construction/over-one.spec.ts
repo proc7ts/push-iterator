@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { itsElements } from '../consumption';
 import { PushIterator__symbol } from '../push-iterable';
 import { overOne } from './over-one';
@@ -10,13 +10,13 @@ describe('overOne', () => {
     const result: string[] = [];
     const it = overOne('one')[Symbol.iterator]();
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect([...it]).toHaveLength(0);
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
 
     expect(result).toEqual(['one']);
   });

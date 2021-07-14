@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { pushIterated } from '../base';
+import { iterateIt } from '../base';
 import { itsElements, itsIterator } from '../consumption';
 import { filterArray } from './filter-array';
 
@@ -16,7 +16,7 @@ describe('filterArray', () => {
 
       const it = itsIterator(filterArray([11, 22, 33], element => element > 11));
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([33]);
@@ -29,18 +29,18 @@ describe('filterArray', () => {
       const it = itsIterator(filterArray([11, 22, 33], element => element > 11));
       const result: number[] = [];
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual([33]);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(result).toEqual([33]);
     });
   });

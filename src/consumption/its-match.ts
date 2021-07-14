@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base';
 
 /**
  * Extracts the first element matching the given condition from `iterable`.
@@ -14,14 +14,13 @@ export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T
 
   let match: T | undefined;
 
-  itsIterated(
+  iterateIt(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         if (test(element)) {
           match = element;
-          return true;
+          return false;
         }
-        return;
       },
   );
 

@@ -1,5 +1,6 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable, iteratorOf } from '../base';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 
 /**
  * Extracts the first element of the given `iterable`, if any.
@@ -23,13 +24,10 @@ function pushedFirst<T>(it: PushIterable<T>): T | undefined {
 
   let first: T | undefined;
 
-  pushIterated(
-      it,
-      element => {
-        first = element;
-        return false;
-      },
-  );
+  it[PushIterator__symbol](element => {
+    first = element;
+    return false;
+  });
 
   return first;
 }

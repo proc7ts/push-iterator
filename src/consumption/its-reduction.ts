@@ -1,5 +1,3 @@
-import { itsIterated } from './its-iterated';
-
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
  * value.
@@ -13,6 +11,8 @@ import { itsIterated } from './its-iterated';
  * @returns Reduced value returned from the last `reducer` call, or `initialValue` if there is no elements in the given
  * `iterable`.
  */
+import { iterateIt } from '../base';
+
 export function itsReduction<T, TResult>(
     iterable: Iterable<T>,
     reducer: (this: void, prev: TResult, element: T) => TResult,
@@ -21,7 +21,7 @@ export function itsReduction<T, TResult>(
 
   let reduced = initialValue;
 
-  itsIterated(iterable, element => { reduced = reducer(reduced, element); });
+  iterateIt(iterable, element => { reduced = reducer(reduced, element); });
 
   return reduced;
 }

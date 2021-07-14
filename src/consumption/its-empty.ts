@@ -1,5 +1,6 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable, iteratorOf } from '../base';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -22,7 +23,7 @@ function pushedEmpty(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;
 
-  pushIterated(it, _element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
+  it[PushIterator__symbol](_ /* Unused parameter to prevent deoptimization */ => isEmpty = false);
 
   return isEmpty;
 }

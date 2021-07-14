@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base';
 
 /**
  * Searches for the value in `iterable`.
@@ -17,22 +17,20 @@ export function itsFind<T, TFound>(
     search: (this: void, element: T) => TFound | false | undefined,
 ): TFound | undefined {
 
-  let find: TFound | undefined;
+  let found: TFound | undefined;
 
-  itsIterated(
+  iterateIt(
       iterable,
-      element => {
+      (element: T): boolean | void => {
 
         const result = search(element);
 
         if (result !== false && result !== undefined) {
-          find = result;
-          return true;
+          found = result;
+          return false;
         }
-
-        return;
       },
   );
 
-  return find;
+  return found;
 }

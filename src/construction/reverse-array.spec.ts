@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { itsElements } from '../consumption';
 import { reverseArray } from './reverse-array';
 
@@ -16,15 +16,15 @@ describe('reverseArray', () => {
   });
 
   it('iterates over array elements', () => {
-    expect(pushIterated(reverseArray(array), element => {
+    expect(iterateIt(reverseArray(array), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual(reversed);
   });
   it('pushes array elements', () => {
-    expect(pushIterated(reverseArray(array), element => {
+    expect(iterateIt(reverseArray(array), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual(reversed);
   });
 
@@ -40,18 +40,18 @@ describe('reverseArray', () => {
 
       const it = iteratorOf(reverseArray(array));
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(pushIterated(it, element => {
+      expect(iterateIt(it, element => {
         result.push(element);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual(reversed.slice(1));
 
-      expect(pushIterated(it, element => {
+      expect(iterateIt(it, element => {
         result.push(element);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(result).toEqual(reversed.slice(1));
       expect([...it]).toHaveLength(0);
     });

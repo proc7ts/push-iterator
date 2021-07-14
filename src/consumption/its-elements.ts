@@ -1,4 +1,4 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable, iterateIt, iteratorOf } from '../base';
 import type { PushIterable } from '../push-iterable';
 
 const itsElements$defaultConverter = <T, TConv>(element: T): TConv => element as unknown as TConv;
@@ -53,7 +53,7 @@ function pushedElements<T, TConv>(
 
   const result: TConv[] = [];
 
-  pushIterated(it, element => { result.push(convert(element)); });
+  iterateIt(it, element => { result.push(convert(element)); });
 
   return result;
 }

@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -18,14 +18,13 @@ export function itsEvery<T>(
 
   let allMatch = true;
 
-  itsIterated(
+  iterateIt(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         allMatch = !!test(element);
         if (!allMatch) {
           return false;
         }
-        return;
       },
   );
 

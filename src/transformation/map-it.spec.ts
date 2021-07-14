@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { overMany } from '../construction';
 import { itsElements } from '../consumption';
 import { mapIt } from './map-it';
@@ -26,9 +26,9 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, element => {
+        expect(iterateIt(it, element => {
           result.push(element);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(result).toEqual(['11!', '22!', '33!']);
       });
       it('resumes conversion', () => {
@@ -36,12 +36,12 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(new Set([11, 22, 33]), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, () => true)).toBe(true);
+        expect(iterateIt(it, () => true).isOver()).toBe(false);
         expect(it.isOver()).toBe(false);
 
-        expect(pushIterated(it, element => {
+        expect(iterateIt(it, element => {
           result.push(element);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual(['22!', '33!']);
       });
@@ -78,9 +78,9 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, element => {
+        expect(iterateIt(it, element => {
           result.push(element);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(result).toEqual(['11!', '22!', '33!']);
       });
       it('resumes conversion', () => {
@@ -88,12 +88,12 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, () => true)).toBe(true);
+        expect(iterateIt(it, () => true).isOver()).toBe(false);
         expect(it.isOver()).toBe(false);
 
-        expect(pushIterated(it, element => {
+        expect(iterateIt(it, element => {
           result.push(element);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual(['22!', '33!']);
       });
@@ -102,10 +102,10 @@ describe('mapIt', () => {
         const result: string[] = [];
         const it = mapIt(overMany(11, 22, 33), element => `${element}!`)[Symbol.iterator]();
 
-        expect(pushIterated(it, el => {
+        expect(iterateIt(it, el => {
           result.push(el);
           return false;
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual(['11!']);
       });

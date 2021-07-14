@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -18,14 +18,13 @@ export function itsSome<T>(
 
   let someMatches = false;
 
-  itsIterated(
+  iterateIt(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         someMatches = !!test(element);
         if (someMatches) {
           return false;
         }
-        return;
       },
   );
 

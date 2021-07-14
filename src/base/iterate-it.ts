@@ -25,19 +25,16 @@ export function iterateIt<T>(iterable: Iterable<T>, accept: PushIterator.Accepto
     return iterable[PushIterator__symbol](accept);
   }
   if (Array.isArray(iterable)) {
-    return arrayHead(iterable, accept);
+    return iterateIt$array(iterable, accept);
   }
-  return rawIterableHead(iterable, accept);
+  return iterateIt$raw(iterable, accept);
 }
 
-function arrayHead<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
+function iterateIt$array<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
   return array.length ? iterateArray(array, accept) : PushIterator$empty;
 }
 
-function rawIterableHead<T>(
-    iterable: Iterable<T>,
-    accept: PushIterator.Acceptor<T>,
-): PushIterator<T> {
+function iterateIt$raw<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
 
   const it = iteratorOf(iterable);
 

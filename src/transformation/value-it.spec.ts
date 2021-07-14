@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { overMany, overNone } from '../construction';
 import { itsElements } from '../consumption';
 import type { PushIterable } from '../push-iterable';
@@ -28,7 +28,7 @@ describe('valueIt', () => {
 
         const it = iteratorOf(valueIt(new Set([11, 22, 33]), element => element > 11 && element + 100));
 
-        expect(pushIterated(it, () => true)).toBe(true);
+        expect(iterateIt(it, () => true).isOver()).toBe(false);
 
         expect([...it]).toEqual([133]);
         expect([...it]).toHaveLength(0);
@@ -38,18 +38,18 @@ describe('valueIt', () => {
         const it = iteratorOf(valueIt(new Set([11, 22, 33]), element => element > 11 && element + 100));
         const result: number[] = [];
 
-        expect(pushIterated(it, () => true)).toBe(true);
+        expect(iterateIt(it, () => true).isOver()).toBe(false);
         expect(it.isOver()).toBe(false);
 
-        expect(pushIterated(it, el => {
+        expect(iterateIt(it, el => {
           result.push(el);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual([133]);
 
-        expect(pushIterated(it, el => {
+        expect(iterateIt(it, el => {
           result.push(el);
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(result).toEqual([133]);
       });
 
@@ -71,7 +71,7 @@ describe('valueIt', () => {
 
           const it = iteratorOf(valueIt(new Set<number>(), element => element > 11));
 
-          expect(pushIterated(it, () => true)).toBe(false);
+          expect(iterateIt(it, () => true).isOver()).toBe(true);
           expect(it.isOver()).toBe(true);
         });
       });
@@ -118,7 +118,7 @@ describe('valueIt', () => {
 
       const it = iteratorOf(iterable);
 
-      pushIterated(it, () => true);
+      iterateIt(it, () => true);
       expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([133]);
@@ -133,7 +133,7 @@ describe('valueIt', () => {
 
         const it = iteratorOf(iterable);
 
-        pushIterated(it, () => true);
+        iterateIt(it, () => true);
         expect(it.isOver()).toBe(false);
 
         expect([...it]).toEqual([133]);
@@ -144,10 +144,10 @@ describe('valueIt', () => {
         const result: number[] = [];
         const it = iteratorOf(iterable);
 
-        expect(pushIterated(it, el => {
+        expect(iterateIt(it, el => {
           result.push(el);
           return false;
-        })).toBe(false);
+        }).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual([122]);
       });

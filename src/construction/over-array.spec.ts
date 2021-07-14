@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iterateIt, iteratorOf } from '../base';
 import { itsElements, itsIterator } from '../consumption';
 import { overArray } from './over-array';
 
@@ -17,21 +17,21 @@ describe('overArray', () => {
     expect([...overArray(array)]).toEqual(array);
   });
   it('pushes array elements', () => {
-    expect(pushIterated(overArray(array), element => {
+    expect(iterateIt(overArray(array), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual(array);
   });
   it('resumes iteration', () => {
 
     const it = itsIterator(overArray(array));
 
-    expect(pushIterated(it, () => true)).toBe(true);
+    expect(iterateIt(it, () => true).isOver()).toBe(false);
     expect(it.isOver()).toBe(false);
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });
