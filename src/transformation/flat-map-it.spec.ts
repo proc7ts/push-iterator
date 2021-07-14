@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, makePushIterator } from '../base';
+import { iteratorOf } from '../base';
 import { overArray, overMany } from '../construction';
-import { itsEach } from '../consumption';
+import { itsEach, itsHead } from '../consumption';
 import { flatMapIt } from './flat-map-it';
 
 describe('flatMapIt', () => {
@@ -112,25 +112,16 @@ describe('flatMapIt', () => {
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
     });
-    it('handles non-pushing iterations', () => {
+    it('aborts iteration', () => {
 
-      let i = 0;
-      const it = makePushIterator<string>(accept => {
-        ++i;
-        switch (i) {
-        case 1:
-        case 2:
-        case 4:
-          return true;
-        case 3:
-          accept('test');
-          return true;
-        default:
-          return false;
-        }
+      const it = flatMapIt<number>(overArray([[11, 12], [13, 14]]));
+      const result: number[] = [];
+
+      itsHead(it, el => {
+        result.push(el);
+        return false;
       });
-
-      expect([...flatMapIt(it, el => [el, el])]).toEqual(['test', 'test']);
+      expect(result).toEqual([11]);
     });
   });
 });

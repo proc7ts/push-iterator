@@ -1,8 +1,6 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
-import { overNone } from '../construction';
 import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { transformIt } from './transform-it';
 
 /**
  * Flattens the source iterable of iterables into new {@link PushIterable | push iterable}.
@@ -36,98 +34,40 @@ export function flatMapIt<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => {
+  return transformIt<TSrc, TConv, PushIterator$FlatMap<TConv>>(
+      source,
+      (push, srcElement, state = []): boolean | typeof transformIt | void => {
 
-    const forNext = isPushIterable(source) ? flatMapPusher(source, convert) : flatMapRawPusher(source, convert);
+        const [src = convert(srcElement)] = state;
+        let pushResult!: boolean | void;
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  });
-}
+        const srcTail = itsHead(src, element => pushResult = push(element, state));
 
-function flatMapPusher<TSrc, TConv>(
-    source: PushIterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
-): PushIterator.Pusher<TConv> {
-
-  let subs: Iterable<TConv> | undefined;
-  let lastSrc = false;
-
-  return accept => {
-    for (; ;) {
-      while (!subs) {
-
-        const sourceTail = pushHead(source, src => {
-          subs = convert(src);
-          return true;
-        });
-
-        source = sourceTail;
-
-        if (sourceTail.isOver()) {
-          if (!subs) {
-            return false;
-          }
-          lastSrc = true;
-        }
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let status: boolean | void;
-      const subsTail: PushIterator<TConv> = itsHead(subs, element => status = accept(element));
-
-      if (subsTail.isOver()) {
-        subs = undefined;
-        if (lastSrc) {
-          return false;
-        }
-      } else {
-        subs = subsTail;
-      }
-
-      if (typeof status === 'boolean') {
-        return status;
-      }
-    }
-  };
-}
-
-function flatMapRawPusher<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
-): PushIterator.Pusher<TConv> {
-
-  const it = iteratorOf(source);
-
-  if (isPushIterable(it)) {
-    return flatMapPusher(it, convert);
-  }
-
-  let subs: Iterable<TConv> | undefined;
-
-  return accept => {
-    for (; ;) {
-      if (!subs) {
-
-        const next = it.next();
-
-        if (next.done) {
+        if (pushResult === false) {
+          // Abort processing.
+          state = undefined;
           return false;
         }
 
-        subs = convert(next.value);
-      }
+        if (srcTail.isOver()) {
+          // No more elements to process.
+          // Continue from next src.
+          state[0] = undefined;
+          return pushResult ? true : undefined;
+        }
 
-      // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let status: boolean | void;
-      const subsTail: PushIterator<TConv> = itsHead(subs, element => status = accept(element));
+        // More elements to process.
+        state[0/* src */] = srcTail;
 
-      subs = subsTail.isOver() ? undefined : subsTail;
-      if (typeof status === 'boolean') {
-        return status;
-      }
-    }
-  };
+        // Re-process the same element.
+        return transformIt;
+      },
+  );
 }
+
+type PushIterator$FlatMap<TConv> = [
+  src?: Iterable<TConv>,
+];
 
 function flatMapIt$defaultConverter<T, TConv>(
     element: T,
