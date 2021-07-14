@@ -1,7 +1,5 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
-import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import type { PushIterator } from '../push-iterator';
+import { transformIt } from './transform-it';
 
 /**
  * Creates a {@link PushIterable | push iterable} with the values of elements of the `source` iterable.
@@ -23,69 +21,15 @@ export function valueIt<T, TValue>(
     source: Iterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable(accept => {
+  return transformIt(
+      source,
+      (push, src): boolean | void => {
 
-    const forNext = isPushIterable(source) ? valuePusher(source, valueOf) : valueRawPusher(source, valueOf);
+        const value = valueOf(src);
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  });
-}
-
-function valuePusher<T, TValue>(
-    source: PushIterable<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
-): PushIterator.Pusher<TValue> {
-  return accept => {
-
-    const tail = pushHead(
-        source,
-        element => {
-
-          const value = valueOf(element);
-
-          if (value != null && value !== false) {
-            return accept(value);
-          }
-          return;
-        },
-    );
-
-    source = tail;
-
-    return !tail.isOver();
-  };
-}
-
-function valueRawPusher<T, TValue>(
-    source: Iterable<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
-): PushIterator.Pusher<TValue> {
-
-  const it = iteratorOf(source);
-
-  if (isPushIterable(it)) {
-    return valuePusher(it, valueOf);
-  }
-
-  return accept => {
-    for (; ;) {
-
-      const next = it.next();
-
-      if (next.done) {
-        return false;
-      }
-
-      const value = valueOf(next.value);
-
-      if (value != null && value !== false) {
-
-        const status = accept(value);
-
-        if (typeof status === 'boolean') {
-          return status;
+        if (value != null && value !== false && push(value) === false) {
+          return false;
         }
-      }
-    }
-  };
+      },
+  );
 }

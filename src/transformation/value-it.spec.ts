@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, makePushIterator, pushIterated } from '../base';
+import { iteratorOf, pushIterated } from '../base';
 import { overMany, overNone } from '../construction';
 import { itsElements } from '../consumption';
 import type { PushIterable } from '../push-iterable';
@@ -127,26 +127,6 @@ describe('valueIt', () => {
     it('iterates over all elements', () => {
       expect(Array.from(iterable)).toEqual([122, 133]);
     });
-    it('handles non-pushing iterations', () => {
-
-      let i = 0;
-      const it = makePushIterator<string>(accept => {
-        ++i;
-        switch (i) {
-        case 1:
-        case 2:
-        case 4:
-          return true;
-        case 3:
-          accept('test');
-          return true;
-        default:
-          return false;
-        }
-      });
-
-      expect([...valueIt(it, element => element)]).toEqual(['test']);
-    });
 
     describe('iterator', () => {
       it('resumes iteration', () => {
@@ -158,6 +138,18 @@ describe('valueIt', () => {
 
         expect([...it]).toEqual([133]);
         expect(it.isOver()).toBe(true);
+      });
+      it('aborts iteration', () => {
+
+        const result: number[] = [];
+        const it = iteratorOf(iterable);
+
+        expect(pushIterated(it, el => {
+          result.push(el);
+          return false;
+        })).toBe(false);
+        expect(it.isOver()).toBe(true);
+        expect(result).toEqual([122]);
       });
     });
   });
