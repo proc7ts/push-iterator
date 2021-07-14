@@ -55,6 +55,21 @@ describe('reverseArray', () => {
       expect(result).toEqual(reversed.slice(1));
       expect([...it]).toHaveLength(0);
     });
+    it('aborts iteration', () => {
+
+      const it = iteratorOf(reverseArray(array));
+
+      expect(iterateIt(it, element => {
+        result.push(element);
+        if (result.length > 1) {
+          return false;
+        }
+        return;
+      }).isOver()).toBe(true);
+      expect(it.isOver()).toBe(true);
+      expect(result).toEqual(reversed.slice(0, 2));
+      expect([...it]).toHaveLength(0);
+    });
   });
 
   describe('over empty array', () => {
