@@ -1,7 +1,6 @@
 import type { PushIterable } from '../push-iterable';
-import { mapIt } from '../transformation';
+import { mapArray } from '../transformation';
 import type { ObjectEntry } from './object-entry';
-import { overKeys } from './over-keys';
 
 /**
  * Creates a {@link PushIterable | push iterable} over the property key/value entries of the given object.
@@ -15,8 +14,8 @@ import { overKeys } from './over-keys';
  * @returns New push iterable of object property entries.
  */
 export function overEntries<TObj extends object>(source: TObj): PushIterable<ObjectEntry<TObj>> {
-  return mapIt(
-      overKeys(source),
+  return mapArray(
+      Reflect.ownKeys(source) as (keyof TObj)[],
       key => [key, source[key]],
   );
 }
