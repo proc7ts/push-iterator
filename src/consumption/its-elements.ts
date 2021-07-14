@@ -38,15 +38,15 @@ export function itsElements<T, TConv>(
     convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
 ): TConv[] {
   if (isPushIterable(source)) {
-    return pushedElements(source, convert);
+    return itsElements$(source, convert);
   }
 
   const it = iteratorOf(source);
 
-  return isPushIterable(it) ? pushedElements(it, convert) : Array.from(source, convert);
+  return isPushIterable(it) ? itsElements$(it, convert) : Array.from(source, convert);
 }
 
-function pushedElements<T, TConv>(
+function itsElements$<T, TConv>(
     it: PushIterable<T>,
     convert: (this: void, element: T) => TConv,
 ): TConv[] {

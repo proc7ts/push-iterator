@@ -12,15 +12,15 @@ import { PushIterator__symbol } from '../push-iterable';
  */
 export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
   if (isPushIterable(iterable)) {
-    return pushedFirst(iterable);
+    return itsFirst$(iterable);
   }
 
   const it = iteratorOf(iterable);
 
-  return isPushIterable(it) ? pushedFirst(it) : rawFirst(it);
+  return isPushIterable(it) ? itsFirst$(it) : itsFirst$raw(it);
 }
 
-function pushedFirst<T>(it: PushIterable<T>): T | undefined {
+function itsFirst$<T>(it: PushIterable<T>): T | undefined {
 
   let first: T | undefined;
 
@@ -32,7 +32,7 @@ function pushedFirst<T>(it: PushIterable<T>): T | undefined {
   return first;
 }
 
-function rawFirst<T>(it: Iterator<T>): T | undefined {
+function itsFirst$raw<T>(it: Iterator<T>): T | undefined {
 
   const result = it.next();
 

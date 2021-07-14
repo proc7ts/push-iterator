@@ -11,15 +11,15 @@ import { PushIterator__symbol } from '../push-iterable';
  */
 export function itsEmpty(iterable: Iterable<unknown>): boolean {
   if (isPushIterable(iterable)) {
-    return pushedEmpty(iterable);
+    return itsEmpty$(iterable);
   }
 
   const it = iteratorOf(iterable);
 
-  return isPushIterable(it) ? pushedEmpty(it) : !!it.next().done;
+  return isPushIterable(it) ? itsEmpty$(it) : !!it.next().done;
 }
 
-function pushedEmpty(it: PushIterable<unknown>): boolean {
+function itsEmpty$(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;
 
