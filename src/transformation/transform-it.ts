@@ -1,6 +1,7 @@
 import { iterateGenerated, iterateIt, makePushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { transformIt$again } from './transform.impl';
 
 /**
  * Creates a {@link PushIterable | push iterable} iterating over transformed elements of `source` iterable.
@@ -20,43 +21,36 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
     transform: PushIterator.Transformer<TSrc, TConv, TState>,
 ): PushIterable<TConv> {
   return makePushIterable(accept => iterateGenerated<TConv, PushIterator$Transform<TSrc, TState>>(
-      (push, state = [source]): boolean | void => {
-
-        // eslint-disable-next-line prefer-const
-        let [source, transformerState, reTransform, reSrc] = state;
-
+      (
+          push,
+          [iterable, transformerState, reTransform, reSrc] = [source],
+      ): false | PushIterator$Transform<TSrc, TState> => {
         if (reTransform) {
 
           const transformResult = transformNext(reSrc!);
 
           if (transformResult != null) {
-            return transformResult;
+            return transformResult ? [iterable, transformerState, reTransform, reSrc] : false;
           }
         }
 
         let transformResult!: boolean | void;
-        const tail = iterateIt(source, (src: TSrc): boolean | void => transformResult = transformNext(src));
+        const tail = iterateIt(iterable, (src: TSrc): boolean | void => transformResult = transformNext(src));
 
         if (transformResult === false || (!reTransform && tail.isOver())) {
-          state = undefined;
           return false;
         }
 
-        source = state[0] = tail;
-
-        return transformResult;
+        return [tail, transformerState, reTransform, reSrc];
 
         function transformNext(src: TSrc): boolean | void {
-          reTransform = 0;
+          reTransform = false;
           for (; ;) {
 
             let pushResult!: boolean | void;
 
-            const transformResult = transform(
-                function pushTransformed(next, newState): boolean | void {
-                  transformerState = state[1] = newState;
-                  return pushResult = push(next, state);
-                },
+            const transformResult: TState | false = transform(
+                next => pushResult = push(next),
                 src,
                 transformerState,
             );
@@ -66,17 +60,16 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
               return false;
             }
 
-            if (transformResult === transformIt) {
-              // Transformation the same element.
-              state[2 /* reTransform */] = reTransform = 1;
-              state[3 /* reSrc */] = src;
-            } else {
-              // Transform next element.
-              state[2] = state[3] = undefined;
+            transformerState = transformResult;
+            reTransform = transformIt$again(transformResult);
+
+            if (reTransform) {
+              reSrc = src;
             }
 
-            // Continue transformation.
-            return pushResult;
+            if (pushResult != null || !reTransform) {
+              return pushResult;
+            }
           }
         }
       },
@@ -87,6 +80,6 @@ export function transformIt<TSrc, TConv = TSrc, TState = void>(
 type PushIterator$Transform<TSrc, TState> = [
   source: Iterable<TSrc>,
   transformerState?: TState,
-  reTransform?: 0 | 1,
+  reTransform?: boolean,
   reSrc?: TSrc,
 ];

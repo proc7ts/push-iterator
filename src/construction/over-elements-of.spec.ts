@@ -1,4 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
+import { iterateIt, iteratorOf } from '../base';
 import { itsEach } from '../consumption';
 import { overElementsOf } from './over-elements-of';
 import { overMany } from './over-many';
@@ -36,6 +37,45 @@ describe('overElementsOf', () => {
       itsEach(it, el => result.push(el));
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
+    });
+  });
+
+  describe('iterator', () => {
+    it('resumes iteration', () => {
+
+      const it = iteratorOf(overElementsOf(overMany(11, 12), overMany(13, 14)));
+      const result: number[] = [];
+
+      iterateIt(it, el => {
+        result.push(el);
+        if (result.length > 2) {
+          return true;
+        }
+        return;
+      });
+
+      expect(result).toEqual([11, 12, 13]);
+      expect(it.isOver()).toBe(false);
+
+      expect([...it]).toEqual([14]);
+      expect(it.isOver()).toBe(true);
+    });
+    it('aborts iteration', () => {
+
+      const it = iteratorOf(overElementsOf(overMany(11, 12), overMany(13, 14)));
+      const result: number[] = [];
+
+      iterateIt(it, el => {
+        result.push(el);
+        if (result.length > 2) {
+          return false;
+        }
+        return;
+      });
+
+      expect(result).toEqual([11, 12, 13]);
+      expect(it.isOver()).toBe(true);
+      expect([...it]).toHaveLength(0);
     });
   });
 });

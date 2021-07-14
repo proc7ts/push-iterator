@@ -1,5 +1,4 @@
 import type { PushIterable } from './push-iterable';
-import type { transformIt } from './transformation';
 
 /**
  * Iterator implementing push iteration protocol.
@@ -24,29 +23,29 @@ export namespace PushIterator {
   /**
    * Iterated elements generator signature.
    *
-   * Generator instance is passed to {@link iterateOver} function.
+   * Generator instance is passed to {@link iterateGenerated} function.
    *
    * Generator pushes generated elements by provided `push` function until there are no more elements, or the `push`
    * function call returned `true` or `false`.
    *
-   * The internal `state` is specific to generator. It is `undefined` initially. It can be updated by passing an updated
-   * state as second parameter to `push` function.
+   * The internal `state` is specific to generator. It is `undefined` initially. An updated state can be returned from
+   * generator. It will be passed to generator next time it is called.
    *
    * If generator did not push any elements or returned `false`, the generation stops.
    *
    * @typeParam T - Iterated elements type.
    * @typeParam TState - Generator's internal state type.
-   * @param push - Pushes the next generated value and optionally a new generator state. Returns `undefined` if more
-   * elements accepted, `true` to suspend generation, or `false` to stop it.
+   * @param push - Pushes the next generated value. Returns `undefined` if more elements accepted, `true` to suspend
+   * generation, or `false` to stop it.
    * @param state - Either previous generator state, or `undefined` if generation just started.
    *
-   * @returns `false` to stop generation, or anything else to go on.
+   * @returns `false` to stop generation, or updated to continue generation.
    */
   export type Generator<T, TState = void> = (
       this: void,
-      push: (this: void, next: T, newState?: TState) => boolean | void,
+      push: (this: void, next: T) => boolean | void,
       state?: TState,
-  ) => boolean | void;
+  ) => TState | false;
 
   /**
    * Iterated elements transformer signature.
@@ -56,17 +55,17 @@ export namespace PushIterator {
    * Transformer pushes converted elements by provided `push` function until there are no more elements, or the `push`
    * function call returned `true` or `false`.
    *
-   * The internal `state` is specific to transformer. It is `undefined` initially. It can be updated by passing an
-   * updated state as second parameter to `push` function.
+   * The internal `state` is specific to transformer. It is `undefined` initially. An updated state can be returned from
+   * transformer. It will be passed to transformer next time it is called.
    *
-   * If transformer returned `false`, the transformation stops. If transformer returned `true`, the same element is
-   * transformed again.
+   * If transformer did not push any converted values or returned `false`, the transformation stops. If transformer
+   * returned state with {@link TransformState.re re} flag set, the same element will be transformed again.
    *
    * @typeParam TSrc - A type of source elements.
    * @typeParam TConv - A type of converted elements.
    * @typeParam TState - Transformer's internal state type.
-   * @param push - Pushes the next converted value and optionally a new transformer state. Returns `undefined` if more
-   * elements accepted, `true` to suspend generation, or `false` to stop it.
+   * @param push - Pushes the next converted value. Returns `undefined` if more elements accepted, `true` to suspend
+   * generation, or `false` to stop it.
    * @param state - Either previous transformer state, or `undefined` if transformation just started.
    *
    * @returns `false` to stop transformation, special value {@link transformIt} to transform the same element again,
@@ -74,10 +73,22 @@ export namespace PushIterator {
    */
   export type Transformer<TSrc, TConv = TSrc, TState = void> = (
       this: void,
-      push: (this: void, next: TConv, state?: TState) => boolean | void,
+      push: (this: void, next: TConv) => boolean | void,
       src: TSrc,
       state?: TState,
-  ) => boolean | typeof transformIt | void;
+  ) => TState | false;
+
+  /**
+   * Transformer state indicating whether the same element should be transformed again.
+   */
+  export interface TransformState {
+
+    /**
+     * When `true` the same element will be transformed again.
+     */
+    readonly re?: boolean;
+
+  }
 
   /**
    * A signature of a function accepting iterated elements.

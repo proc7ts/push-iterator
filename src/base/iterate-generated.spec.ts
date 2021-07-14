@@ -6,8 +6,8 @@ describe('iterateOver', () => {
 
     const result: number[] = [];
 
-    iterateGenerated<number, number>(
-        (push, _state) => {
+    iterateGenerated<number>(
+        push => {
           push(1);
           push(2);
           push(3);

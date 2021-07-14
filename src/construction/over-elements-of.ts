@@ -25,37 +25,29 @@ function overElementsOf$iterate<T>(
     accept?: PushIterator.Acceptor<T>,
 ): PushIterator<T> {
   return iterateGenerated<T, [number, Iterable<T>]>(
-      (push, state = overElementsOf$first(sources)): boolean | void => {
-
-        let [index, source] = state;
-
+      (push, [index, source] = [0, sources[0]]): [number, Iterable<T>] | false => {
         for (; ;) {
 
           let pushResult: boolean | void;
-          const tail = iterateIt(
-              source,
-              (element: T): boolean | void => pushResult = push(element, state),
-          );
+          const tail = iterateIt(source, element => pushResult = push(element));
 
+          if (pushResult === false) {
+            return false;
+          }
           if (tail.isOver()) {
-            if ((state[0] = ++index) >= sources.length) {
-              state = undefined;
+            if (++index >= sources.length) {
               return false;
             }
-            state[1] = source = sources[index];
+            source = sources[index];
           } else {
-            state[1] = source = tail;
+            source = tail;
           }
 
           if (pushResult != null) {
-            return pushResult;
+            return [index, source];
           }
         }
       },
       accept,
   );
-}
-
-function overElementsOf$first<T>([first]: readonly Iterable<T>[]): [number, Iterable<T>] {
-  return [0, first];
 }

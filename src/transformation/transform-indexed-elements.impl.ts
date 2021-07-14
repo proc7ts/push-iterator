@@ -2,7 +2,7 @@ import { iterateGenerated, makePushIterable } from '../base';
 import type { IndexedElements } from '../base/iterate-indexed.impl';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { transformIt } from './transform-it';
+import { transformIt$again } from './transform.impl';
 
 export function transformIndexedElements<TIndexed extends IndexedElements, TSrc, TConv = TSrc, TState = void>(
     source: TIndexed,
@@ -10,21 +10,21 @@ export function transformIndexedElements<TIndexed extends IndexedElements, TSrc,
     transform: PushIterator.Transformer<TSrc, TConv, TState>,
 ): PushIterable<TConv> {
   return makePushIterable(accept => iterateGenerated<TConv, IndexedElements$Transform<TState>>(
-      (push, state = [0]): boolean | void => {
-
-        let [index, transformerState] = state;
-
-        if (index >= source.length) {
+      (push, { i, st } = { i: 0 }): IndexedElements$Transform<TState> | false => {
+        if (i >= source.length) {
           return false;
         }
 
         for (; ;) {
 
-          const src = elementOf(source, index);
+          const src = elementOf(source, i);
           const transformResult = transformNext(src);
 
+          if (transformResult === false) {
+            return false;
+          }
           if (transformResult != null) {
-            return transformResult;
+            return { i, st };
           }
         }
 
@@ -34,33 +34,27 @@ export function transformIndexedElements<TIndexed extends IndexedElements, TSrc,
             let pushResult!: boolean | void;
 
             const transformResult = transform(
-                function pushTransformed(next, newState): boolean | void {
-                  transformerState = state[1] = newState;
-                  return pushResult = push(next, state);
-                },
+                next => pushResult = push(next),
                 src,
-                transformerState,
+                st,
             );
 
             if (pushResult === false || transformResult === false) {
               // Abort transformation.
-              state = undefined;
               return false;
             }
 
-            if (transformResult === transformIt) {
-              // Transform the same element.
-            } else {
-              // Transform next element.
-              if (++index >= source.length) {
-                state = undefined;
-                return false;
-              }
-              state[0] = index;
+            st = transformResult;
+
+            const reTransform = transformIt$again(transformResult);
+
+            if (!reTransform && ++i >= source.length) {
+              return false;
             }
 
-            // Continue transformation.
-            return pushResult;
+            if (pushResult != null || !reTransform) {
+              return pushResult;
+            }
           }
         }
       },
@@ -68,7 +62,8 @@ export function transformIndexedElements<TIndexed extends IndexedElements, TSrc,
   ));
 }
 
-type IndexedElements$Transform<TState> = [
-  index: number,
-  transformerState?: TState,
-];
+interface IndexedElements$Transform<TState> {
+  i: number;
+  st?: TState;
+  re?: boolean;
+}

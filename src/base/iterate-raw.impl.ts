@@ -4,24 +4,19 @@ import { iterateGenerated } from './iterate-generated';
 
 export function iterateRaw<T>(iterate: () => Iterator<T>, accept?: PushIterator.Acceptor<T>): PushIterator<T> {
   return iterateGenerated<T, [Iterator<T>, IteratorResult<T>]>(
-      (push, state = iterateRaw$start(iterate)): boolean | void => {
-
-        // eslint-disable-next-line prefer-const
-        let [iterator, current] = state;
-
+      (push, [iterator, current] = iterateRaw$start(iterate)): [Iterator<T>, IteratorResult<T>] | false => {
         while (!current.done) {
+
+          const result = push(current.value);
+
+          if (result === false) {
+            return false;
+          }
 
           const next = iterator.next();
 
-          state[1] = next;
-
-          const result = push(current.value, state);
-
-          if (next.done) {
-            return false;
-          }
           if (result != null) {
-            return result;
+            return [iterator, next];
           }
 
           current = next;

@@ -18,17 +18,22 @@ export function iterateIndexed<TIndexed extends IndexedElements, T>(
     accept?: PushIterator.Acceptor<T>,
 ): PushIterator<T> {
   return iterateGenerated<T, number>(
-      (push, i = 0) => {
-        while (i < indexed.length) {
-
-          const result = push(elementOf(indexed, i), ++i);
-
-          if (result != null) {
-            return result;
-          }
+      (push, i = 0): number | false => {
+        if (i >= indexed.length) {
+          return false;
         }
 
-        return false;
+        for (; ;) {
+
+          const result = push(elementOf(indexed, i));
+
+          if (++i >= indexed.length) {
+            return false;
+          }
+          if (result != null) {
+            return result && i;
+          }
+        }
       },
       accept,
   );

@@ -11,17 +11,22 @@ import type { PushIterable } from '../push-iterable';
  */
 export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
   return iterateGenerated<T, number>(
-      (push, i = array.length - 1) => {
-        while (i >= 0) {
-
-          const result = push(array[i], --i);
-
-          if (result != null) {
-            return result;
-          }
+      (push, i = array.length - 1): number | false => {
+        if (i < 0) {
+          return false;
         }
 
-        return false;
+        for (; ;) {
+
+          const result = push(array[i]);
+
+          if (--i < 0) {
+            return false;
+          }
+          if (result != null) {
+            return result && i;
+          }
+        }
       },
   );
 }

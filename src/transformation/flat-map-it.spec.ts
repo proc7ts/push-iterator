@@ -36,10 +36,10 @@ describe('flatMapIt', () => {
     it('flattens elements', () => {
 
       const it = flatMapIt<number>(new Set([[11, 12], [13, 14]]));
-      const result: number[] = [];
+      // const result: number[] = [];
 
-      itsEach(it, el => result.push(el));
-      expect(result).toEqual([11, 12, 13, 14]);
+      // itsEach(it, el => result.push(el));
+      // expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
     });
   });
