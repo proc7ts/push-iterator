@@ -1,6 +1,7 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
+import { isPushIterable, makePushIterable, makePushIterator } from '../base';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -21,19 +22,19 @@ export function mapIt<TSrc, TConv>(
 ): PushIterable<TConv> {
   return makePushIterable(accept => {
 
-    const forNext = isPushIterable(source) ? mapPusher(source, convert) : mapRawPusher(source, convert);
+    const forNext = isPushIterable(source) ? mapIt$(source, convert) : mapIt$raw(source, convert);
 
     return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
-function mapPusher<TSrc, TConv>(
+function mapIt$<TSrc, TConv>(
     source: PushIterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterator.Pusher<TConv> {
   return accept => {
 
-    const tail = pushHead(source, element => accept(convert(element)));
+    const tail = source[PushIterator__symbol](element => accept(convert(element)));
 
     source = tail;
 
@@ -41,15 +42,15 @@ function mapPusher<TSrc, TConv>(
   };
 }
 
-function mapRawPusher<TSrc, TConv>(
+function mapIt$raw<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterator.Pusher<TConv> {
 
-  const it = iteratorOf(source);
+  const it = source[Symbol.iterator]();
 
   if (isPushIterable(it)) {
-    return mapPusher(it, convert);
+    return mapIt$(it, convert);
   }
 
   return accept => {

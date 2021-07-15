@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iteratorOf } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import { itsElements, itsIterator } from '../consumption';
 import type { IndexedItemList } from './over-indexed';
 import { overIndexed } from './over-indexed';
@@ -27,21 +28,21 @@ describe('overIndexed', () => {
     expect([...overIndexed(list)]).toEqual(array);
   });
   it('pushes list items', () => {
-    expect(pushIterated(overIndexed(list), element => {
+    expect(iterateIt(overIndexed(list), element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(result).toEqual(array);
   });
   it('resumes iteration', () => {
 
     const it = itsIterator(overIndexed(list));
 
-    expect(pushIterated(it, () => true)).toBe(true);
+    expect(iterateIt(it, () => true).isOver()).toBe(false);
     expect(it.isOver()).toBe(false);
 
-    expect(pushIterated(it, element => {
+    expect(iterateIt(it, element => {
       result.push(element);
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });

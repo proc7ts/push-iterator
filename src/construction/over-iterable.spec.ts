@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iteratorOf } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import { PushIterator__symbol } from '../push-iterable';
 import { overIterable } from './over-iterable';
 import { overMany } from './over-many';
@@ -30,7 +31,7 @@ describe('overIterable', () => {
     const it = overIterable(new Set([1, 2, 3]));
     const result: number[] = [];
 
-    pushIterated(it, el => { result.push(el); });
+    iterateIt(it, el => { result.push(el); });
 
     expect(result).toEqual([1, 2, 3]);
   });
@@ -61,7 +62,7 @@ describe('overIterable', () => {
 
         const it = iteratorOf(overIterable(new Set()));
 
-        expect(pushIterated(it, () => true)).toBe(false);
+        expect(iterateIt(it, () => true).isOver()).toBe(true);
         expect(it.isOver()).toBe(true);
       });
     });

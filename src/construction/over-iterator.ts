@@ -1,5 +1,5 @@
 import { isPushIterable, makePushIterable } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
+import { rawIteratorPusher, toPushIterator } from '../base/push-iterator.raw.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';

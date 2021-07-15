@@ -1,6 +1,7 @@
-import { isPushIterable, iteratorOf, makePushIterable, makePushIterator, pushHead } from '../base';
+import { isPushIterable, makePushIterable, makePushIterator } from '../base';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -23,32 +24,24 @@ export function valueIt<T, TValue>(
     source: Iterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable(accept => {
 
-    const forNext = isPushIterable(source) ? valuePusher(source, valueOf) : valueRawPusher(source, valueOf);
+  const forNext = isPushIterable(source) ? valueIt$(source, valueOf) : valueIt$raw(source, valueOf);
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
-  });
+  return makePushIterable(accept => accept && !forNext(accept) ? overNone() : makePushIterator(forNext));
 }
 
-function valuePusher<T, TValue>(
+function valueIt$<T, TValue>(
     source: PushIterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterator.Pusher<TValue> {
   return accept => {
 
-    const tail = pushHead(
-        source,
-        element => {
+    const tail = source[PushIterator__symbol](element => {
 
-          const value = valueOf(element);
+      const value = valueOf(element);
 
-          if (value != null && value !== false) {
-            return accept(value);
-          }
-          return;
-        },
-    );
+      return value != null && value !== false ? accept(value) : void 0;
+    });
 
     source = tail;
 
@@ -56,15 +49,15 @@ function valuePusher<T, TValue>(
   };
 }
 
-function valueRawPusher<T, TValue>(
+function valueIt$raw<T, TValue>(
     source: Iterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterator.Pusher<TValue> {
 
-  const it = iteratorOf(source);
+  const it = source[Symbol.iterator]();
 
   if (isPushIterable(it)) {
-    return valuePusher(it, valueOf);
+    return valueIt$(it, valueOf);
   }
 
   return accept => {

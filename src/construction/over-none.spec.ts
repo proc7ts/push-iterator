@@ -1,5 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
-import { iteratorOf, pushIterated } from '../base';
+import { iteratorOf } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';
 
@@ -8,9 +9,9 @@ describe('overNone', () => {
 
     let iterated = false;
 
-    expect(pushIterated(overNone(), () => {
+    expect(iterateIt(overNone(), () => {
       iterated = true;
-    })).toBe(false);
+    }).isOver()).toBe(true);
     expect(iterated).toBe(false);
   });
   it('does not iterate', () => {

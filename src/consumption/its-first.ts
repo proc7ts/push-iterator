@@ -1,5 +1,6 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 
 /**
  * Extracts the first element of the given `iterable`, if any.
@@ -11,30 +12,27 @@ import type { PushIterable } from '../push-iterable';
  */
 export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
   if (isPushIterable(iterable)) {
-    return pushedFirst(iterable);
+    return itsFirst$(iterable);
   }
 
-  const it = iteratorOf(iterable);
+  const it = iterable[Symbol.iterator]();
 
-  return isPushIterable(it) ? pushedFirst(it) : rawFirst(it);
+  return isPushIterable(it) ? itsFirst$(it) : itsFirst$raw(it);
 }
 
-function pushedFirst<T>(it: PushIterable<T>): T | undefined {
+function itsFirst$<T>(it: PushIterable<T>): T | undefined {
 
   let first: T | undefined;
 
-  pushIterated(
-      it,
-      element => {
-        first = element;
-        return false;
-      },
-  );
+  it[PushIterator__symbol](element => {
+    first = element;
+    return false;
+  });
 
   return first;
 }
 
-function rawFirst<T>(it: Iterator<T>): T | undefined {
+function itsFirst$raw<T>(it: Iterator<T>): T | undefined {
 
   const result = it.next();
 

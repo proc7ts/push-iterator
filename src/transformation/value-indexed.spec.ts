@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { pushIterated } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import type { IndexedItemList } from '../construction';
 import { itsElements, itsIterator } from '../consumption';
 import { valueIndexed } from './value-indexed';
@@ -34,7 +34,7 @@ describe('valueIndexed', () => {
 
       const it = itsIterator(valueIndexed(list, element => element > 11 && element + 100));
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([133]);
@@ -47,18 +47,18 @@ describe('valueIndexed', () => {
       const it = itsIterator(valueIndexed(list, element => element > 11 && element + 100));
       const result: number[] = [];
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual([133]);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(result).toEqual([133]);
     });
   });

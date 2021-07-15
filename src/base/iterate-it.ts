@@ -1,16 +1,15 @@
-import { isPushIterable, iteratorOf, pushHead } from '../base';
-import { iterateOverArray } from '../base/iterate-over-array.impl';
-import { PushIterator$empty } from '../base/push-iterator.empty.impl';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
+import { isPushIterable } from './index';
+import { iterateOverArray } from './iterate-over-array.impl';
+import { PushIterator$empty } from './push-iterator.empty.impl';
+import { rawIteratorPusher, toPushIterator } from './push-iterator.raw.impl';
 
 /**
  * Iterates over elements of the given iterable.
  *
  * Calls `accept` method for each iterated element until there are elements to iterate, or `accept` returned either
  * `true` or `false`.
- *
- * In contrast to {@link pushHead} function, this one accepts any iterable instance.
  *
  * @typeParam T - Iterated elements type.
  * @param iterable - An iterable to iterate elements of.
@@ -20,29 +19,30 @@ import type { PushIterator } from '../push-iterator';
  * @returns A push iterator instance representing the tail of the given iterable. This iterator can be used to continue
  * iteration with, unless `accept` returned `false`. In the latter case the further iteration won't be possible.
  */
-export function itsHead<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
+export function iterateIt<T>(iterable: Iterable<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
   if (isPushIterable(iterable)) {
-    return pushHead(iterable, accept);
+    return iterable[PushIterator__symbol](accept);
   }
   if (Array.isArray(iterable)) {
-    return arrayHead(iterable, accept);
+    return iterateIt$array(iterable, accept);
   }
-  return rawIterableHead(iterable, accept);
+
+  return iterateIt$raw(iterable, accept);
 }
 
-function arrayHead<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
+function iterateIt$array<T>(array: ArrayLike<T>, accept: PushIterator.Acceptor<T>): PushIterator<T> {
   return array.length ? iterateOverArray(array)(accept) : PushIterator$empty;
 }
 
-function rawIterableHead<T>(
+function iterateIt$raw<T>(
     iterable: Iterable<T>,
     accept: PushIterator.Acceptor<T>,
 ): PushIterator<T> {
 
-  const it = iteratorOf(iterable);
+  const it = iterable[Symbol.iterator]();
 
   if (isPushIterable(it)) {
-    return pushHead(it, accept);
+    return it[PushIterator__symbol](accept);
   }
 
   const forEach = rawIteratorPusher(it);

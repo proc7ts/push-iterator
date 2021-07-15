@@ -1,4 +1,3 @@
-import { iteratorOf } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { overArray } from './over-array';
 import { overIterator } from './over-iterator';
@@ -14,5 +13,5 @@ import { overIterator } from './over-iterator';
 export function overIterable<T>(iterable: Iterable<T>): PushIterable<T> {
   return Array.isArray(iterable)
       ? overArray<T>(iterable)
-      : overIterator(() => iteratorOf(iterable));
+      : overIterator(() => iterable[Symbol.iterator]());
 }
