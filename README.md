@@ -123,6 +123,14 @@ Each of the following functions returns a push iterable instance:
 [reverseArray]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#reverseArray
 
 
+### Iteration
+
+[`iterateIt(iterable, accept): PushIterator`][iterateIt] function iterates over the head elements of the given iterable
+and returns its tail iterator.
+
+[iterateIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iterateIt
+
+
 ### Iterable Consumption
 
 Each of the following functions accepts either [Iterable] or push iterable:
@@ -136,9 +144,6 @@ Each of the following functions accepts either [Iterable] or push iterable:
   implemented by the provided function.
 - [`itsFind(iterable, search): R | undefined`][itsFind] - Searches for the value in `iterable`.
 - [`itsFirst(iterable): T | undefined`][itsFirst] - Extracts the first element of the given `iterable`, if any.
-- [`itsHead(iterable, accept): PushIterator`][itsHead] - Iterates over the head elements of the given iterable and
-  returns its tail iterator.
-- [`itsIterated(iterable, accept): boolean`][itsIterated] - Iterates over elements of the given `iterable`.
 - [`itsIterator(iterable)`][itsIterator] - Starts iteration over the given `iterable`. Always returns a push iterator.
 - [`itsMatch(iterable, test): T | undefined`][itsMatch] - Extracts the first element matching the given condition from
   `iterable`.
@@ -153,8 +158,6 @@ Each of the following functions accepts either [Iterable] or push iterable:
 [itsEvery]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEvery
 [itsFind]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFind
 [itsFirst]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFirst
-[itsHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsHead
-[itsIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsIterated
 [itsIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsIterator
 [itsMatch]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsMatch
 [itsReduction]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsReduction
@@ -228,16 +231,11 @@ Each of the following functions accepts an indexed list of items, and returns a 
 
 - [`isPushIterable(iterable)`][isPushIterable] - Checks whether the given iterable or iterator conforms to push
   iteration protocol.
-- [`iteratorOf(iterable)`][iteratorOf] - Constructs iterator over elements of the given `iterable`.
+- [`iteratorOf(iterable)`][iteratorOf] - Creates iterator over elements of the given `iterable`.
 - [`makePushIterable(iterate)`][makePushIterable] - Creates a push iterable implementation.
 - [`makePushIterator(forNext)`][makePushIterator] - Creates a push iterator implementation.
-- [`pushHead(iterable, accept): PushIterator`][pushHead] - Iterates over the head elements of the given push iterable
-  and returns its tail iterator.
-- [`pushIterated(iterable, accept): boolean`][pushIterated] - Iterates over elements of the given push iterable.
 
 [isPushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#isPushIterable
 [iteratorOf]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iteratorOf
 [makePushIterable]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterable
 [makePushIterator]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterator
-[pushHead]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#pushHead
-[pushIterated]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#pushIterated

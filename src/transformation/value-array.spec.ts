@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { pushIterated } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import { itsElements, itsIterator } from '../consumption';
 import { valueArray } from './value-array';
 
@@ -18,7 +18,7 @@ describe('valueArray', () => {
 
       const it = itsIterator(valueArray([11, 22, 33], element => element > 11 && element + 100));
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
       expect([...it]).toEqual([133]);
@@ -31,18 +31,18 @@ describe('valueArray', () => {
       const it = itsIterator(valueArray([11, 22, 33], element => element > 11 && element + 100));
       const result: number[] = [];
 
-      expect(pushIterated(it, () => true)).toBe(true);
+      expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual([133]);
 
-      expect(pushIterated(it, el => {
+      expect(iterateIt(it, el => {
         result.push(el);
-      })).toBe(false);
+      }).isOver()).toBe(true);
       expect(result).toEqual([133]);
     });
   });

@@ -1,5 +1,5 @@
 import { makePushIterable, makePushIterator } from '../base';
-import { itsHead } from '../consumption';
+import { iterateIt } from '../base/iterate-it';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
@@ -15,13 +15,13 @@ import { overNone } from './over-none';
  */
 export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushIterable<T> {
   return sources.length > 1
-      ? makePushIterable(iterateOverSubElements(sources))
+      ? makePushIterable(overElementsOf$(sources))
       : (sources.length
           ? overIterable(sources[0])
           : overNone());
 }
 
-function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
+function overElementsOf$<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
   return accept => {
 
     let i = 0;
@@ -32,7 +32,7 @@ function iterateOverSubElements<T>(sources: readonly Iterable<T>[]): PushIterabl
 
         // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
         let status: boolean | void;
-        const srcTail = itsHead(src, element => status = accept(element));
+        const srcTail = iterateIt(src, element => status = accept(element));
 
         if (srcTail.isOver()) {
           if (++i >= sources.length) {

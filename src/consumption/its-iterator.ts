@@ -1,5 +1,5 @@
-import { isPushIterable, iteratorOf } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/raw-iterator.impl';
+import { isPushIterable } from '../base';
+import { rawIteratorPusher, toPushIterator } from '../base/push-iterator.raw.impl';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -12,7 +12,9 @@ import type { PushIterator } from '../push-iterator';
  */
 export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
 
-  const it = iteratorOf(iterable);
+  const it = iterable[Symbol.iterator]();
 
-  return isPushIterable(it) ? it : toPushIterator(it, rawIteratorPusher(it));
+  return isPushIterable(it)
+      ? it
+      : toPushIterator(it, rawIteratorPusher(it));
 }

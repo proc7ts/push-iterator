@@ -1,7 +1,7 @@
 import { makePushIterator } from '../base';
+import { iterateIt } from '../base/iterate-it';
 import type { IndexedElements } from '../base/iterate-over-indexed.impl';
 import { overNone } from '../construction';
-import { itsHead } from '../consumption';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
@@ -25,7 +25,7 @@ export function iterateOverFlattenedIndexed<TIndexed extends IndexedElements, T>
       for (; ;) {
 
         let status: boolean | void;
-        const subsTail: PushIterator<T> = itsHead<T>(subs, element => status = accept(element));
+        const subsTail: PushIterator<T> = iterateIt<T>(subs, element => status = accept(element));
 
         if (subsTail.isOver()) {
           if (++i >= indexed.length) {

@@ -1,5 +1,5 @@
+import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import { pushIterated } from './push-iterated';
 
 export function PushIterator$iterator<T>(this: T): T {
   return this;
@@ -9,18 +9,15 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
   for (; ;) {
 
     let result: IteratorYieldResult<T> | undefined;
-    const over = !pushIterated(
-        this,
-        value => {
-          result = { value };
-          return true;
-        },
-    );
+    const tail = this[PushIterator__symbol](value => {
+      result = { value };
+      return true;
+    });
 
     if (result) {
       return result;
     }
-    if (over) {
+    if (tail.isOver()) {
       return { done: true } as IteratorReturnResult<T>;
     }
   }

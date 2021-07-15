@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base/iterate-it';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -21,7 +21,7 @@ export function itsReduction<T, TResult>(
 
   let reduced = initialValue;
 
-  itsIterated(iterable, element => { reduced = reducer(reduced, element); });
+  iterateIt(iterable, element => { reduced = reducer(reduced, element); });
 
   return reduced;
 }

@@ -1,5 +1,6 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 
 const itsElements$defaultConverter = <T, TConv>(element: T): TConv => element as unknown as TConv;
 
@@ -35,25 +36,29 @@ export function itsElements<T, TConv>(source: Iterable<T>, convert: (this: void,
 
 export function itsElements<T, TConv>(
     source: Iterable<T>,
-    convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
+    convert?: (this: void, element: T) => TConv,
 ): TConv[] {
   if (isPushIterable(source)) {
-    return pushedElements(source, convert);
+    return itsElements$(source, convert);
   }
 
-  const it = iteratorOf(source);
+  const it = source[Symbol.iterator]();
 
-  return isPushIterable(it) ? pushedElements(it, convert) : Array.from(source, convert);
+  return isPushIterable(it)
+      ? itsElements$(it, convert)
+      : convert
+          ? Array.from(source, convert)
+          : [...source] as unknown[] as TConv[];
 }
 
-function pushedElements<T, TConv>(
+function itsElements$<T, TConv>(
     it: PushIterable<T>,
-    convert: (this: void, element: T) => TConv,
+    convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
 ): TConv[] {
 
   const result: TConv[] = [];
 
-  pushIterated(it, element => { result.push(convert(element)); });
+  it[PushIterator__symbol](element => { result.push(convert(element)); });
 
   return result;
 }

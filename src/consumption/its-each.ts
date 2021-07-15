@@ -1,4 +1,4 @@
-import { itsIterated } from './its-iterated';
+import { iterateIt } from '../base/iterate-it';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -9,5 +9,5 @@ import { itsIterated } from './its-iterated';
  * parameter.
  */
 export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
-  itsIterated(iterable, element => { action(element); });
+  iterateIt(iterable, element => { action(element); });
 }

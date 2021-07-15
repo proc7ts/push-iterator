@@ -1,5 +1,6 @@
-import { isPushIterable, iteratorOf, pushIterated } from '../base';
+import { isPushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
+import { PushIterator__symbol } from '../push-iterable';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -10,19 +11,21 @@ import type { PushIterable } from '../push-iterable';
  */
 export function itsEmpty(iterable: Iterable<unknown>): boolean {
   if (isPushIterable(iterable)) {
-    return pushedEmpty(iterable);
+    return itsEmpty$(iterable);
   }
 
-  const it = iteratorOf(iterable);
+  const it = iterable[Symbol.iterator]();
 
-  return isPushIterable(it) ? pushedEmpty(it) : !!it.next().done;
+  return isPushIterable(it)
+      ? itsEmpty$(it)
+      : !!it.next().done;
 }
 
-function pushedEmpty(it: PushIterable<unknown>): boolean {
+function itsEmpty$(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;
 
-  pushIterated(it, _element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
+  it[PushIterator__symbol](_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
 
   return isEmpty;
 }
