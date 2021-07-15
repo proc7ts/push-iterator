@@ -1,12 +1,8 @@
 import type { IndexedItemList } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
-import {
-  emptyPushIterator,
-  PushIterator$dontIterate,
-  PushIterator$iterator,
-  PushIterator$noNext,
-} from './make-push-iterator';
+import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from './push-iterator.empty.impl';
+import { PushIterator$iterator } from './push-iterator.impl';
 
 export interface IndexedElements {
 
@@ -43,7 +39,7 @@ export function iterateOverIndexed<TIndexed extends IndexedElements, T>(
     };
 
     if (accept && !forNext(accept)) {
-      return emptyPushIterator;
+      return PushIterator$empty;
     }
 
     let over = false;

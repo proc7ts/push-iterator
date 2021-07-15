@@ -1,14 +1,13 @@
-import { emptyPushIterator } from '../base/make-push-iterator';
-import type { PushIterable } from '../push-iterable';
+import { PushIterator$empty } from '../base/push-iterator.empty.impl';
 import type { PushIterator } from '../push-iterator';
 
 /**
- * Returns a {@link PushIterator | push iterable iterator} without elements.
+ * Returns a {@link PushIterator push iterator} without elements.
  *
  * @typeParam T - Iterated elements type.
  *
- * @returns Empty push iterable and push iterator instance.
+ * @returns Empty push iterator instance.
  */
-export function overNone<T>(): PushIterable<T> & PushIterator<T> {
-  return emptyPushIterator;
+export function overNone<T>(): PushIterator<T> {
+  return PushIterator$empty;
 }

@@ -1,5 +1,6 @@
 import { makePushIterable } from '../base';
-import { PushIterator$dontIterate, PushIterator$iterator, PushIterator$noNext } from '../base/make-push-iterator';
+import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import { PushIterator$iterator } from '../base/push-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
