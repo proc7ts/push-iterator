@@ -20,12 +20,9 @@ export function itsEvery<T>(
 
   itsIterated(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         allMatch = !!test(element);
-        if (!allMatch) {
-          return false;
-        }
-        return;
+        return allMatch ? void 0 : false;
       },
   );
 

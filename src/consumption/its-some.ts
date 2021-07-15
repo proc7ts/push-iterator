@@ -20,12 +20,9 @@ export function itsSome<T>(
 
   itsIterated(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         someMatches = !!test(element);
-        if (someMatches) {
-          return false;
-        }
-        return;
+        return someMatches ? false : void 0;
       },
   );
 

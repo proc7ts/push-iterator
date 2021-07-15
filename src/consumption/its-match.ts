@@ -16,12 +16,11 @@ export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T
 
   itsIterated(
       iterable,
-      element => {
+      (element: T): boolean | void => {
         if (test(element)) {
           match = element;
-          return true;
+          return false;
         }
-        return;
       },
   );
 

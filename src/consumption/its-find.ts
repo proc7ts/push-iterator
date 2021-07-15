@@ -21,16 +21,14 @@ export function itsFind<T, TFound>(
 
   itsIterated(
       iterable,
-      element => {
+      (element: T): boolean | void => {
 
         const result = search(element);
 
         if (result !== false && result !== undefined) {
           find = result;
-          return true;
+          return false;
         }
-
-        return;
       },
   );
 
