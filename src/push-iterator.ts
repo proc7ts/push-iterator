@@ -24,16 +24,13 @@ export namespace PushIterator {
    * A signature of iterated elements pusher function conforming to push iteration protocol.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type Pusher<T> =
-  /**
    * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `false` to stop iteration.
    *
    * @returns `true` if further iteration is possible, or `false` if there is no more elements left to iterate.
    * The former is possible only when iteration stopped, i.e. `accept` returned `false`.
    */
-      (this: void, accept: Acceptor<T>) => boolean;
+  export type Pusher<T> = (this: void, accept: Acceptor<T>) => boolean;
 
   /**
    * A signature of a function accepting iterated elements.
@@ -48,12 +45,9 @@ export namespace PushIterator {
    * A signature of a function accepting each iterated element unconditionally.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type EachAcceptor<T> =
-  /**
    * @param element - Iterated element.
    */
-      (this: void, element: T) => void;
+  export type EachAcceptor<T> = (this: void, element: T) => void;
 
   /**
    * A signature of a function accepting iterated elements and able to suspend or stop further iteration.
@@ -67,13 +61,10 @@ export namespace PushIterator {
    * its {@link PushIterator.isOver} method always returning `true`.
    *
    * @typeParam T - Iterated elements type.
-   */
-  export type StoppingAcceptor<T> =
-  /**
    * @param element - Iterated element.
    *
    * @returns `true` to suspend iteration, or `false` to stop it.
    */
-      (this: void, element: T) => boolean;
+  export type StoppingAcceptor<T> = (this: void, element: T) => boolean;
 
 }

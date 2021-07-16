@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Performs the given `action` for each element of the given `iterable`.
@@ -9,5 +10,5 @@ import { iterateIt } from '../base/iterate-it';
  * parameter.
  */
 export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
-  iterateIt(iterable, element => { action(element); });
+  iterateIt(iterable, element => { action(element); }, PushIterationMode.All);
 }

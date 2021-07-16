@@ -1,6 +1,7 @@
 import { isPushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 
 const itsElements$defaultConverter = <T, TConv>(element: T): TConv => element as unknown as TConv;
 
@@ -58,7 +59,7 @@ function itsElements$<T, TConv>(
 
   const result: TConv[] = [];
 
-  it[PushIterator__symbol](element => { result.push(convert(element)); });
+  it[PushIterator__symbol](element => { result.push(convert(element)); }, PushIterationMode.All);
 
   return result;
 }

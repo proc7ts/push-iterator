@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Applies a function against an accumulator and each element of the given `iterable` to reduce elements to a single
@@ -21,7 +22,11 @@ export function itsReduction<T, TResult>(
 
   let reduced = initialValue;
 
-  iterateIt(iterable, element => { reduced = reducer(reduced, element); });
+  iterateIt(
+      iterable,
+      element => { reduced = reducer(reduced, element); },
+      PushIterationMode.All,
+  );
 
   return reduced;
 }

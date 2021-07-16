@@ -7,5 +7,6 @@ export * from './construction';
 export * from './consumption';
 export * from './objects';
 export * from './push-iterable';
+export * from './push-iteration-mode';
 export * from './push-iterator';
 export * from './transformation';

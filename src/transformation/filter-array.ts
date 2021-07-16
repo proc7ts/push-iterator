@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { arrayElementOf } from '../base/iterate-over-array.impl';
+import { arrayLike$elementOf } from '../base/array-like.impl';
 import type { PushIterable } from '../push-iterable';
 import { iterateOverFilteredIndexed } from './iterate-over-filtered-indexed.impl';
 
@@ -41,5 +41,5 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(iterateOverFilteredIndexed(array, arrayElementOf, test));
+  return makePushIterable(iterateOverFilteredIndexed(array, arrayLike$elementOf, test));
 }

@@ -1,11 +1,11 @@
 import { makePushIterator } from '../base';
+import type { Indexed$Elements } from '../base/indexed.impl';
 import { iterateIt } from '../base/iterate-it';
-import type { IndexedElements } from '../base/iterate-over-indexed.impl';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
-export function iterateOverFlattenedIndexed<TIndexed extends IndexedElements, T>(
+export function iterateOverFlattenedIndexed<TIndexed extends Indexed$Elements, T>(
     indexed: TIndexed,
     elementsOf: (indexed: TIndexed, index: number) => Iterable<T>,
 ): PushIterable.Iterate<T> {

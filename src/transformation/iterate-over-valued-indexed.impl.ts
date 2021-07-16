@@ -1,11 +1,11 @@
-import type { IndexedElements } from '../base/iterate-over-indexed.impl';
+import type { Indexed$Elements } from '../base/indexed.impl';
 import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import type { PushIterator } from '../push-iterator';
 
-export function iterateOverValuedIndexed<TIndexed extends IndexedElements, T, TValue>(
+export function iterateOverValuedIndexed<TIndexed extends Indexed$Elements, T, TValue>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,

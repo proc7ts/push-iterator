@@ -1,5 +1,5 @@
 import { isPushIterable, makePushIterable } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/push-iterator.raw.impl';
+import { iterator$convert, iterator$pusher } from '../base/iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import { overNone } from './over-none';
@@ -25,8 +25,8 @@ function iterateOverRawIterator<T>(iterate: (this: void) => Iterator<T>): PushIt
       return it[PushIterator__symbol](accept);
     }
 
-    const forNext = rawIteratorPusher(it);
+    const forNext = iterator$pusher(it);
 
-    return accept && !forNext(accept) ? overNone() : toPushIterator(it, forNext);
+    return accept && !forNext(accept) ? overNone() : iterator$convert(it, forNext);
   };
 }

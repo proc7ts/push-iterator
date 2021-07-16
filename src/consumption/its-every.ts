@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Tests whether all elements of the given `iterable` pass the test implemented by the provided function.
@@ -24,6 +25,7 @@ export function itsEvery<T>(
         allMatch = !!test(element);
         return allMatch ? void 0 : false;
       },
+      PushIterationMode.Only,
   );
 
   return allMatch;

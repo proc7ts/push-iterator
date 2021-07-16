@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { arrayElementOf } from '../base/iterate-over-array.impl';
+import { arrayLike$elementOf } from '../base/array-like.impl';
 import type { PushIterable } from '../push-iterable';
 import { iterateOverValuedIndexed } from './iterate-over-valued-indexed.impl';
 
@@ -23,5 +23,5 @@ export function valueArray<T, TValue>(
     array: ArrayLike<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable(iterateOverValuedIndexed(array, arrayElementOf, valueOf));
+  return makePushIterable(iterateOverValuedIndexed(array, arrayLike$elementOf, valueOf));
 }
