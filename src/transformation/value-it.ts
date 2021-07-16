@@ -36,7 +36,9 @@ export function valueIt<T, TValue = T>(
 
         const value = valueOf(element);
 
-        return value != null && value !== false ? accept(value) : void 0;
+        return value != null && value !== false
+            ? accept(value)
+            : void 0;
       };
 
       return isPushIterable(source)
@@ -56,19 +58,14 @@ function valueIt$<T, TValue>(
     source: PushIterable<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterator.Pusher<TValue> {
-  return accept => {
+  return accept => !(source = source[PushIterator__symbol](element => {
 
-    const tail = source[PushIterator__symbol](element => {
+    const value = valueOf(element);
 
-      const value = valueOf(element);
-
-      return value != null && value !== false ? accept(value) : void 0;
-    });
-
-    source = tail;
-
-    return !tail.isOver();
-  };
+    return value != null && value !== false
+        ? accept(value)
+        : void 0;
+  })).isOver();
 }
 
 function valueIt$raw<T, TValue>(

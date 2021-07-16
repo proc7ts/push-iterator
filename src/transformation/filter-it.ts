@@ -68,14 +68,9 @@ function filterIt$<T>(
     source: PushIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => {
-
-    const tail = source[PushIterator__symbol](element => test(element) ? accept(element) : void 0);
-
-    source = tail;
-
-    return !tail.isOver();
-  };
+  return accept => !(source = source[PushIterator__symbol](
+      element => test(element) ? accept(element) : void 0,
+  )).isOver();
 }
 
 function filterIt$raw<T>(
