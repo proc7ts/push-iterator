@@ -111,14 +111,15 @@ describe('filterIt', () => {
     });
 
     it('filters elements', () => {
-      expect([...filterIt(overMany(11, 22, 33), element => element > 11)]).toEqual([22, 33]);
+      expect([...iterable]).toEqual([22, 33]);
+      expect(itsElements(iterable)).toEqual([22, 33]);
     });
     it('does not filter empty iterable', () => {
       expect([...filterIt(overNone(), () => true)]).toEqual([]);
     });
     it('resumes filtering', () => {
 
-      const it = iteratorOf(filterIt(overMany(11, 22, 33), element => element > 11));
+      const it = iteratorOf(iterable);
 
       iterateIt(it, () => true);
       expect(it.isOver()).toBe(false);

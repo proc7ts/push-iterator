@@ -46,7 +46,12 @@ export function filterIt<T>(
 ): PushIterable<T> {
   return makePushIterable((accept, mode = PushIterationMode.Some) => {
     if (accept && mode > 0) {
-      return iterable$process(source, element => test(element) ? accept(element) : void 0, mode);
+
+      const acceptElement = (element: T): boolean | void => test(element) ? accept(element) : void 0;
+
+      return isPushIterable(source)
+          ? source[PushIterator__symbol](acceptElement, mode) // Iteration over.
+          : iterable$process(source, acceptElement, mode);
     }
 
     const forNext = isPushIterable(source)
