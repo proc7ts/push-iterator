@@ -1,7 +1,7 @@
 import { makePushIterable } from '../base';
 import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import { iterateOverFlattenedIndexed } from './iterate-over-flattened-indexed.impl';
+import { flatMapIndexed$ } from './flat-map-indexed.impl';
 
 /**
  * Flattens the source list of indexed iterables into new {@link PushIterable | push iterable}.
@@ -35,7 +35,7 @@ export function flatMapIndexed<TSrc, TConv>(
     indexed: IndexedItemList<TSrc>,
     convert?: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv> {
-  return makePushIterable(iterateOverFlattenedIndexed<IndexedItemList<TSrc>, TConv>(
+  return makePushIterable(flatMapIndexed$<IndexedItemList<TSrc>, TConv>(
       indexed,
       convert
           ? (indexed, index) => convert(indexed.item(index) as TSrc)
