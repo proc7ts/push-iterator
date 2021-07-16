@@ -47,6 +47,27 @@ When the library function encounters such method, it calls it to iterate over el
 iterator.
 
 
+Iteration Mode Hints
+--------------------
+
+The `[PushIterator__symbol](accept?, mode?)` method of `PushIterable` interface accepts optional _iteration mode_ hint
+as second parameter. The latter used to optimize iteration algorithm. Such hints provided by iterable consumption
+methods.
+
+For example, an [itsEach] function sets this hint to `PushIterationMode.All` to inform the iterable implementation that
+all of its elements will be consumed. This allows to select the fastest iteration strategy without any intermediate
+checks.
+
+Another example is [itsEvery] function. It sets this hint to `PushIterationMode.Only` to inform the iterable
+implementation that only some of its elements will be consumed, and then iteration will be aborted. This allows to
+select iteration strategy that does not support suspend and resume.
+
+Another mode is `PushIterationMode.Next`. It is typically set by `Iterator.next()` compatibility method. It informs that
+only the next element will be consumed, after which the iteration will be suspended.
+
+The default mode is `PushIterationMode.Some`. With this mode it is possible to suspended, resumed, or abort iteration.
+
+
 Rationale
 ---------
 
@@ -80,7 +101,7 @@ Design Goals
 
 3. **Tree shaking** support.
 
-   The library API represented by functions. When tree-shaken the unused ones removed from bundles.
+   The library API represented by functions. When tree-shaken, the unused ones get removed from bundles.
 
 [Iterable]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol
 
@@ -125,8 +146,8 @@ Each of the following functions returns a push iterable instance:
 
 ### Iteration
 
-[`iterateIt(iterable, accept): PushIterator`][iterateIt] function iterates over the head elements of the given iterable
-and returns its tail iterator.
+[`iterateIt(iterable, accept): PushIterator`][iterateIt] function iterates over the leading elements of the given
+iterable and returns its trailing iterator.
 
 [iterateIt]: https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iterateIt
 
