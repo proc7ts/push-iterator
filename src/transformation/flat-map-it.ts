@@ -172,7 +172,7 @@ function flatMapIt$raw$process<TSrc, TConv>(
 ): PushIterator<TConv> {
   if (mode === PushIterationMode.All) {
     for (const src of source) {
-      iterateIt(convert(src), accept);
+      iterateIt(convert(src), accept, mode);
     }
   } else {
 
