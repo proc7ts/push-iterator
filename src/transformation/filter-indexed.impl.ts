@@ -1,16 +1,26 @@
 import type { Indexed$Elements } from '../base/indexed.impl';
+import { indexed$process } from '../base/indexed.impl';
 import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
-export function iterateOverFilteredIndexed<TIndexed extends Indexed$Elements, T>(
+export function filterIndexed$<TIndexed extends Indexed$Elements, T>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,
     test: (this: void, element: T) => boolean,
 ): PushIterable.Iterate<T> {
-  return accept => {
+  return (accept, mode: PushIterationMode = PushIterationMode.Some) => {
+    if (accept && mode > 0) {
+      return indexed$process(
+          indexed,
+          elementOf,
+          element => test(element) ? accept(element) : void 0,
+          mode,
+      );
+    }
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {

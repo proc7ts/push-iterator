@@ -10,6 +10,16 @@ describe('filterArray', () => {
   it('pushes filtered elements', () => {
     expect(itsElements(filterArray([11, 22, 33], element => element > 11))).toEqual([22, 33]);
   });
+  it('filters out all elements', () => {
+
+    const result: number[] = [];
+
+    expect(iterateIt(
+        filterArray([11, 12, 13], () => false),
+        el => result.push(el),
+    ).isOver()).toBe(true);
+    expect(result).toHaveLength(0);
+  });
 
   describe('iterator', () => {
     it('resumes filtering', () => {

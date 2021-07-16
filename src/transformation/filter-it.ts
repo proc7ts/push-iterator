@@ -1,7 +1,9 @@
 import { isPushIterable, makePushIterable, makePushIterator } from '../base';
+import { iterable$process } from '../base/iterable.impl';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -42,13 +44,18 @@ export function filterIt<T>(
     source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(accept => {
+  return makePushIterable((accept, mode = PushIterationMode.Some) => {
+    if (accept && mode > 0) {
+      return iterable$process(source, element => test(element) ? accept(element) : void 0, mode);
+    }
 
     const forNext = isPushIterable(source)
         ? filterIt$(source, test)
         : filterIt$raw(source, test);
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
+    return accept && !forNext(accept)
+        ? overNone()
+        : makePushIterator(forNext);
   });
 }
 

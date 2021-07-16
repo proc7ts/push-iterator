@@ -17,6 +17,16 @@ describe('filterIt', () => {
     it('does not filter empty iterable', () => {
       expect([...filterIt(new Set(), () => true)]).toEqual([]);
     });
+    it('filters out all elements', () => {
+
+      const result: number[] = [];
+
+      expect(iterateIt(
+          filterIt(new Set([11, 12, 13]), () => false),
+          el => result.push(el),
+      ).isOver()).toBe(true);
+      expect(result).toHaveLength(0);
+    });
 
     describe('iterator', () => {
       it('resumes filtering', () => {
