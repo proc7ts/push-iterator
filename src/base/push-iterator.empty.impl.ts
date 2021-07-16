@@ -1,12 +1,11 @@
 import { PushIterator__symbol } from '../push-iterable';
+import type { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 import { PushIterator$iterator } from './push-iterator.impl';
 
 export const PushIterator$empty: PushIterator<any> = {
   [Symbol.iterator]: PushIterator$iterator,
-  [PushIterator__symbol](
-      _accept, // unused parameter to prevent deoptimization
-  ) {
+  [PushIterator__symbol](_accept, _mode) {
     return this;
   },
   next: PushIterator$noNext,
@@ -18,7 +17,8 @@ export function PushIterator$noNext<T>(): IteratorReturnResult<T> {
 }
 
 export function PushIterator$dontIterate<T>(
-    _accept?: PushIterator.Acceptor<T>, // unused parameter to prevent deoptimization
+    _accept?: PushIterator.Acceptor<T>,
+    _mode?: PushIterationMode,
 ): void {
   // Do not iterate
 }

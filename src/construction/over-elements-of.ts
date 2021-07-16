@@ -1,6 +1,7 @@
 import { makePushIterable, makePushIterator } from '../base';
 import { iterateIt } from '../base/iterate-it';
 import type { PushIterable } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 import { overIterable } from './over-iterable';
 import { overNone } from './over-none';
@@ -22,7 +23,7 @@ export function overElementsOf<T>(...sources: readonly Iterable<T>[]): PushItera
 }
 
 function overElementsOf$<T>(sources: readonly Iterable<T>[]): PushIterable.Iterate<T> {
-  return accept => {
+  return (accept, mode = PushIterationMode.Some) => {
 
     let i = 0;
     let src: Iterable<T> = sources[0];
@@ -30,9 +31,8 @@ function overElementsOf$<T>(sources: readonly Iterable<T>[]): PushIterable.Itera
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
       for (; ;) {
 
-        // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
         let status: boolean | void;
-        const srcTail = iterateIt(src, element => status = accept(element));
+        const srcTail = iterateIt(src, element => status = accept(element), mode);
 
         if (srcTail.isOver()) {
           if (++i >= sources.length) {

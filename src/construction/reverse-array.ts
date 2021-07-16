@@ -1,8 +1,9 @@
 import { makePushIterable } from '../base';
-import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 import { overNone } from './over-none';
 
@@ -15,11 +16,17 @@ import { overNone } from './over-none';
  * @returns New push iterable over array elements in reverse order.
  */
 export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
-  return makePushIterable(iterateOverArrayReversely(array));
+  return makePushIterable(reverseArray$iterate(array));
 }
 
-function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
-  return accept => {
+function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
+  return (
+      accept?: PushIterator.Acceptor<T>,
+      mode: PushIterationMode = PushIterationMode.Some,
+  ): PushIterator<T> => {
+    if (accept && mode > 0) {
+      return reverseArray$process(array, accept, mode);
+    }
 
     let i = array.length - 1;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
@@ -75,4 +82,24 @@ function iterateOverArrayReversely<T>(array: ArrayLike<T>): PushIterable.Iterate
       isOver: () => over,
     };
   };
+}
+
+function reverseArray$process<T>(
+    array: ArrayLike<T>,
+    accept: PushIterator.Acceptor<T>,
+    mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
+): PushIterator<T> {
+  if (mode === PushIterationMode.All) {
+    for (let i = array.length - 1; i >= 0; --i) {
+      accept(array[i]);
+    }
+  } else {
+    for (let i = array.length - 1; i >= 0; --i) {
+      if (accept(array[i]) === false) {
+        break;
+      }
+    }
+  }
+
+  return PushIterator$empty;
 }

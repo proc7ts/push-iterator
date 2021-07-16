@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { iteratorOf } from '../base';
-import { overArray, overIndexed, overMany, overNone } from '../construction';
+import { overArray, overIndexed, overMany, overNone, reverseArray } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { itsSome } from './its-some';
 
@@ -29,6 +29,33 @@ describe('itsSome', () => {
       expect(test).toHaveBeenCalledWith(1);
       expect(test).toHaveBeenCalledWith(2);
       expect(test).not.toHaveBeenCalledWith(3);
+    });
+  });
+
+  describe('over reverse array', () => {
+    it('returns `false` for empty array', () => {
+      expect(itsSome(reverseArray([]), () => true)).toBe(false);
+    });
+    it('returns `false` if all elements mismatch', () => {
+      expect(itsSome(reverseArray([1, 2, 3]), () => false)).toBe(false);
+    });
+    it('returns `true` if some element matches', () => {
+
+      const test = jest.fn((element: number) => element < 3);
+
+      expect(itsSome(reverseArray([1, 2, 3]), test)).toBe(true);
+      expect(test).not.toHaveBeenCalledWith(1);
+      expect(test).toHaveBeenCalledWith(2);
+      expect(test).toHaveBeenCalledWith(3);
+    });
+    it('returns `true` if match returned truthy value', () => {
+
+      const test = jest.fn((element: number) => element < 3 ? element as unknown as boolean : false);
+
+      expect(itsSome(reverseArray([1, 2, 3]), test)).toBe(true);
+      expect(test).not.toHaveBeenCalledWith(1);
+      expect(test).toHaveBeenCalledWith(2);
+      expect(test).toHaveBeenCalledWith(3);
     });
   });
 

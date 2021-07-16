@@ -13,10 +13,10 @@ import { overNone } from './over-none';
  * @returns New push iterable over elements of created iterator.
  */
 export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable<T> {
-  return makePushIterable(iterateOverRawIterator(iterate));
+  return makePushIterable(overIterator$iterate(iterate));
 }
 
-function iterateOverRawIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
+function overIterator$iterate<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
   return accept => {
 
     const it = iterate();
