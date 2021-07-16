@@ -2,7 +2,7 @@ import { makePushIterable } from '../base';
 import { indexed$itemOf } from '../base/indexed.impl';
 import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import { iterateOverValuedIndexed } from './iterate-over-valued-indexed.impl';
+import { valueIndexed$ } from './value-indexed.impl';
 
 /**
  * Creates a {@link PushIterable | push iterable} with the values of items of the given indexed list.
@@ -19,9 +19,9 @@ import { iterateOverValuedIndexed } from './iterate-over-valued-indexed.impl';
  *
  * @returns New push iterable with the item values.
  */
-export function valueIndexed<T, TValue>(
+export function valueIndexed<T, TValue = T>(
     indexed: IndexedItemList<T>,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable(iterateOverValuedIndexed(indexed, indexed$itemOf, valueOf));
+  return makePushIterable(valueIndexed$(indexed, indexed$itemOf, valueOf));
 }

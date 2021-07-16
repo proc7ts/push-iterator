@@ -1,16 +1,26 @@
 import type { Indexed$Elements } from '../base/indexed.impl';
+import { indexed$process } from '../base/indexed.impl';
 import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
-export function iterateOverValuedIndexed<TIndexed extends Indexed$Elements, T, TValue>(
+export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,
     valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable.Iterate<TValue> {
-  return accept => {
+  return (accept, mode = PushIterationMode.Some) => {
+    if (accept && mode > 0) {
+      return indexed$process<TIndexed, TValue | false | null | undefined, TValue>(
+          indexed,
+          (source, index) => valueOf(elementOf(source, index)),
+          value => value != null && value !== false ? accept(value) : void 0,
+          mode,
+      );
+    }
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<TValue>): boolean => {

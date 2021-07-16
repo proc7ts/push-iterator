@@ -12,6 +12,16 @@ describe('valueArray', () => {
     expect(itsElements(valueArray([11, 22, 33], element => element > 11 && element + 100))).toEqual([122, 133]);
     expect(itsElements(valueArray([11, 22, 33], element => element > 11 ? element + 100 : null))).toEqual([122, 133]);
   });
+  it('filters out all elements', () => {
+
+    const result: number[] = [];
+
+    expect(iterateIt(
+        valueArray<number>([11, 12, 13], () => false),
+        el => result.push(el),
+    ).isOver()).toBe(true);
+    expect(result).toHaveLength(0);
+  });
 
   describe('iterator', () => {
     it('resumes iteration', () => {

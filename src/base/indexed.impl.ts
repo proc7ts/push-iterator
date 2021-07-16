@@ -15,12 +15,12 @@ export function indexed$itemOf<T>(indexed: IndexedItemList<T>, index: number): T
   return indexed.item(index) as T; // The index is always valid.
 }
 
-export function indexed$process<TIndexed extends Indexed$Elements, T>(
+export function indexed$process<TIndexed extends Indexed$Elements, T, TOut = T>(
     indexed: TIndexed,
     elementOf: (indexed: TIndexed, index: number) => T,
     accept: PushIterator.Acceptor<T>,
     mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
-): PushIterator<T> {
+): PushIterator<TOut> {
   if (mode === PushIterationMode.All) {
     for (let i = 0; i < indexed.length; ++i) {
       accept(elementOf(indexed, i));
