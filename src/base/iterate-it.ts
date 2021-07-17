@@ -1,7 +1,7 @@
 import { PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
-import { arrayLike$some } from './array-like.impl';
+import { arrayLike$process, arrayLike$some } from './array-like.impl';
 import { isPushIterable } from './index';
 import { iterable$process } from './iterable.impl';
 import { iterator$convert, iterator$pusher } from './iterator.impl';
@@ -43,7 +43,7 @@ function iterateIt$array<T>(
     mode: PushIterationMode,
 ): PushIterator<T> {
   return array.length
-      ? (mode > 0 ? iterable$process(array, accept, mode) : arrayLike$some(array, accept))
+      ? (mode > 0 ? arrayLike$process(array, accept, mode) : arrayLike$some(array, accept))
       : PushIterator$empty;
 }
 
