@@ -13,6 +13,15 @@ describe('itsFirst', () => {
     });
   });
 
+  describe('over raw iterable', () => {
+    it('returns first iterable element', () => {
+      expect(itsFirst(new Set([1, 2, 3]))).toBe(1);
+    });
+    it('returns `undefined` for empty iterable', () => {
+      expect(itsFirst(new Set())).toBeUndefined();
+    });
+  });
+
   describe('over push iterable', () => {
     it('returns first iterable element', () => {
       expect(itsFirst(overMany(1, 2, 3))).toBe(1);

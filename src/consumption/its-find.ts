@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Searches for the value in `iterable`.
@@ -30,6 +31,7 @@ export function itsFind<T, TFound>(
           return false;
         }
       },
+      PushIterationMode.Only,
   );
 
   return find;

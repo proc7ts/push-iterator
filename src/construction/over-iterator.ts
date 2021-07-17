@@ -1,8 +1,9 @@
 import { isPushIterable, makePushIterable } from '../base';
-import { rawIteratorPusher, toPushIterator } from '../base/push-iterator.raw.impl';
+import { iterator$convert, iterator$pusher } from '../base/iterator.impl';
+import { PushIterator$empty } from '../base/push-iterator.empty.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
-import { overNone } from './over-none';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Creates a {@link PushIterable | push iterable} over elements of iterator created by the given function.
@@ -13,20 +14,22 @@ import { overNone } from './over-none';
  * @returns New push iterable over elements of created iterator.
  */
 export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable<T> {
-  return makePushIterable(iterateOverRawIterator(iterate));
+  return makePushIterable(overIterator$iterate(iterate));
 }
 
-function iterateOverRawIterator<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
-  return accept => {
+function overIterator$iterate<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
+  return (accept, mode = PushIterationMode.Some) => {
 
     const it = iterate();
 
     if (isPushIterable(it)) {
-      return it[PushIterator__symbol](accept);
+      return it[PushIterator__symbol](accept, mode);
     }
 
-    const forNext = rawIteratorPusher(it);
+    const forNext = iterator$pusher(it);
 
-    return accept && !forNext(accept) ? overNone() : toPushIterator(it, forNext);
+    return accept && !forNext(accept)
+        ? PushIterator$empty
+        : iterator$convert(it, forNext);
   };
 }

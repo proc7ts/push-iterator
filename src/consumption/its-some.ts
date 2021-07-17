@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Tests whether at least one element of the given `iterable` passes the test implemented by the provided function.
@@ -24,6 +25,7 @@ export function itsSome<T>(
         someMatches = !!test(element);
         return someMatches ? false : void 0;
       },
+      PushIterationMode.Only,
   );
 
   return someMatches;

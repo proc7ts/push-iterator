@@ -1,3 +1,4 @@
+import type { PushIterationMode } from './push-iteration-mode';
 import type { PushIterator } from './push-iterator';
 
 /**
@@ -32,11 +33,13 @@ export interface PushIterable<T> extends Iterable<T> {
    *
    * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `true` to suspend iteration, or `false` to stop it.
+   * @param mode - Optional iteration mode hint declaring what `accept` function shall do. Ignored without `accept`
+   * parameter.
    *
    * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
    * won't be possible with returned iterator.
    */
-  [PushIterator__symbol](accept?: PushIterator.Acceptor<T>): PushIterator<T>;
+  [PushIterator__symbol](accept?: PushIterator.Acceptor<T>, mode?: PushIterationMode): PushIterator<T>;
 
 }
 
@@ -51,10 +54,16 @@ export namespace PushIterable {
    * @typeParam T - Iterated elements type.
    * @param accept - A function to push iterated elements to. Accepts iterated element as its only parameter. May return
    * `true` to suspend iteration, or `false` to stop it.
+   * @param mode - Optional iteration mode hint declaring what `accept` function shall do. Ignored without `accept`
+   * parameter.
    *
    * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
    * won't be possible with returned iterator.
    */
-  export type Iterate<T> = (this: void, accept?: PushIterator.Acceptor<T>) => PushIterator<T>;
+  export type Iterate<T> = (
+      this: void,
+      accept?: PushIterator.Acceptor<T>,
+      mode?: PushIterationMode,
+  ) => PushIterator<T>;
 
 }

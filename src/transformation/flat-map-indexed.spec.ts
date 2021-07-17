@@ -1,6 +1,8 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
-import { IndexedItemList, overArray } from '../construction';
+import { iterateIt } from '../base/iterate-it';
+import { IndexedItemList, overArray, overMany } from '../construction';
 import { itsEach, itsElements } from '../consumption';
+import { PushIterationMode } from '../push-iteration-mode';
 import { flatMapIndexed } from './flat-map-indexed';
 
 describe('flatMapIndexed', () => {
@@ -45,6 +47,22 @@ describe('flatMapIndexed', () => {
     itsEach(it, el => result.push(el));
     expect(result).toEqual([11, 12, 22, 23, 33, 34]);
     expect([...it]).toEqual([11, 12, 22, 23, 33, 34]);
+  });
+  it('allows to select flattened elements', () => {
+
+    const it = flatMapIndexed(list, element => overMany(element, element + 1));
+    const result: number[] = [];
+
+    iterateIt(
+        it,
+        el => {
+          result.push(el);
+          return result.length > 2 ? false : void 0;
+        },
+        PushIterationMode.Only,
+    );
+
+    expect(result).toEqual([11, 12, 22]);
   });
 
   describe('over empty list', () => {

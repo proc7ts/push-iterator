@@ -3,7 +3,7 @@ import { overArray } from '../construction';
 import { itsEvery } from './its-every';
 
 describe('itsEvery', () => {
-  describe('over raw iterable', () => {
+  describe('over array', () => {
     it('return `true` for empty iterable', () => {
       expect(itsEvery([], () => false)).toBe(true);
     });
@@ -18,6 +18,27 @@ describe('itsEvery', () => {
       const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery([1, 2, 3], test)).toBe(false);
+      expect(test).toHaveBeenCalledWith(1);
+      expect(test).toHaveBeenCalledWith(2);
+      expect(test).not.toHaveBeenCalledWith(3);
+    });
+  });
+
+  describe('over raw iterable', () => {
+    it('return `true` for empty iterable', () => {
+      expect(itsEvery(new Set(), () => false)).toBe(true);
+    });
+    it('return `true` if all elements match', () => {
+      expect(itsEvery(new Set([1, 2, 3]), () => true)).toBe(true);
+    });
+    it('return `true` if tests return truthy value', () => {
+      expect(itsEvery(new Set([1, 2, 3]), el => el as unknown as boolean)).toBe(true);
+    });
+    it('return `false` if some element does not match', () => {
+
+      const test = jest.fn((element: number) => element < 2);
+
+      expect(itsEvery(new Set([1, 2, 3]), test)).toBe(false);
       expect(test).toHaveBeenCalledWith(1);
       expect(test).toHaveBeenCalledWith(2);
       expect(test).not.toHaveBeenCalledWith(3);

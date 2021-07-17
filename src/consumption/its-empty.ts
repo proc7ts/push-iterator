@@ -1,6 +1,7 @@
 import { isPushIterable } from '../base';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Checks whether the given `iterable` is empty.
@@ -25,7 +26,7 @@ function itsEmpty$(it: PushIterable<unknown>): boolean {
 
   let isEmpty = true;
 
-  it[PushIterator__symbol](_element /* Unused parameter to prevent deoptimization */ => isEmpty = false);
+  it[PushIterator__symbol](_element => isEmpty = false, PushIterationMode.Only);
 
   return isEmpty;
 }

@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { indexedItemOf, iterateOverIndexed } from '../base/iterate-over-indexed.impl';
+import { indexed$itemOf, indexed$iterate } from '../base/indexed.impl';
 import type { PushIterable } from '../push-iterable';
 
 /**
@@ -35,5 +35,5 @@ export interface IndexedItemList<T> {
  * @returns New push iterable over list items.
  */
 export function overIndexed<T>(indexed: IndexedItemList<T>): PushIterable<T> {
-  return makePushIterable(iterateOverIndexed(indexed, indexedItemOf));
+  return makePushIterable(indexed$iterate(indexed, indexed$itemOf));
 }

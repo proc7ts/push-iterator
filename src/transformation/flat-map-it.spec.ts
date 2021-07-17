@@ -1,7 +1,9 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { iteratorOf, makePushIterator } from '../base';
-import { overArray, overMany } from '../construction';
+import { iterateIt } from '../base/iterate-it';
+import { overMany } from '../construction';
 import { itsEach } from '../consumption';
+import { PushIterationMode } from '../push-iteration-mode';
 import { flatMapIt } from './flat-map-it';
 
 describe('flatMapIt', () => {
@@ -26,7 +28,7 @@ describe('flatMapIt', () => {
     });
     it('maps and flattens push iterable elements', () => {
 
-      const it = flatMapIt(new Set([11, 22, 33]), element => overArray([element, element + 1]));
+      const it = flatMapIt(new Set([11, 22, 33]), element => overMany(element, element + 1));
       const result: number[] = [];
 
       itsEach(it, el => result.push(el));
@@ -41,6 +43,22 @@ describe('flatMapIt', () => {
       itsEach(it, el => result.push(el));
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
+    });
+    it('allows to select flattened elements', () => {
+
+      const it = flatMapIt<number>(new Set([[11, 12], [13, 14]]));
+      const result: number[] = [];
+
+      iterateIt(
+          it,
+          el => {
+            result.push(el);
+            return result.length > 2 ? false : void 0;
+          },
+          PushIterationMode.Only,
+      );
+
+      expect(result).toEqual([11, 12, 13]);
     });
   });
 
@@ -96,7 +114,7 @@ describe('flatMapIt', () => {
     });
     it('maps and flattens push iterable elements', () => {
 
-      const it = flatMapIt(overMany(11, 22, 33), element => overArray([element, element + 1]));
+      const it = flatMapIt(overMany(11, 22, 33), element => overMany(element, element + 1));
       const result: number[] = [];
 
       itsEach(it, el => result.push(el));
@@ -105,12 +123,28 @@ describe('flatMapIt', () => {
     });
     it('flattens elements', () => {
 
-      const it = flatMapIt<number>(overArray([[11, 12], [13, 14]]));
+      const it = flatMapIt<number>(overMany([11, 12], [13, 14]));
       const result: number[] = [];
 
       itsEach(it, el => result.push(el));
       expect(result).toEqual([11, 12, 13, 14]);
       expect([...it]).toEqual([11, 12, 13, 14]);
+    });
+    it('allows to select flattened elements', () => {
+
+      const it = flatMapIt<number>(overMany([11, 12], [13, 14]));
+      const result: number[] = [];
+
+      iterateIt(
+          it,
+          el => {
+            result.push(el);
+            return result.length > 2 ? false : void 0;
+          },
+          PushIterationMode.Only,
+      );
+
+      expect(result).toEqual([11, 12, 13]);
     });
     it('handles non-pushing iterations', () => {
 

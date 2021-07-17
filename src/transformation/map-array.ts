@@ -1,5 +1,5 @@
 import { makePushIterable } from '../base';
-import { iterateOverIndexed } from '../base/iterate-over-indexed.impl';
+import { indexed$iterate } from '../base/indexed.impl';
 import type { PushIterable } from '../push-iterable';
 
 /**
@@ -17,7 +17,7 @@ export function mapArray<TSrc, TConv>(
     array: ArrayLike<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(iterateOverIndexed(
+  return makePushIterable(indexed$iterate(
       array,
       (array, index) => convert(array[index]),
   ));

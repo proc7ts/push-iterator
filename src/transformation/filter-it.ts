@@ -1,7 +1,9 @@
 import { isPushIterable, makePushIterable, makePushIterator } from '../base';
-import { overNone } from '../construction';
+import { iterable$process } from '../base/iterable.impl';
+import { PushIterator$empty } from '../base/push-iterator.empty.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -42,13 +44,23 @@ export function filterIt<T>(
     source: Iterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(accept => {
+  return makePushIterable((accept, mode = PushIterationMode.Some) => {
+    if (accept && mode > 0) {
+
+      const acceptElement = (element: T): boolean | void => test(element) ? accept(element) : void 0;
+
+      return isPushIterable(source)
+          ? source[PushIterator__symbol](acceptElement, mode) // Iteration over.
+          : iterable$process(source, acceptElement, mode);
+    }
 
     const forNext = isPushIterable(source)
         ? filterIt$(source, test)
         : filterIt$raw(source, test);
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
+    return accept && !forNext(accept)
+        ? PushIterator$empty
+        : makePushIterator(forNext);
   });
 }
 
@@ -56,14 +68,9 @@ function filterIt$<T>(
     source: PushIterable<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => {
-
-    const tail = source[PushIterator__symbol](element => test(element) ? accept(element) : void 0);
-
-    source = tail;
-
-    return !tail.isOver();
-  };
+  return accept => !(source = source[PushIterator__symbol](
+      element => test(element) ? accept(element) : void 0,
+  )).isOver();
 }
 
 function filterIt$raw<T>(

@@ -1,8 +1,8 @@
 import { makePushIterable } from '../base';
-import { indexedItemOf } from '../base/iterate-over-indexed.impl';
+import { indexed$itemOf } from '../base/indexed.impl';
 import type { IndexedItemList } from '../construction';
 import type { PushIterable } from '../push-iterable';
-import { iterateOverFilteredIndexed } from './iterate-over-filtered-indexed.impl';
+import { filterIndexed$ } from './filter-indexed.impl';
 
 /**
  * Creates a {@link PushIterable | push iterable} with all items of the given indexed list that extend the given type.
@@ -42,5 +42,5 @@ export function filterIndexed<T>(
     indexed: IndexedItemList<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(iterateOverFilteredIndexed(indexed, indexedItemOf, test));
+  return makePushIterable(filterIndexed$(indexed, indexed$itemOf, test));
 }

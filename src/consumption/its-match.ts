@@ -1,4 +1,5 @@
 import { iterateIt } from '../base/iterate-it';
+import { PushIterationMode } from '../push-iteration-mode';
 
 /**
  * Extracts the first element matching the given condition from `iterable`.
@@ -22,6 +23,7 @@ export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T
           return false;
         }
       },
+      PushIterationMode.Only,
   );
 
   return match;

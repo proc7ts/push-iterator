@@ -1,7 +1,7 @@
 import { makePushIterable } from '../base';
-import { arrayElementOf } from '../base/iterate-over-array.impl';
+import { arrayLike$elementOf } from '../base/array-like.impl';
 import type { PushIterable } from '../push-iterable';
-import { iterateOverFilteredIndexed } from './iterate-over-filtered-indexed.impl';
+import { filterIndexed$ } from './filter-indexed.impl';
 
 /**
  * Creates a {@link PushIterable push iterable} with all `array` elements extending the given type.
@@ -41,5 +41,5 @@ export function filterArray<T>(
     array: ArrayLike<T>,
     test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
-  return makePushIterable(iterateOverFilteredIndexed(array, arrayElementOf, test));
+  return makePushIterable(filterIndexed$(array, arrayLike$elementOf, test));
 }

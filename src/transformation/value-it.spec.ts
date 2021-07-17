@@ -23,6 +23,16 @@ describe('valueIt', () => {
     it('does not value empty iterable', () => {
       expect([...valueIt(new Set(), () => true)]).toEqual([]);
     });
+    it('filters out all elements', () => {
+
+      const result: number[] = [];
+
+      expect(iterateIt(
+          valueIt<number>(new Set([11, 12, 13]), () => false),
+          el => result.push(el),
+      ).isOver()).toBe(true);
+      expect(result).toHaveLength(0);
+    });
 
     describe('iterator', () => {
       it('resumes iteration', () => {
@@ -110,6 +120,7 @@ describe('valueIt', () => {
 
     it('values elements', () => {
       expect([...iterable]).toEqual([122, 133]);
+      expect(itsElements(iterable)).toEqual([122, 133]);
       expect([...valueIt(overMany(11, 22, 33), element => element > 11 ? element + 100 : null)]).toEqual([122, 133]);
     });
     it('does not value empty iterable', () => {

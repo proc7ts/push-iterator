@@ -13,6 +13,16 @@ describe('mapIt', () => {
     it('pushes converted elements', () => {
       expect(itsElements(mapIt(new Set([11, 22, 33]), element => `${element}!`))).toEqual(['11!', '22!', '33!']);
     });
+    it('does not convert absent elements', () => {
+
+      const result: string[] = [];
+
+      expect(iterateIt(
+          mapIt(new Set<string>(), element => `${element}!`),
+          el => result.push(el),
+      ).isOver()).toBe(true);
+      expect(result).toHaveLength(0);
+    });
 
     describe('iterator', () => {
       it('converts elements', () => {
@@ -71,6 +81,7 @@ describe('mapIt', () => {
   describe('over push iterable', () => {
     it('converts elements', () => {
       expect([...mapIt(overMany(11, 22, 33), element => `${element}!`)]).toEqual(['11!', '22!', '33!']);
+      expect(itsElements(mapIt(overMany(11, 22, 33), element => `${element}!`))).toEqual(['11!', '22!', '33!']);
     });
     it('handles non-pushing iterations', () => {
 

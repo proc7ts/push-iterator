@@ -1,7 +1,9 @@
 import { isPushIterable, makePushIterable, makePushIterator } from '../base';
+import { iterable$process } from '../base/iterable.impl';
 import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
+import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
 /**
@@ -20,11 +22,23 @@ export function mapIt<TSrc, TConv>(
     source: Iterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(accept => {
+  return makePushIterable((accept, mode = PushIterationMode.Some) => {
+    if (accept && mode > 0) {
 
-    const forNext = isPushIterable(source) ? mapIt$(source, convert) : mapIt$raw(source, convert);
+      const acceptElement = (element: TSrc): boolean | void => accept(convert(element));
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
+      return isPushIterable(source)
+          ? source[PushIterator__symbol](acceptElement, mode) as PushIterator<never> // Iteration over.
+          : iterable$process<TSrc, TConv>(source, acceptElement, mode);
+    }
+
+    const forNext = isPushIterable(source)
+        ? mapIt$(source, convert)
+        : mapIt$raw(source, convert);
+
+    return accept && !forNext(accept)
+        ? overNone()
+        : makePushIterator(forNext);
   });
 }
 
@@ -32,14 +46,9 @@ function mapIt$<TSrc, TConv>(
     source: PushIterable<TSrc>,
     convert: (this: void, element: TSrc) => TConv,
 ): PushIterator.Pusher<TConv> {
-  return accept => {
-
-    const tail = source[PushIterator__symbol](element => accept(convert(element)));
-
-    source = tail;
-
-    return !tail.isOver();
-  };
+  return accept => !(source = source[PushIterator__symbol](
+      element => accept(convert(element)),
+  )).isOver();
 }
 
 function mapIt$raw<TSrc, TConv>(
