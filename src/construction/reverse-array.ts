@@ -5,7 +5,6 @@ import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
-import { overNone } from './over-none';
 
 /**
  * Creates a {@link PushIterable | push iterable} over elements of array-like structure in reverse order.
@@ -48,7 +47,7 @@ function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
     };
 
     if (accept && !forNext(accept)) {
-      return overNone();
+      return PushIterator$empty;
     }
 
     let over = false;

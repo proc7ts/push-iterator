@@ -1,8 +1,7 @@
 import type { Indexed$Elements } from '../base/indexed.impl';
 import { indexed$process } from '../base/indexed.impl';
-import { PushIterator$dontIterate, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
-import { overNone } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
@@ -43,7 +42,7 @@ export function filterIndexed$<TIndexed extends Indexed$Elements, T>(
     };
 
     if (accept && !forNext(accept)) {
-      return overNone();
+      return PushIterator$empty;
     }
 
     let over = false;

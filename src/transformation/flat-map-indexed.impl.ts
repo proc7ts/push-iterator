@@ -2,7 +2,6 @@ import { makePushIterator } from '../base';
 import type { Indexed$Elements } from '../base/indexed.impl';
 import { iterateIt } from '../base/iterate-it';
 import { PushIterator$empty } from '../base/push-iterator.empty.impl';
-import { overNone } from '../construction';
 import type { PushIterable } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
@@ -30,7 +29,10 @@ export function flatMapIndexed$<TIndexed extends Indexed$Elements, T>(
       for (; ;) {
 
         let status: boolean | void;
-        const subsTail: PushIterator<T> = iterateIt<T>(subs, element => status = accept(element));
+        const subsTail: PushIterator<T> = iterateIt<T>(
+            subs,
+            element => status = accept(element),
+        );
 
         if (subsTail.isOver()) {
           if (++i >= indexed.length) {
@@ -47,7 +49,9 @@ export function flatMapIndexed$<TIndexed extends Indexed$Elements, T>(
       }
     };
 
-    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
+    return accept && !forNext(accept)
+        ? PushIterator$empty
+        : makePushIterator(forNext);
   };
 }
 

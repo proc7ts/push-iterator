@@ -1,6 +1,6 @@
 import { isPushIterable, makePushIterable, makePushIterator } from '../base';
 import { iterable$process } from '../base/iterable.impl';
-import { overNone } from '../construction';
+import { PushIterator$empty } from '../base/push-iterator.empty.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
@@ -59,7 +59,7 @@ export function filterIt<T>(
         : filterIt$raw(source, test);
 
     return accept && !forNext(accept)
-        ? overNone()
+        ? PushIterator$empty
         : makePushIterator(forNext);
   });
 }

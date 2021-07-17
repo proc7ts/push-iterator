@@ -1,8 +1,8 @@
 import { makePushIterable } from '../base';
+import { PushIterator$empty } from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
-import { overNone } from './over-none';
 
 /**
  * Creates a {@link PushIterable | push iterable} over one value.
@@ -20,7 +20,7 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
     if (accept) {
       accept(value);
-      return overNone();
+      return PushIterator$empty;
     }
 
     let over = false;
@@ -29,12 +29,12 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
       [Symbol.iterator]: PushIterator$iterator,
       [PushIterator__symbol](accept) {
         if (over) {
-          return overNone();
+          return PushIterator$empty;
         }
         if (accept) {
           over = true;
           accept(value);
-          return overNone();
+          return PushIterator$empty;
         }
         return this;
       },
