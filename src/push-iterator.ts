@@ -28,7 +28,7 @@ export namespace PushIterator {
    * `false` to stop iteration.
    *
    * @returns `true` if further iteration is possible, or `false` if there is no more elements left to iterate.
-   * The former is possible only when iteration stopped, i.e. `accept` returned `false`.
+   * The latter is possible only when iteration aborted, i.e. `accept` returned `false`.
    */
   export type Pusher<T> = (this: void, accept: Acceptor<T>) => boolean;
 
