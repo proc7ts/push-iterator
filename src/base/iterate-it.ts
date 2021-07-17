@@ -52,17 +52,19 @@ function iterateIt$raw<T>(
     accept: PushIterator.Acceptor<T>,
     mode: PushIterationMode,
 ): PushIterator<T> {
+  if (mode > 0) {
+    return iterable$process(iterable, accept, mode);
+  }
 
   const it = iterable[Symbol.iterator]();
 
   if (isPushIterable(it)) {
     return it[PushIterator__symbol](accept, mode);
   }
-  if (mode > 0) {
-    return iterable$process(iterable, accept, mode);
-  }
 
   const forEach = iterator$pusher(it);
 
-  return forEach(accept) ? iterator$convert(it, forEach) : PushIterator$empty;
+  return forEach(accept)
+      ? iterator$convert(it, forEach)
+      : PushIterator$empty;
 }
