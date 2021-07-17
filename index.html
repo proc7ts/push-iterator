@@ -82,6 +82,21 @@
 					this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
 					When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
 				iterator.</p>
+				<a href="#iteration-mode-hints" id="iteration-mode-hints" style="color: inherit; text-decoration: none;">
+					<h2>Iteration Mode Hints</h2>
+				</a>
+				<p>The <code>[PushIterator__symbol](accept?, mode?)</code> method of <code>PushIterable</code> interface accepts optional <em>iteration mode</em> hint
+					as second parameter. The latter used to optimize iteration algorithm. Such hints provided by iterable consumption
+				methods.</p>
+				<p>For example, an <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEach">itsEach</a> function sets this hint to <code>PushIterationMode.All</code> to inform the iterable implementation that
+					all of its elements will be consumed. This allows to select the fastest iteration strategy without any intermediate
+				checks.</p>
+				<p>Another example is <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEvery">itsEvery</a> function. It sets this hint to <code>PushIterationMode.Only</code> to inform the iterable
+					implementation that only some of its elements will be consumed, and then iteration will be aborted. This allows to
+				select iteration strategy that does not support suspend and resume.</p>
+				<p>Another mode is <code>PushIterationMode.Next</code>. It is typically set by <code>Iterator.next()</code> compatibility method. It informs that
+				only the next element will be consumed, after which the iteration will be suspended.</p>
+				<p>The default mode is <code>PushIterationMode.Some</code>. With this mode it is possible to suspended, resumed, or abort iteration.</p>
 				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
 					<h2>Rationale</h2>
 				</a>
@@ -108,7 +123,7 @@
 						</ul>
 					</li>
 					<li><p><strong>Tree shaking</strong> support.</p>
-						<p>The library API represented by functions. When tree-shaken the unused ones removed from bundles.</p>
+						<p>The library API represented by functions. When tree-shaken, the unused ones get removed from bundles.</p>
 					</li>
 				</ol>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
@@ -138,8 +153,8 @@
 				<a href="#iteration" id="iteration" style="color: inherit; text-decoration: none;">
 					<h3>Iteration</h3>
 				</a>
-				<p><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the head elements of the given iterable
-				and returns its tail iterator.</p>
+				<p><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the leading elements of the given
+				iterable and returns its trailing iterator.</p>
 				<a href="#iterable-consumption" id="iterable-consumption" style="color: inherit; text-decoration: none;">
 					<h3>Iterable Consumption</h3>
 				</a>
@@ -256,6 +271,9 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 		</div>
 	</div>
