@@ -102,11 +102,11 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
 }
 
 interface Result {
-  name?: string;
+  name?: string | undefined;
   Hz: number;
   MoE: string;
   '# sampled': number;
-  INPUT_SIZE?: number;
+  INPUT_SIZE?: number | undefined;
 }
 
 interface AccResult {
