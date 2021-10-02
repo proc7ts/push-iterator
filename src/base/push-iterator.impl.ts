@@ -13,6 +13,7 @@ export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
     const tail = this[PushIterator__symbol](
         value => {
           result = { value };
+
           return true;
         },
         PushIterationMode.Next,

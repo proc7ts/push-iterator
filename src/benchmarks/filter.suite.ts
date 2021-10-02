@@ -138,6 +138,7 @@ export function benchFilter(element: string): boolean {
   if (++benchFilterIndex > benchOutOf) {
     benchFilterIndex = 1;
   }
+
   return benchFilterIndex > benchRate && !!element;
 }
 

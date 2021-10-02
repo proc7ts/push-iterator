@@ -28,6 +28,7 @@ function itsFirst$<T>(it: PushIterable<T>): T | undefined {
   it[PushIterator__symbol](
       element => {
         first = element;
+
         return false;
       },
       PushIterationMode.Only,

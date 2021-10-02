@@ -26,6 +26,7 @@ export default defineConfig({
     if (id.startsWith(path.resolve('src', 'call-thru') + path.sep)) {
       return 'push-iterator.call-thru';
     }
+
     return 'push-iterator';
   },
   output: {

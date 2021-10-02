@@ -1,4 +1,5 @@
 export const benchInput: string[] = [];
+
 const benchOutput: string[] = [];
 
 let benchOutputIndex = 0;

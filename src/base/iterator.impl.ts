@@ -30,6 +30,7 @@ export function iterator$convert<T>(it: Iterator<T>, forNext: PushIterator.Pushe
     [Symbol.iterator]: PushIterator$iterator,
     [PushIterator__symbol](accept) {
       iterate(accept);
+
       return this;
     },
     next() {

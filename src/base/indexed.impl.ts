@@ -89,6 +89,7 @@ export function indexed$some<TIndexed extends Indexed$Elements, T>(
     [Symbol.iterator]: PushIterator$iterator,
     [PushIterator__symbol](accept) {
       iterate(accept);
+
       return this;
     },
     next: () => next(),

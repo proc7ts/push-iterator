@@ -75,6 +75,7 @@ function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
       [Symbol.iterator]: PushIterator$iterator,
       [PushIterator__symbol](accept) {
         iterate(accept);
+
         return this;
       },
       next: () => next(),

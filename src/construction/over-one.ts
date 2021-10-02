@@ -20,6 +20,7 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
   return accept => {
     if (accept) {
       accept(value);
+
       return PushIterator$empty;
     }
 
@@ -34,8 +35,10 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
         if (accept) {
           over = true;
           accept(value);
+
           return PushIterator$empty;
         }
+
         return this;
       },
       next() {

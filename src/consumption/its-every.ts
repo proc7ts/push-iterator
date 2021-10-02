@@ -23,6 +23,7 @@ export function itsEvery<T>(
       iterable,
       (element: T): boolean | void => {
         allMatch = !!test(element);
+
         return allMatch ? void 0 : false;
       },
       PushIterationMode.Only,

@@ -45,6 +45,7 @@ describe('itsHead', () => {
           iterable,
           el => {
             result.push(el);
+
             return false;
           },
       );
@@ -58,6 +59,7 @@ describe('itsHead', () => {
           iterable,
           el => {
             result.push(el);
+
             return true;
           },
       );

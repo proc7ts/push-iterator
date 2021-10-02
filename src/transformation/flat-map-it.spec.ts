@@ -53,6 +53,7 @@ describe('flatMapIt', () => {
           it,
           el => {
             result.push(el);
+
             return result.length > 2 ? false : void 0;
           },
           PushIterationMode.Only,
@@ -139,6 +140,7 @@ describe('flatMapIt', () => {
           it,
           el => {
             result.push(el);
+
             return result.length > 2 ? false : void 0;
           },
           PushIterationMode.Only,
@@ -158,6 +160,7 @@ describe('flatMapIt', () => {
           return true;
         case 3:
           accept('test');
+
           return true;
         default:
           return false;

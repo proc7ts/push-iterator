@@ -25,6 +25,7 @@ export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterat
     [Symbol.iterator]: PushIterator$iterator,
     [PushIterator__symbol](accept) {
       iterate(accept);
+
       return this;
     },
     next: PushIterator$next,

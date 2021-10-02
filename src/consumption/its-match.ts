@@ -20,6 +20,7 @@ export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T
       (element: T): boolean | void => {
         if (test(element)) {
           match = element;
+
           return false;
         }
       },

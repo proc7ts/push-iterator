@@ -28,6 +28,7 @@ export function itsFind<T, TFound>(
 
         if (result !== false && result !== undefined) {
           find = result;
+
           return false;
         }
       },

@@ -60,6 +60,7 @@ export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
           over = true;
           iterate = PushIterator$dontIterate;
           next = PushIterator$noNext;
+
           return { done: true } as IteratorReturnResult<T>;
         }
 
@@ -75,6 +76,7 @@ export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
       [Symbol.iterator]: PushIterator$iterator,
       [PushIterator__symbol](accept) {
         iterate(accept);
+
         return this;
       },
       next: () => next(),

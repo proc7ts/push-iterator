@@ -23,6 +23,7 @@ export function itsSome<T>(
       iterable,
       (element: T): boolean | void => {
         someMatches = !!test(element);
+
         return someMatches ? false : void 0;
       },
       PushIterationMode.Only,

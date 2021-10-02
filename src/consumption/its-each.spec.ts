@@ -13,6 +13,7 @@ describe('itsEach', () => {
           array,
           element => {
             result.push(element);
+
             return false; // To ensure the result is ignored
           },
       );
@@ -31,6 +32,7 @@ describe('itsEach', () => {
           new Set(array),
           element => {
             result.push(element);
+
             return false; // To ensure the result is ignored
           },
       );
@@ -49,6 +51,7 @@ describe('itsEach', () => {
           overArray(array),
           element => {
             result.push(element);
+
             return false; // To ensure the result is ignored
           },
       );

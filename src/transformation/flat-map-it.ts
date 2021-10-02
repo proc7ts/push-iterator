@@ -70,6 +70,7 @@ function flatMapIt$<TSrc, TConv>(
 
         const sourceTail = source[PushIterator__symbol](src => {
           subs = convert(src);
+
           return true;
         });
 

@@ -57,6 +57,7 @@ describe('flatMapIndexed', () => {
         it,
         el => {
           result.push(el);
+
           return result.length > 2 ? false : void 0;
         },
         PushIterationMode.Only,

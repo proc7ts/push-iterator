@@ -142,6 +142,7 @@ describe('filterIt', () => {
           return true;
         case 3:
           accept('test');
+
           return true;
         default:
           return false;

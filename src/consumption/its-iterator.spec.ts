@@ -40,6 +40,7 @@ describe('itsIterator', () => {
     function *generate(): IterableIterator<number> {
       yield 1;
       yield 2;
+
       return 3;
     }
 
@@ -69,6 +70,7 @@ describe('itsIterator', () => {
 
     expect(iterateIt(it, element => {
       result.push(element);
+
       return false;
     }).isOver()).toBe(true);
     expect(it.isOver()).toBe(true);
@@ -126,6 +128,7 @@ describe('itsIterator', () => {
         return true;
       case 3:
         accept('test');
+
         return true;
       default:
         return false;
