@@ -1,6 +1,6 @@
 /**
  * @packageDocumentation
- * @module Module @proc7ts/push-iterator
+ * @module @proc7ts/push-iterator
  */
 export * from './base';
 export * from './construction';
