@@ -1,287 +1,190 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Push Iterator</title>
-	<meta name="description" content="Documentation for Push Iterator">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">Push Iterator</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>Push Iterator</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#push-iteration-protocol" id="push-iteration-protocol" style="color: inherit; text-decoration: none;">
-					<h1>Push Iteration Protocol</h1>
-				</a>
-				<p><a href="https://www.npmjs.com/package/@proc7ts/push-iterator"><img src="https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm" alt="NPM"></a>
-					<a href="https://github.com/proc7ts/push-iterator/actions?query=workflow:Build"><img src="https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg" alt="Build Status"></a>
-					<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/afd92eac51954f43bf49ac82c0e74eb8" alt="Code Quality"></a>
-					<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Coverage"><img src="https://app.codacy.com/project/badge/Coverage/afd92eac51954f43bf49ac82c0e74eb8" alt="Coverage"></a>
-					<a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
-				<a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
-				<p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
-				<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with special method <code>[PushIterator__symbol](accept?)</code>, where <code>PushIterator__symbol</code>
-					is a special symbol. This method pushes iterated elements to <code>accept</code> callback, until there is no more elements,
-				or <code>accept</code> function returns <code>true</code> (to suspend iteration) or <code>false</code> (to stop it).</p>
-				<p>The method returns a push iterator instance to continue iteration with. If <code>accept</code> returned <code>false</code> then further
-				iteration won&#39;t be possible with returned iterator.</p>
-				<p>When called without <code>accept</code> parameter it just returns an iterator.</p>
-				<p>Another method it extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> with is <code>isOver()</code>, that checks whether iteration is over.</p>
-				<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
-					<h2>Instant Iteration</h2>
-				</a>
-				<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
-					this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
-					When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
-				iterator.</p>
-				<a href="#iteration-mode-hints" id="iteration-mode-hints" style="color: inherit; text-decoration: none;">
-					<h2>Iteration Mode Hints</h2>
-				</a>
-				<p>The <code>[PushIterator__symbol](accept?, mode?)</code> method of <code>PushIterable</code> interface accepts optional <em>iteration mode</em> hint
-					as second parameter. The latter used to optimize iteration algorithm. Such hints provided by iterable consumption
-				methods.</p>
-				<p>For example, an <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEach">itsEach</a> function sets this hint to <code>PushIterationMode.All</code> to inform the iterable implementation that
-					all of its elements will be consumed. This allows to select the fastest iteration strategy without any intermediate
-				checks.</p>
-				<p>Another example is <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEvery">itsEvery</a> function. It sets this hint to <code>PushIterationMode.Only</code> to inform the iterable
-					implementation that only some of its elements will be consumed, and then iteration will be aborted. This allows to
-				select iteration strategy that does not support suspend and resume.</p>
-				<p>Another mode is <code>PushIterationMode.Next</code>. It is typically set by <code>Iterator.next()</code> compatibility method. It informs that
-				only the next element will be consumed, after which the iteration will be suspended.</p>
-				<p>The default mode is <code>PushIterationMode.Some</code>. With this mode it is possible to suspended, resumed, or abort iteration.</p>
-				<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
-					<h2>Rationale</h2>
-				</a>
-				<p><strong>Performance!</strong></p>
-				<p>Traditional <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a> implies a call to <code>next()</code> method and creation of <code>IteratorResult</code> object on each
-				iteration step. The push iteration protocol avoids that.</p>
-				<p>See <a href="https://github.com/proc7ts/push-iterator/tree/master/benchmarks">benchmarking results</a> for performance comparison.</p>
-				<p>JavaScript engines optimize native iteration heavily in some situations, especially for arrays. Still, in non-trivial
-					cases push iteration protocol demonstrates better performance, especially when it deals with push iterators rather
-				with raw ones.</p>
-				<a href="#design-goals" id="design-goals" style="color: inherit; text-decoration: none;">
-					<h2>Design Goals</h2>
-				</a>
-				<ol>
-					<li><p><strong>Performance</strong>.</p>
-						<p>Push iterators are faster. Still, a lot of the code base relies on raw iterators and arrays. The library contains
-						performance optimizations to deal with it.</p>
-					</li>
-					<li><p><strong>Compatibility</strong>.</p>
-						<ul>
-							<li>Push iterator implements <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface.</li>
-							<li>Each function in this library handles JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> objects in addition to push iterator/push
-							iterable ones.</li>
-						</ul>
-					</li>
-					<li><p><strong>Tree shaking</strong> support.</p>
-						<p>The library API represented by functions. When tree-shaken, the unused ones get removed from bundles.</p>
-					</li>
-				</ol>
-				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-					<h2>API</h2>
-				</a>
-				<p>See the full <a href="https://proc7ts.github.io/push-iterator/">API documentation</a>.</p>
-				<a href="#push-iterable-construction" id="push-iterable-construction" style="color: inherit; text-decoration: none;">
-					<h3>Push Iterable Construction</h3>
-				</a>
-				<p>Each of the following functions returns a push iterable instance:</p>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overArray"><code>overArray(array)</code></a> - Creates a push iterable over elements of array-like structure.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overElementsOf"><code>overElementsOf(...iterables)</code></a> - Creates a push iterable over elements of other iterables.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overEntries"><code>overEntries(object)</code></a> - Creates a push iterable over the property key/value entries of the given
-					object.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIndexed"><code>overIndexed(indexed)</code></a> - Creates a push iterable over items of <a href="https://proc7ts.github.io/push-iterator/interfaces/@proc7ts_push-iterator.IndexedItemList.html">indexed list</a>. </li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIterable"><code>overIterable(iterable)</code></a> - Creates a push iterable over elements of the given raw iterable.  </li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overIterator"><code>overIterator(() =&gt; Iterator)</code></a> - Creates a push iterable over elements of iterator created by the
-					given function. </li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overKeys"><code>overKeys(object)</code></a> - Creates a push iterable over keys of the given object.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overMany"><code>overMany(...values)</code></a> - Creates a push iterable over many values.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overNone"><code>overNone()</code></a> - Returns a push iterable iterator without elements.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#overOne"><code>overOne(value)</code></a> - Creates a push iterable over one value.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#reverseArray"><code>reverseArray(array)</code></a> - Creates a push iterable over elements of array-like structure in reverse
-					order.</li>
-				</ul>
-				<a href="#iteration" id="iteration" style="color: inherit; text-decoration: none;">
-					<h3>Iteration</h3>
-				</a>
-				<p><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the leading elements of the given
-				iterable and returns its trailing iterator.</p>
-				<a href="#iterable-consumption" id="iterable-consumption" style="color: inherit; text-decoration: none;">
-					<h3>Iterable Consumption</h3>
-				</a>
-				<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEach"><code>itsEach(iterable, action)</code></a> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsElements"><code>itsElements(iterable[, convert])</code></a> - Creates a new, shallow-copied array instance containing elements
-						of the source iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function
-					analog optimized for push iterables.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEmpty"><code>itsEmpty(iterable): boolean</code></a> - Checks whether the given <code>iterable</code> is empty.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsEvery"><code>itsEvery(iterable, test): boolean</code></a> - Tests whether all elements of the given <code>iterable</code> pass the test
-					implemented by the provided function.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFind"><code>itsFind(iterable, search): R | undefined</code></a> - Searches for the value in <code>iterable</code>.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsFirst"><code>itsFirst(iterable): T | undefined</code></a> - Extracts the first element of the given <code>iterable</code>, if any.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsIterator"><code>itsIterator(iterable)</code></a> - Starts iteration over the given <code>iterable</code>. Always returns a push iterator.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsMatch"><code>itsMatch(iterable, test): T | undefined</code></a> - Extracts the first element matching the given condition from
-					<code>iterable</code>.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsReduction"><code>itsReduction(iterable, reducer, initialValue): T</code></a> - Applies a function against an accumulator and
-					each element of the given <code>iterable</code> to reduce elements to a single value.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#itsSome"><code>itsSome(iterable, test): boolean</code></a> - Tests whether at least one element of the given <code>iterable</code> passes the
-					test implemented by the provided function.</li>
-				</ul>
-				<a href="#iterable-transformation" id="iterable-transformation" style="color: inherit; text-decoration: none;">
-					<h3>Iterable Transformation</h3>
-				</a>
-				<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and returns a push iterable:</p>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIt"><code>filterIt(source, test)</code></a> - Creates a push iterable with all <code>source</code> iterable elements that pass the test
-					implemented by provided function.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapIt"><code>flatMapIt(source, convert?)</code></a> - First maps each element of the <code>source</code> iterable using a mapping
-					function, then flattens the result into new push iterable.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIt"><code>mapIt(source, convert)</code></a> - Creates a push iterable with the results of calling a provided function on every
-					element of the <code>source</code> iterable.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueIt"><code>valueIt(source, valueOf)</code></a> - Creates a push iterable with the values of elements of the <code>source</code> iterable.
-					A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIt">mapIt</a>/<a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIt">filterIt</a>. </li>
-				</ul>
-				<a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
-					<h3>Array Transformation</h3>
-				</a>
-				<p>Each of the following functions accepts an array-like instance, and returns a push iterable:  </p>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterArray"><code>filterArray(array, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
-					implemented by provided function.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapArray"><code>flatMapArray(array, convert?)</code></a> - First maps each element of the source <code>array</code> using a mapping
-					function, then flattens the result into new push iterable.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapArray"><code>mapArray(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function on
-					every element of the given <code>array</code>.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueArray"><code>valueArray(array, valueOf)</code></a> - Creates a push iterable with the values of elements of the given <code>array</code>.
-					A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapArray">mapArray</a>/<a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
-				</ul>
-				<a href="#indexed-list-transformation" id="indexed-list-transformation" style="color: inherit; text-decoration: none;">
-					<h3>Indexed List Transformation</h3>
-				</a>
-				<p>An <a href="https://proc7ts.github.io/push-iterator/interfaces/@proc7ts_push-iterator.IndexedItemList.html">indexed list</a> of items is an object with two properties:</p>
-				<ul>
-					<li><code>length</code> contains the length of the list,</li>
-					<li><code>item(index: number): T | null | undefined</code> returns the item value under the given index.   </li>
-				</ul>
-				<p>Each of the following functions accepts an indexed list of items, and returns a push iterable:</p>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIndexed"><code>filterIndexed(indexed, test)</code></a> - Creates a push iterable with all items of the given indexed list
-					that pass the test implemented by the provided function.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#flatMapIndexed"><code>flatMapIndexed(indexed, convert?)</code></a> - First maps each item of the source indexed list using
-					a mapping function, then flattens the result into new push iterable.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIndexed"><code>mapIndexed(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function
-					on every item of the given indexed list.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#valueIndexed"><code>valueIndexed(array, convert)</code></a> - Creates a push iterable with the values of items of the given indexed
-					list. A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#mapIndexed">mapIndexed</a>/<a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
-				</ul>
-				<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
-					<h3>Utilities</h3>
-				</a>
-				<ul>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#isPushIterable"><code>isPushIterable(iterable)</code></a> - Checks whether the given iterable or iterator conforms to push
-					iteration protocol.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#iteratorOf"><code>iteratorOf(iterable)</code></a> - Creates iterator over elements of the given <code>iterable</code>.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterable"><code>makePushIterable(iterate)</code></a> - Creates a push iterable implementation.</li>
-					<li><a href="https://proc7ts.github.io/push-iterator/modules/Module__proc7ts_push_iterator.html#makePushIterator"><code>makePushIterator(forNext)</code></a> - Creates a push iterator implementation.</li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Modules</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/Module__proc7ts_push_iterator.html">Module @proc7ts/push-<wbr>iterator</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/Module__proc7ts_push_iterator_call_thru.html">Module @proc7ts/push-<wbr>iterator/call-<wbr>thru</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Push Iterator</title><meta name="description" content="Documentation for Push Iterator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Push Iterator</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> Push Iterator</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#push-iteration-protocol" id="push-iteration-protocol" style="color: inherit; text-decoration: none;">
+  <h1>Push Iteration Protocol</h1>
+</a>
+<p><a href="https://www.npmjs.com/package/@proc7ts/push-iterator"><img src="https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm" alt="NPM"></a>
+<a href="https://github.com/proc7ts/push-iterator/actions?query=workflow:Build"><img src="https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg" alt="Build Status"></a>
+<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/afd92eac51954f43bf49ac82c0e74eb8" alt="Code Quality"></a>
+<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Coverage"><img src="https://app.codacy.com/project/badge/Coverage/afd92eac51954f43bf49ac82c0e74eb8" alt="Coverage"></a>
+<a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
+<a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
+<p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
+<p>It extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface with special method <code>[PushIterator__symbol](accept?)</code>, where <code>PushIterator__symbol</code>
+is a special symbol. This method pushes iterated elements to <code>accept</code> callback, until there is no more elements,
+or <code>accept</code> function returns <code>true</code> (to suspend iteration) or <code>false</code> (to stop it).</p>
+<p>The method returns a push iterator instance to continue iteration with. If <code>accept</code> returned <code>false</code> then further
+iteration won&#39;t be possible with returned iterator.</p>
+<p>When called without <code>accept</code> parameter it just returns an iterator.</p>
+<p>Another method it extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> with is <code>isOver()</code>, that checks whether iteration is over.</p>
+
+<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
+  <h2>Instant Iteration</h2>
+</a>
+<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
+this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
+When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
+iterator.</p>
+
+<a href="#iteration-mode-hints" id="iteration-mode-hints" style="color: inherit; text-decoration: none;">
+  <h2>Iteration Mode Hints</h2>
+</a>
+<p>The <code>[PushIterator__symbol](accept?, mode?)</code> method of <code>PushIterable</code> interface accepts optional <em>iteration mode</em> hint
+as second parameter. The latter used to optimize iteration algorithm. Such hints provided by iterable consumption
+methods.</p>
+<p>For example, an <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEach">itsEach</a> function sets this hint to <code>PushIterationMode.All</code> to inform the iterable implementation that
+all of its elements will be consumed. This allows to select the fastest iteration strategy without any intermediate
+checks.</p>
+<p>Another example is <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEvery">itsEvery</a> function. It sets this hint to <code>PushIterationMode.Only</code> to inform the iterable
+implementation that only some of its elements will be consumed, and then iteration will be aborted. This allows to
+select iteration strategy that does not support suspend and resume.</p>
+<p>Another mode is <code>PushIterationMode.Next</code>. It is typically set by <code>Iterator.next()</code> compatibility method. It informs that
+only the next element will be consumed, after which the iteration will be suspended.</p>
+<p>The default mode is <code>PushIterationMode.Some</code>. With this mode it is possible to suspended, resumed, or abort iteration.</p>
+
+<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
+  <h2>Rationale</h2>
+</a>
+<p><strong>Performance!</strong></p>
+<p>Traditional <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a> implies a call to <code>next()</code> method and creation of <code>IteratorResult</code> object on each
+iteration step. The push iteration protocol avoids that.</p>
+<p>See <a href="https://github.com/proc7ts/push-iterator/tree/master/benchmarks">benchmarking results</a> for performance comparison.</p>
+<p>JavaScript engines optimize native iteration heavily in some situations, especially for arrays. Still, in non-trivial
+cases push iteration protocol demonstrates better performance, especially when it deals with push iterators rather
+with raw ones.</p>
+
+<a href="#design-goals" id="design-goals" style="color: inherit; text-decoration: none;">
+  <h2>Design Goals</h2>
+</a>
+<ol>
+<li><p><strong>Performance</strong>.</p>
+<p>Push iterators are faster. Still, a lot of the code base relies on raw iterators and arrays. The library contains
+performance optimizations to deal with it.</p>
+</li>
+<li><p><strong>Compatibility</strong>.</p>
+<ul>
+<li>Push iterator implements <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> interface.</li>
+<li>Each function in this library handles JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> objects in addition to push iterator/push
+iterable ones.</li>
+</ul>
+</li>
+<li><p><strong>Tree shaking</strong> support.</p>
+<p>The library API represented by functions. When tree-shaken, the unused ones get removed from bundles.</p>
+</li>
+</ol>
+
+<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+  <h2>API</h2>
+</a>
+<p>See the full <a href="https://proc7ts.github.io/push-iterator/">API documentation</a>.</p>
+
+<a href="#push-iterable-construction" id="push-iterable-construction" style="color: inherit; text-decoration: none;">
+  <h3>Push Iterable Construction</h3>
+</a>
+<p>Each of the following functions returns a push iterable instance:</p>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overArray"><code>overArray(array)</code></a> - Creates a push iterable over elements of array-like structure.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overElementsOf"><code>overElementsOf(...iterables)</code></a> - Creates a push iterable over elements of other iterables.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overEntries"><code>overEntries(object)</code></a> - Creates a push iterable over the property key/value entries of the given
+object.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIndexed"><code>overIndexed(indexed)</code></a> - Creates a push iterable over items of <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a>. </li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIterable"><code>overIterable(iterable)</code></a> - Creates a push iterable over elements of the given raw iterable.  </li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIterator"><code>overIterator(() =&gt; Iterator)</code></a> - Creates a push iterable over elements of iterator created by the
+given function. </li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overKeys"><code>overKeys(object)</code></a> - Creates a push iterable over keys of the given object.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overMany"><code>overMany(...values)</code></a> - Creates a push iterable over many values.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overNone"><code>overNone()</code></a> - Returns a push iterable iterator without elements.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overOne"><code>overOne(value)</code></a> - Creates a push iterable over one value.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#reverseArray"><code>reverseArray(array)</code></a> - Creates a push iterable over elements of array-like structure in reverse
+order.</li>
+</ul>
+
+<a href="#iteration" id="iteration" style="color: inherit; text-decoration: none;">
+  <h3>Iteration</h3>
+</a>
+<p><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the leading elements of the given
+iterable and returns its trailing iterator.</p>
+
+<a href="#iterable-consumption" id="iterable-consumption" style="color: inherit; text-decoration: none;">
+  <h3>Iterable Consumption</h3>
+</a>
+<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEach"><code>itsEach(iterable, action)</code></a> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsElements"><code>itsElements(iterable[, convert])</code></a> - Creates a new, shallow-copied array instance containing elements
+ of the source iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function
+ analog optimized for push iterables.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEmpty"><code>itsEmpty(iterable): boolean</code></a> - Checks whether the given <code>iterable</code> is empty.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEvery"><code>itsEvery(iterable, test): boolean</code></a> - Tests whether all elements of the given <code>iterable</code> pass the test
+implemented by the provided function.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsFind"><code>itsFind(iterable, search): R | undefined</code></a> - Searches for the value in <code>iterable</code>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsFirst"><code>itsFirst(iterable): T | undefined</code></a> - Extracts the first element of the given <code>iterable</code>, if any.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsIterator"><code>itsIterator(iterable)</code></a> - Starts iteration over the given <code>iterable</code>. Always returns a push iterator.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsMatch"><code>itsMatch(iterable, test): T | undefined</code></a> - Extracts the first element matching the given condition from
+<code>iterable</code>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsReduction"><code>itsReduction(iterable, reducer, initialValue): T</code></a> - Applies a function against an accumulator and
+ each element of the given <code>iterable</code> to reduce elements to a single value.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsSome"><code>itsSome(iterable, test): boolean</code></a> - Tests whether at least one element of the given <code>iterable</code> passes the
+test implemented by the provided function.</li>
+</ul>
+
+<a href="#iterable-transformation" id="iterable-transformation" style="color: inherit; text-decoration: none;">
+  <h3>Iterable Transformation</h3>
+</a>
+<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and returns a push iterable:</p>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt"><code>filterIt(source, test)</code></a> - Creates a push iterable with all <code>source</code> iterable elements that pass the test
+implemented by provided function.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#flatMapIt"><code>flatMapIt(source, convert?)</code></a> - First maps each element of the <code>source</code> iterable using a mapping
+function, then flattens the result into new push iterable.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIt"><code>mapIt(source, convert)</code></a> - Creates a push iterable with the results of calling a provided function on every
+element of the <code>source</code> iterable.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueIt"><code>valueIt(source, valueOf)</code></a> - Creates a push iterable with the values of elements of the <code>source</code> iterable.
+A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIt">mapIt</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
+</ul>
+
+<a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
+  <h3>Array Transformation</h3>
+</a>
+<p>Each of the following functions accepts an array-like instance, and returns a push iterable:  </p>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterArray"><code>filterArray(array, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
+implemented by provided function.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#flatMapArray"><code>flatMapArray(array, convert?)</code></a> - First maps each element of the source <code>array</code> using a mapping
+function, then flattens the result into new push iterable.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapArray"><code>mapArray(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function on
+every element of the given <code>array</code>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueArray"><code>valueArray(array, valueOf)</code></a> - Creates a push iterable with the values of elements of the given <code>array</code>.
+A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapArray">mapArray</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
+</ul>
+
+<a href="#indexed-list-transformation" id="indexed-list-transformation" style="color: inherit; text-decoration: none;">
+  <h3>Indexed List Transformation</h3>
+</a>
+<p>An <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a> of items is an object with two properties:</p>
+<ul>
+<li><code>length</code> contains the length of the list,</li>
+<li><code>item(index: number): T | null | undefined</code> returns the item value under the given index.</li>
+</ul>
+<p>Each of the following functions accepts an indexed list of items, and returns a push iterable:</p>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIndexed"><code>filterIndexed(indexed, test)</code></a> - Creates a push iterable with all items of the given indexed list
+that pass the test implemented by the provided function.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#flatMapIndexed"><code>flatMapIndexed(indexed, convert?)</code></a> - First maps each item of the source indexed list using
+a mapping function, then flattens the result into new push iterable.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIndexed"><code>mapIndexed(array, convert)</code></a> - Creates a push iterable with the results of calling a provided function
+on every item of the given indexed list.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueIndexed"><code>valueIndexed(array, convert)</code></a> - Creates a push iterable with the values of items of the given indexed
+list. A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIndexed">mapIndexed</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
+</ul>
+
+<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
+  <h3>Utilities</h3>
+</a>
+<ul>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#isPushIterable"><code>isPushIterable(iterable)</code></a> - Checks whether the given iterable or iterator conforms to push
+iteration protocol.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#iteratorOf"><code>iteratorOf(iterable)</code></a> - Creates iterator over elements of the given <code>iterable</code>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#makePushIterable"><code>makePushIterable(iterate)</code></a> - Creates a push iterable implementation.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#makePushIterator"><code>makePushIterator(forNext)</code></a> - Creates a push iterator implementation.</li>
+</ul>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/_proc7ts_push_iterator.html">@proc7ts/push-<wbr/>iterator</a></li><li class=" tsd-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.html">@proc7ts/push-<wbr/>iterator/call-<wbr/>thru</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li><li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li><li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
