@@ -38,7 +38,7 @@
     "@proc7ts/call-thru": "^4.4.0",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
-    "@run-z/eslint-config": "^1.4.0",
+    "@run-z/eslint-config": "^1.4.1",
     "@run-z/rollup-helpers": "^1.1.1",
     "@types/benchmark": "^2.1.1",
     "@types/node": "^12.20.28",

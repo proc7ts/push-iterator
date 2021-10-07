@@ -15,7 +15,7 @@ type Out<TReturn> = IterableCallChain.Out<TReturn>;
  * @returns An push iterable of transformed elements.
  */
 export function thruIt<
-    T, TReturn1
+    T, TReturn1,
     >(
     it: Iterable<T>,
     pass1: (this: void, arg: T) => TReturn1,
