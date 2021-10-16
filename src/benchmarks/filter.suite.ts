@@ -167,13 +167,13 @@ export function filterIterable<T>(source: Iterable<T>, filter: (element: T) => b
         next() {
           for (;;) {
 
-            const { done, value } = it.next();
+            const next = it.next();
 
-            if (done) {
-              return { done, value: undefined };
+            if (next.done) {
+              return { done: next.done, value: undefined };
             }
-            if (filter(value)) {
-              return { value };
+            if (filter(next.value)) {
+              return { value: next.value };
             }
           }
         },
