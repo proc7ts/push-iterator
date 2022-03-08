@@ -105,6 +105,7 @@ interface Result {
   name?: string | undefined;
   Hz: number;
   MoE: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   '# sampled': number;
   INPUT_SIZE?: number | undefined;
 }
@@ -113,7 +114,9 @@ interface AccResult {
   [name: string]: {
     Hz: string;
     MoE: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     '# sampled': number;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'x slower': number;
   };
 }
