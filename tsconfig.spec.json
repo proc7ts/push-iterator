@@ -5,7 +5,5 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "exclude": [
-    "src/benchmarks/**/*.ts"
-  ]
+  "exclude": ["src/benchmarks/**/*.ts"]
 }
