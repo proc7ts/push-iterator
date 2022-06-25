@@ -50,7 +50,6 @@ export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
       if (accept && !forNext(accept)) {
         over = true;
         iterate = PushIterator$dontIterate;
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         next = PushIterator$noNext;
       }
     };

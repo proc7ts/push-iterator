@@ -9,7 +9,6 @@ export function iterator$convert<T>(it: Iterator<T>, forNext: PushIterator.Pushe
   let iterate = (accept?: PushIterator.Acceptor<T>): void => {
     if ((over = !!accept && !forNext(accept))) {
       iterate = PushIterator$dontIterate;
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       next = PushIterator$noNext;
     }
   };

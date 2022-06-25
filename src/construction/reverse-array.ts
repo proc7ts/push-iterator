@@ -55,7 +55,6 @@ function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
       if (accept && !forNext(accept)) {
         over = true;
         iterate = PushIterator$dontIterate;
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         next = PushIterator$noNext;
       }
     };
