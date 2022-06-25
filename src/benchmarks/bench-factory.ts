@@ -4,7 +4,7 @@ import { benchSetup } from './bench-data';
 
 export type BenchVariant = [inputSize: number];
 
-export class BenchFactory<TVariant extends [inputSize: number, ...other: any[]] = BenchVariant> {
+export class BenchFactory<TVariant extends [inputSize: number, ...other: unknown[]] = BenchVariant> {
 
   private readonly _benches: ((suite: Benchmark.Suite, variant: TVariant) => void)[] = [];
 

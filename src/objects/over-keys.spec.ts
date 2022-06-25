@@ -3,7 +3,7 @@ import { overKeys } from './over-keys';
 
 describe('overKeys', () => {
 
-  let obj: any;
+  let obj: Record<PropertyKey, unknown>;
 
   beforeEach(() => {
     obj = {

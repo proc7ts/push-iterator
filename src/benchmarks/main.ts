@@ -9,7 +9,7 @@ import { arrayMapSuite, iterableMapSuite } from './map.suite';
 const PRECISION = 3;
 const INPUT_SIZES = [10, 100, 1000];
 
-run().catch((event: Benchmark.Event & { target: { error?: any } }) => {
+run().catch((event: Benchmark.Event & { target: { error?: unknown } }) => {
   console.error('ERROR', event.target.name, event.target.error);
 });
 

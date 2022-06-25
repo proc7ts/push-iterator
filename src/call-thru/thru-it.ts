@@ -263,17 +263,17 @@ export function thruIt<
 
 export function thruIt<T, TReturn>(
     it: Iterable<T>,
-    ...passes: ((...args: any[]) => any)[]
+    ...passes: ((...args: unknown[]) => unknown)[]
 ): PushIterable<TReturn> {
 
-  const chain = (outcome: PushIterable<any>[], index: number): IterableCallChain => {
+  const chain = (outcome: PushIterable<unknown>[], index: number): IterableCallChain => {
 
     const lastPass = index >= passes.length;
 
     ++index;
 
     const pass = index < passes.length ? passes[index] : () => { /* empty pass */ };
-    const handleResult = (outcome: PushIterable<any>[], callResult: any, arg: any): void => {
+    const handleResult = (outcome: PushIterable<any>[], callResult: unknown, arg: unknown): void => {
       if (isNextCall(callResult)) {
         callResult[NextCall__symbol](chain(outcome, index), pass);
       } else if (lastPass) {
