@@ -6,7 +6,6 @@ import type { IndexedItemList } from './over-indexed';
 import { overIndexed } from './over-indexed';
 
 describe('overIndexed', () => {
-
   let array: string[];
   let list: IndexedItemList<string>;
   let result: string[];
@@ -28,27 +27,29 @@ describe('overIndexed', () => {
     expect([...overIndexed(list)]).toEqual(array);
   });
   it('pushes list items', () => {
-    expect(iterateIt(overIndexed(list), element => {
-      result.push(element);
-    }).isOver()).toBe(true);
+    expect(
+      iterateIt(overIndexed(list), element => {
+        result.push(element);
+      }).isOver(),
+    ).toBe(true);
     expect(result).toEqual(array);
   });
   it('resumes iteration', () => {
-
     const it = itsIterator(overIndexed(list));
 
     expect(iterateIt(it, () => true).isOver()).toBe(false);
     expect(it.isOver()).toBe(false);
 
-    expect(iterateIt(it, element => {
-      result.push(element);
-    }).isOver()).toBe(true);
+    expect(
+      iterateIt(it, element => {
+        result.push(element);
+      }).isOver(),
+    ).toBe(true);
     expect(it.isOver()).toBe(true);
     expect(result).toEqual(array.slice(1));
   });
 
   describe('over empty list', () => {
-
     beforeEach(() => {
       list = {
         length: 0,
@@ -59,7 +60,6 @@ describe('overIndexed', () => {
     });
 
     it('does not iterate', () => {
-
       const it = iteratorOf(overIndexed(list));
 
       expect(it.isOver()).toBe(false);
@@ -68,7 +68,6 @@ describe('overIndexed', () => {
       expect(it.isOver()).toBe(true);
     });
     it('does not push elements', () => {
-
       const it = iteratorOf(overIndexed(list));
 
       expect(it.isOver()).toBe(false);

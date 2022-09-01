@@ -4,7 +4,7 @@ import type { PushIterator } from './push-iterator';
 /**
  * A key of {@link PushIterable} iteration method.
  */
-export const PushIterator__symbol = (/*#__PURE__*/ Symbol('push-iterator'));
+export const PushIterator__symbol = /*#__PURE__*/ Symbol('push-iterator');
 
 /**
  * An iterable implementing push iteration protocol.
@@ -12,7 +12,6 @@ export const PushIterator__symbol = (/*#__PURE__*/ Symbol('push-iterator'));
  * @typeParam T - Iterated elements type.
  */
 export interface PushIterable<T> extends Iterable<T> {
-
   /**
    * Creates a {@link PushIterator | push iterator} over elements of this iterable.
    *
@@ -39,12 +38,13 @@ export interface PushIterable<T> extends Iterable<T> {
    * @returns A push iterator instance to continue iteration with. If `accept` returned `false` then further iteration
    * won't be possible with returned iterator.
    */
-  [PushIterator__symbol](accept?: PushIterator.Acceptor<T>, mode?: PushIterationMode): PushIterator<T>;
-
+  [PushIterator__symbol](
+    accept?: PushIterator.Acceptor<T>,
+    mode?: PushIterationMode,
+  ): PushIterator<T>;
 }
 
 export namespace PushIterable {
-
   /**
    * A signature of function conforming to push iteration protocol.
    *
@@ -61,9 +61,8 @@ export namespace PushIterable {
    * won't be possible with returned iterator.
    */
   export type Iterate<T> = (
-      this: void,
-      accept?: PushIterator.Acceptor<T>,
-      mode?: PushIterationMode,
+    this: void,
+    accept?: PushIterator.Acceptor<T>,
+    mode?: PushIterationMode,
   ) => PushIterator<T>;
-
 }

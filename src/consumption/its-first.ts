@@ -22,23 +22,18 @@ export function itsFirst<T>(iterable: Iterable<T>): T | undefined {
 }
 
 function itsFirst$<T>(it: PushIterable<T>): T | undefined {
-
   let first: T | undefined;
 
-  it[PushIterator__symbol](
-      element => {
-        first = element;
+  it[PushIterator__symbol](element => {
+    first = element;
 
-        return false;
-      },
-      PushIterationMode.Only,
-  );
+    return false;
+  }, PushIterationMode.Only);
 
   return first;
 }
 
 function itsFirst$raw<T>(it: Iterator<T>): T | undefined {
-
   const result = it.next();
 
   return result.done ? undefined : result.value;

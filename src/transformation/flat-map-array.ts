@@ -25,18 +25,16 @@ export function flatMapArray<T>(array: ArrayLike<Iterable<T>>): PushIterable<T>;
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
 export function flatMapArray<TSrc, TConv>(
-    array: ArrayLike<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
+  array: ArrayLike<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv>;
 
 export function flatMapArray<TSrc, TConv>(
-    array: ArrayLike<TSrc>,
-    convert?: (this: void, element: TSrc) => Iterable<TConv>,
+  array: ArrayLike<TSrc>,
+  convert?: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv> {
   return flatMapArray$<TSrc, TConv>(
-      array,
-      convert
-          ? (array, index) => convert(array[index])
-          : flatMapArray$defaultElementOf,
+    array,
+    convert ? (array, index) => convert(array[index]) : flatMapArray$defaultElementOf,
   );
 }

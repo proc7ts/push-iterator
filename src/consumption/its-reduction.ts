@@ -15,17 +15,18 @@ import { PushIterationMode } from '../push-iteration-mode';
  * `iterable`.
  */
 export function itsReduction<T, TResult>(
-    iterable: Iterable<T>,
-    reducer: (this: void, prev: TResult, element: T) => TResult,
-    initialValue: TResult,
+  iterable: Iterable<T>,
+  reducer: (this: void, prev: TResult, element: T) => TResult,
+  initialValue: TResult,
 ): TResult {
-
   let reduced = initialValue;
 
   iterateIt(
-      iterable,
-      element => { reduced = reducer(reduced, element); },
-      PushIterationMode.All,
+    iterable,
+    element => {
+      reduced = reducer(reduced, element);
+    },
+    PushIterationMode.All,
   );
 
   return reduced;

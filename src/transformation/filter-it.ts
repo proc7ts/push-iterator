@@ -19,8 +19,8 @@ import type { PushIterator } from '../push-iterator';
  * will be returned.
  */
 export function filterIt<T, TTarget extends T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => element is TTarget,
+  source: Iterable<T>,
+  test: (this: void, element: T) => element is TTarget,
 ): PushIterable<TTarget>;
 
 /**
@@ -36,48 +36,46 @@ export function filterIt<T, TTarget extends T>(
  * will be returned.
  */
 export function filterIt<T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => boolean,
+  source: Iterable<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
 
 export function filterIt<T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => boolean,
+  source: Iterable<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
   return makePushIterable((accept, mode = PushIterationMode.Some) => {
     if (accept && mode > 0) {
-
       const acceptElement = (element: T): boolean | void => test(element) ? accept(element) : void 0;
 
       return isPushIterable(source)
-          ? source[PushIterator__symbol](acceptElement, mode) // Iteration over.
-          : iterable$process(source, acceptElement, mode);
+        ? source[PushIterator__symbol](acceptElement, mode) // Iteration over.
+        : iterable$process(source, acceptElement, mode);
     }
 
-    const forNext = isPushIterable(source)
-        ? filterIt$(source, test)
-        : filterIt$raw(source, test);
+    const forNext = isPushIterable(source) ? filterIt$(source, test) : filterIt$raw(source, test);
 
-    return accept && !forNext(accept)
-        ? PushIterator$empty
-        : makePushIterator(forNext);
+    return accept && !forNext(accept) ? PushIterator$empty : makePushIterator(forNext);
   });
 }
 
 function filterIt$<T>(
-    source: PushIterable<T>,
-    test: (this: void, element: T) => boolean,
+  source: PushIterable<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-  return accept => !(source = source[PushIterator__symbol](
-      element => test(element) ? accept(element) : void 0,
-  )).isOver();
+  return accept => {
+    const src = source[PushIterator__symbol](element => (test(element) ? accept(element) : void 0));
+
+    source = src;
+
+    return !src.isOver();
+  };
 }
 
 function filterIt$raw<T>(
-    source: Iterable<T>,
-    test: (this: void, element: T) => boolean,
+  source: Iterable<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterator.Pusher<T> {
-
   const it = source[Symbol.iterator]();
 
   if (isPushIterable(it)) {
@@ -85,8 +83,7 @@ function filterIt$raw<T>(
   }
 
   return accept => {
-    for (; ;) {
-
+    for (;;) {
       const next = it.next();
 
       if (next.done) {
@@ -96,7 +93,6 @@ function filterIt$raw<T>(
       const value = next.value;
 
       if (test(value)) {
-
         const status = accept(value);
 
         if (typeof status === 'boolean') {

@@ -41,7 +41,6 @@ describe('itsElements', () => {
   });
 
   describe('over iterable with push iterator', () => {
-
     let iterable: Iterable<number>;
 
     beforeEach(() => {

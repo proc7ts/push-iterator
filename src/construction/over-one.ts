@@ -52,6 +52,5 @@ function iterateOverOneValue<T>(value: T): PushIterable.Iterate<T> {
       },
       isOver: () => over,
     };
-
   };
 }

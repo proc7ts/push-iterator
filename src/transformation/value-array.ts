@@ -20,8 +20,8 @@ import { valueIndexed$ } from './value-indexed.impl';
  * @returns New push iterable with array element values.
  */
 export function valueArray<T, TValue = T>(
-    array: ArrayLike<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
+  array: ArrayLike<T>,
+  valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
   return makePushIterable(valueIndexed$(array, arrayLike$elementOf, valueOf));
 }

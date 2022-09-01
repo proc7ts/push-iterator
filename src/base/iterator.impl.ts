@@ -3,8 +3,10 @@ import type { PushIterator } from '../push-iterator';
 import { PushIterator$dontIterate, PushIterator$noNext } from './push-iterator.empty.impl';
 import { PushIterator$iterator } from './push-iterator.impl';
 
-export function iterator$convert<T>(it: Iterator<T>, forNext: PushIterator.Pusher<T>): PushIterator<T> {
-
+export function iterator$convert<T>(
+  it: Iterator<T>,
+  forNext: PushIterator.Pusher<T>,
+): PushIterator<T> {
   let over = false;
   let iterate = (accept?: PushIterator.Acceptor<T>): void => {
     if ((over = !!accept && !forNext(accept))) {
@@ -13,7 +15,6 @@ export function iterator$convert<T>(it: Iterator<T>, forNext: PushIterator.Pushe
     }
   };
   let next = (): IteratorResult<T> => {
-
     const res = it.next();
 
     if (res.done) {
@@ -41,8 +42,7 @@ export function iterator$convert<T>(it: Iterator<T>, forNext: PushIterator.Pushe
 
 export function iterator$pusher<T>(it: Iterator<T>): PushIterator.Pusher<T> {
   return accept => {
-    for (; ;) {
-
+    for (;;) {
       const res = it.next();
 
       if (res.done) {

@@ -31,43 +31,39 @@ export function flatMapIt<T>(source: Iterable<Iterable<T>>): PushIterable<T>;
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
 export function flatMapIt<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
+  source: Iterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv>;
 
 export function flatMapIt<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
+  source: Iterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv> = flatMapIt$defaultConverter,
 ): PushIterable<TConv> {
   return makePushIterable((accept, mode = PushIterationMode.Some) => {
     if (accept && mode > 0) {
       return isPushIterable(source)
-          ? flatMapIt$process(source, convert, accept, mode)
-          : flatMapIt$raw$process(source, convert, accept, mode);
+        ? flatMapIt$process(source, convert, accept, mode)
+        : flatMapIt$raw$process(source, convert, accept, mode);
     }
 
     const forNext = isPushIterable(source)
-        ? flatMapIt$(source, convert)
-        : flatMapIt$raw(source, convert);
+      ? flatMapIt$(source, convert)
+      : flatMapIt$raw(source, convert);
 
-    return accept && !forNext(accept)
-        ? overNone()
-        : makePushIterator(forNext);
+    return accept && !forNext(accept) ? overNone() : makePushIterator(forNext);
   });
 }
 
 function flatMapIt$<TSrc, TConv>(
-    source: PushIterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
+  source: PushIterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterator.Pusher<TConv> {
-
   let subs: Iterable<TConv> | undefined;
   let lastSrc = false;
 
   return accept => {
-    for (; ;) {
+    for (;;) {
       while (!subs) {
-
         const sourceTail = source[PushIterator__symbol](src => {
           subs = convert(src);
 
@@ -85,7 +81,7 @@ function flatMapIt$<TSrc, TConv>(
       }
 
       let status: boolean | void;
-      const subsTail: PushIterator<TConv> = iterateIt(subs, element => status = accept(element));
+      const subsTail: PushIterator<TConv> = iterateIt(subs, element => (status = accept(element)));
 
       if (subsTail.isOver()) {
         subs = undefined;
@@ -104,10 +100,9 @@ function flatMapIt$<TSrc, TConv>(
 }
 
 function flatMapIt$raw<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
+  source: Iterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterator.Pusher<TConv> {
-
   const it = source[Symbol.iterator]();
 
   if (isPushIterable(it)) {
@@ -117,9 +112,8 @@ function flatMapIt$raw<TSrc, TConv>(
   let subs: Iterable<TConv> | undefined;
 
   return accept => {
-    for (; ;) {
+    for (;;) {
       if (!subs) {
-
         const next = it.next();
 
         if (next.done) {
@@ -131,7 +125,7 @@ function flatMapIt$raw<TSrc, TConv>(
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
       let status: boolean | void;
-      const subsTail: PushIterator<TConv> = iterateIt(subs, element => status = accept(element));
+      const subsTail: PushIterator<TConv> = iterateIt(subs, element => (status = accept(element)));
 
       subs = subsTail.isOver() ? undefined : subsTail;
       if (typeof status === 'boolean') {
@@ -142,17 +136,16 @@ function flatMapIt$raw<TSrc, TConv>(
 }
 
 function flatMapIt$process<TSrc, TConv>(
-    source: PushIterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
-    accept: PushIterator.Acceptor<TConv>,
-    mode: PushIterationMode,
+  source: PushIterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
+  accept: PushIterator.Acceptor<TConv>,
+  mode: PushIterationMode,
 ): PushIterator<TConv> {
   if (mode === PushIterationMode.All) {
     source[PushIterator__symbol](src => iterateIt(convert(src), accept, mode));
   } else {
-
     let status: boolean | void;
-    const subProcess = (element: TConv): boolean | void => status = accept(element);
+    const subProcess = (element: TConv): boolean | void => (status = accept(element));
 
     source[PushIterator__symbol]((src: TSrc): false | void => {
       iterateIt(convert(src), subProcess, mode);
@@ -166,19 +159,18 @@ function flatMapIt$process<TSrc, TConv>(
 }
 
 function flatMapIt$raw$process<TSrc, TConv>(
-    source: Iterable<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
-    accept: PushIterator.Acceptor<TConv>,
-    mode: PushIterationMode,
+  source: Iterable<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
+  accept: PushIterator.Acceptor<TConv>,
+  mode: PushIterationMode,
 ): PushIterator<TConv> {
   if (mode === PushIterationMode.All) {
     for (const src of source) {
       iterateIt(convert(src), accept, mode);
     }
   } else {
-
     let status: boolean | void;
-    const subProcess = (element: TConv): boolean | void => status = accept(element);
+    const subProcess = (element: TConv): boolean | void => (status = accept(element));
 
     for (const src of source) {
       iterateIt(convert(src), subProcess, mode);

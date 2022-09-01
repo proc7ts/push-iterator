@@ -17,16 +17,13 @@ export function itsEmpty(iterable: Iterable<unknown>): boolean {
 
   const it = iterable[Symbol.iterator]();
 
-  return isPushIterable(it)
-      ? itsEmpty$(it)
-      : !!it.next().done;
+  return isPushIterable(it) ? itsEmpty$(it) : !!it.next().done;
 }
 
 function itsEmpty$(it: PushIterable<unknown>): boolean {
-
   let isEmpty = true;
 
-  it[PushIterator__symbol](_element => isEmpty = false, PushIterationMode.Only);
+  it[PushIterator__symbol](_element => (isEmpty = false), PushIterationMode.Only);
 
   return isEmpty;
 }

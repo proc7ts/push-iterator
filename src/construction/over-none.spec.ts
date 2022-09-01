@@ -6,12 +6,13 @@ import { overNone } from './over-none';
 
 describe('overNone', () => {
   it('does not push elements', () => {
-
     let iterated = false;
 
-    expect(iterateIt(overNone(), () => {
-      iterated = true;
-    }).isOver()).toBe(true);
+    expect(
+      iterateIt(overNone(), () => {
+        iterated = true;
+      }).isOver(),
+    ).toBe(true);
     expect(iterated).toBe(false);
   });
   it('does not iterate', () => {

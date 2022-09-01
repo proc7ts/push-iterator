@@ -23,7 +23,9 @@ export function iteratorOf<T>(iterable: PushIterable<T>): PushIterator<T>;
  *
  * @returns Iterable iterator.
  */
-export function iteratorOf<T>(iterable: { [Symbol.iterator](): IterableIterator<T> }): IterableIterator<T>;
+export function iteratorOf<T>(iterable: {
+  [Symbol.iterator](): IterableIterator<T>;
+}): IterableIterator<T>;
 
 /**
  * Creates iterator over elements of the given `iterable`.

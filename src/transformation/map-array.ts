@@ -14,11 +14,8 @@ import type { PushIterable } from '../push-iterable';
  * @returns New push iterable of transformed elements.
  */
 export function mapArray<TSrc, TConv>(
-    array: ArrayLike<TSrc>,
-    convert: (this: void, element: TSrc) => TConv,
+  array: ArrayLike<TSrc>,
+  convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(indexed$iterate(
-      array,
-      (array, index) => convert(array[index]),
-  ));
+  return makePushIterable(indexed$iterate(array, (array, index) => convert(array[index])));
 }

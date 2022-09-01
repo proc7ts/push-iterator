@@ -1,29 +1,33 @@
 import type { Indexed$Elements } from '../base/indexed.impl';
 import { indexed$process } from '../base/indexed.impl';
-import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import {
+  PushIterator$dontIterate,
+  PushIterator$empty,
+  PushIterator$noNext,
+} from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
 export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
-    indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => T,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
+  indexed: TIndexed,
+  elementOf: (indexed: TIndexed, index: number) => T,
+  valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable.Iterate<TValue> {
   return (accept, mode = PushIterationMode.Some) => {
     if (accept && mode > 0) {
       return indexed$process<TIndexed, TValue | false | null | undefined, TValue>(
-          indexed,
-          (source, index) => valueOf(elementOf(source, index)),
-          value => value != null && value !== false ? accept(value) : void 0,
-          mode,
+        indexed,
+        (source, index) => valueOf(elementOf(source, index)),
+        value => (value != null && value !== false ? accept(value) : void 0),
+        mode,
       );
     }
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<TValue>): boolean => {
-      for (; ;) {
+      for (;;) {
         if (i >= indexed.length) {
           return false;
         }
@@ -31,7 +35,6 @@ export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
         const value = valueOf(elementOf(indexed, i++));
 
         if (value != null && value !== false) {
-
           const status = accept(value);
 
           if (typeof status === 'boolean') {
@@ -54,7 +57,7 @@ export function valueIndexed$<TIndexed extends Indexed$Elements, T, TValue>(
       }
     };
     let next = (): IteratorResult<TValue> => {
-      for (; ;) {
+      for (;;) {
         if (i >= indexed.length) {
           over = true;
           iterate = PushIterator$dontIterate;

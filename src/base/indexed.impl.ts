@@ -2,13 +2,15 @@ import type { IndexedItemList } from '../construction';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
-import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from './push-iterator.empty.impl';
+import {
+  PushIterator$dontIterate,
+  PushIterator$empty,
+  PushIterator$noNext,
+} from './push-iterator.empty.impl';
 import { PushIterator$iterator } from './push-iterator.impl';
 
 export interface Indexed$Elements {
-
   readonly length: number;
-
 }
 
 export function indexed$itemOf<T>(indexed: IndexedItemList<T>, index: number): T {
@@ -16,10 +18,10 @@ export function indexed$itemOf<T>(indexed: IndexedItemList<T>, index: number): T
 }
 
 export function indexed$process<TIndexed extends Indexed$Elements, T, TOut = T>(
-    indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => T,
-    accept: PushIterator.Acceptor<T>,
-    mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
+  indexed: TIndexed,
+  elementOf: (indexed: TIndexed, index: number) => T,
+  accept: PushIterator.Acceptor<T>,
+  mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
 ): PushIterator<TOut> {
   if (mode === PushIterationMode.All) {
     for (let i = 0; i < indexed.length; ++i) {
@@ -37,18 +39,16 @@ export function indexed$process<TIndexed extends Indexed$Elements, T, TOut = T>(
 }
 
 export function indexed$some<TIndexed extends Indexed$Elements, T>(
-    indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => T,
-    accept?: PushIterator.Acceptor<T>,
+  indexed: TIndexed,
+  elementOf: (indexed: TIndexed, index: number) => T,
+  accept?: PushIterator.Acceptor<T>,
 ): PushIterator<T> {
-
   let i = 0;
   const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
     if (i >= indexed.length) {
       return false;
     }
-    for (; ;) {
-
+    for (;;) {
       const goOn = accept(elementOf(indexed, i++));
 
       if (i >= indexed.length || goOn === false) {
@@ -97,12 +97,12 @@ export function indexed$some<TIndexed extends Indexed$Elements, T>(
 }
 
 export function indexed$iterate<TIndexed extends Indexed$Elements, T>(
-    indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => T,
+  indexed: TIndexed,
+  elementOf: (indexed: TIndexed, index: number) => T,
 ): PushIterable.Iterate<T> {
   return (
-      accept?: PushIterator.Acceptor<T>,
-      mode: PushIterationMode = PushIterationMode.Some,
+    accept?: PushIterator.Acceptor<T>,
+    mode: PushIterationMode = PushIterationMode.Some,
   ): PushIterator<T> => accept && mode > 0
       ? indexed$process(indexed, elementOf, accept, mode)
       : indexed$some(indexed, elementOf, accept);

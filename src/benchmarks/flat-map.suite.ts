@@ -6,82 +6,70 @@ import { flatMapArray, flatMapIt } from '../transformation';
 import { benchArray, benchInput, benchIterable, benchOut, benchSetup } from './bench-data';
 import { BenchFactory } from './bench-factory';
 
-export function arrayFlatMapSuite(itemSize: number, inputSizes: readonly number[]): readonly Benchmark.Suite[] {
+export function arrayFlatMapSuite(
+  itemSize: number,
+  inputSizes: readonly number[],
+): readonly Benchmark.Suite[] {
   return new FlatMapBenchFactory()
-      .add(
-          'for ... of [...].flatMap(...)',
-          () => {
-            for (const element of benchInput.flatMap(el => benchSubItems(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of *generatorFlatMap([...])',
-          () => {
-            for (const element of generatorFlatMap(benchInput, el => benchSubItems(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'itsEach(flatMapIt([...]))',
-          () => {
-            itsEach(
-                flatMapIt(benchInput, el => benchSubItems(el)),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(flatMapArray([...]))',
-          () => {
-            itsEach(
-                flatMapArray(benchInput, el => benchSubItems(el)),
-                element => benchOut(element),
-            );
-          },
-      )
-      .suites('Array flat map', inputSizes.map(inputSize => [inputSize, itemSize]));
+    .add('for ... of [...].flatMap(...)', () => {
+      for (const element of benchInput.flatMap(el => benchSubItems(el))) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of *generatorFlatMap([...])', () => {
+      for (const element of generatorFlatMap(benchInput, el => benchSubItems(el))) {
+        benchOut(element);
+      }
+    })
+    .add('itsEach(flatMapIt([...]))', () => {
+      itsEach(
+        flatMapIt(benchInput, el => benchSubItems(el)),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(flatMapArray([...]))', () => {
+      itsEach(
+        flatMapArray(benchInput, el => benchSubItems(el)),
+        element => benchOut(element),
+      );
+    })
+    .suites(
+      'Array flat map',
+      inputSizes.map(inputSize => [inputSize, itemSize]),
+    );
 }
 
-export function iterableFlatMapSuite(itemSize: number, inputSizes: readonly number[]): readonly Benchmark.Suite[] {
+export function iterableFlatMapSuite(
+  itemSize: number,
+  inputSizes: readonly number[],
+): readonly Benchmark.Suite[] {
   return new FlatMapBenchFactory()
-      .add(
-          'for ... of buildArray().flatMap(...)',
-          () => {
-            for (const element of benchArray().flatMap(el => benchSubItems(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of *generatorFlatMap(iterable)',
-          () => {
-            for (const element of generatorFlatMap(benchIterable(), el => benchSubItems(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'itsEach(flatMapIt(iterable))',
-          () => {
-            itsEach(
-                flatMapIt(benchIterable(), el => benchSubItems(el)),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(flatMapIt(overArray([...]))',
-          () => {
-            itsEach(
-                flatMapIt(overArray(benchInput), el => benchSubItems(el)),
-                element => benchOut(element),
-            );
-          },
-      )
-      .suites('Iterable flat map', inputSizes.map(inputSize => [inputSize, itemSize]));
+    .add('for ... of buildArray().flatMap(...)', () => {
+      for (const element of benchArray().flatMap(el => benchSubItems(el))) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of *generatorFlatMap(iterable)', () => {
+      for (const element of generatorFlatMap(benchIterable(), el => benchSubItems(el))) {
+        benchOut(element);
+      }
+    })
+    .add('itsEach(flatMapIt(iterable))', () => {
+      itsEach(
+        flatMapIt(benchIterable(), el => benchSubItems(el)),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(flatMapIt(overArray([...]))', () => {
+      itsEach(
+        flatMapIt(overArray(benchInput), el => benchSubItems(el)),
+        element => benchOut(element),
+      );
+    })
+    .suites(
+      'Iterable flat map',
+      inputSizes.map(inputSize => [inputSize, itemSize]),
+    );
 }
 
 class FlatMapBenchFactory extends BenchFactory<[inputSize: number, itemSize: number]> {
@@ -104,7 +92,6 @@ function benchSetupFilterMap(inputSize: number, itemSize: number): void {
 }
 
 function benchSubItems<T>(element: T): T[] {
-
   const result: T[] = [];
 
   result.length = benchItemSize;
@@ -115,7 +102,10 @@ function benchSubItems<T>(element: T): T[] {
   return result;
 }
 
-function *generatorFlatMap<T, TResult>(source: Iterable<T>, flatMap: (src: T) => Iterable<TResult>): Iterable<TResult> {
+function *generatorFlatMap<T, TResult>(
+  source: Iterable<T>,
+  flatMap: (src: T) => Iterable<TResult>,
+): Iterable<TResult> {
   for (const src of source) {
     yield* flatMap(src);
   }

@@ -6,11 +6,9 @@ import { itsElements } from '../consumption';
 import { mapIndexed } from './map-indexed';
 
 describe('mapIndexed', () => {
-
   let list: IndexedItemList<number>;
 
   beforeEach(() => {
-
     const array = [11, 22, 33];
 
     list = {
@@ -30,46 +28,48 @@ describe('mapIndexed', () => {
 
   describe('iterator', () => {
     it('converts elements', () => {
-
       const it = mapIndexed(list, element => `${element}!`)[Symbol.iterator]();
 
       expect([...it]).toEqual(['11!', '22!', '33!']);
       expect(it[Symbol.iterator]()).toBe(it);
     });
     it('pushes converted elements', () => {
-
       const result: string[] = [];
       const it = mapIndexed(list, element => `${element}!`)[Symbol.iterator]();
 
-      expect(iterateIt(it, element => {
-        result.push(element);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, element => {
+          result.push(element);
+        }).isOver(),
+      ).toBe(true);
       expect(result).toEqual(['11!', '22!', '33!']);
     });
     it('resumes conversion', () => {
-
       const result: string[] = [];
       const it = mapIndexed(list, element => `${element}!`)[Symbol.iterator]();
 
       expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(iterateIt(it, element => {
-        result.push(element);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, element => {
+          result.push(element);
+        }).isOver(),
+      ).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual(['22!', '33!']);
 
-      expect(iterateIt(it, element => {
-        result.push(element);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, element => {
+          result.push(element);
+        }).isOver(),
+      ).toBe(true);
       expect(result).toEqual(['22!', '33!']);
       expect([...it]).toHaveLength(0);
     });
   });
 
   describe('over empty list', () => {
-
     beforeEach(() => {
       list = {
         length: 0,
@@ -78,7 +78,6 @@ describe('mapIndexed', () => {
     });
 
     it('does not iterate', () => {
-
       const it = iteratorOf(mapIndexed(list, n => n + 1));
 
       expect(it.isOver()).toBe(false);
@@ -87,7 +86,6 @@ describe('mapIndexed', () => {
       expect(it.isOver()).toBe(true);
     });
     it('does not push elements', () => {
-
       const it = iteratorOf(mapIndexed(list, n => n + 1));
 
       expect(it.isOver()).toBe(false);

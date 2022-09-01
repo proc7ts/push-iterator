@@ -15,11 +15,10 @@ import type { PushIterable } from '../push-iterable';
  * @returns New push iterable of transformed elements.
  */
 export function mapIndexed<TSrc, TConv>(
-    indexed: IndexedItemList<TSrc>,
-    convert: (this: void, element: TSrc) => TConv,
+  indexed: IndexedItemList<TSrc>,
+  convert: (this: void, element: TSrc) => TConv,
 ): PushIterable<TConv> {
-  return makePushIterable(indexed$iterate(
-      indexed,
-      (list, index) => convert(list.item(index) as TSrc /* The index is always valid */),
-  ));
+  return makePushIterable(
+    indexed$iterate(indexed, (list, index) => convert(list.item(index) as TSrc /* The index is always valid */)),
+  );
 }

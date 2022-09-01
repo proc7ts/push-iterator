@@ -8,7 +8,6 @@ import type { PushIterable } from '../push-iterable';
  * @typeParam T - Indexed item value.
  */
 export interface IndexedItemList<T> {
-
   /**
    * The length of the list. I.e. the number of items it contains.
    */
@@ -23,7 +22,6 @@ export interface IndexedItemList<T> {
    * an integer value, is negative, or greater or equal to the {@link length}.
    */
   item(index: number): T | null | undefined;
-
 }
 
 /**

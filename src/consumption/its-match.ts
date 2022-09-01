@@ -11,20 +11,22 @@ import { PushIterationMode } from '../push-iteration-mode';
  *
  * @returns Either the matching element, or `undefined` if no elements match.
  */
-export function itsMatch<T>(iterable: Iterable<T>, test: (this: void, element: T) => boolean): T | undefined {
-
+export function itsMatch<T>(
+  iterable: Iterable<T>,
+  test: (this: void, element: T) => boolean,
+): T | undefined {
   let match: T | undefined;
 
   iterateIt(
-      iterable,
-      (element: T): boolean | void => {
-        if (test(element)) {
-          match = element;
+    iterable,
+    (element: T): boolean | void => {
+      if (test(element)) {
+        match = element;
 
-          return false;
-        }
-      },
-      PushIterationMode.Only,
+        return false;
+      }
+    },
+    PushIterationMode.Only,
   );
 
   return match;

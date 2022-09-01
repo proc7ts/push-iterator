@@ -4,7 +4,6 @@ import { iteratorOf } from './index';
 import { iterateIt } from './iterate-it';
 
 describe('itsHead', () => {
-
   let result: number[];
 
   beforeEach(() => {
@@ -17,7 +16,6 @@ describe('itsHead', () => {
     [
       'raw iterable with push iterator',
       () => {
-
         const it = overMany(1, 22, 333);
 
         return { [Symbol.iterator]: () => iteratorOf(it) };
@@ -25,7 +23,6 @@ describe('itsHead', () => {
     ],
     ['array', () => [1, 22, 333]],
   ])('over %s', (_title: string, newIterable: () => Iterable<number>) => {
-
     let iterable: Iterable<number>;
 
     beforeEach(() => {
@@ -33,36 +30,29 @@ describe('itsHead', () => {
     });
 
     it('iterates over all elements', () => {
-
-      const tail = iterateIt(iterable, el => { result.push(el); });
+      const tail = iterateIt(iterable, el => {
+        result.push(el);
+      });
 
       expect(result).toEqual([1, 22, 333]);
       expect(tail.isOver()).toBe(true);
     });
     it('iterates over head only', () => {
+      const tail = iterateIt(iterable, el => {
+        result.push(el);
 
-      const tail = iterateIt(
-          iterable,
-          el => {
-            result.push(el);
-
-            return false;
-          },
-      );
+        return false;
+      });
 
       expect(result).toEqual([1]);
       expect(tail.isOver()).toBe(true);
     });
     it('iterates over head and returns tail', () => {
+      const tail = iterateIt(iterable, el => {
+        result.push(el);
 
-      const tail = iterateIt(
-          iterable,
-          el => {
-            result.push(el);
-
-            return true;
-          },
-      );
+        return true;
+      });
 
       expect(result).toEqual([1]);
       expect(tail.isOver()).toBe(false);
@@ -74,8 +64,9 @@ describe('itsHead', () => {
 
   describe('over empty array', () => {
     it('does not iterate', () => {
-
-      const tail = iterateIt([], el => { result.push(el); });
+      const tail = iterateIt([], el => {
+        result.push(el);
+      });
 
       expect(result).toHaveLength(0);
       expect(tail.isOver()).toBe(true);

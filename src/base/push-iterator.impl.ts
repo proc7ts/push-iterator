@@ -7,17 +7,13 @@ export function PushIterator$iterator<T>(this: T): T {
 }
 
 export function PushIterator$next<T>(this: PushIterator<T>): IteratorResult<T> {
-  for (; ;) {
-
+  for (;;) {
     let result: IteratorYieldResult<T> | undefined;
-    const tail = this[PushIterator__symbol](
-        value => {
-          result = { value };
+    const tail = this[PushIterator__symbol](value => {
+      result = { value };
 
-          return true;
-        },
-        PushIterationMode.Next,
-    );
+      return true;
+    }, PushIterationMode.Next);
 
     if (result) {
       return result;

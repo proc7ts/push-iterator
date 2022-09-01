@@ -16,11 +16,13 @@ describe('itsEmpty', () => {
 
   describe('over raw iterable', () => {
     it('returns `true` for empty iterable', () => {
-      expect(itsEmpty({
-        [Symbol.iterator]: () => ({
-          next: () => ({ done: true, value: 'ok' }),
+      expect(
+        itsEmpty({
+          [Symbol.iterator]: () => ({
+            next: () => ({ done: true, value: 'ok' }),
+          }),
         }),
-      })).toBe(true);
+      ).toBe(true);
     });
     it('returns `false` for non-empty iterable', () => {
       expect(itsEmpty([1].values())).toBe(false);
@@ -38,14 +40,18 @@ describe('itsEmpty', () => {
 
   describe('over iterable with push iterator', () => {
     it('returns `true` for empty iterable', () => {
-      expect(itsEmpty({
-        [Symbol.iterator]: () => iteratorOf(overNone()),
-      })).toBe(true);
+      expect(
+        itsEmpty({
+          [Symbol.iterator]: () => iteratorOf(overNone()),
+        }),
+      ).toBe(true);
     });
     it('returns `false` for non-empty iterable', () => {
-      expect(itsEmpty({
-        [Symbol.iterator]: () => itsIterator([1]),
-      })).toBe(false);
+      expect(
+        itsEmpty({
+          [Symbol.iterator]: () => itsIterator([1]),
+        }),
+      ).toBe(false);
     });
   });
 });

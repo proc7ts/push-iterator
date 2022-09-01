@@ -13,7 +13,6 @@ describe('itsSome', () => {
       expect(itsSome([1, 2, 3], () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome([1, 2, 3], test)).toBe(true);
@@ -22,8 +21,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome([1, 2, 3], test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);
@@ -40,7 +38,6 @@ describe('itsSome', () => {
       expect(itsSome(reverseArray([1, 2, 3]), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element < 3);
 
       expect(itsSome(reverseArray([1, 2, 3]), test)).toBe(true);
@@ -49,8 +46,7 @@ describe('itsSome', () => {
       expect(test).toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element < 3 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element < 3 ? (element as unknown as boolean) : false);
 
       expect(itsSome(reverseArray([1, 2, 3]), test)).toBe(true);
       expect(test).not.toHaveBeenCalledWith(1);
@@ -60,7 +56,6 @@ describe('itsSome', () => {
   });
 
   describe('over indexed', () => {
-
     function testIndexed<T>(...elements: T[]): PushIterable<T> {
       return overIndexed({
         length: elements.length,
@@ -75,7 +70,6 @@ describe('itsSome', () => {
       expect(itsSome(testIndexed(1, 2, 3), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome(testIndexed(1, 2, 3), test)).toBe(true);
@@ -84,8 +78,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome(testIndexed(1, 2, 3), test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);
@@ -99,7 +92,6 @@ describe('itsSome', () => {
       expect(itsSome(iteratorOf(overArray([1, 2, 3])), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome(iteratorOf(overArray([1, 2, 3])), test)).toBe(true);
@@ -108,8 +100,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome(iteratorOf(overArray([1, 2, 3])), test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);
@@ -126,7 +117,6 @@ describe('itsSome', () => {
       expect(itsSome(new Set([1, 2, 3]), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome(new Set([1, 2, 3]), test)).toBe(true);
@@ -135,8 +125,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome(new Set([1, 2, 3]), test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);
@@ -153,7 +142,6 @@ describe('itsSome', () => {
       expect(itsSome(overMany(1, 2, 3), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome(overMany(1, 2, 3), test)).toBe(true);
@@ -162,8 +150,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome(overMany(1, 2, 3), test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);
@@ -177,7 +164,6 @@ describe('itsSome', () => {
       expect(itsSome(iteratorOf(overMany(1, 2, 3)), () => false)).toBe(false);
     });
     it('returns `true` if some element matches', () => {
-
       const test = jest.fn((element: number) => element > 1);
 
       expect(itsSome(iteratorOf(overMany(1, 2, 3)), test)).toBe(true);
@@ -186,8 +172,7 @@ describe('itsSome', () => {
       expect(test).not.toHaveBeenCalledWith(3);
     });
     it('returns `true` if match returned truthy value', () => {
-
-      const test = jest.fn((element: number) => element > 1 ? element as unknown as boolean : false);
+      const test = jest.fn((element: number) => element > 1 ? (element as unknown as boolean) : false);
 
       expect(itsSome(iteratorOf(overMany(1, 2, 3)), test)).toBe(true);
       expect(test).toHaveBeenCalledWith(1);

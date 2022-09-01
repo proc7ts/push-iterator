@@ -5,7 +5,6 @@ import { overMany } from './over-many';
 import { overNone } from './over-none';
 
 describe('overElementsOf', () => {
-
   describe('without sources', () => {
     it('returns `overNone()`', () => {
       expect(overElementsOf()).toBe(overNone());
@@ -20,7 +19,6 @@ describe('overElementsOf', () => {
 
   describe('with many sources', () => {
     it('iterates over elements of raw iterable sources', () => {
-
       const it = overElementsOf(new Set([11, 12]), new Set([13, 14]));
       const result: number[] = [];
 
@@ -29,7 +27,6 @@ describe('overElementsOf', () => {
       expect([...it]).toEqual([11, 12, 13, 14]);
     });
     it('iterates over elements of push iterable sources', () => {
-
       const it = overElementsOf(overMany(11, 12), overMany(13, 14));
       const result: number[] = [];
 

@@ -16,8 +16,8 @@ import { filterIndexed$ } from './filter-indexed.impl';
  * will be returned.
  */
 export function filterArray<T, TTarget extends T>(
-    array: ArrayLike<T>,
-    test: (this: void, element: T) => element is TTarget,
+  array: ArrayLike<T>,
+  test: (this: void, element: T) => element is TTarget,
 ): PushIterable<TTarget>;
 
 /**
@@ -33,13 +33,13 @@ export function filterArray<T, TTarget extends T>(
  * will be returned.
  */
 export function filterArray<T>(
-    array: ArrayLike<T>,
-    test: (this: void, element: T) => boolean,
+  array: ArrayLike<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
 
 export function filterArray<T>(
-    array: ArrayLike<T>,
-    test: (this: void, element: T) => boolean,
+  array: ArrayLike<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
   return makePushIterable(filterIndexed$(array, arrayLike$elementOf, test));
 }

@@ -6,7 +6,6 @@ import type { PushIterable } from './push-iterable';
  * @typeParam T - Iterated elements type.
  */
 export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
-
   [Symbol.iterator](): PushIterator<T>;
 
   /**
@@ -15,11 +14,9 @@ export interface PushIterator<T> extends IterableIterator<T>, PushIterable<T> {
    * @returns `true` is there is nothing to iterate any more, or `false` if iteration is still possible.
    */
   isOver(): boolean;
-
 }
 
 export namespace PushIterator {
-
   /**
    * A signature of iterated elements pusher function conforming to push iteration protocol.
    *
@@ -66,5 +63,4 @@ export namespace PushIterator {
    * @returns `true` to suspend iteration, or `false` to stop it.
    */
   export type StoppingAcceptor<T> = (this: void, element: T) => boolean;
-
 }

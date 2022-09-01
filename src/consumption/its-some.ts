@@ -13,20 +13,19 @@ import { PushIterationMode } from '../push-iteration-mode';
  * otherwise. Returns `false` for empty iterable.
  */
 export function itsSome<T>(
-    iterable: Iterable<T>,
-    test: (this: void, element: T) => boolean,
+  iterable: Iterable<T>,
+  test: (this: void, element: T) => boolean,
 ): boolean {
-
   let someMatches = false;
 
   iterateIt(
-      iterable,
-      (element: T): boolean | void => {
-        someMatches = !!test(element);
+    iterable,
+    (element: T): boolean | void => {
+      someMatches = !!test(element);
 
-        return someMatches ? false : void 0;
-      },
-      PushIterationMode.Only,
+      return someMatches ? false : void 0;
+    },
+    PushIterationMode.Only,
   );
 
   return someMatches;

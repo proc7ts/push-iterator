@@ -33,14 +33,18 @@ describe('itsFirst', () => {
 
   describe('over iterable with push iterator', () => {
     it('returns first iterable element', () => {
-      expect(itsFirst({
-        [Symbol.iterator]: () => iteratorOf(overMany(1, 2, 3)),
-      })).toBe(1);
+      expect(
+        itsFirst({
+          [Symbol.iterator]: () => iteratorOf(overMany(1, 2, 3)),
+        }),
+      ).toBe(1);
     });
     it('returns `undefined` for empty iterable', () => {
-      expect(itsFirst({
-        [Symbol.iterator]: () => iteratorOf(overNone()),
-      })).toBeUndefined();
+      expect(
+        itsFirst({
+          [Symbol.iterator]: () => iteratorOf(overNone()),
+        }),
+      ).toBeUndefined();
     });
   });
 });

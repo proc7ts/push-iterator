@@ -14,25 +14,23 @@ import { PushIterationMode } from '../push-iteration-mode';
  * @returns Either found value or `undefined`.
  */
 export function itsFind<T, TFound>(
-    iterable: Iterable<T>,
-    search: (this: void, element: T) => TFound | false | undefined,
+  iterable: Iterable<T>,
+  search: (this: void, element: T) => TFound | false | undefined,
 ): TFound | undefined {
-
   let find: TFound | undefined;
 
   iterateIt(
-      iterable,
-      (element: T): boolean | void => {
+    iterable,
+    (element: T): boolean | void => {
+      const result = search(element);
 
-        const result = search(element);
+      if (result !== false && result !== undefined) {
+        find = result;
 
-        if (result !== false && result !== undefined) {
-          find = result;
-
-          return false;
-        }
-      },
-      PushIterationMode.Only,
+        return false;
+      }
+    },
+    PushIterationMode.Only,
   );
 
   return find;

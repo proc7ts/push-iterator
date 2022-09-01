@@ -14,7 +14,6 @@ describe('itsEvery', () => {
       expect(itsEvery([1, 2, 3], el => el as unknown as boolean)).toBe(true);
     });
     it('return `false` if some element does not match', () => {
-
       const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery([1, 2, 3], test)).toBe(false);
@@ -35,7 +34,6 @@ describe('itsEvery', () => {
       expect(itsEvery(new Set([1, 2, 3]), el => el as unknown as boolean)).toBe(true);
     });
     it('return `false` if some element does not match', () => {
-
       const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery(new Set([1, 2, 3]), test)).toBe(false);
@@ -56,7 +54,6 @@ describe('itsEvery', () => {
       expect(itsEvery(overArray([1, 2, 3]), el => el as unknown as boolean)).toBe(true);
     });
     it('return `false` if some element does not match', () => {
-
       const test = jest.fn((element: number) => element < 2);
 
       expect(itsEvery(overArray([1, 2, 3]), test)).toBe(false);

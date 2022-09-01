@@ -12,6 +12,6 @@ import { overIterator } from './over-iterator';
  */
 export function overIterable<T>(iterable: Iterable<T>): PushIterable<T> {
   return Array.isArray(iterable)
-      ? overArray<T>(iterable)
-      : overIterator(() => iterable[Symbol.iterator]());
+    ? overArray<T>(iterable)
+    : overIterator(() => iterable[Symbol.iterator]());
 }

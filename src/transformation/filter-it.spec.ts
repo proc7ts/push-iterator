@@ -12,25 +12,27 @@ describe('filterIt', () => {
       expect([...filterIt(new Set([11, 22, 33]), element => element > 11)]).toEqual([22, 33]);
     });
     it('pushes filtered elements', () => {
-      expect(itsElements(filterIt(new Set([11, 22, 33]), element => element > 11))).toEqual([22, 33]);
+      expect(itsElements(filterIt(new Set([11, 22, 33]), element => element > 11))).toEqual([
+        22, 33,
+      ]);
     });
     it('does not filter empty iterable', () => {
       expect([...filterIt(new Set(), () => true)]).toEqual([]);
     });
     it('filters out all elements', () => {
-
       const result: number[] = [];
 
-      expect(iterateIt(
+      expect(
+        iterateIt(
           filterIt(new Set([11, 12, 13]), () => false),
           el => result.push(el),
-      ).isOver()).toBe(true);
+        ).isOver(),
+      ).toBe(true);
       expect(result).toHaveLength(0);
     });
 
     describe('iterator', () => {
       it('resumes filtering', () => {
-
         const it = iteratorOf(filterIt(new Set([11, 22, 33]), element => element > 11));
 
         expect(iterateIt(it, () => true).isOver()).toBe(false);
@@ -39,41 +41,41 @@ describe('filterIt', () => {
         expect([...it]).toHaveLength(0);
       });
       it('resumes pushing', () => {
-
         const it = iteratorOf(filterIt(new Set([11, 22, 33]), element => element > 11));
         const result: number[] = [];
 
         expect(iterateIt(it, () => true).isOver()).toBe(false);
         expect(it.isOver()).toBe(false);
 
-        expect(iterateIt(it, el => {
-          result.push(el);
-        }).isOver()).toBe(true);
+        expect(
+          iterateIt(it, el => {
+            result.push(el);
+          }).isOver(),
+        ).toBe(true);
         expect(it.isOver()).toBe(true);
         expect(result).toEqual([33]);
 
-        expect(iterateIt(it, el => {
-          result.push(el);
-        }).isOver()).toBe(true);
+        expect(
+          iterateIt(it, el => {
+            result.push(el);
+          }).isOver(),
+        ).toBe(true);
         expect(result).toEqual([33]);
       });
 
       describe('isOver', () => {
         it('returns `false` initially', () => {
-
           const it = iteratorOf(filterIt(new Set<number>(), element => element > 11));
 
           expect(it.isOver()).toBe(false);
         });
         it('returns `true` when iteration complete', () => {
-
           const it = iteratorOf(filterIt(new Set<number>(), element => element > 11));
 
           expect(it.next()).toEqual({ done: true });
           expect(it.isOver()).toBe(true);
         });
         it('returns `true` when last element pushed', () => {
-
           const it = iteratorOf(filterIt(new Set<number>(), element => element > 11));
 
           expect(iterateIt(it, () => true).isOver()).toBe(true);
@@ -84,11 +86,9 @@ describe('filterIt', () => {
   });
 
   describe('over raw iterable with push iterator', () => {
-
     let iterable: Iterable<number>;
 
     beforeEach(() => {
-
       const src = overMany(11, 22, 33);
 
       iterable = { [Symbol.iterator]: () => iteratorOf(src) };
@@ -103,7 +103,6 @@ describe('filterIt', () => {
   });
 
   describe('over push iterable', () => {
-
     let iterable: PushIterable<number>;
 
     beforeEach(() => {
@@ -118,7 +117,6 @@ describe('filterIt', () => {
       expect([...filterIt(overNone(), () => true)]).toEqual([]);
     });
     it('resumes filtering', () => {
-
       const it = iteratorOf(iterable);
 
       iterateIt(it, () => true);
@@ -131,21 +129,20 @@ describe('filterIt', () => {
       expect(Array.from(iterable)).toEqual([22, 33]);
     });
     it('handles non-pushing iterations', () => {
-
       let i = 0;
       const it = makePushIterator<string>(accept => {
         ++i;
         switch (i) {
-        case 1:
-        case 2:
-        case 4:
-          return true;
-        case 3:
-          accept('test');
+          case 1:
+          case 2:
+          case 4:
+            return true;
+          case 3:
+            accept('test');
 
-          return true;
-        default:
-          return false;
+            return true;
+          default:
+            return false;
         }
       });
 
@@ -154,7 +151,6 @@ describe('filterIt', () => {
 
     describe('iterator', () => {
       it('resumes filtering', () => {
-
         const it = iteratorOf(iterable);
 
         iterateIt(it, () => true);

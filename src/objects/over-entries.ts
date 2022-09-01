@@ -15,8 +15,5 @@ import { overKeys } from './over-keys';
  * @returns New push iterable of object property entries.
  */
 export function overEntries<TObj extends object>(source: TObj): PushIterable<ObjectEntry<TObj>> {
-  return mapIt(
-      overKeys(source),
-      key => [key, source[key]],
-  );
+  return mapIt(overKeys(source), key => [key, source[key]]);
 }

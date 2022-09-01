@@ -10,5 +10,11 @@ import { PushIterationMode } from '../push-iteration-mode';
  * parameter.
  */
 export function itsEach<T>(iterable: Iterable<T>, action: (this: void, element: T) => void): void {
-  iterateIt(iterable, element => { action(element); }, PushIterationMode.All);
+  iterateIt(
+    iterable,
+    element => {
+      action(element);
+    },
+    PushIterationMode.All,
+  );
 }

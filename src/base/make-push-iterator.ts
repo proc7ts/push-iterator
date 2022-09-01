@@ -12,7 +12,6 @@ import { PushIterator$iterator, PushIterator$next } from './push-iterator.impl';
  * @returns New push iterator instance performing iteration by `forNext` function.
  */
 export function makePushIterator<T>(forNext: PushIterator.Pusher<T>): PushIterator<T> {
-
   let over = false;
   let iterate = (accept?: PushIterator.Acceptor<T>): void => {
     if (accept && !forNext(accept)) {

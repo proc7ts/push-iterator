@@ -1,29 +1,33 @@
 import type { Indexed$Elements } from '../base/indexed.impl';
 import { indexed$process } from '../base/indexed.impl';
-import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import {
+  PushIterator$dontIterate,
+  PushIterator$empty,
+  PushIterator$noNext,
+} from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import { PushIterable, PushIterator__symbol } from '../push-iterable';
 import { PushIterationMode } from '../push-iteration-mode';
 import type { PushIterator } from '../push-iterator';
 
 export function filterIndexed$<TIndexed extends Indexed$Elements, T>(
-    indexed: TIndexed,
-    elementOf: (indexed: TIndexed, index: number) => T,
-    test: (this: void, element: T) => boolean,
+  indexed: TIndexed,
+  elementOf: (indexed: TIndexed, index: number) => T,
+  test: (this: void, element: T) => boolean,
 ): PushIterable.Iterate<T> {
   return (accept, mode: PushIterationMode = PushIterationMode.Some) => {
     if (accept && mode > 0) {
       return indexed$process(
-          indexed,
-          elementOf,
-          element => test(element) ? accept(element) : void 0,
-          mode,
+        indexed,
+        elementOf,
+        element => (test(element) ? accept(element) : void 0),
+        mode,
       );
     }
 
     let i = 0;
     const forNext = (accept: PushIterator.Acceptor<T>): boolean => {
-      for (; ;) {
+      for (;;) {
         if (i >= indexed.length) {
           return false;
         }
@@ -31,7 +35,6 @@ export function filterIndexed$<TIndexed extends Indexed$Elements, T>(
         const value = elementOf(indexed, i++);
 
         if (test(value)) {
-
           const status = accept(value);
 
           if (typeof status === 'boolean') {
@@ -54,7 +57,7 @@ export function filterIndexed$<TIndexed extends Indexed$Elements, T>(
       }
     };
     let next = (): IteratorResult<T> => {
-      for (; ;) {
+      for (;;) {
         if (i >= indexed.length) {
           over = true;
           iterate = PushIterator$dontIterate;

@@ -23,58 +23,45 @@ import type { PushIterator } from '../push-iterator';
  * @returns New push iterable with the element values.
  */
 export function valueIt<T, TValue = T>(
-    source: Iterable<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
+  source: Iterable<T>,
+  valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterable<TValue> {
-  return makePushIterable((
-      accept,
-      mode = PushIterationMode.Some,
-  ): PushIterator<TValue> => {
+  return makePushIterable((accept, mode = PushIterationMode.Some): PushIterator<TValue> => {
     if (accept && mode > 0) {
-
       const acceptElement = (element: T): boolean | void => {
-
         const value = valueOf(element);
 
-        return value != null && value !== false
-            ? accept(value)
-            : void 0;
+        return value != null && value !== false ? accept(value) : void 0;
       };
 
       return isPushIterable(source)
-          ? source[PushIterator__symbol](acceptElement, mode) as PushIterator<never> // Iteration over.
-          : iterable$process<T, TValue>(source, acceptElement, mode);
+        ? (source[PushIterator__symbol](acceptElement, mode) as PushIterator<never>) // Iteration over.
+        : iterable$process<T, TValue>(source, acceptElement, mode);
     }
 
     const forNext = isPushIterable(source)
-        ? valueIt$(source, valueOf)
-        : valueIt$raw(source, valueOf);
+      ? valueIt$(source, valueOf)
+      : valueIt$raw(source, valueOf);
 
-    return accept && !forNext(accept)
-        ? PushIterator$empty
-        : makePushIterator(forNext);
+    return accept && !forNext(accept) ? PushIterator$empty : makePushIterator(forNext);
   });
 }
 
 function valueIt$<T, TValue>(
-    source: PushIterable<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
+  source: PushIterable<T>,
+  valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterator.Pusher<TValue> {
   return accept => !(source = source[PushIterator__symbol](element => {
+      const value = valueOf(element);
 
-    const value = valueOf(element);
-
-    return value != null && value !== false
-        ? accept(value)
-        : void 0;
-  })).isOver();
+      return value != null && value !== false ? accept(value) : void 0;
+    })).isOver();
 }
 
 function valueIt$raw<T, TValue>(
-    source: Iterable<T>,
-    valueOf: (this: void, element: T) => TValue | false | null | undefined,
+  source: Iterable<T>,
+  valueOf: (this: void, element: T) => TValue | false | null | undefined,
 ): PushIterator.Pusher<TValue> {
-
   const it = source[Symbol.iterator]();
 
   if (isPushIterable(it)) {
@@ -82,8 +69,7 @@ function valueIt$raw<T, TValue>(
   }
 
   return accept => {
-    for (; ;) {
-
+    for (;;) {
       const next = it.next();
 
       if (next.done) {
@@ -93,7 +79,6 @@ function valueIt$raw<T, TValue>(
       const value = valueOf(next.value);
 
       if (value != null && value !== false) {
-
         const status = accept(value);
 
         if (typeof status === 'boolean') {

@@ -1,5 +1,9 @@
 import { makePushIterable } from '../base';
-import { PushIterator$dontIterate, PushIterator$empty, PushIterator$noNext } from '../base/push-iterator.empty.impl';
+import {
+  PushIterator$dontIterate,
+  PushIterator$empty,
+  PushIterator$noNext,
+} from '../base/push-iterator.empty.impl';
 import { PushIterator$iterator } from '../base/push-iterator.impl';
 import type { PushIterable } from '../push-iterable';
 import { PushIterator__symbol } from '../push-iterable';
@@ -20,8 +24,8 @@ export function reverseArray<T>(array: ArrayLike<T>): PushIterable<T> {
 
 function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
   return (
-      accept?: PushIterator.Acceptor<T>,
-      mode: PushIterationMode = PushIterationMode.Some,
+    accept?: PushIterator.Acceptor<T>,
+    mode: PushIterationMode = PushIterationMode.Some,
   ): PushIterator<T> => {
     if (accept && mode > 0) {
       return reverseArray$process(array, accept, mode);
@@ -33,8 +37,7 @@ function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
         return false;
       }
 
-      for (; ;) {
-
+      for (;;) {
         const status = accept(array[i--]);
 
         if (i < 0) {
@@ -84,9 +87,9 @@ function reverseArray$iterate<T>(array: ArrayLike<T>): PushIterable.Iterate<T> {
 }
 
 function reverseArray$process<T>(
-    array: ArrayLike<T>,
-    accept: PushIterator.Acceptor<T>,
-    mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
+  array: ArrayLike<T>,
+  accept: PushIterator.Acceptor<T>,
+  mode: PushIterationMode /* PushIterationMode.Only | PushIterationMode.All */,
 ): PushIterator<T> {
   if (mode === PushIterationMode.All) {
     for (let i = array.length - 1; i >= 0; --i) {

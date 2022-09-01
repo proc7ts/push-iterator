@@ -16,7 +16,7 @@ export function benchSetup(inputSize: number, ..._other: readonly any[]): void {
 
 export function benchOut(result: string): void {
   benchOutput[benchOutputIndex] = result;
-  benchOutputIndex = (benchOutputIndex + 1) & 0xFF;
+  benchOutputIndex = (benchOutputIndex + 1) & 0xff;
 }
 
 export function *benchGenerator(): IterableIterator<string> {
@@ -25,8 +25,7 @@ export function *benchGenerator(): IterableIterator<string> {
   }
 }
 
-export function benchArray(): string [] {
-
+export function benchArray(): string[] {
   const array: string[] = [];
 
   array.length = benchInput.length;
@@ -39,20 +38,16 @@ export function benchArray(): string [] {
 
 export function benchIterable(): Iterable<string> {
   return {
-
     [Symbol.iterator]: () => {
-
       const it = benchInput[Symbol.iterator]();
 
       return {
         next() {
-
           const { done, value } = it.next();
 
           return done ? { done: true, value: undefined } : { value };
         },
       };
     },
-
   };
 }

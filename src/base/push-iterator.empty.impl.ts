@@ -17,8 +17,8 @@ export function PushIterator$noNext<T>(): IteratorReturnResult<T> {
 }
 
 export function PushIterator$dontIterate<T>(
-    _accept?: PushIterator.Acceptor<T>,
-    _mode?: PushIterationMode,
+  _accept?: PushIterator.Acceptor<T>,
+  _mode?: PushIterationMode,
 ): void {
   // Do not iterate
 }

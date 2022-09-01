@@ -5,7 +5,6 @@ import { itsElements } from '../consumption';
 import { reverseArray } from './reverse-array';
 
 describe('reverseArray', () => {
-
   let array: string[];
   let reversed: string[];
   let result: string[];
@@ -17,42 +16,48 @@ describe('reverseArray', () => {
   });
 
   it('iterates over array elements', () => {
-    expect(iterateIt(reverseArray(array), element => {
-      result.push(element);
-    }).isOver()).toBe(true);
+    expect(
+      iterateIt(reverseArray(array), element => {
+        result.push(element);
+      }).isOver(),
+    ).toBe(true);
     expect(result).toEqual(reversed);
   });
   it('pushes array elements', () => {
-    expect(iterateIt(reverseArray(array), element => {
-      result.push(element);
-    }).isOver()).toBe(true);
+    expect(
+      iterateIt(reverseArray(array), element => {
+        result.push(element);
+      }).isOver(),
+    ).toBe(true);
     expect(result).toEqual(reversed);
   });
 
   describe('iterator', () => {
     it('iterates over elements', () => {
-
       const it = iteratorOf(reverseArray(array));
 
       expect([...it]).toEqual(reversed);
       expect([...it]).toHaveLength(0);
     });
     it('resumes iteration', () => {
-
       const it = iteratorOf(reverseArray(array));
 
       expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(iterateIt(it, element => {
-        result.push(element);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, element => {
+          result.push(element);
+        }).isOver(),
+      ).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual(reversed.slice(1));
 
-      expect(iterateIt(it, element => {
-        result.push(element);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, element => {
+          result.push(element);
+        }).isOver(),
+      ).toBe(true);
       expect(result).toEqual(reversed.slice(1));
       expect([...it]).toHaveLength(0);
     });
@@ -60,7 +65,6 @@ describe('reverseArray', () => {
 
   describe('over empty array', () => {
     it('does not iterate', () => {
-
       const it = iteratorOf(reverseArray([]));
 
       expect(it.isOver()).toBe(false);
@@ -69,7 +73,6 @@ describe('reverseArray', () => {
       expect(it.isOver()).toBe(true);
     });
     it('does not push elements', () => {
-
       const it = iteratorOf(reverseArray([]));
 
       expect(it.isOver()).toBe(false);

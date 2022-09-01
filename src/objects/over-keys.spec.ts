@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it } from '@jest/globals';
 import { overKeys } from './over-keys';
 
 describe('overKeys', () => {
-
   let obj: Record<PropertyKey, unknown>;
 
   beforeEach(() => {
@@ -14,7 +13,6 @@ describe('overKeys', () => {
   });
 
   it('iterates over own object keys', () => {
-
     const keys = [...overKeys(obj)];
 
     expect(keys).toContain('a');

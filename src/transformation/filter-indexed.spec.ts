@@ -5,11 +5,9 @@ import { itsElements, itsIterator } from '../consumption';
 import { filterIndexed } from './filter-indexed';
 
 describe('filterIndexed', () => {
-
   let list: IndexedItemList<number>;
 
   beforeEach(() => {
-
     const array = [11, 22, 33];
 
     list = {
@@ -29,7 +27,6 @@ describe('filterIndexed', () => {
 
   describe('iterator', () => {
     it('resumes filtering', () => {
-
       const it = itsIterator(filterIndexed(list, element => element > 11));
 
       expect(iterateIt(it, () => true).isOver()).toBe(false);
@@ -41,22 +38,25 @@ describe('filterIndexed', () => {
       expect([...it]).toHaveLength(0);
     });
     it('resumes pushing', () => {
-
       const it = itsIterator(filterIndexed(list, element => element > 11));
       const result: number[] = [];
 
       expect(iterateIt(it, () => true).isOver()).toBe(false);
       expect(it.isOver()).toBe(false);
 
-      expect(iterateIt(it, el => {
-        result.push(el);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, el => {
+          result.push(el);
+        }).isOver(),
+      ).toBe(true);
       expect(it.isOver()).toBe(true);
       expect(result).toEqual([33]);
 
-      expect(iterateIt(it, el => {
-        result.push(el);
-      }).isOver()).toBe(true);
+      expect(
+        iterateIt(it, el => {
+          result.push(el);
+        }).isOver(),
+      ).toBe(true);
       expect(result).toEqual([33]);
     });
   });

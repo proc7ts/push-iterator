@@ -19,7 +19,6 @@ export function overIterator<T>(iterate: (this: void) => Iterator<T>): PushItera
 
 function overIterator$iterate<T>(iterate: (this: void) => Iterator<T>): PushIterable.Iterate<T> {
   return (accept, mode = PushIterationMode.Some) => {
-
     const it = iterate();
 
     if (isPushIterable(it)) {
@@ -28,8 +27,6 @@ function overIterator$iterate<T>(iterate: (this: void) => Iterator<T>): PushIter
 
     const forNext = iterator$pusher(it);
 
-    return accept && !forNext(accept)
-        ? PushIterator$empty
-        : iterator$convert(it, forNext);
+    return accept && !forNext(accept) ? PushIterator$empty : iterator$convert(it, forNext);
   };
 }

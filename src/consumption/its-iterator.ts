@@ -11,10 +11,7 @@ import type { PushIterator } from '../push-iterator';
  * @returns A push iterator iterating over the given iterable.
  */
 export function itsIterator<T>(iterable: Iterable<T>): PushIterator<T> {
-
   const it = iterable[Symbol.iterator]();
 
-  return isPushIterable(it)
-      ? it
-      : iterator$convert(it, iterator$pusher(it));
+  return isPushIterable(it) ? it : iterator$convert(it, iterator$pusher(it));
 }

@@ -5,7 +5,6 @@
  * {@link PushIterator.Acceptor element acceptor} shall do, and can be used to optimize the iteration algorithm.
  */
 export const enum PushIterationMode {
-
   /**
    * Push the next element if exists, then suspend or abort.
    *
@@ -35,5 +34,4 @@ export const enum PushIterationMode {
    * in this mode.
    */
   All = 2,
-
 }

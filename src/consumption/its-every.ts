@@ -13,20 +13,19 @@ import { PushIterationMode } from '../push-iteration-mode';
  * Returns `true` for empty iterable.
  */
 export function itsEvery<T>(
-    iterable: Iterable<T>,
-    test: (this: void, element: T) => boolean,
+  iterable: Iterable<T>,
+  test: (this: void, element: T) => boolean,
 ): boolean {
-
   let allMatch = true;
 
   iterateIt(
-      iterable,
-      (element: T): boolean | void => {
-        allMatch = !!test(element);
+    iterable,
+    (element: T): boolean | void => {
+      allMatch = !!test(element);
 
-        return allMatch ? void 0 : false;
-      },
-      PushIterationMode.Only,
+      return allMatch ? void 0 : false;
+    },
+    PushIterationMode.Only,
   );
 
   return allMatch;

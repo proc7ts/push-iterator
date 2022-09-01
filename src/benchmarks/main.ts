@@ -14,7 +14,6 @@ run().catch((event: Benchmark.Event & { target: { error?: unknown } }) => {
 });
 
 async function run(): Promise<void> {
-
   await runSuites(arrayIterationSuite(INPUT_SIZES));
   await runSuites(iterableIterationSuite(INPUT_SIZES));
 
@@ -46,7 +45,6 @@ async function run(): Promise<void> {
   await runSuites(iterableFlatMapSuite(1, INPUT_SIZES));
   await runSuites(iterableFlatMapSuite(4, INPUT_SIZES));
   await runSuites(iterableFlatMapSuite(32, INPUT_SIZES));
-
 }
 
 function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
@@ -55,7 +53,6 @@ function runSuites(suites: readonly Benchmark.Suite[]): Promise<unknown> {
 
 function runSuite(suite: Benchmark.Suite): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-
     const results: Result[] = [];
 
     const options: Benchmark.Options = {
@@ -64,30 +61,26 @@ function runSuite(suite: Benchmark.Suite): Promise<void> {
     };
 
     suite.on('start', ({ currentTarget: { name } }: any) => console.log(`\n${name}`));
-    suite.on(
-        'cycle',
-        ({ target: { name, hz, stats = {} as Benchmark.Stats } }: Benchmark.Event) => results.push({
-          name,
-          Hz: hz!,
-          MoE: `±${Number(stats.rme).toFixed(2)}%`,
-          '# sampled': stats.sample.length,
-        }),
-    );
+    suite.on('cycle', ({ target: { name, hz, stats = {} as Benchmark.Stats } }: Benchmark.Event) => results.push({
+        name,
+        Hz: hz!,
+        MoE: `±${Number(stats.rme).toFixed(2)}%`,
+        '# sampled': stats.sample.length,
+      }));
     suite.on('complete', function (this: Benchmark.Suite) {
-
       results.sort((a, b) => b.Hz - a.Hz);
 
       const highestHz = results[0].Hz;
 
       console.table(
-          results
-              .map(result => ({
-                ...result,
-                Hz: Math.round(result.Hz).toLocaleString(),
-                'x slower': Math.round((10 ** PRECISION * highestHz) / result.Hz) / 10 ** PRECISION,
-              }))
-              .sort((a, b) => a.INPUT_SIZE! - b.INPUT_SIZE!)
-              .reduce<AccResult>((acc, { name, ...cur }) => ({ ...acc, [name!]: cur }), {}),
+        results
+          .map(result => ({
+            ...result,
+            Hz: Math.round(result.Hz).toLocaleString(),
+            'x slower': Math.round((10 ** PRECISION * highestHz) / result.Hz) / 10 ** PRECISION,
+          }))
+          .sort((a, b) => a.INPUT_SIZE! - b.INPUT_SIZE!)
+          .reduce<AccResult>((acc, { name, ...cur }) => ({ ...acc, [name!]: cur }), {}),
       );
 
       console.log('Fastest is', this.filter('fastest').map('name'));

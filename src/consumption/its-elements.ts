@@ -33,11 +33,14 @@ export function itsElements<T>(source: Iterable<T>): T[];
  *
  * @returns New array of elements converted from `source` ones.
  */
-export function itsElements<T, TConv>(source: Iterable<T>, convert: (this: void, element: T) => TConv): TConv[];
+export function itsElements<T, TConv>(
+  source: Iterable<T>,
+  convert: (this: void, element: T) => TConv,
+): TConv[];
 
 export function itsElements<T, TConv>(
-    source: Iterable<T>,
-    convert?: (this: void, element: T) => TConv,
+  source: Iterable<T>,
+  convert?: (this: void, element: T) => TConv,
 ): TConv[] {
   if (isPushIterable(source)) {
     return itsElements$(source, convert);
@@ -46,20 +49,21 @@ export function itsElements<T, TConv>(
   const it = source[Symbol.iterator]();
 
   return isPushIterable(it)
-      ? itsElements$(it, convert)
-      : convert
-          ? Array.from(source, convert)
-          : [...source] as unknown[] as TConv[];
+    ? itsElements$(it, convert)
+    : convert
+    ? Array.from(source, convert)
+    : ([...source] as unknown[] as TConv[]);
 }
 
 function itsElements$<T, TConv>(
-    it: PushIterable<T>,
-    convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
+  it: PushIterable<T>,
+  convert: (this: void, element: T) => TConv = itsElements$defaultConverter,
 ): TConv[] {
-
   const result: TConv[] = [];
 
-  it[PushIterator__symbol](element => { result.push(convert(element)); }, PushIterationMode.All);
+  it[PushIterator__symbol](element => {
+    result.push(convert(element));
+  }, PushIterationMode.All);
 
   return result;
 }

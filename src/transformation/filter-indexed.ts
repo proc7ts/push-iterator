@@ -17,8 +17,8 @@ import { filterIndexed$ } from './filter-indexed.impl';
  * will be returned.
  */
 export function filterIndexed<T, TTarget extends T>(
-    indexed: IndexedItemList<T>,
-    test: (this: void, element: T) => element is TTarget,
+  indexed: IndexedItemList<T>,
+  test: (this: void, element: T) => element is TTarget,
 ): PushIterable<TTarget>;
 
 /**
@@ -34,13 +34,13 @@ export function filterIndexed<T, TTarget extends T>(
  * will be returned.
  */
 export function filterIndexed<T>(
-    indexed: IndexedItemList<T>,
-    test: (this: void, element: T) => boolean,
+  indexed: IndexedItemList<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T>;
 
 export function filterIndexed<T>(
-    indexed: IndexedItemList<T>,
-    test: (this: void, element: T) => boolean,
+  indexed: IndexedItemList<T>,
+  test: (this: void, element: T) => boolean,
 ): PushIterable<T> {
   return makePushIterable(filterIndexed$(indexed, indexed$itemOf, test));
 }

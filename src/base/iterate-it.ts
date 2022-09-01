@@ -23,9 +23,9 @@ import { PushIterator$empty } from './push-iterator.empty.impl';
  * iteration with, unless `accept` returned `false`. In the latter case the further iteration won't be possible.
  */
 export function iterateIt<T>(
-    iterable: Iterable<T>,
-    accept: PushIterator.Acceptor<T>,
-    mode: PushIterationMode = PushIterationMode.Some,
+  iterable: Iterable<T>,
+  accept: PushIterator.Acceptor<T>,
+  mode: PushIterationMode = PushIterationMode.Some,
 ): PushIterator<T> {
   if (isPushIterable(iterable)) {
     return iterable[PushIterator__symbol](accept, mode);
@@ -38,19 +38,21 @@ export function iterateIt<T>(
 }
 
 function iterateIt$array<T>(
-    array: readonly T[],
-    accept: PushIterator.Acceptor<T>,
-    mode: PushIterationMode,
+  array: readonly T[],
+  accept: PushIterator.Acceptor<T>,
+  mode: PushIterationMode,
 ): PushIterator<T> {
   return array.length
-      ? (mode > 0 ? arrayLike$process(array, accept, mode) : arrayLike$some(array, accept))
-      : PushIterator$empty;
+    ? mode > 0
+      ? arrayLike$process(array, accept, mode)
+      : arrayLike$some(array, accept)
+    : PushIterator$empty;
 }
 
 function iterateIt$raw<T>(
-    iterable: Iterable<T>,
-    accept: PushIterator.Acceptor<T>,
-    mode: PushIterationMode,
+  iterable: Iterable<T>,
+  accept: PushIterator.Acceptor<T>,
+  mode: PushIterationMode,
 ): PushIterator<T> {
   if (mode > 0) {
     return iterable$process(iterable, accept, mode);
@@ -64,7 +66,5 @@ function iterateIt$raw<T>(
 
   const forEach = iterator$pusher(it);
 
-  return forEach(accept)
-      ? iterator$convert(it, forEach)
-      : PushIterator$empty;
+  return forEach(accept) ? iterator$convert(it, forEach) : PushIterator$empty;
 }

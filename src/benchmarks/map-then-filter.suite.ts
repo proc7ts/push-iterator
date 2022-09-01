@@ -9,203 +9,149 @@ import { benchFilter, FilterBenchFactory, filterIterable, generatorFilter } from
 import { generatorMap, mapIterable } from './map.suite';
 
 export function arrayMapThenFilterSuite(
-    rate: number,
-    outOf: number,
-    inputSizes: readonly number[],
+  rate: number,
+  outOf: number,
+  inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
   return new FilterBenchFactory()
-      .add(
-          'for ... of [...].map(...).filter(...)',
-          () => {
-            for (const element of benchInput.map(el => el + '!').filter(el => benchFilter(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of *generatorFilter(*generatorMap([...]))',
-          () => {
-            for (const element of generatorFilter(
-                generatorMap(benchInput, el => el + '!'),
-                el => benchFilter(el),
-            )) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of filterIterable(mapIterable([...]))',
-          () => {
-            for (const element of filterIterable(
-                mapIterable(benchInput, el => el + '!'),
-                el => benchFilter(el),
-            )) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'itsEach(filterIt(mapIt([...])))',
-          () => {
-            itsEach(
-                filterIt(
-                    mapIt(benchInput, el => el + '!'),
-                    el => benchFilter(el),
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(valueIt([...]))',
-          () => {
-            itsEach(
-                valueIt(benchInput, el => benchFilter(el) && el + '!'),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(filterIt(mapArray([...])))',
-          () => {
-            itsEach(
-                filterIt(
-                    mapArray(benchInput, el => el + '!'),
-                    el => benchFilter(el),
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(valueArray([...]))',
-          () => {
-            itsEach(
-                valueArray(benchInput, el => benchFilter(el) && el + '!'),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(thruIt([...]))',
-          () => {
-            itsEach(
-                thruIt(
-                    benchInput,
-                    el => {
+    .add('for ... of [...].map(...).filter(...)', () => {
+      for (const element of benchInput.map(el => el + '!').filter(el => benchFilter(el))) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of *generatorFilter(*generatorMap([...]))', () => {
+      for (const element of generatorFilter(
+        generatorMap(benchInput, el => el + '!'),
+        el => benchFilter(el),
+      )) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of filterIterable(mapIterable([...]))', () => {
+      for (const element of filterIterable(
+        mapIterable(benchInput, el => el + '!'),
+        el => benchFilter(el),
+      )) {
+        benchOut(element);
+      }
+    })
+    .add('itsEach(filterIt(mapIt([...])))', () => {
+      itsEach(
+        filterIt(
+          mapIt(benchInput, el => el + '!'),
+          el => benchFilter(el),
+        ),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(valueIt([...]))', () => {
+      itsEach(
+        valueIt(benchInput, el => benchFilter(el) && el + '!'),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(filterIt(mapArray([...])))', () => {
+      itsEach(
+        filterIt(
+          mapArray(benchInput, el => el + '!'),
+          el => benchFilter(el),
+        ),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(valueArray([...]))', () => {
+      itsEach(
+        valueArray(benchInput, el => benchFilter(el) && el + '!'),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(thruIt([...]))', () => {
+      itsEach(
+        thruIt(benchInput, el => {
+          const converted = el + '!';
 
-                      const converted = el + '!';
-
-                      return benchFilter(converted) ? converted : nextSkip;
-                    },
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .suites('Array map then filter', inputSizes.map(inputSize => [inputSize, rate, outOf]));
+          return benchFilter(converted) ? converted : nextSkip;
+        }),
+        element => benchOut(element),
+      );
+    })
+    .suites(
+      'Array map then filter',
+      inputSizes.map(inputSize => [inputSize, rate, outOf]),
+    );
 }
 
 export function iterableMapThenFilterSuite(
-    rate: number,
-    outOf: number,
-    inputSizes: readonly number[],
+  rate: number,
+  outOf: number,
+  inputSizes: readonly number[],
 ): readonly Benchmark.Suite[] {
   return new FilterBenchFactory()
-      .add(
-          'for ... of buildArray().map(...).filter(...)',
-          () => {
-            for (const element of benchArray().map(el => el + '!').filter(el => benchFilter(el))) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of *generatorFilter(*generatorMap(iterable))',
-          () => {
-            for (const element of generatorFilter(
-                generatorMap(benchIterable(), el => el + '!'),
-                el => benchFilter(el),
-            )) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'for ... of filterIterable(mapIterable(iterable))',
-          () => {
-            for (const element of filterIterable(
-                mapIterable(benchIterable(), el => el + '!'),
-                el => benchFilter(el),
-            )) {
-              benchOut(element);
-            }
-          },
-      )
-      .add(
-          'itsEach(filterIt(mapIt(overArray([...]))))',
-          () => {
-            itsEach(
-                filterIt(
-                    mapIt(overArray(benchInput), (el: string) => el + '!'),
-                    el => benchFilter(el),
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(valueIt(overArray([...])))',
-          () => {
-            itsEach(
-                valueIt(
-                    overArray(benchInput),
-                    (el: string) => benchFilter(el) && el + '!',
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(filterIt(mapIt(iterable)))',
-          () => {
-            itsEach(
-                filterIt(
-                    mapIt(benchIterable(), el => el + '!'),
-                    el => benchFilter(el),
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(valueIt(iterable))',
-          () => {
-            itsEach(
-                valueIt(
-                    benchIterable(),
-                    el => benchFilter(el) && el + '!',
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .add(
-          'itsEach(thruIt(iterable))',
-          () => {
-            itsEach(
-                thruIt(
-                    benchIterable(),
-                    el => {
+    .add('for ... of buildArray().map(...).filter(...)', () => {
+      for (const element of benchArray()
+        .map(el => el + '!')
+        .filter(el => benchFilter(el))) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of *generatorFilter(*generatorMap(iterable))', () => {
+      for (const element of generatorFilter(
+        generatorMap(benchIterable(), el => el + '!'),
+        el => benchFilter(el),
+      )) {
+        benchOut(element);
+      }
+    })
+    .add('for ... of filterIterable(mapIterable(iterable))', () => {
+      for (const element of filterIterable(
+        mapIterable(benchIterable(), el => el + '!'),
+        el => benchFilter(el),
+      )) {
+        benchOut(element);
+      }
+    })
+    .add('itsEach(filterIt(mapIt(overArray([...]))))', () => {
+      itsEach(
+        filterIt(
+          mapIt(overArray(benchInput), (el: string) => el + '!'),
+          el => benchFilter(el),
+        ),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(valueIt(overArray([...])))', () => {
+      itsEach(
+        valueIt(overArray(benchInput), (el: string) => benchFilter(el) && el + '!'),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(filterIt(mapIt(iterable)))', () => {
+      itsEach(
+        filterIt(
+          mapIt(benchIterable(), el => el + '!'),
+          el => benchFilter(el),
+        ),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(valueIt(iterable))', () => {
+      itsEach(
+        valueIt(benchIterable(), el => benchFilter(el) && el + '!'),
+        element => benchOut(element),
+      );
+    })
+    .add('itsEach(thruIt(iterable))', () => {
+      itsEach(
+        thruIt(benchIterable(), el => {
+          const converted = el + '!';
 
-                      const converted = el + '!';
-
-                      return benchFilter(converted) ? converted : nextSkip;
-                    },
-                ),
-                element => benchOut(element),
-            );
-          },
-      )
-      .suites('Iterable map then filter', inputSizes.map(inputSize => [inputSize, rate, outOf]));
+          return benchFilter(converted) ? converted : nextSkip;
+        }),
+        element => benchOut(element),
+      );
+    })
+    .suites(
+      'Iterable map then filter',
+      inputSizes.map(inputSize => [inputSize, rate, outOf]),
+    );
 }

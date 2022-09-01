@@ -27,25 +27,27 @@ export function flatMapIndexed<T>(indexed: IndexedItemList<Iterable<T>>): PushIt
  * @returns New push iterable with each element being the flattened result of the `convert` function call.
  */
 export function flatMapIndexed<TSrc, TConv>(
-    indexed: IndexedItemList<TSrc>,
-    convert: (this: void, element: TSrc) => Iterable<TConv>,
+  indexed: IndexedItemList<TSrc>,
+  convert: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv>;
 
 export function flatMapIndexed<TSrc, TConv>(
-    indexed: IndexedItemList<TSrc>,
-    convert?: (this: void, element: TSrc) => Iterable<TConv>,
+  indexed: IndexedItemList<TSrc>,
+  convert?: (this: void, element: TSrc) => Iterable<TConv>,
 ): PushIterable<TConv> {
-  return makePushIterable(flatMapIndexed$<IndexedItemList<TSrc>, TConv>(
+  return makePushIterable(
+    flatMapIndexed$<IndexedItemList<TSrc>, TConv>(
       indexed,
       convert
-          ? (indexed, index) => convert(indexed.item(index) as TSrc)
-          : flatMapIndexed$defaultElementOf,
-  ));
+        ? (indexed, index) => convert(indexed.item(index) as TSrc)
+        : flatMapIndexed$defaultElementOf,
+    ),
+  );
 }
 
 function flatMapIndexed$defaultElementOf<TSrc, TConv>(
-    indexed: IndexedItemList<TSrc>,
-    index: number,
+  indexed: IndexedItemList<TSrc>,
+  index: number,
 ): Iterable<TConv> {
   return indexed.item(index) as unknown as Iterable<TConv>;
 }
