@@ -353,8 +353,8 @@ export function thruIt<T, TReturn>(
 
     ++index;
 
-    const pass
-      = index < passes.length
+    const pass =
+      index < passes.length
         ? passes[index]
         : () => {
             /* empty pass */
