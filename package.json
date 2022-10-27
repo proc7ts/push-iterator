@@ -39,7 +39,7 @@
     "@run-z/eslint-config": "^3.3.0",
     "@run-z/rollup-helpers": "^2.1.0",
     "@types/benchmark": "^2.1.2",
-    "@types/node": "^16.18.0",
+    "@types/node": "^18.11.7",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "benchmark": "^2.1.4",
