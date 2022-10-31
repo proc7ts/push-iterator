@@ -14,7 +14,7 @@
     "importHelpers": true,
     "noEmitHelpers": true,
     "lib": ["ES2019"],
-    "types": ["benchmark", "node"],
+    "types": ["benchmark"],
     "outDir": "target/js",
     "sourceMap": true,
     "newLine": "LF"
