@@ -19,11 +19,23 @@
     "url": "https://github.com/proc7ts/push-iterator/issues"
   },
   "type": "module",
-  "main": "./dist/push-iterator.js",
-  "types": "./index.d.ts",
+  "types": "./dist/push-iterator.d.ts",
+  "typesVersions": {
+    "*": {
+      "call-thru": [
+        "./dist/push-iterator.call-thru.d.ts"
+      ]
+    }
+  },
   "exports": {
-    ".": "./dist/push-iterator.js",
-    "./call-thru": "./dist/push-iterator.call-thru.js"
+    ".": {
+      "types": "./dist/push-iterator.d.ts",
+      "default": "./dist/push-iterator.js"
+    },
+    "./call-thru": {
+      "type": "./dist/push-iterator.call-thru.d.ts",
+      "default": "./dist/push-iterator.call-thru.js"
+    }
   },
   "peerDependencies": {
     "@proc7ts/call-thru": "^4.4.0"
@@ -36,8 +48,13 @@
   "devDependencies": {
     "@jest/globals": "^29.4.0",
     "@proc7ts/call-thru": "^4.4.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@run-z/eslint-config": "^3.3.1",
-    "@run-z/rollup-helpers": "^2.1.0",
+    "@run-z/prettier-config": "^2.0.0",
+    "@run-z/project-config": "^0.15.0",
+    "@swc/core": "^1.3.28",
+    "@swc/jest": "^0.2.24",
     "@types/benchmark": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
     "@typescript-eslint/parser": "^5.49.0",
@@ -51,10 +68,9 @@
     "prettier": "^2.8.3",
     "prettier-eslint-cli": "^7.1.0",
     "rollup": "^3.10.1",
-    "rollup-plugin-flat-dts": "^2.0.2",
-    "rollup-plugin-typescript2": "^0.34.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-unbundle": "^0.2.3",
     "run-z": "1.11.0-bootstrap",
-    "shx": "^0.3.4",
     "ts-jest": "^29.0.5",
     "tslib": "^2.4.1",
     "typedoc": "^0.23.24",
@@ -68,15 +84,15 @@
     "benchmark:record:node12": "LANG=C FORCE_COLOR=0 npx -q node@12 ./target/benchmark.js > ./benchmarks/node12.txt",
     "benchmark:record:node14": "LANG=C FORCE_COLOR=0 npx -q node@14 ./target/benchmark.js > ./benchmarks/node14.txt",
     "benchmark:record:node16": "LANG=C FORCE_COLOR=0 npx -q node@16 ./target/benchmark.js > ./benchmarks/node16.txt",
-    "bootstrap": "rollup -c",
+    "bootstrap": "build-z",
     "build": "run-z +z bootstrap",
     "ci:all": "run-z all +test/--ci/--runInBand",
-    "clean": "run-z +z --then shx rm -rf \"index.d.ts?(.map)\" \"*/index.d.ts?(.map)\" dist target",
+    "clean": "run-z +z --then clean-z",
     "doc": "run-z +z --then typedoc",
     "doc:publish": "run-z doc --then gh-pages --dist target/typedoc --dotfiles",
     "format": "run-z +z --then prettier-eslint --write --include-dot-files \"src/**/*.*\" \"*.{js,cjs,json,md}\"",
     "lint": "run-z +z --then eslint .",
-    "test": "run-z +z env:NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" --then jest",
-    "z": "run-z +cmd:rollup,+cmd:typedoc,+cmd:eslint,+cmd:jest"
+    "test": "run-z +z env:NODE_OPTIONS=\"--experimental-vm-modules --no-warnings\" --then test-z",
+    "z": "run-z +cmd:rollup,+cmd,+cmd:typedoc,+cmd:eslint,+cmd:jest"
   }
 }

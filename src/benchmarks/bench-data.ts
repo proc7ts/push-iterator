@@ -10,7 +10,7 @@ export function benchSetup(inputSize: number, ..._other: readonly any[]): void {
   benchOutputIndex = 0;
   benchInput.length = inputSize;
   for (let i = 0; i < inputSize; ++i) {
-    benchInput[i] = Math.random().toString(36).substr(2);
+    benchInput[i] = Math.random().toString(36).slice(2);
   }
 }
 

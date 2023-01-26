@@ -1,25 +1,27 @@
-import commonjs from '@rollup/plugin-commonjs';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import { externalModules } from '@run-z/rollup-helpers';
+import ts from '@rollup/plugin-typescript';
+import { createRequire } from 'node:module';
 import { defineConfig } from 'rollup';
 import sourcemaps from 'rollup-plugin-sourcemaps';
-import ts from 'rollup-plugin-typescript2';
+import unbundle from 'rollup-plugin-unbundle';
 import typescript from 'typescript';
+
+const req = createRequire(import.meta.url);
+const pkg = req('./package.json');
 
 export default defineConfig({
   input: './src/benchmarks/main.ts',
   plugins: [
-    commonjs(),
+    nodeResolve(),
     ts({
       typescript,
       tsconfig: 'tsconfig.benchmark.json',
-      cacheRoot: 'target/.rts2_cache',
-      useTsconfigDeclarationDir: true,
+      cacheDir: 'target/benchmark/.rts_cache',
     }),
-    nodeResolve(),
+    unbundle(),
     sourcemaps(),
   ],
-  external: externalModules(),
+  external: [...Object.keys(pkg.devDependencies)],
   output: {
     format: 'esm',
     sourcemap: true,
