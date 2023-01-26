@@ -1,11 +1,25 @@
-<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Push Iterator</title><meta name="description" content="Documentation for Push Iterator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Push Iterator</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> Push Iterator</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Push Iterator</title><meta name="description" content="Documentation for Push Iterator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base=".">
+<div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<div class="field">
+<div id="tsd-toolbar-links"></div></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Push Iterator</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-8 col-content">
+<div class="tsd-page-title">
+<h2>Push Iterator</h2></div>
+<div class="tsd-panel tsd-typography">
 <a href="#push-iteration-protocol" id="push-iteration-protocol" style="color: inherit; text-decoration: none;">
   <h1>Push Iteration Protocol</h1>
 </a>
 <p><a href="https://www.npmjs.com/package/@proc7ts/push-iterator"><img src="https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm" alt="NPM"></a>
 <a href="https://github.com/proc7ts/push-iterator/actions?query=workflow:Build"><img src="https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg" alt="Build Status"></a>
-<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/afd92eac51954f43bf49ac82c0e74eb8" alt="Code Quality"></a>
-<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=proc7ts/push-iterator&amp;utm_campaign=Badge_Coverage"><img src="https://app.codacy.com/project/badge/Coverage/afd92eac51954f43bf49ac82c0e74eb8" alt="Coverage"></a>
+<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&utm_medium=referral&utm_content=proc7ts/push-iterator&utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/afd92eac51954f43bf49ac82c0e74eb8" alt="Code Quality"></a>
+<a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&utm_medium=referral&utm_content=proc7ts/push-iterator&utm_campaign=Badge_Coverage"><img src="https://app.codacy.com/project/badge/Coverage/afd92eac51954f43bf49ac82c0e74eb8" alt="Coverage"></a>
 <a href="https://github.com/proc7ts/push-iterator"><img src="https://img.shields.io/static/v1?logo=github&label=GitHub&message=project&color=informational" alt="GitHub Project"></a>
 <a href="https://proc7ts.github.io/push-iterator/"><img src="https://img.shields.io/static/v1?logo=typescript&label=API&message=docs&color=informational" alt="API Documentation"></a></p>
 <p>Push iteration protocol is a faster alternative to traditional JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a>.</p>
@@ -86,10 +100,10 @@ iterable ones.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overElementsOf"><code>overElementsOf(...iterables)</code></a> - Creates a push iterable over elements of other iterables.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overEntries"><code>overEntries(object)</code></a> - Creates a push iterable over the property key/value entries of the given
 object.</li>
-<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIndexed"><code>overIndexed(indexed)</code></a> - Creates a push iterable over items of <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a>. </li>
-<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIterable"><code>overIterable(iterable)</code></a> - Creates a push iterable over elements of the given raw iterable.  </li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIndexed"><code>overIndexed(indexed)</code></a> - Creates a push iterable over items of <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a>.</li>
+<li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIterable"><code>overIterable(iterable)</code></a> - Creates a push iterable over elements of the given raw iterable.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overIterator"><code>overIterator(() =&gt; Iterator)</code></a> - Creates a push iterable over elements of iterator created by the
-given function. </li>
+given function.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overKeys"><code>overKeys(object)</code></a> - Creates a push iterable over keys of the given object.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overMany"><code>overMany(...values)</code></a> - Creates a push iterable over many values.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overNone"><code>overNone()</code></a> - Returns a push iterable iterator without elements.</li>
@@ -111,8 +125,8 @@ iterable and returns its trailing iterator.</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEach"><code>itsEach(iterable, action)</code></a> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsElements"><code>itsElements(iterable[, convert])</code></a> - Creates a new, shallow-copied array instance containing elements
- of the source iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function
- analog optimized for push iterables.</li>
+of the source iterable optionally converted by the given converter function. This is an <code>Array.from()</code> function
+analog optimized for push iterables.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEmpty"><code>itsEmpty(iterable): boolean</code></a> - Checks whether the given <code>iterable</code> is empty.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEvery"><code>itsEvery(iterable, test): boolean</code></a> - Tests whether all elements of the given <code>iterable</code> pass the test
 implemented by the provided function.</li>
@@ -122,7 +136,7 @@ implemented by the provided function.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsMatch"><code>itsMatch(iterable, test): T | undefined</code></a> - Extracts the first element matching the given condition from
 <code>iterable</code>.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsReduction"><code>itsReduction(iterable, reducer, initialValue): T</code></a> - Applies a function against an accumulator and
- each element of the given <code>iterable</code> to reduce elements to a single value.</li>
+each element of the given <code>iterable</code> to reduce elements to a single value.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsSome"><code>itsSome(iterable, test): boolean</code></a> - Tests whether at least one element of the given <code>iterable</code> passes the
 test implemented by the provided function.</li>
 </ul>
@@ -145,7 +159,7 @@ A more effective combination of <a href="https://proc7ts.github.io/push-iterator
 <a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
   <h3>Array Transformation</h3>
 </a>
-<p>Each of the following functions accepts an array-like instance, and returns a push iterable:  </p>
+<p>Each of the following functions accepts an array-like instance, and returns a push iterable:</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterArray"><code>filterArray(array, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
 implemented by provided function.</li>
@@ -187,4 +201,35 @@ iteration protocol.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#makePushIterable"><code>makePushIterable(iterate)</code></a> - Creates a push iterable implementation.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#makePushIterator"><code>makePushIterator(forNext)</code></a> - Creates a push iterator implementation.</li>
 </ul>
-</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/_proc7ts_push_iterator.html">@proc7ts/push-<wbr/>iterator</a></li><li class=" tsd-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.html">@proc7ts/push-<wbr/>iterator/call-<wbr/>thru</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li><li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li><li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li><li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
+</div></div>
+<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-private" name="private"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Private</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<nav class="tsd-navigation primary">
+<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li class="current selected"><a href="modules.html">Push <wbr/>Iterator</a>
+<ul>
+<li class="tsd-kind-module"><a href="modules/_proc7ts_push_iterator.html">@proc7ts/push-<wbr/>iterator</a>
+<ul>
+<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator.PushIterable.html">Push<wbr/>Iterable</a></li>
+<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator.PushIterator.html">Push<wbr/>Iterator</a></li></ul></li>
+<li class="tsd-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.html">@proc7ts/push-<wbr/>iterator/call-<wbr/>thru</a>
+<ul>
+<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.IterableCallChain.html">Iterable<wbr/>Call<wbr/>Chain</a></li></ul></li></ul></li></ul></div></details></nav></div></div>
+<div class="container tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div><script src="assets/main.js"></script></body></html>
