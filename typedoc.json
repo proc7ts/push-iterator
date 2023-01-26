@@ -1,6 +1,5 @@
 {
   "entryPoints": ["src/index.ts", "src/call-thru/index.ts"],
   "name": "Push Iterator",
-  "out": "./target/typedoc",
-  "tsconfig": "tsconfig.main.json"
+  "out": "./target/typedoc"
 }
