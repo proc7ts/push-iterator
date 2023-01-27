@@ -2,7 +2,6 @@ import nodeResolve from '@rollup/plugin-node-resolve';
 import ts from '@rollup/plugin-typescript';
 import { createRequire } from 'node:module';
 import { defineConfig } from 'rollup';
-import sourcemaps from 'rollup-plugin-sourcemaps';
 import unbundle from 'rollup-plugin-unbundle';
 import typescript from 'typescript';
 
@@ -19,7 +18,6 @@ export default defineConfig({
       cacheDir: 'target/benchmark/.rts_cache',
     }),
     unbundle(),
-    sourcemaps(),
   ],
   external: [...Object.keys(pkg.devDependencies)],
   output: {
