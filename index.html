@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Push Iterator</title><meta name="description" content="Documentation for Push Iterator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Push Iterator</title><meta name="description" content="Documentation for Push Iterator"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base=".">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -9,14 +9,10 @@
 <li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">Push Iterator</a></div>
 <div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
 <div class="container container-main">
-<div class="col-8 col-content">
+<div class="col-content">
 <div class="tsd-page-title">
 <h2>Push Iterator</h2></div>
-<div class="tsd-panel tsd-typography">
-<a href="#push-iteration-protocol" id="push-iteration-protocol" style="color: inherit; text-decoration: none;">
-  <h1>Push Iteration Protocol</h1>
-</a>
-<p><a href="https://www.npmjs.com/package/@proc7ts/push-iterator"><img src="https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm" alt="NPM"></a>
+<div class="tsd-panel tsd-typography"><a id="md:push-iteration-protocol" class="tsd-anchor"></a><h1><a href="#md:push-iteration-protocol">Push Iteration Protocol</a></h1><p><a href="https://www.npmjs.com/package/@proc7ts/push-iterator"><img src="https://img.shields.io/npm/v/@proc7ts/push-iterator.svg?logo=npm" alt="NPM"></a>
 <a href="https://github.com/proc7ts/push-iterator/actions?query=workflow:Build"><img src="https://github.com/proc7ts/push-iterator/workflows/Build/badge.svg" alt="Build Status"></a>
 <a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&utm_medium=referral&utm_content=proc7ts/push-iterator&utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/afd92eac51954f43bf49ac82c0e74eb8" alt="Code Quality"></a>
 <a href="https://www.codacy.com/gh/proc7ts/push-iterator/dashboard?utm_source=github.com&utm_medium=referral&utm_content=proc7ts/push-iterator&utm_campaign=Badge_Coverage"><img src="https://app.codacy.com/project/badge/Coverage/afd92eac51954f43bf49ac82c0e74eb8" alt="Coverage"></a>
@@ -30,19 +26,11 @@ or <code>accept</code> function returns <code>true</code> (to suspend iteration)
 iteration won&#39;t be possible with returned iterator.</p>
 <p>When called without <code>accept</code> parameter it just returns an iterator.</p>
 <p>Another method it extends <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a> with is <code>isOver()</code>, that checks whether iteration is over.</p>
-
-<a href="#instant-iteration" id="instant-iteration" style="color: inherit; text-decoration: none;">
-  <h2>Instant Iteration</h2>
-</a>
-<p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
+<a id="md:instant-iteration" class="tsd-anchor"></a><h2><a href="#md:instant-iteration">Instant Iteration</a></h2><p>It is quite common to just iterate over <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> instantly rather constructing its <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol">Iterator</a>. The library supports
 this. For that, a <code>[PushIterator__symbol]</code> method may be defined for <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> in addition to <code>[Symbol.iterator]</code> one.
 When the library function encounters such method, it calls it to iterate over elements instead of constructing a new
 iterator.</p>
-
-<a href="#iteration-mode-hints" id="iteration-mode-hints" style="color: inherit; text-decoration: none;">
-  <h2>Iteration Mode Hints</h2>
-</a>
-<p>The <code>[PushIterator__symbol](accept?, mode?)</code> method of <code>PushIterable</code> interface accepts optional <em>iteration mode</em> hint
+<a id="md:iteration-mode-hints" class="tsd-anchor"></a><h2><a href="#md:iteration-mode-hints">Iteration Mode Hints</a></h2><p>The <code>[PushIterator__symbol](accept?, mode?)</code> method of <code>PushIterable</code> interface accepts optional <em>iteration mode</em> hint
 as second parameter. The latter used to optimize iteration algorithm. Such hints provided by iterable consumption
 methods.</p>
 <p>For example, an <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEach">itsEach</a> function sets this hint to <code>PushIterationMode.All</code> to inform the iterable implementation that
@@ -54,22 +42,14 @@ select iteration strategy that does not support suspend and resume.</p>
 <p>Another mode is <code>PushIterationMode.Next</code>. It is typically set by <code>Iterator.next()</code> compatibility method. It informs that
 only the next element will be consumed, after which the iteration will be suspended.</p>
 <p>The default mode is <code>PushIterationMode.Some</code>. With this mode it is possible to suspended, resumed, or abort iteration.</p>
-
-<a href="#rationale" id="rationale" style="color: inherit; text-decoration: none;">
-  <h2>Rationale</h2>
-</a>
-<p><strong>Performance!</strong></p>
+<a id="md:rationale" class="tsd-anchor"></a><h2><a href="#md:rationale">Rationale</a></h2><p><strong>Performance!</strong></p>
 <p>Traditional <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols">iteration protocol</a> implies a call to <code>next()</code> method and creation of <code>IteratorResult</code> object on each
 iteration step. The push iteration protocol avoids that.</p>
 <p>See <a href="https://github.com/proc7ts/push-iterator/tree/master/benchmarks">benchmarking results</a> for performance comparison.</p>
 <p>JavaScript engines optimize native iteration heavily in some situations, especially for arrays. Still, in non-trivial
 cases push iteration protocol demonstrates better performance, especially when it deals with push iterators rather
 with raw ones.</p>
-
-<a href="#design-goals" id="design-goals" style="color: inherit; text-decoration: none;">
-  <h2>Design Goals</h2>
-</a>
-<ol>
+<a id="md:design-goals" class="tsd-anchor"></a><h2><a href="#md:design-goals">Design Goals</a></h2><ol>
 <li><p><strong>Performance</strong>.</p>
 <p>Push iterators are faster. Still, a lot of the code base relies on raw iterators and arrays. The library contains
 performance optimizations to deal with it.</p>
@@ -85,16 +65,8 @@ iterable ones.</li>
 <p>The library API represented by functions. When tree-shaken, the unused ones get removed from bundles.</p>
 </li>
 </ol>
-
-<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-  <h2>API</h2>
-</a>
-<p>See the full <a href="https://proc7ts.github.io/push-iterator/">API documentation</a>.</p>
-
-<a href="#push-iterable-construction" id="push-iterable-construction" style="color: inherit; text-decoration: none;">
-  <h3>Push Iterable Construction</h3>
-</a>
-<p>Each of the following functions returns a push iterable instance:</p>
+<a id="md:api" class="tsd-anchor"></a><h2><a href="#md:api">API</a></h2><p>See the full <a href="https://proc7ts.github.io/push-iterator/">API documentation</a>.</p>
+<a id="md:push-iterable-construction" class="tsd-anchor"></a><h3><a href="#md:push-iterable-construction">Push Iterable Construction</a></h3><p>Each of the following functions returns a push iterable instance:</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overArray"><code>overArray(array)</code></a> - Creates a push iterable over elements of array-like structure.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#overElementsOf"><code>overElementsOf(...iterables)</code></a> - Creates a push iterable over elements of other iterables.</li>
@@ -111,17 +83,9 @@ given function.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#reverseArray"><code>reverseArray(array)</code></a> - Creates a push iterable over elements of array-like structure in reverse
 order.</li>
 </ul>
-
-<a href="#iteration" id="iteration" style="color: inherit; text-decoration: none;">
-  <h3>Iteration</h3>
-</a>
-<p><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the leading elements of the given
+<a id="md:iteration" class="tsd-anchor"></a><h3><a href="#md:iteration">Iteration</a></h3><p><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#iterateIt"><code>iterateIt(iterable, accept): PushIterator</code></a> function iterates over the leading elements of the given
 iterable and returns its trailing iterator.</p>
-
-<a href="#iterable-consumption" id="iterable-consumption" style="color: inherit; text-decoration: none;">
-  <h3>Iterable Consumption</h3>
-</a>
-<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
+<a id="md:iterable-consumption" class="tsd-anchor"></a><h3><a href="#md:iterable-consumption">Iterable Consumption</a></h3><p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable:</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsEach"><code>itsEach(iterable, action)</code></a> - Performs the given <code>action</code> for each element of the given <code>iterable</code>.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsElements"><code>itsElements(iterable[, convert])</code></a> - Creates a new, shallow-copied array instance containing elements
@@ -140,11 +104,7 @@ each element of the given <code>iterable</code> to reduce elements to a single v
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#itsSome"><code>itsSome(iterable, test): boolean</code></a> - Tests whether at least one element of the given <code>iterable</code> passes the
 test implemented by the provided function.</li>
 </ul>
-
-<a href="#iterable-transformation" id="iterable-transformation" style="color: inherit; text-decoration: none;">
-  <h3>Iterable Transformation</h3>
-</a>
-<p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and returns a push iterable:</p>
+<a id="md:iterable-transformation" class="tsd-anchor"></a><h3><a href="#md:iterable-transformation">Iterable Transformation</a></h3><p>Each of the following functions accepts either <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterable_protocol">Iterable</a> or push iterable, and returns a push iterable:</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt"><code>filterIt(source, test)</code></a> - Creates a push iterable with all <code>source</code> iterable elements that pass the test
 implemented by provided function.</li>
@@ -155,11 +115,7 @@ element of the <code>source</code> iterable.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueIt"><code>valueIt(source, valueOf)</code></a> - Creates a push iterable with the values of elements of the <code>source</code> iterable.
 A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIt">mapIt</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
 </ul>
-
-<a href="#array-transformation" id="array-transformation" style="color: inherit; text-decoration: none;">
-  <h3>Array Transformation</h3>
-</a>
-<p>Each of the following functions accepts an array-like instance, and returns a push iterable:</p>
+<a id="md:array-transformation" class="tsd-anchor"></a><h3><a href="#md:array-transformation">Array Transformation</a></h3><p>Each of the following functions accepts an array-like instance, and returns a push iterable:</p>
 <ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterArray"><code>filterArray(array, test)</code></a> - Creates a push iterable with all <code>array</code> elements that pass the test
 implemented by provided function.</li>
@@ -170,11 +126,7 @@ every element of the given <code>array</code>.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueArray"><code>valueArray(array, valueOf)</code></a> - Creates a push iterable with the values of elements of the given <code>array</code>.
 A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapArray">mapArray</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
 </ul>
-
-<a href="#indexed-list-transformation" id="indexed-list-transformation" style="color: inherit; text-decoration: none;">
-  <h3>Indexed List Transformation</h3>
-</a>
-<p>An <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a> of items is an object with two properties:</p>
+<a id="md:indexed-list-transformation" class="tsd-anchor"></a><h3><a href="#md:indexed-list-transformation">Indexed List Transformation</a></h3><p>An <a href="https://proc7ts.github.io/push-iterator/interfaces/_proc7ts_push-iterator.IndexedItemList.html">indexed list</a> of items is an object with two properties:</p>
 <ul>
 <li><code>length</code> contains the length of the list,</li>
 <li><code>item(index: number): T | null | undefined</code> returns the item value under the given index.</li>
@@ -190,11 +142,7 @@ on every item of the given indexed list.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#valueIndexed"><code>valueIndexed(array, convert)</code></a> - Creates a push iterable with the values of items of the given indexed
 list. A more effective combination of <a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#mapIndexed">mapIndexed</a>/<a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#filterIt">filterIt</a>.</li>
 </ul>
-
-<a href="#utilities" id="utilities" style="color: inherit; text-decoration: none;">
-  <h3>Utilities</h3>
-</a>
-<ul>
+<a id="md:utilities" class="tsd-anchor"></a><h3><a href="#md:utilities">Utilities</a></h3><ul>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#isPushIterable"><code>isPushIterable(iterable)</code></a> - Checks whether the given iterable or iterator conforms to push
 iteration protocol.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#iteratorOf"><code>iteratorOf(iterable)</code></a> - Creates iterator over elements of the given <code>iterable</code>.</li>
@@ -202,10 +150,11 @@ iteration protocol.</li>
 <li><a href="https://proc7ts.github.io/push-iterator/modules/_proc7ts_push_iterator.html#makePushIterator"><code>makePushIterator(forNext)</code></a> - Creates a push iterator implementation.</li>
 </ul>
 </div></div>
-<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+<div class="col-sidebar">
+<div class="page-menu">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
-<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Settings</h3></summary>
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg>Settings</h3></summary>
 <div class="tsd-accordion-details">
 <div class="tsd-filter-visibility">
 <h4 class="uppercase">Member Visibility</h4><form>
@@ -215,21 +164,106 @@ iteration protocol.</li>
 <li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
 <li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
 <div class="tsd-theme-toggle">
-<h4 class="uppercase">Theme</h4><select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
-<nav class="tsd-navigation primary">
-<details class="tsd-index-accordion" open><summary class="tsd-accordion-summary">
-<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg> Modules</h3></summary>
+<h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-index-accordion tsd-page-navigation"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg>On This Page</h3></summary>
 <div class="tsd-accordion-details">
 <ul>
-<li class="current selected"><a href="modules.html">Push <wbr/>Iterator</a>
+<li>
 <ul>
-<li class="tsd-kind-module"><a href="modules/_proc7ts_push_iterator.html">@proc7ts/push-<wbr/>iterator</a>
+<li><a href="#md:push-iteration-protocol"><span>Push <wbr/>Iteration <wbr/>Protocol</span></a></li>
+<li>
 <ul>
-<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator.PushIterable.html">Push<wbr/>Iterable</a></li>
-<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator.PushIterator.html">Push<wbr/>Iterator</a></li></ul></li>
-<li class="tsd-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.html">@proc7ts/push-<wbr/>iterator/call-<wbr/>thru</a>
+<li><a href="#md:instant-iteration"><span>Instant <wbr/>Iteration</span></a></li>
+<li><a href="#md:iteration-mode-hints"><span>Iteration <wbr/>Mode <wbr/>Hints</span></a></li>
+<li><a href="#md:rationale"><span>Rationale</span></a></li>
+<li><a href="#md:design-goals"><span>Design <wbr/>Goals</span></a></li>
+<li><a href="#md:api"><span>API</span></a></li>
+<li>
 <ul>
-<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="modules/_proc7ts_push_iterator_call_thru.IterableCallChain.html">Iterable<wbr/>Call<wbr/>Chain</a></li></ul></li></ul></li></ul></div></details></nav></div></div>
-<div class="container tsd-generator">
+<li><a href="#md:push-iterable-construction"><span>Push <wbr/>Iterable <wbr/>Construction</span></a></li>
+<li><a href="#md:iteration"><span>Iteration</span></a></li>
+<li><a href="#md:iterable-consumption"><span>Iterable <wbr/>Consumption</span></a></li>
+<li><a href="#md:iterable-transformation"><span>Iterable <wbr/>Transformation</span></a></li>
+<li><a href="#md:array-transformation"><span>Array <wbr/>Transformation</span></a></li>
+<li><a href="#md:indexed-list-transformation"><span>Indexed <wbr/>List <wbr/>Transformation</span></a></li>
+<li><a href="#md:utilities"><span>Utilities</span></a></li></ul></li></ul></li></ul></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="index.html" class="current"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4-path"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)" id="icon-4-text"></path></svg><span>Push <wbr/>Iterator</span></a>
+<ul class="tsd-small-nested-navigation">
+<li>
+<details class="tsd-index-accordion" data-key="@proc7ts/push-iterator"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="modules/_proc7ts_push_iterator.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>@proc7ts/push-<wbr/>iterator</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li>
+<details class="tsd-index-accordion" data-key="@proc7ts/push-iterator.PushIterable"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="modules/_proc7ts_push_iterator.PushIterable.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>Push<wbr/>Iterable</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li><a href="types/_proc7ts_push_iterator.PushIterable.Iterate.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-type-alias)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-4194304-path"></rect><path d="M11.31 16V8.224H8.91V7.24H14.79V8.224H12.39V16H11.31Z" fill="var(--color-text)" id="icon-4194304-text"></path></svg><span>Iterate</span></a></li></ul></div></details></li>
+<li>
+<details class="tsd-index-accordion" data-key="@proc7ts/push-iterator.PushIterator"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="modules/_proc7ts_push_iterator.PushIterator.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>Push<wbr/>Iterator</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li><a href="types/_proc7ts_push_iterator.PushIterator.Acceptor.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Acceptor</span></a></li>
+<li><a href="types/_proc7ts_push_iterator.PushIterator.EachAcceptor.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Each<wbr/>Acceptor</span></a></li>
+<li><a href="types/_proc7ts_push_iterator.PushIterator.Pusher.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Pusher</span></a></li>
+<li><a href="types/_proc7ts_push_iterator.PushIterator.StoppingAcceptor.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Stopping<wbr/>Acceptor</span></a></li></ul></div></details></li>
+<li><a href="enums/_proc7ts_push_iterator.PushIterationMode.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-enum)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-8-path"></rect><path d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z" fill="var(--color-text)" id="icon-8-text"></path></svg><span>Push<wbr/>Iteration<wbr/>Mode</span></a></li>
+<li><a href="interfaces/_proc7ts_push_iterator.IndexedItemList.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg><span>Indexed<wbr/>Item<wbr/>List</span></a></li>
+<li><a href="interfaces/_proc7ts_push_iterator.PushIterable-1.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Push<wbr/>Iterable</span></a></li>
+<li><a href="interfaces/_proc7ts_push_iterator.PushIterator-1.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Push<wbr/>Iterator</span></a></li>
+<li><a href="types/_proc7ts_push_iterator.ObjectEntry.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Object<wbr/>Entry</span></a></li>
+<li><a href="variables/_proc7ts_push_iterator.PushIterator__symbol.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-variable)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-32-path"></rect><path d="M11.106 16L8.85 7.24H9.966L11.454 13.192C11.558 13.608 11.646 13.996 11.718 14.356C11.79 14.708 11.842 14.976 11.874 15.16C11.906 14.976 11.954 14.708 12.018 14.356C12.09 13.996 12.178 13.608 12.282 13.192L13.758 7.24H14.85L12.582 16H11.106Z" fill="var(--color-text)" id="icon-32-text"></path></svg><span>Push<wbr/>Iterator__symbol</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.filterArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-64-path"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)" id="icon-64-text"></path></svg><span>filter<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.filterIndexed.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>filter<wbr/>Indexed</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.filterIt.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>filter<wbr/>It</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.flatMapArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>flat<wbr/>Map<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.flatMapIndexed.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>flat<wbr/>Map<wbr/>Indexed</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.flatMapIt.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>flat<wbr/>Map<wbr/>It</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.isPushIterable.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>is<wbr/>Push<wbr/>Iterable</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.iteratorOf.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>iterator<wbr/>Of</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsEach.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Each</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsElements.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Elements</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsEmpty.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Empty</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsEvery.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Every</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsFind.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Find</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsFirst.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>First</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsIterator.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Iterator</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsMatch.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Match</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsReduction.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Reduction</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.itsSome.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>its<wbr/>Some</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.makePushIterable.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>make<wbr/>Push<wbr/>Iterable</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.makePushIterator.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>make<wbr/>Push<wbr/>Iterator</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.mapArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>map<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.mapIndexed.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>map<wbr/>Indexed</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.mapIt.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>map<wbr/>It</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overElementsOf.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Elements<wbr/>Of</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overEntries.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Entries</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overIndexed.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Indexed</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overIterable.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Iterable</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overIterator.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Iterator</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overKeys.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Keys</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overMany.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>Many</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overNone.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>None</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.overOne.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>over<wbr/>One</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.reverseArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>reverse<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.valueArray.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>value<wbr/>Array</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.valueIndexed.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>value<wbr/>Indexed</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator.valueIt.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>value<wbr/>It</span></a></li></ul></div></details></li>
+<li>
+<details class="tsd-index-accordion" data-key="@proc7ts/push-iterator/call-thru"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="modules/_proc7ts_push_iterator_call_thru.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>@proc7ts/push-<wbr/>iterator/call-<wbr/>thru</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li>
+<details class="tsd-index-accordion" data-key="@proc7ts/push-iterator/call-thru.IterableCallChain"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)"></path></svg><a href="modules/_proc7ts_push_iterator_call_thru.IterableCallChain.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4-path"></use><use href="#icon-4-text"></use></svg><span>Iterable<wbr/>Call<wbr/>Chain</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li><a href="types/_proc7ts_push_iterator_call_thru.IterableCallChain.Args.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Args</span></a></li>
+<li><a href="types/_proc7ts_push_iterator_call_thru.IterableCallChain.Out.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-4194304-path"></use><use href="#icon-4194304-text"></use></svg><span>Out</span></a></li></ul></div></details></li>
+<li><a href="interfaces/_proc7ts_push_iterator_call_thru.IterableCallChain-1.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg><span>Iterable<wbr/>Call<wbr/>Chain</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator_call_thru.nextIterate.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>next<wbr/>Iterate</span></a></li>
+<li><a href="functions/_proc7ts_push_iterator_call_thru.thruIt.html"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg><span>thru<wbr/>It</span></a></li></ul></div></details></li></ul></nav></div></div></div>
+<div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
-<div class="overlay"></div><script src="assets/main.js"></script></body></html>
+<div class="overlay"></div></body></html>
