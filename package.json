@@ -37,6 +37,7 @@
       "default": "./dist/push-iterator.call-thru.js"
     }
   },
+  "sideEffects": false,
   "peerDependencies": {
     "@proc7ts/call-thru": "^4.4.0"
   },
