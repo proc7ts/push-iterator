@@ -80,7 +80,7 @@ function flatMapIt$<TSrc, TConv>(
         }
       }
 
-      let status: boolean | void;
+      let status: boolean | undefined | void;
       const subsTail: PushIterator<TConv> = iterateIt(subs, element => (status = accept(element)));
 
       if (subsTail.isOver()) {
@@ -124,7 +124,7 @@ function flatMapIt$raw<TSrc, TConv>(
       }
 
       // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-      let status: boolean | void;
+      let status: boolean | void | undefined;
       const subsTail: PushIterator<TConv> = iterateIt(subs, element => (status = accept(element)));
 
       subs = subsTail.isOver() ? undefined : subsTail;
@@ -169,7 +169,7 @@ function flatMapIt$raw$process<TSrc, TConv>(
       iterateIt(convert(src), accept, mode);
     }
   } else {
-    let status: boolean | void;
+    let status: boolean | void | undefined;
     const subProcess = (element: TConv): boolean | void => (status = accept(element));
 
     for (const src of source) {

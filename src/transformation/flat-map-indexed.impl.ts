@@ -27,7 +27,7 @@ export function flatMapIndexed$<TIndexed extends Indexed$Elements, T>(
       }
 
       for (;;) {
-        let status: boolean | void;
+        let status: boolean | void | undefined;
         const subsTail: PushIterator<T> = iterateIt<T>(subs, element => (status = accept(element)));
 
         if (subsTail.isOver()) {
@@ -60,7 +60,7 @@ function flatMapIndexed$process<TIndexed extends Indexed$Elements, T>(
       iterateIt(elementsOf(indexed, i), accept, mode);
     }
   } else {
-    let status: boolean | void;
+    let status: boolean | void | undefined;
     const subProcess = (element: T): boolean | void => (status = accept(element));
 
     for (let i = 0; i < indexed.length; ++i) {
