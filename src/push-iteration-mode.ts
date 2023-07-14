@@ -10,7 +10,7 @@ export const enum PushIterationMode {
    *
    * This value is typically set in compatibility mode. I.e. when standard iterator used to iterate over push iterator.
    */
-  Next = 1,
+  Next = -1,
 
   /**
    * Push some elements. Iteration may be suspended or aborted at any moment.
